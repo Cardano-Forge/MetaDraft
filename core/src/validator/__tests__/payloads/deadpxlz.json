@@ -1,0 +1,21 @@
+{
+  "PXL9951": {
+    "src": "ipfs://ipfs/QmV7s1iDRhiwd9dXSbehVgmbq3yvjb7rZMmYjcfRFskL68",
+    "name": "PXL#9951",
+    "tags": [
+      "chain",
+      "cigarette",
+      "clubmasters",
+      "diamond earrings",
+      "slim bandana"
+    ],
+    "type": "text/html",
+    "image": "ipfs://ipfs/QmRyJdBruSCaJyvKWyrroP4mMQGAitLTo27Qfkr7g65re4",
+    "properties": [
+      {
+        "key": "type",
+        "value": "dead"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "PlanetPalz8533": {
+    "mime": "image/png",
+    "name": "PlanetPalz [08533]",
+    "files": [
+      {
+        "src": "ipfs://QmenX2YNeWNcbSKfySv1q3Hpz4YhvBKFxmY5gzzP4uLngU",
+        "mime": "image/gif",
+        "name": "PlanetPalz [08533]"
+      }
+    ],
+    "image": "ipfs://QmXwqcUCVk8Wj8oAdVzjx6m7ZR6DyauVKfVxq515ARDLdu",
+    "planet": "Venus",
+    "accessories": [
+      "42 Sign",
+      "Cardano Flag",
+      "Fez",
+      "Meteor",
+      "Standard Background",
+      "UFO"
+    ]
+  }
+}
