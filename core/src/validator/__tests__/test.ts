@@ -12,6 +12,7 @@ import { KeyDescriptionValidator } from "../rules/key-description.ts";
 import { KeyFilesValidator } from "../rules/key-files.ts";
 import { KeyAttributesValidator } from "../rules/key-attributes.ts";
 import { KeyTraitsValidator } from "../rules/key-traits.ts";
+import { HasRequiredKeysValidator } from "../rules/has-required-keys.ts";
 
 const mapping = {
   Cip25Version1Validator: Cip25Version1Validator,
@@ -23,6 +24,7 @@ const mapping = {
   KeyFilesValidator: KeyFilesValidator,
   KeyAttributesValidator: KeyAttributesValidator,
   KeyTraitsValidator: KeyTraitsValidator,
+  HasRequiredKeysValidator: HasRequiredKeysValidator,
 } as const;
 
 Deno.test("Cip25Version1Validator", async () => {
@@ -587,6 +589,78 @@ Deno.test("KeyTraitsValidator", async () => {
       output: undefined,
       asset_name: "asset000",
       validator_id: "key-traits",
+    },
+  ]);
+});
+
+Deno.test("HasRequiredKeys", async () => {
+  const metadata = [
+    {
+      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      asset_name: "asset000",
+      name: "asset000",
+      image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
+      mediaType: "image/png",
+      description:
+        "a non empty description using a random length because Im testing", // 64 chars
+      files: [
+        {
+          name: "oops",
+          mediaType: "image/png",
+          src: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
+        },
+      ],
+      attributes: {
+        foo: "bar",
+      },
+      traits: ["trait-1", "trait-2"],
+    },
+  ];
+
+  const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
+    "HasRequiredKeysValidator",
+  ];
+
+  const mainValidator = new Decorator("Main");
+  for (const validator of validatorsReceivedFromFrontend) {
+    mainValidator.Enable(new mapping[validator]());
+  }
+
+  for (const asset_metadata of metadata) {
+    await mainValidator.Execute(
+      asset_metadata.asset_name,
+      asset_metadata,
+      metadata,
+    );
+  }
+
+  const result = mainValidator.GetResults();
+
+  assertEquals(result, [
+    {
+      state: "success",
+      message: "All required keys are present.",
+      input: {
+        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        asset_name: "asset000",
+        name: "asset000",
+        image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
+        mediaType: "image/png",
+        description:
+          "a non empty description using a random length because Im testing",
+        files: [
+          {
+            name: "oops",
+            mediaType: "image/png",
+            src: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
+          },
+        ],
+        attributes: { foo: "bar" },
+        traits: ["trait-1", "trait-2"],
+      },
+      asset_name: "asset000",
+      validator_id: "has-required-keys",
+      output: undefined,
     },
   ]);
 });

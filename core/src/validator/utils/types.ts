@@ -23,7 +23,7 @@ export type State = (typeof states)[number];
 
 export type Result = {
   state: State;
-  message: string | object;
+  message: string | object | undefined;
   input: unknown;
   output?: unknown | undefined; // undefined when there is an error/warning
   asset_name: string;
@@ -38,3 +38,5 @@ export interface IValidator {
     _metadatas: unknown[],
   ): Promise<Result[]>;
 }
+
+export type KeyWithPath = { key: string; path: string }[];

@@ -1,5 +1,10 @@
+import type { ZodError } from "npm:zod";
+
 import { formatError } from "./formatError.ts";
 import type { FormattedError, Result, State } from "./types.ts";
+
+type ZodStateError = { error: ZodError; success: boolean; data: Object };
+type StateError = { state: State; message: string; data: Object };
 
 /**
  * Evaluates the formatted errors to determine their severity.
@@ -57,20 +62,32 @@ function getState(error: FormattedError | undefined = undefined): State {
  *   - `output` (Object|undefined): Custom output for custom UI/UX components.
  */
 export function getStates(
-  result: any,
+  result: unknown,
   success_message: string,
   asset_name: string,
   metadata: unknown,
   validator_id: string = "UNKNOWN",
 ): Result[] {
+  const isSuccess =
+    (result as ZodStateError).success ||
+    (result as StateError).state === "success";
+
+  const state = (result as StateError).state
+    ? (result as StateError).state
+    : getState(formatError((result as ZodStateError).error));
+
+  const message = isSuccess
+    ? success_message
+    : (result as ZodStateError).error
+      ? formatError((result as ZodStateError).error)
+      : (result as StateError).message;
+
   return [
     {
-      state: getState(formatError(result.error)),
-      message: result.success
-        ? success_message
-        : (formatError(result.error) as FormattedError),
+      state,
+      message,
       input: metadata,
-      output: result.data,
+      output: (result as ZodStateError).data,
       asset_name,
       validator_id,
     },

@@ -1,3 +1,4 @@
 - [ ] Do values rules (typos, duplicates, upper/lower cases, etc.)
-- [ ] Custom hasKeys rule
+- [x] Custom hasKeys rule
 - [ ] Bring it back to NodeJS / Jest and all the dependencies...
+- [ ] Write oneliner description on each rule

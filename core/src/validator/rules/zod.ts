@@ -109,7 +109,7 @@ export const checkMediaType = str.refine(
 
 export const checkFiles = z.array(
   z.object({
-    name: checkSize64,
+    name: checkSize64.optional(),
     mediaType: checkMediaType,
     src: checkImageIsStringOrArray,
   }),
