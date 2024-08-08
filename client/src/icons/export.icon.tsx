@@ -1,4 +1,4 @@
-import { IconProps } from ".";
+import type { IconProps } from ".";
 
 export default function ExportIcon({ className }: IconProps) {
   return (
