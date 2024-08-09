@@ -40,7 +40,7 @@ export default function Buttons() {
               Default
             </Button>
             <Button variant={"default"} size={"default"} loading>
-              Default
+              Primary
             </Button>
           </div>
           <div className="flex flex-col gap-4">
@@ -73,7 +73,7 @@ export default function Buttons() {
               Default
             </Button>
             <Button variant={"secondary"} size={"default"} loading>
-              Default
+              secondary
             </Button>
           </div>
           <div className="flex flex-col gap-4">
@@ -106,7 +106,7 @@ export default function Buttons() {
               Default
             </Button>
             <Button variant={"outline"} size={"default"} loading>
-              Default
+              outline
             </Button>
           </div>
           <div className="flex flex-col gap-4">
@@ -139,7 +139,7 @@ export default function Buttons() {
               Default
             </Button>
             <Button variant={"ghost"} size={"default"} loading>
-              Default
+              ghost
             </Button>
           </div>
           <div className="flex flex-col gap-4">
@@ -172,7 +172,7 @@ export default function Buttons() {
               Default
             </Button>
             <Button variant={"link"} size={"default"} loading>
-              Default
+              link
             </Button>
           </div>
         </div>
@@ -208,7 +208,7 @@ export default function Buttons() {
               Default
             </Button>
             <Button variant={"success"} size={"default"} loading>
-              Default
+              success
             </Button>
           </div>
           <div className="flex flex-col gap-4">
@@ -241,7 +241,7 @@ export default function Buttons() {
               Default
             </Button>
             <Button variant={"successOutline"} size={"default"} loading>
-              Default
+              successOutline
             </Button>
           </div>
           <div className="flex flex-col gap-4">
@@ -274,7 +274,7 @@ export default function Buttons() {
               Default
             </Button>
             <Button variant={"warning"} size={"default"} loading>
-              Default
+              warning
             </Button>
           </div>
           <div className="flex flex-col gap-4">
@@ -307,7 +307,7 @@ export default function Buttons() {
               Default
             </Button>
             <Button variant={"warningOutilne"} size={"default"} loading>
-              Default
+              warningOutilne
             </Button>
           </div>
           <div className="flex flex-col gap-4">
@@ -340,7 +340,7 @@ export default function Buttons() {
               Default
             </Button>
             <Button variant={"destructive"} size={"default"} loading>
-              Default
+              destructive
             </Button>
           </div>
           <div className="flex flex-col gap-4">
@@ -373,7 +373,7 @@ export default function Buttons() {
               Default
             </Button>
             <Button variant={"destructiveOutilne"} size={"default"} loading>
-              Default
+              destructiveOutilne
             </Button>
           </div>
         </div>
