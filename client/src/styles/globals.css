@@ -4,29 +4,29 @@
 
 @layer base {
   :root {
-    --background: 260 14% 8%;
-    --foreground: 0 0% 100%;
-    --card: 264 7% 13%;
-    --card-foreground: 0 0% 100%;
-    --popover: 264 7% 13%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 0 0% 100%;
-    --primary-foreground: 260 14% 8%;
-    --secondary: 264 5% 18%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 264 5% 18%;
-    --muted-foreground: 0 0% 100%;
-    --primary: 0 0% 100%;
-    --primary-foreground: 260 14% 8%;
-    --destructive: 357 100% 76%;
-    --destructive-foreground: 0 0% 100%;
-    --warning: 33 100% 74%;
-    --warning-foreground: 33 100% 21%;
-    --success: 140, 55%, 57%;
-    --success-foreground: 140 86% 14%;
-    --border: 0 0% 100% 0.15;
-    --input: 0 0% 100% 0.15;
-    --ring: 0 0% 100% 0.15;
+    --background: 260 14% 8%;             /* #131217 */
+    --foreground: 0 0% 100%;              /* #ffffff */
+    --card: 264 7% 13%;                   /* #211f23 */
+    --card-foreground: 0 0% 100%;         /* #ffffff */
+    --popover: 264 7% 13%;                /* #211f23 */
+    --popover-foreground: 0 0% 100%;      /* #ffffff */
+    --primary: 0 0% 100%;                 /* #ffffff */
+    --primary-foreground: 260 14% 8%;     /* #131217 */
+    --secondary: 264 5% 18%;              /* #2d2c30 */
+    --secondary-foreground: 0 0% 100%;    /* #ffffff */
+    --muted: 264 5% 18%;                  /* #2d2c30 */
+    --muted-foreground: 0 0% 100%;        /* #ffffff */
+    --primary: 0 0% 100%;                 /* #ffffff */
+    --primary-foreground: 260 14% 8%;     /* #131217 */
+    --destructive: 357 100% 76%;          /* #ff858b */
+    --destructive-foreground: 0 0% 100%;  /* #ffffff */
+    --warning: 33 100% 74%;               /* #ffc37a */
+    --warning-foreground: 33 100% 21%;    /* #6b3b00 */
+    --success: 140 55% 57%;               /* #55ce7d */
+    --success-foreground: 140 86% 14%;    /* #054219 */
+    --border: 0 0% 100%;                  /* #ffffff26 */
+    --input: 0 0% 100%;                   /* #ffffff26 */
+    --ring: 0 0% 100%;                    /* #ffffff26 */
     --radius: 0.5rem;
   }
 }
