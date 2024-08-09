@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/Cardano-Forge/MetaDraft">
-    <img src="images/logo.png" alt="Logo" width="250" height="60">
+    <img src="images/logo.png" alt="Logo" width="250" height="60"/>
   </a>
 
   <p align="center">
