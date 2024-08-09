@@ -41,3 +41,10 @@ export interface IValidator {
 
 export type KeyWithPath = { key: string; path: string };
 export type KeyWithPaths = KeyWithPath[];
+
+export type DataRead = Record<string, unknown>;
+export interface IReader {
+  data: any;
+  Load(pathOrData: string): Promise<any> | any;
+  Read(): Promise<DataRead[]> | DataRead[];
+}
