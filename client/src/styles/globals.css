@@ -4,29 +4,29 @@
 
 @layer base {
   :root {
-    --background: 260 14% 8%;             /* #131217 */
-    --foreground: 0 0% 100%;              /* #ffffff */
-    --card: 264 7% 13%;                   /* #211f23 */
-    --card-foreground: 0 0% 100%;         /* #ffffff */
-    --popover: 264 7% 13%;                /* #211f23 */
-    --popover-foreground: 0 0% 100%;      /* #ffffff */
-    --primary: 0 0% 100%;                 /* #ffffff */
-    --primary-foreground: 260 14% 8%;     /* #131217 */
-    --secondary: 264 5% 18%;              /* #2d2c30 */
-    --secondary-foreground: 0 0% 100%;    /* #ffffff */
-    --muted: 264 5% 18%;                  /* #2d2c30 */
-    --muted-foreground: 0 0% 100%;        /* #ffffff */
-    --primary: 0 0% 100%;                 /* #ffffff */
-    --primary-foreground: 260 14% 8%;     /* #131217 */
-    --destructive: 357 100% 76%;          /* #ff858b */
-    --destructive-foreground: 0 0% 100%;  /* #ffffff */
-    --warning: 33 100% 74%;               /* #ffc37a */
-    --warning-foreground: 33 100% 21%;    /* #6b3b00 */
-    --success: 140 55% 57%;               /* #55ce7d */
-    --success-foreground: 140 86% 14%;    /* #054219 */
-    --border: 0 0% 100%;                  /* #ffffff26 */
-    --input: 0 0% 100%;                   /* #ffffff26 */
-    --ring: 0 0% 100%;                    /* #ffffff26 */
+    --background: 260 14% 8%; /* #131217 */
+    --foreground: 0 0% 100%; /* #ffffff */
+    --card: 264 7% 13%; /* #211f23 */
+    --card-foreground: 0 0% 100%; /* #ffffff */
+    --popover: 264 7% 13%; /* #211f23 */
+    --popover-foreground: 0 0% 100%; /* #ffffff */
+    --primary: 0 0% 100%; /* #ffffff */
+    --primary-foreground: 260 14% 8%; /* #131217 */
+    --secondary: 264 5% 18%; /* #2d2c30 */
+    --secondary-foreground: 0 0% 100%; /* #ffffff */
+    --muted: 264 5% 18%; /* #2d2c30 */
+    --muted-foreground: 0 0% 100%; /* #ffffff */
+    --primary: 0 0% 100%; /* #ffffff */
+    --primary-foreground: 260 14% 8%; /* #131217 */
+    --destructive: 357 100% 76%; /* #ff858b */
+    --destructive-foreground: 0 0% 100%; /* #ffffff */
+    --warning: 33 100% 74%; /* #ffc37a */
+    --warning-foreground: 33 100% 21%; /* #6b3b00 */
+    --success: 140 55% 57%; /* #55ce7d */
+    --success-foreground: 140 86% 14%; /* #054219 */
+    --border: 0 0% 100%; /* #ffffff26 */
+    --input: 0 0% 100%; /* #ffffff26 */
+    --ring: 0 0% 100%; /* #ffffff26 */
     --radius: 0.5rem;
   }
 }
@@ -37,5 +37,85 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Custom loader from css site */
+.loader {
+  transform: rotateZ(45deg);
+  perspective: 1000px;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  color: #ffc37a !important;
+}
+.loader-white {
+  color: #ffffff !important;
+}
+.loader:before,
+.loader:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
+  transform: rotateX(70deg);
+  animation: 1s spin linear infinite;
+}
+.loader:after {
+  color: #55ce7d;
+  transform: rotateY(70deg);
+  animation-delay: 0.4s;
+}
+.loader-white:after {
+  color: #ffffff;
+}
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, -50%) rotateZ(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotateZ(360deg);
+  }
+}
+
+@keyframes rotateccw {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+@keyframes spin {
+  0%,
+  100% {
+    box-shadow: 0.2em 0px 0 0px currentcolor;
+  }
+  12% {
+    box-shadow: 0.2em 0.2em 0 0 currentcolor;
+  }
+  25% {
+    box-shadow: 0 0.2em 0 0px currentcolor;
+  }
+  37% {
+    box-shadow: -0.2em 0.2em 0 0 currentcolor;
+  }
+  50% {
+    box-shadow: -0.2em 0 0 0 currentcolor;
+  }
+  62% {
+    box-shadow: -0.2em -0.2em 0 0 currentcolor;
+  }
+  75% {
+    box-shadow: 0px -0.2em 0 0 currentcolor;
+  }
+  87% {
+    box-shadow: 0.2em -0.2em 0 0 currentcolor;
   }
 }

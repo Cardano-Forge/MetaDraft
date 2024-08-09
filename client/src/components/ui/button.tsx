@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "~/lib/utils";
+import Loader from "../loader";
 
 const buttonVariants = cva(
   cn(
     "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors w-fit",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2", // focus
-    "disabled:pointer-events-none disabled:opacity-50", // disabled
+    "disabled:pointer-events-none disabled:opacity-70", // disabled
   ),
   {
     variants: {
@@ -46,7 +48,7 @@ const buttonVariants = cva(
 );
 
 const commonStyle =
-  "!leading-none inline-flex items-center justify-center relative rounded-md transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50";
+  "!leading-none inline-flex items-center justify-center relative rounded-md transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -94,19 +96,22 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref,
   ) => {
     const Comp = asChild ? Slot : "button";
+    const isLoaderWhite =
+      variant?.includes("success") ||
+      variant?.includes("warning") ||
+      variant?.includes("destructive");
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
-        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         disabled={disabled || loading}
         {...props}
       >
         {loading ? (
           <>
             <span className={cn(commonStyle, "invisible")}>{children}</span>
-            <div className="absolute flex items-center gap-2">
-              {/* <Loader2 className="h-5 w-5 animate-spin" /> */} Loading
+            <div className="absolute flex h-8 w-8 items-center justify-center gap-2">
+              <Loader className={cn(isLoaderWhite && "loader-white")} />
             </div>
           </>
         ) : (
