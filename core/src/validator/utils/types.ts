@@ -39,4 +39,5 @@ export interface IValidator {
   ): Promise<Result[]>;
 }
 
-export type KeyWithPath = { key: string; path: string }[];
+export type KeyWithPath = { key: string; path: string };
+export type KeyWithPaths = KeyWithPath[];

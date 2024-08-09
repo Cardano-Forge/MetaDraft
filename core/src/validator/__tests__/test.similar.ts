@@ -61,24 +61,7 @@ Deno.test("CompareRootKeys - withSuccess", async () => {
     {
       state: "success",
       message: "No similar keys found.",
-      input: {
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-        asset_name: "asset000",
-        name: "asset000",
-        image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
-        mediaType: "image/png",
-        description:
-          "a non empty description using a random length because Im testing",
-        files: [
-          {
-            name: "oops",
-            mediaType: "image/png",
-            src: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
-          },
-        ],
-        attributes: { foo: "bar" },
-        traits: ["trait-1", "trait-2"],
-      },
+      input: metadata[0],
       asset_name: "asset000",
       validator_id: "compare-root-keys",
       output: undefined,
@@ -142,25 +125,7 @@ Deno.test("CompareRootKeys - withWarning", async () => {
         "attributes is similar to attrybutes",
         "attrybutes is similar to attributes",
       ],
-      input: {
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-        asset_name: "asset000",
-        name: "asset000",
-        image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
-        mediaType: "image/png",
-        description:
-          "a non empty description using a random length because Im testing",
-        files: [
-          {
-            name: "oops",
-            mediaType: "image/png",
-            src: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
-          },
-        ],
-        attributes: { foo: "bar" },
-        attrybutes: { bar: "foo", oops: "a typo" },
-        traits: ["trait-1", "trait-2"],
-      },
+      input: metadata[0],
       asset_name: "asset000",
       validator_id: "compare-root-keys",
       output: undefined,
@@ -221,25 +186,7 @@ Deno.test("CompareRootValues - withSuccess", async () => {
     {
       state: "success",
       message: "No similar values found.",
-      input: {
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-        asset_name: "asset000",
-        name: "asset000",
-        image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
-        mediaType: "image/png",
-        description:
-          "a non empty description using a random length because Im testing",
-        files: [
-          {
-            name: "oops",
-            mediaType: "image/png",
-            src: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
-          },
-        ],
-        attributes: { foo: "bar" },
-        attrybutes: { bar: "foo", oops: "a typo" },
-        traits: ["trait-1", "trait-2"],
-      },
+      input: metadata[0],
       asset_name: "asset000",
       validator_id: "compare-root-values",
       output: undefined,
@@ -308,31 +255,7 @@ Deno.test("CompareAttributesValues - withSuccess", async () => {
         "foo1 is similar to foo",
         "foz is similar to foo",
       ],
-      input: {
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-        asset_name: "asset000",
-        name: "asset000",
-        image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
-        mediaType: "image/png",
-        description:
-          "a non empty description using a random length because Im testing",
-        files: [
-          {
-            name: "oops",
-            mediaType: "image/png",
-            src: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
-          },
-        ],
-        attributes: {
-          foo: "bar",
-          foo1: "bar",
-          foz: "bar",
-          child: "children1",
-          hello: "world",
-        },
-        attrybutes: { bar: "foo", oops: "a typo" },
-        traits: ["trait-1", "trait-2"],
-      },
+      input: metadata[0],
       asset_name: "asset000",
       validator_id: "compare-attributes-keys",
       output: undefined,

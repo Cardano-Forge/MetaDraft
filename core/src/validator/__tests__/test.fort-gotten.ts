@@ -29,7 +29,7 @@ const mapping = {
 
 Deno.test("fort-gotten.json", async () => {
   const metadata = JSON.parse(
-    readFileSync(join("payloads", "fort-gotten.json"), "utf8"),
+    readFileSync(join("__tests__", "payloads", "fort-gotten.json"), "utf8"),
   );
 
   const validatorsReceivedFromFrontend: Array<keyof typeof mapping> = [
@@ -593,6 +593,7 @@ Deno.test("fort-gotten.json", async () => {
       },
       asset_name: "FortGottenEp02Kid3963",
       validator_id: "key-attributes",
+      output: undefined,
     },
     {
       state: "warning",
@@ -615,6 +616,7 @@ Deno.test("fort-gotten.json", async () => {
           ],
         },
       },
+      output: undefined,
       input: {
         attributes: { Head: 21 },
         traits: ["test", 21],

@@ -1,10 +1,10 @@
-import { KeyWithPath } from "./types.ts";
+import { KeyWithPaths } from "./types.ts";
 
 /**
  * Recursively extract all keys and keep track of the path
  */
-export function extractKeysWithPaths(obj: object, path = ""): KeyWithPath {
-  let keys: KeyWithPath = [];
+export function extractKeysWithPaths(obj: object, path = ""): KeyWithPaths {
+  let keys: KeyWithPaths = [];
 
   for (const [key, value] of Object.entries(obj)) {
     const fullPath = path ? `${path}.${key}` : key;
@@ -21,7 +21,7 @@ export function extractKeysWithPaths(obj: object, path = ""): KeyWithPath {
 /**
  * Count the number of occurence for a key
  */
-export const countKeys = (keysWithPaths: KeyWithPath) =>
+export const countKeys = (keysWithPaths: KeyWithPaths) =>
   keysWithPaths.reduce(
     (acc, { key }) => ({
       ...acc,
@@ -34,7 +34,7 @@ export const countKeys = (keysWithPaths: KeyWithPath) =>
  * Get an array with path of each keys that are higher than the treshold
  */
 export function getPathsForExceedingKeys(
-  keysWithPaths: KeyWithPath,
+  keysWithPaths: KeyWithPaths,
   keyCounts: Record<string, number>,
   threshold: number,
 ) {
@@ -56,7 +56,7 @@ export function getPathsForExceedingKeys(
  * Return this output as the warning message
  */
 export function formatPaths(
-  paths: KeyWithPath,
+  paths: KeyWithPaths,
   keyCounts: Record<string, number>,
 ) {
   // Create a map to group paths by key

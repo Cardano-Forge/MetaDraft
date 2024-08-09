@@ -54,12 +54,7 @@ Deno.test("KeyAttributesValidator - withWarning", async () => {
           ],
         },
       },
-      input: {
-        attributes: {
-          foo: "bar",
-          number_field: 1,
-        },
-      },
+      input: metadata[0],
       output: undefined,
       asset_name: "NO_ASSET_NAME_PROVIDED",
       validator_id: "key-attributes",
@@ -106,12 +101,7 @@ Deno.test("KeyAttributesValidator - withSuccess", async () => {
           number_field: "1",
         },
       },
-      output: {
-        attributes: {
-          foo: "bar",
-          number_field: "1",
-        },
-      },
+      output: metadata[0],
       asset_name: "NO_ASSET_NAME_PROVIDED",
       validator_id: "key-attributes",
     },

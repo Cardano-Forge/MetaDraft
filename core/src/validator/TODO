@@ -1,4 +1,6 @@
-- [ ] Do values rules (typos, duplicates, upper/lower cases, etc.)
+- [-] Do values rules (typos, duplicates, upper/lower cases, etc.)
 - [x] Custom hasKeys rule
 - [ ] Bring it back to NodeJS / Jest and all the dependencies...
 - [ ] Write oneliner description on each rule
+
+Run tests: deno test -A __tests__/*.ts

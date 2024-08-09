@@ -73,24 +73,7 @@ Deno.test("KeyTraitsValidator - withWarning", async () => {
           ],
         },
       },
-      input: {
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-        asset_name: "asset000",
-        name: "asset000",
-        image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
-        mediaType: "image/png",
-        description:
-          "a non empty description using a random length because Im testing",
-        files: [
-          {
-            name: "oops",
-            mediaType: "image/png",
-            src: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
-          },
-        ],
-        attributes: { foo: "bar" },
-        traits: ["trait-1", { name: "trait-2", value: "2" }, 1],
-      },
+      input: metadata[0],
       output: undefined,
       asset_name: "asset000",
       validator_id: "key-traits",
