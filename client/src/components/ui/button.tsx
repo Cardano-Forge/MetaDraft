@@ -47,9 +47,6 @@ const buttonVariants = cva(
   },
 );
 
-const commonStyle =
-  "!leading-none inline-flex items-center justify-center relative rounded-md transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none";
-
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
@@ -109,7 +106,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {loading ? (
           <>
-            <span className={cn(commonStyle, "invisible")}>{children}</span>
+            <span
+              className={
+                "invisible relative inline-flex items-center justify-center rounded-md !leading-none transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none"
+              }
+            >
+              {children}
+            </span>
             <div className="absolute flex h-8 w-8 items-center justify-center gap-2">
               <Loader className={cn(isLoaderWhite && "loader-white")} />
             </div>
