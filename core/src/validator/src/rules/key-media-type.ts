@@ -6,6 +6,9 @@ import { getStates } from "../utils/getState.ts";
 import { checkMediaType } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
 
+/**
+ * Validates that metadata has a valid `mediaType` field matching regex.
+ */
 export class KeyMediaTypeValidator extends BaseValidator {
   constructor() {
     const id = "key-media-type";

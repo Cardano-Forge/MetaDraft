@@ -10,6 +10,9 @@ import {
 import { metadataValidator } from "../utils/metadataChecks.ts";
 import type { Result } from "../utils/types.ts";
 
+/**
+ * A validator that checks metadata for duplicate keys exceeding a specified threshold.
+ */
 export class DuplicateKeysValidator extends BaseValidator {
   private threshold = 3;
 

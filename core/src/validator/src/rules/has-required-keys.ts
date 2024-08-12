@@ -4,6 +4,9 @@ import { getStates } from "../utils/getState.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 import type { Result } from "../utils/types.ts";
 
+/**
+ * A validator ensuring that metadata includes essential fields such as "name", "description", and "image".
+ */
 export class HasRequiredKeysValidator extends BaseValidator {
   constructor() {
     const id = "has-required-keys";

@@ -7,6 +7,9 @@ import { isSnakeCase } from "../utils/casing.ts";
 import { extractKeysWithPaths } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 
+/**
+ * Validates metadata keys follow Snake Case formatting.
+ */
 export class KeySnakeCase extends BaseValidator {
   constructor() {
     const id = "key-snake-case";

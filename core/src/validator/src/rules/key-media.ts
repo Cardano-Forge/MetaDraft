@@ -6,6 +6,9 @@ import { getStates } from "../utils/getState.ts";
 import { checkMedia } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
 
+/**
+ * Validates that metadata contains optional `media` object with valid media-related value.
+ */
 export class KeyMediaValidator extends BaseValidator {
   constructor() {
     const id = "key-media";
@@ -28,7 +31,7 @@ export class KeyMediaValidator extends BaseValidator {
   ): Result[] {
     const result = z
       .object({
-        attributes: checkMedia.optional(),
+        media: checkMedia.optional(),
       })
       .safeParse(metadata);
 

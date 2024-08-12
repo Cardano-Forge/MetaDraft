@@ -7,6 +7,9 @@ import type { KeyWithPath, Result } from "../utils/types.ts";
 import { extractKeysWithPaths } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 
+/**
+ * Ensures metadata keys do not exceed 64 characters in length.
+ */
 export class KeyLength extends BaseValidator {
   constructor() {
     const id = "key-length";

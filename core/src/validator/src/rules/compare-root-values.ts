@@ -4,11 +4,11 @@ import { getStates } from "../utils/getState.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 import type { Result } from "../utils/types.ts";
 
-import {
-  distance,
-  closest,
-} from "https://deno.land/x/fastest_levenshtein/mod.ts";
+import { distance, closest } from "fastest-levenshtein";
 
+/**
+ * A validator that checks if root value strings in metadata are too similar to each other based on a Levenshtein distance threshold.
+ */
 export class CompareRootValues extends BaseValidator {
   private threshold = 2;
 

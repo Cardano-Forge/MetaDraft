@@ -6,6 +6,9 @@ import { getStates } from "../utils/getState.ts";
 import { checkSize64 } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
 
+/**
+ * Ensures `name` field in metadata has valid size (<= 64 characters).
+ */
 export class KeyNameValidator extends BaseValidator {
   constructor() {
     const id = "key-name";

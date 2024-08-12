@@ -7,6 +7,9 @@ import { isUpperCaseWords } from "../utils/casing.ts";
 import { extractKeysWithPaths } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 
+/**
+ * Ensures metadata keys follow Upper Case words format.
+ */
 export class KeyUpperCase extends BaseValidator {
   constructor() {
     const id = "key-upper-case";

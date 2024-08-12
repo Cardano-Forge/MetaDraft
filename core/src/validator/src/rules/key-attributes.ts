@@ -6,6 +6,9 @@ import { getStates } from "../utils/getState.ts";
 import { checkAttributes } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
 
+/**
+ * Validates that metadata has an optional "attributes" field with correct formatting.
+ */
 export class KeyAttributesValidator extends BaseValidator {
   constructor() {
     const id = "key-attributes";

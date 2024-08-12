@@ -7,6 +7,9 @@ import { isLowerCaseWords } from "../utils/casing.ts";
 import { extractKeysWithPaths } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 
+/**
+ * Ensures metadata keys follow Lower Case formatting (all lowercase, words separated by space).
+ */
 export class KeyLowerCase extends BaseValidator {
   constructor() {
     const id = "key-lower-case";

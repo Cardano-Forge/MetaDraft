@@ -6,6 +6,9 @@ import { getStates } from "../utils/getState.ts";
 import { checkTraits } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
 
+/**
+ * Validates metadata object has optional "traits" field using Zod schema.
+ */
 export class KeyTraitsValidator extends BaseValidator {
   constructor() {
     const id = "key-traits";
