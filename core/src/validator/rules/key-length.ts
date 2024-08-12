@@ -3,13 +3,13 @@ import { BaseValidator } from "../core.ts";
 import { getStates } from "../utils/getState.ts";
 
 import type { KeyWithPath, Result } from "../utils/types.ts";
-import { isUpperCaseWords } from "../utils/casing.ts";
+
 import { extractKeysWithPaths } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 
-export class KeyUpperCase extends BaseValidator {
+export class KeyLength extends BaseValidator {
   constructor() {
-    const id = "key-upper-case";
+    const id = "key-length";
     super(id);
   }
 
@@ -35,7 +35,7 @@ export class KeyUpperCase extends BaseValidator {
     const keys = extractKeysWithPaths(metadata as object);
 
     keys.forEach((key) => {
-      if (!isUpperCaseWords(key.key)) {
+      if (key.key.length > 64) {
         warnings.push(key);
       }
     });
@@ -44,7 +44,7 @@ export class KeyUpperCase extends BaseValidator {
       {
         state: warnings.length === 0 ? "success" : "warning",
         message: {
-          message: "Some keys do not adhere to Upper Case formatting.",
+          message: "The key length exceeds 64 characters.",
           warnings,
         },
       },

@@ -4,26 +4,27 @@ import { DataRead } from "../../utils/types.ts";
 import { BaseReader } from "../index.ts";
 import { isValidPath } from "../../utils/file.ts";
 
+export type CsvOptions = {
+  delimiter: string;
+  valueByType: boolean;
+  subArray: [string, string];
+  quotedField: boolean;
+};
+
 export class CsvReader extends BaseReader {
-  private options = {
-    delimiter: ",",
-    valueByType: true,
-    subArray: ["*", ","],
-    quotedField: true,
-  };
-  constructor(
-    delimiter = ",",
-    valueByType = true,
-    subArray = ["*", ","],
-    quotedField = true,
-  ) {
+  private options: CsvOptions;
+
+  constructor(options?: CsvOptions) {
     super();
     this.data = null;
 
-    this.options.delimiter = delimiter;
-    this.options.valueByType = valueByType;
-    this.options.subArray = subArray;
-    this.options.quotedField = quotedField;
+    this.options = {
+      delimiter: ",",
+      valueByType: true,
+      subArray: ["*", ","],
+      quotedField: true,
+      ...options,
+    };
   }
 
   Load(pathOrData: string): object {
