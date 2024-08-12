@@ -1,5 +1,5 @@
-import { CsvOptions } from "../../reader/readers/csv.ts";
-import { ReaderFactory } from "../../reader/factory.ts";
+import { CsvOptions } from "../../src/utils/types.ts";
+import { ReaderFactory } from "../../src/reader/factory.ts";
 
 const readerCsv = ReaderFactory.createReader("csv");
 const readerCsvWithOptions = ReaderFactory.createReader("csv", {

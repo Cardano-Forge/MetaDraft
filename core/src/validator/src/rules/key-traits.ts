@@ -1,15 +1,15 @@
-import z from "npm:zod";
+import z from "zod";
 
 import { BaseValidator } from "../core.ts";
 
 import { getStates } from "../utils/getState.ts";
-import { checkSize64 } from "./zod.ts";
+import { checkTraits } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
 
-export class KeyDescriptionValidator extends BaseValidator {
+export class KeyTraitsValidator extends BaseValidator {
   constructor() {
-    const id = "key-description";
-    super(id); // the description is not mandatory.
+    const id = "key-traits";
+    super(id);
   }
 
   async Execute(
@@ -28,13 +28,13 @@ export class KeyDescriptionValidator extends BaseValidator {
   ): Result[] {
     const result = z
       .object({
-        description: checkSize64.optional(),
+        traits: checkTraits.optional(),
       })
       .safeParse(metadata);
 
     return getStates(
       result,
-      "`description` field is valid.",
+      "`traits` field is valid.",
       asset_name,
       metadata,
       this.id,

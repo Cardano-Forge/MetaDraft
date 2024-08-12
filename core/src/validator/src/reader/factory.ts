@@ -1,6 +1,6 @@
-import { CsvOptions, CsvReader } from "./readers/csv.ts";
+import { CsvReader } from "./readers/csv.ts";
 import { JsonReader } from "./readers/json.ts";
-import { IReader } from "../utils/types.ts";
+import { CsvOptions, IReader } from "../utils/types.ts";
 
 export class ReaderFactory {
   static createReader(type: "csv" | "json", options?: CsvOptions): IReader {

@@ -1,4 +1,4 @@
-import z from "npm:zod";
+import z from "zod";
 
 import { BaseValidator } from "../core.ts";
 

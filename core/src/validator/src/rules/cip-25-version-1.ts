@@ -1,14 +1,15 @@
-import z from "npm:zod";
+import z from "zod";
 
 import { BaseValidator } from "../core.ts";
 
 import { getStates } from "../utils/getState.ts";
-import { checkImageIsStringOrArray } from "./zod.ts";
+import { checkHex56, checkSize64 } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
 
-export class KeyImageValidator extends BaseValidator {
+// Validates metadata for CIP-25 version 1 assets using Zod schema and checks against policy ID and asset name format.
+export class Cip25Version1Validator extends BaseValidator {
   constructor() {
-    const id = "key-image";
+    const id = "cip-25-version-1";
     super(id);
   }
 
@@ -17,7 +18,7 @@ export class KeyImageValidator extends BaseValidator {
     metadata: unknown,
     _metadatas: unknown[],
   ): Promise<Result[]> {
-    console.debug(`Executing ${this.id} with: `, metadata);
+    console.debug(`Executing ${this.id} with: `, metadata, asset_name);
     return this.Logic(asset_name, metadata, _metadatas);
   }
 
@@ -28,13 +29,14 @@ export class KeyImageValidator extends BaseValidator {
   ): Result[] {
     const result = z
       .object({
-        image: checkImageIsStringOrArray,
+        asset_name: checkSize64,
+        policy_id: checkHex56,
       })
       .safeParse(metadata);
 
     return getStates(
       result,
-      "`image` field is valid.",
+      "`asset_name` and `policy_id` fields are valid.",
       asset_name,
       metadata,
       this.id,

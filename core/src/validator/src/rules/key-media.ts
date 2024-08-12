@@ -1,14 +1,14 @@
-import z from "npm:zod";
+import z from "zod";
 
 import { BaseValidator } from "../core.ts";
 
 import { getStates } from "../utils/getState.ts";
-import { checkTraits } from "./zod.ts";
+import { checkMedia } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
 
-export class KeyTraitsValidator extends BaseValidator {
+export class KeyMediaValidator extends BaseValidator {
   constructor() {
-    const id = "key-traits";
+    const id = "key-media";
     super(id);
   }
 
@@ -28,13 +28,13 @@ export class KeyTraitsValidator extends BaseValidator {
   ): Result[] {
     const result = z
       .object({
-        traits: checkTraits.optional(),
+        attributes: checkMedia.optional(),
       })
       .safeParse(metadata);
 
     return getStates(
       result,
-      "`traits` field is valid.",
+      "`media` field is valid.",
       asset_name,
       metadata,
       this.id,

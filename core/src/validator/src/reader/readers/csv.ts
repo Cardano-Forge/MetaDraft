@@ -1,15 +1,8 @@
-import csvToJson from "npm:convert-csv-to-json";
+import csvToJson from "convert-csv-to-json";
 
-import { DataRead } from "../../utils/types.ts";
+import { CsvOptions, DataRead } from "../../utils/types.ts";
 import { BaseReader } from "../index.ts";
 import { isValidPath } from "../../utils/file.ts";
-
-export type CsvOptions = {
-  delimiter: string;
-  valueByType: boolean;
-  subArray: [string, string];
-  quotedField: boolean;
-};
 
 export class CsvReader extends BaseReader {
   private options: CsvOptions;

@@ -1,3 +1,5 @@
+import type { ZodError } from "zod";
+
 export type FormatError = {
   message: string;
   errorCode: string;
@@ -48,3 +50,13 @@ export interface IReader {
   Load(pathOrData: string): Promise<any> | any;
   Read(): Promise<DataRead[]> | DataRead[];
 }
+
+export type CsvOptions = {
+  delimiter: string;
+  valueByType: boolean;
+  subArray: [string, string];
+  quotedField: boolean;
+};
+
+export type ZodStateError = { error: ZodError; success: boolean; data: Object };
+export type StateError = { state: State; message: string; data: Object };

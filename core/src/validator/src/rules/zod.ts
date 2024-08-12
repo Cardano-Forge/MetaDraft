@@ -1,6 +1,6 @@
 import { Buffer } from "node:buffer";
 
-import z from "npm:zod";
+import z from "zod";
 
 //
 // REGEXP

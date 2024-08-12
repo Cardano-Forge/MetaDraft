@@ -1,14 +1,14 @@
-import z from "npm:zod";
+import z from "zod";
 
 import { BaseValidator } from "../core.ts";
 
 import { getStates } from "../utils/getState.ts";
-import { checkSize64 } from "./zod.ts";
+import { checkImageIsStringOrArray } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
 
-export class KeyNameValidator extends BaseValidator {
+export class KeyImageValidator extends BaseValidator {
   constructor() {
-    const id = "key-name";
+    const id = "key-image";
     super(id);
   }
 
@@ -28,13 +28,13 @@ export class KeyNameValidator extends BaseValidator {
   ): Result[] {
     const result = z
       .object({
-        name: checkSize64,
+        image: checkImageIsStringOrArray,
       })
       .safeParse(metadata);
 
     return getStates(
       result,
-      "`name` field is valid.",
+      "`image` field is valid.",
       asset_name,
       metadata,
       this.id,

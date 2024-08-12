@@ -1,4 +1,4 @@
-import { JsonReader } from "../../reader/readers/json.ts";
+import { JsonReader } from "../../src/reader/readers/json.ts";
 
 const jsonStringified = JSON.stringify([
   {

@@ -1,8 +1,8 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 
-import { Decorator } from "../core.ts";
+import { Decorator } from "../src/core.ts";
 
-import { KeyAttributesValidator } from "../rules/key-attributes.ts";
+import { KeyAttributesValidator } from "../src/rules/key-attributes.ts";
 
 const mapping = {
   KeyAttributesValidator: KeyAttributesValidator,

@@ -1,8 +1,8 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 
-import { Decorator } from "../core.ts";
+import { Decorator } from "../src/core.ts";
 
-import { DuplicateKeysValidator } from "../rules/duplicate-keys.ts";
+import { DuplicateKeysValidator } from "../src/rules/duplicate-keys.ts";
 
 const mapping = {
   DuplicateKeysValidator: DuplicateKeysValidator,

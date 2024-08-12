@@ -1,14 +1,14 @@
-import z from "npm:zod";
+import z from "zod";
 
 import { BaseValidator } from "../core.ts";
 
 import { getStates } from "../utils/getState.ts";
-import { checkHex56, checkSize64 } from "./zod.ts";
+import { checkMediaType } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
 
-export class Cip25Version1Validator extends BaseValidator {
+export class KeyMediaTypeValidator extends BaseValidator {
   constructor() {
-    const id = "cip-25-version-1";
+    const id = "key-media-type";
     super(id);
   }
 
@@ -17,7 +17,7 @@ export class Cip25Version1Validator extends BaseValidator {
     metadata: unknown,
     _metadatas: unknown[],
   ): Promise<Result[]> {
-    console.debug(`Executing ${this.id} with: `, metadata, asset_name);
+    console.debug(`Executing ${this.id} with: `, metadata);
     return this.Logic(asset_name, metadata, _metadatas);
   }
 
@@ -28,14 +28,13 @@ export class Cip25Version1Validator extends BaseValidator {
   ): Result[] {
     const result = z
       .object({
-        asset_name: checkSize64,
-        policy_id: checkHex56,
+        mediaType: checkMediaType,
       })
       .safeParse(metadata);
 
     return getStates(
       result,
-      "`asset_name` and `policy_id` fields are valid.",
+      "`mediaType` field is valid.",
       asset_name,
       metadata,
       this.id,

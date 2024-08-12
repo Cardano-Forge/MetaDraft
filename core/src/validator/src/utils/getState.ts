@@ -1,10 +1,11 @@
-import type { ZodError } from "npm:zod";
-
 import { formatError } from "./formatError.ts";
-import type { FormattedError, Result, State } from "./types.ts";
-
-type ZodStateError = { error: ZodError; success: boolean; data: Object };
-type StateError = { state: State; message: string; data: Object };
+import type {
+  FormattedError,
+  Result,
+  State,
+  StateError,
+  ZodStateError,
+} from "./types.ts";
 
 /**
  * Evaluates the formatted errors to determine their severity.

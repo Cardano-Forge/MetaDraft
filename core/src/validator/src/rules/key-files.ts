@@ -1,24 +1,24 @@
-import z from "npm:zod";
+import z from "zod";
 
 import { BaseValidator } from "../core.ts";
 
 import { getStates } from "../utils/getState.ts";
-import { checkMedia } from "./zod.ts";
+import { checkFiles } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
 
-export class KeyMediaValidator extends BaseValidator {
+export class KeyFilesValidator extends BaseValidator {
   constructor() {
-    const id = "key-media";
+    const id = "key-files";
     super(id);
   }
 
   async Execute(
     asset_name: string,
     metadata: unknown,
-    _metadatas: unknown[],
+    metadatas: unknown[],
   ): Promise<Result[]> {
     console.debug(`Executing ${this.id} with: `, metadata);
-    return this.Logic(asset_name, metadata, _metadatas);
+    return this.Logic(asset_name, metadata, metadatas);
   }
 
   Logic(
@@ -28,13 +28,13 @@ export class KeyMediaValidator extends BaseValidator {
   ): Result[] {
     const result = z
       .object({
-        attributes: checkMedia.optional(),
+        files: checkFiles.optional(),
       })
       .safeParse(metadata);
 
     return getStates(
       result,
-      "`media` field is valid.",
+      "`files` field is valid.",
       asset_name,
       metadata,
       this.id,

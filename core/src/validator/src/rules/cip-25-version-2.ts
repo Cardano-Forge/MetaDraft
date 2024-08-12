@@ -1,14 +1,14 @@
-import z from "npm:zod";
+import z from "zod";
 
 import { BaseValidator } from "../core.ts";
 
 import { getStates } from "../utils/getState.ts";
-import { checkMediaType } from "./zod.ts";
+import { checkHex } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
 
-export class KeyMediaTypeValidator extends BaseValidator {
+export class Cip25Version2Validator extends BaseValidator {
   constructor() {
-    const id = "key-media-type";
+    const id = "cip-25-version-2";
     super(id);
   }
 
@@ -28,13 +28,14 @@ export class KeyMediaTypeValidator extends BaseValidator {
   ): Result[] {
     const result = z
       .object({
-        mediaType: checkMediaType,
+        asset_name: checkHex,
+        policy_id: checkHex,
       })
       .safeParse(metadata);
 
     return getStates(
       result,
-      "`mediaType` field is valid.",
+      "`asset_name` and `policy_id` fields are valid.",
       asset_name,
       metadata,
       this.id,

@@ -1,14 +1,14 @@
-import z from "npm:zod";
+import z from "zod";
 
 import { BaseValidator } from "../core.ts";
 
 import { getStates } from "../utils/getState.ts";
-import { checkHex } from "./zod.ts";
+import { checkSize64 } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
 
-export class Cip25Version2Validator extends BaseValidator {
+export class KeyNameValidator extends BaseValidator {
   constructor() {
-    const id = "cip-25-version-2";
+    const id = "key-name";
     super(id);
   }
 
@@ -28,14 +28,13 @@ export class Cip25Version2Validator extends BaseValidator {
   ): Result[] {
     const result = z
       .object({
-        asset_name: checkHex,
-        policy_id: checkHex,
+        name: checkSize64,
       })
       .safeParse(metadata);
 
     return getStates(
       result,
-      "`asset_name` and `policy_id` fields are valid.",
+      "`name` field is valid.",
       asset_name,
       metadata,
       this.id,

@@ -1,5 +1,5 @@
 import { join, normalize } from "node:path";
-import { JsonReader } from "../../reader/readers/json.ts";
+import { JsonReader } from "../../src/reader/readers/json.ts";
 
 const jsonReader = new JsonReader();
 jsonReader.Load(

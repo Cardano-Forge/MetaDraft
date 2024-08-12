@@ -1,4 +1,4 @@
-import { ZodError } from "npm:zod";
+import { ZodError } from "zod";
 import type { FormattedError } from "./types.ts";
 
 /**
