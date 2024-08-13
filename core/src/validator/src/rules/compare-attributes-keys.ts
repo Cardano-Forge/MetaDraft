@@ -4,7 +4,7 @@ import { getStates } from "../utils/getState.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 import type { Result } from "../utils/types.ts";
 
-import { distance, closest } from "fastest-levenshtein";
+import { distance, closest } from "fastest_levenshtein";
 
 /**
  * A validator that checks if attribute keys in metadata are too similar to each other based on a Levenshtein distance threshold.

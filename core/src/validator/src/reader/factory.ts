@@ -21,7 +21,7 @@ export class ReaderFactory {
     } else if (type === "json") {
       return new JsonReader();
     } else {
-      throw new Error("Unknown Reader type");
+      throw new Error(`Unknown Reader type, received: ${type}`);
     }
   }
 }
