@@ -25,7 +25,7 @@ export default function Steps({ id, text, status, className }: StepsProps) {
   return (
     <div
       className={cn(
-        "flex w-full max-w-[224px] flex-col justify-between gap-2 rounded-3xl px-4 py-5",
+        "flex w-full max-w-[224px] flex-col justify-between gap-2 rounded-3xl p-4",
         variant[status],
         className,
       )}
