@@ -6,7 +6,7 @@ import {
 } from "@ada-anvil/metadraft-validator";
 
 import { loadTemplates } from "./load-rules.ts";
-import { summarize } from "./report.ts";
+import { Message, summarize } from "./report.ts";
 
 export async function validate(
   metadataPath: string,
@@ -35,7 +35,7 @@ export async function validate(
 
   // 4. Run the validation on each asset in the metadata input
   for (const metadata of metadatas) {
-    console.log(Object.keys(metadata)[0], Object.values(metadata));
+    console.debug(Object.keys(metadata)[0], Object.values(metadata));
     await main.Execute(
       Object.keys(metadata)[0], // extract asset_name
       Object.values(metadata)[0], // extract payload
@@ -50,7 +50,10 @@ export async function validate(
     JSON.stringify(
       {
         summary: result.reduce(
-          (acc, message) => [
+          (
+            acc: string[],
+            message: { message: Message | undefined | object; state: string },
+          ) => [
             ...acc,
             // Possible to have a nested message in case they are warnings (custom object)
             summarize(message),

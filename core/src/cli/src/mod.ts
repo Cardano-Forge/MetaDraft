@@ -12,7 +12,7 @@ yargs(Deno.args)
   .command(
     "validate",
     "Validate metadata using a template",
-    (yargs) => {
+    (yargs: any) => {
       return yargs
         .option("m", {
           alias: "metadata-to-validate",
@@ -70,4 +70,5 @@ yargs(Deno.args)
   .demandCommand(1, "You need to specify at least one command to run the CLI")
   .strict()
   .showHelpOnFail(false)
-  .help().argv;
+  .help()
+  .parse();

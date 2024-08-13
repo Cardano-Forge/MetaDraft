@@ -7,6 +7,7 @@
     "@ada-anvil/metadraft-validator": "../validator/src/mod.ts"
   },
   "tasks": {
-    "start": "deno run -A src/index.ts"
+    "start": "deno run -A src/mod.ts",
+    "compile": "deno compile -A --output build/metadraft ./src/mod.ts"
   }
 }

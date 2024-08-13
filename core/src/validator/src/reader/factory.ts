@@ -15,7 +15,7 @@ export class ReaderFactory {
    *
    * @throws Will throw an error if an unknown reader type is provided.
    */
-  static createReader(type: "csv" | "json", options?: CsvOptions): IReader {
+  static createReader(type: string, options?: CsvOptions): IReader {
     if (type === "csv") {
       return new CsvReader(options);
     } else if (type === "json") {

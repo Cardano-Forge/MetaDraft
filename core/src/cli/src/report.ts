@@ -1,16 +1,28 @@
-export function summarize(message: {
-  message:
-    | string
-    | { message: string; warnings: { key: string; path: string }[] };
-  state: string;
-}) {
-  const warnings = message.message.message
-    ? `${message.message.warnings.map((w) => w.key).join(", ")}`
-    : "";
+type Warning = {
+  key: string;
+  path: string;
+};
 
-  return `${message.state}: ${
-    typeof message.message === "string"
-      ? message.message
-      : `${message.message.message}: ${warnings}`
-  }`;
+export type Message = string | { message: string; warnings: Warning[] };
+
+export function summarize({
+  message,
+  state,
+}: {
+  message: Message | undefined | object;
+  state: string;
+}): string {
+  let warnings = "";
+  let messageContent = "";
+
+  if (typeof message === "string") {
+    messageContent = message;
+  } else if (message && "message" in message) {
+    warnings = message.warnings.map((w) => w.key).join(", ");
+    messageContent = `${message.message}: ${warnings}`;
+  } else {
+    messageContent = "Invalid message structure";
+  }
+
+  return `${state}: ${messageContent}`;
 }
