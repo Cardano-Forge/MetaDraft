@@ -35,12 +35,12 @@ import ValuesIcon from "~/icons/values.icon";
 import ViewGridIcon from "~/icons/view-grid.icon";
 import XCircleIcon from "~/icons/x-circle.icon";
 import XIcon from "~/icons/x.icon";
-import H from "~/components/h";
+import { Typography } from "~/components/typography";
 
 export default function Icons() {
   return (
     <div className="flex flex-col gap-4">
-      <H variant="h4">Icons</H>
+      <Typography as="h2">Icons</Typography>
       <div className="flex w-fit flex-col gap-4 rounded-xl border p-4">
         <div className="flex flex-row items-center justify-center gap-4">
           <UploadIcon />

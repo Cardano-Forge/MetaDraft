@@ -1,5 +1,6 @@
 import React from "react";
-import H from "~/components/h";
+import { Typography } from "~/components/typography";
+
 import { Button } from "~/components/ui/button";
 import CheckCircleIcon from "~/icons/check-circle.icon";
 import ExportIcon from "~/icons/export.icon";
@@ -7,11 +8,11 @@ import ExportIcon from "~/icons/export.icon";
 export default function Buttons() {
   return (
     <div className="flex flex-col gap-4">
-      <H variant="h4">Buttons</H>
+      <Typography as="h2">Buttons</Typography>
       <div className="flex w-full flex-col justify-between gap-4 rounded-xl border p-4">
         <div className="flex flex-row gap-8">
           <div className="flex flex-col gap-4">
-            <H variant="h6">Primary</H>
+            <Typography as="h3">Primary</Typography>
             <Button variant={"default"} size={"sm"}>
               Small
             </Button>
@@ -44,7 +45,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <H variant="h6">Secondary</H>
+            <Typography as="h3">Secondary</Typography>
             <Button variant={"secondary"} size={"sm"}>
               Small
             </Button>
@@ -77,7 +78,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <H variant="h6">Outline</H>
+            <Typography as="h3">Outline</Typography>
             <Button variant={"outline"} size={"sm"}>
               Small
             </Button>
@@ -110,7 +111,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <H variant="h6">Ghost</H>
+            <Typography as="h3">Ghost</Typography>
             <Button variant={"ghost"} size={"sm"}>
               Small
             </Button>
@@ -143,7 +144,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <H variant="h6">Link</H>
+            <Typography as="h3">Link</Typography>
             <Button variant={"link"} size={"sm"}>
               Small
             </Button>
@@ -179,7 +180,7 @@ export default function Buttons() {
 
         <div className="flex flex-row gap-8">
           <div className="flex flex-col gap-4">
-            <H variant="h6">Success</H>
+            <Typography as="h3">Success</Typography>
             <Button variant={"success"} size={"sm"}>
               Small
             </Button>
@@ -212,7 +213,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <H variant="h6">Success Outine</H>
+            <Typography as="h3">Success Outine</Typography>
             <Button variant={"successOutline"} size={"sm"}>
               Small
             </Button>
@@ -245,7 +246,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <H variant="h6">Warning</H>
+            <Typography as="h3">Warning</Typography>
             <Button variant={"warning"} size={"sm"}>
               Small
             </Button>
@@ -278,7 +279,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <H variant="h6">Warning Outline</H>
+            <Typography as="h3">Warning Outline</Typography>
             <Button variant={"warningOutilne"} size={"sm"}>
               Small
             </Button>
@@ -311,7 +312,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <H variant="h6">Destructive</H>
+            <Typography as="h3">Destructive</Typography>
             <Button variant={"destructive"} size={"sm"}>
               Small
             </Button>
@@ -344,7 +345,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <H variant="h6">Destructive Outline</H>
+            <Typography as="h3">Destructive Outline</Typography>
             <Button variant={"destructiveOutilne"} size={"sm"}>
               Small
             </Button>
