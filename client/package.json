@@ -13,13 +13,21 @@
     "start": "next start"
   },
   "dependencies": {
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-slot": "^1.1.0",
     "@t3-oss/env-nextjs": "^0.10.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "geist": "^1.3.0",
+    "lucide-react": "^0.426.0",
     "next": "^14.2.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "zod": "^3.23.3",
-    "@ada-anvil/metadraft-validator": "file:../core/src/validator/npm"
+    "@ada-anvil/metadraft-validator": "file:../core/src/validator/npm",
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.23.3"
   },
   "devDependencies": {
     "@types/eslint": "^8.56.10",
