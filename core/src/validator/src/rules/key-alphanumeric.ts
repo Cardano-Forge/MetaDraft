@@ -7,6 +7,9 @@ import type { KeyWithPath, Result } from "../utils/types.ts";
 import { extractKeysWithPaths } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 
+/**
+ * Enforces that metadata keys are alphanumeric, allowing dashes and underscores.
+ */
 export class KeyAlphanumeric extends BaseValidator {
   constructor() {
     const id = "key-alphanumeric";

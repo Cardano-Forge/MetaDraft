@@ -6,6 +6,9 @@ import { getStates } from "../utils/getState.ts";
 import { checkFiles } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
 
+/**
+ * Ensures that metadata has an optional "files" field formatted as an array of file objects.
+ */
 export class KeyFilesValidator extends BaseValidator {
   constructor() {
     const id = "key-files";

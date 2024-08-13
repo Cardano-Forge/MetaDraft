@@ -7,6 +7,9 @@ import { isTitleCase } from "../utils/casing.ts";
 import { extractKeysWithPaths } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 
+/**
+ * Validates metadata keys follow Title Case formatting.
+ */
 export class KeyTitleCase extends BaseValidator {
   constructor() {
     const id = "key-title-case";

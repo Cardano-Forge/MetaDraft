@@ -26,3 +26,5 @@ export { KeyNameValidator } from "./rules/key-name.ts";
 export { KeySnakeCase } from "./rules/key-snake-case.ts";
 export { KeyTitleCase } from "./rules/key-title-case.ts";
 export { KeyTraitsValidator } from "./rules/key-traits.ts";
+
+export { mapping } from "./mapping.ts";

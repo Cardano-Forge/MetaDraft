@@ -54,6 +54,7 @@ function getState(error: FormattedError | undefined = undefined): State {
  * @param {string} success_message - The message to display when the state is "success".
  * @param {string} asset_name - The required identifier for the asset, used to determine which input to update (e.g., an HTML id).
  * @param {unknown} metadata - The current asset metadata
+ * @param {string} validator_id - A unique identifier for the validator. Defaults to "UNKNOWN".
  *
  * @returns {Result[]} An array of formatted result objects with the following structure:
  *   - `asset_name` (string): The identifier for the asset.

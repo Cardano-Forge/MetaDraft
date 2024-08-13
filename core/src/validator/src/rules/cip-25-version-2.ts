@@ -6,6 +6,9 @@ import { getStates } from "../utils/getState.ts";
 import { checkHex } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
 
+/**
+ * Validates metadata against CIP-25 Version 2 standards using Zod.
+ */
 export class Cip25Version2Validator extends BaseValidator {
   constructor() {
     const id = "cip-25-version-2";

@@ -6,7 +6,9 @@ import { getStates } from "../utils/getState.ts";
 import { checkHex56, checkSize64 } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
 
-// Validates metadata for CIP-25 version 1 assets using Zod schema and checks against policy ID and asset name format.
+/**
+ * Validates metadata for CIP-25 version 1 assets using Zod schema and checks against policy ID and asset name format.
+ */
 export class Cip25Version1Validator extends BaseValidator {
   constructor() {
     const id = "cip-25-version-1";

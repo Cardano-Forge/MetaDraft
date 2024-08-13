@@ -7,6 +7,9 @@ import { isCamelCase } from "../utils/casing.ts";
 import { extractKeysWithPaths } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 
+/**
+ * Enforces Camel Case formatting for metadata keys.
+ */
 export class KeyCamelCase extends BaseValidator {
   constructor() {
     const id = "key-camel-case";
