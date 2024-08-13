@@ -1,5 +1,5 @@
 import { join, normalize } from "node:path";
-import { CsvReader } from "../../reader/readers/csv.ts";
+import { CsvReader } from "../../src/reader/readers/csv.ts";
 
 const csvReader = new CsvReader();
 csvReader.Load(

@@ -1,10 +1,10 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 
-import { Decorator } from "../core.ts";
+import { Decorator } from "../src/core.ts";
 
-import { CompareRootKeys } from "../rules/compare-root-keys.ts";
-import { CompareRootValues } from "../rules/compare-root-values.ts";
-import { CompareAttributesKeys } from "../rules/compare-attributes-keys.ts";
+import { CompareRootKeys } from "../src/rules/compare-root-keys.ts";
+import { CompareRootValues } from "../src/rules/compare-root-values.ts";
+import { CompareAttributesKeys } from "../src/rules/compare-attributes-keys.ts";
 
 const mapping = {
   CompareRootKeys: CompareRootKeys,
