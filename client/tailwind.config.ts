@@ -18,7 +18,7 @@ const config = {
     },
     extend: {
       fontFamily: {
-        inter: ["Inter", "sans-serif"],
+        inter: ["var(--font-inter)", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border) / <alpha-value>)",
