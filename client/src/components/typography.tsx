@@ -18,10 +18,27 @@ const TypographyVariants = {
   regularText: "text-base",
   largeText: "text-lg font-semibold",
   smallText: "text-sm font-medium leading-none",
-  mutedText: "text-sm text-muted-foreground/60",
+  mutedText: "text-sm text-muted-foreground/50",
 };
 
 type VariantPropType = keyof typeof TypographyVariants;
+
+const VALID_HTML_TAG = [
+  "h1",
+  "h2",
+  "h3",
+  "h4:",
+  "h5",
+  "h6",
+  "p",
+  "blockquote",
+  "ul",
+];
+
+const getTag = (as: VariantPropType) => {
+  if (VALID_HTML_TAG.includes(as)) return as;
+  return "div";
+};
 
 export type TypographyProps = {
   asChild?: boolean;
@@ -30,7 +47,7 @@ export type TypographyProps = {
 
 export const Typography = React.forwardRef<HTMLElement, TypographyProps>(
   ({ className, as = "p", asChild, ...props }, ref) => {
-    const Component = asChild ? Slot : (as ?? "div");
+    const Component = asChild ? Slot : getTag(as);
 
     const componentProps = {
       className: cn(
