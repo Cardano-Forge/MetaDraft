@@ -1,18 +1,18 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { Buffer } from "node:buffer";
 
-import { Decorator } from "../core.ts";
+import { Decorator } from "../src/core.ts";
 
-import { Cip25Version1Validator } from "../rules/cip-25-version-1.ts";
-import { Cip25Version2Validator } from "../rules/cip-25-version-2.ts";
-import { KeyNameValidator } from "../rules/key-name.ts";
-import { KeyImageValidator } from "../rules/key-image.ts";
-import { KeyMediaTypeValidator } from "../rules/key-media-type.ts";
-import { KeyDescriptionValidator } from "../rules/key-description.ts";
-import { KeyFilesValidator } from "../rules/key-files.ts";
-import { KeyAttributesValidator } from "../rules/key-attributes.ts";
-import { KeyTraitsValidator } from "../rules/key-traits.ts";
-import { HasRequiredKeysValidator } from "../rules/has-required-keys.ts";
+import { Cip25Version1Validator } from "../src/rules/cip-25-version-1.ts";
+import { Cip25Version2Validator } from "../src/rules/cip-25-version-2.ts";
+import { KeyNameValidator } from "../src/rules/key-name.ts";
+import { KeyImageValidator } from "../src/rules/key-image.ts";
+import { KeyMediaTypeValidator } from "../src/rules/key-media-type.ts";
+import { KeyDescriptionValidator } from "../src/rules/key-description.ts";
+import { KeyFilesValidator } from "../src/rules/key-files.ts";
+import { KeyAttributesValidator } from "../src/rules/key-attributes.ts";
+import { KeyTraitsValidator } from "../src/rules/key-traits.ts";
+import { HasRequiredKeysValidator } from "../src/rules/has-required-keys.ts";
 
 const mapping = {
   Cip25Version1Validator: Cip25Version1Validator,

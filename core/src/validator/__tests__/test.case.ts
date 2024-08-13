@@ -1,12 +1,12 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 
-import { Decorator } from "../core.ts";
+import { Decorator } from "../src/core.ts";
 
-import { KeyTitleCase } from "../rules/key-title-case.ts";
-import { KeyCamelCase } from "../rules/key-camel-case.ts";
-import { KeyLowerCase } from "../rules/key-lower-case.ts";
-import { KeyUpperCase } from "../rules/key-upper-case.ts";
-import { KeySnakeCase } from "../rules/key-snake-case.ts";
+import { KeyTitleCase } from "../src/rules/key-title-case.ts";
+import { KeyCamelCase } from "../src/rules/key-camel-case.ts";
+import { KeyLowerCase } from "../src/rules/key-lower-case.ts";
+import { KeyUpperCase } from "../src/rules/key-upper-case.ts";
+import { KeySnakeCase } from "../src/rules/key-snake-case.ts";
 
 const mapping = {
   KeyTitleCase: KeyTitleCase,
