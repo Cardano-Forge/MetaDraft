@@ -1,0 +1,51 @@
+#
+# CIP Format
+#
+
+# cip25Version1Validator
+# cip25Version2Validator
+
+#
+# Comparison and duplicate
+#
+
+compareRootKeys
+compareRootValues
+duplicateKeysValidator
+
+#
+# mandatory
+#
+
+hasRequiredKeysValidator
+keyAlphanumeric
+keyLength
+keyMediaTypeValidator
+keyImageValidator
+
+#
+# optional
+#
+
+keyDescriptionValidator
+keyFilesValidator
+keyMediaValidator
+keyNameValidator
+
+#
+# Custom keys
+#
+
+# keyTraitsValidator
+# keyAttributesValidator
+# compareAttributesKeys
+
+#
+# Casing
+#
+
+keyLowerCase
+# keySnakeCase
+# keyTitleCase
+# keyCamelCase
+# keyUpperCase

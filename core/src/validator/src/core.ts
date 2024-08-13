@@ -63,7 +63,7 @@ export class Decorator implements IValidator {
     return this.validations;
   }
 
-  GetResults() {
+  GetResults(): Result[] {
     return this.validations;
   }
 }
