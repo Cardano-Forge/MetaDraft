@@ -1,6 +1,5 @@
 import { cn } from "~/lib/utils";
 
-import { Label } from "./ui/label";
 import { Slot } from "@radix-ui/react-slot";
 import React from "react";
 
@@ -19,27 +18,10 @@ const TypographyVariants = {
   regularText: "text-base",
   largeText: "text-lg font-semibold",
   smallText: "text-sm font-medium leading-none",
-  mutedText: "text-sm text-muted-foreground",
+  mutedText: "text-sm text-muted-foreground/60",
 };
 
 type VariantPropType = keyof typeof TypographyVariants;
-
-const variantElementMap: Record<NonNullable<VariantPropType>, string> = {
-  h1: "h1",
-  h2: "h2",
-  h3: "h3",
-  h4: "h4",
-  h5: "h5",
-  h6: "h6",
-  p: "p",
-  blockquote: "blockquote",
-  inlineCode: "code",
-  largeText: "div",
-  regularText: "div",
-  smallText: "small",
-  mutedText: "p",
-  ul: "ul",
-};
 
 export type TypographyProps = {
   asChild?: boolean;

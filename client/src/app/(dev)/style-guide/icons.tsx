@@ -40,7 +40,7 @@ import { Typography } from "~/components/typography";
 export default function Icons() {
   return (
     <div className="flex flex-col gap-4">
-      <Typography as="h4">Icons</Typography>
+      <Typography as="h2">Icons</Typography>
       <div className="flex w-fit flex-col gap-4 rounded-xl border p-4">
         <div className="flex flex-row items-center justify-center gap-4">
           <UploadIcon />

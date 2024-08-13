@@ -8,11 +8,11 @@ import ExportIcon from "~/icons/export.icon";
 export default function Buttons() {
   return (
     <div className="flex flex-col gap-4">
-      <Typography as="h4">Buttons</Typography>
+      <Typography as="h2">Buttons</Typography>
       <div className="flex w-full flex-col justify-between gap-4 rounded-xl border p-4">
         <div className="flex flex-row gap-8">
           <div className="flex flex-col gap-4">
-            <Typography as="h6">Primary</Typography>
+            <Typography as="h3">Primary</Typography>
             <Button variant={"default"} size={"sm"}>
               Small
             </Button>
@@ -45,7 +45,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <Typography as="h6">Secondary</Typography>
+            <Typography as="h3">Secondary</Typography>
             <Button variant={"secondary"} size={"sm"}>
               Small
             </Button>
@@ -78,7 +78,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <Typography as="h6">Outline</Typography>
+            <Typography as="h3">Outline</Typography>
             <Button variant={"outline"} size={"sm"}>
               Small
             </Button>
@@ -111,7 +111,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <Typography as="h6">Ghost</Typography>
+            <Typography as="h3">Ghost</Typography>
             <Button variant={"ghost"} size={"sm"}>
               Small
             </Button>
@@ -144,7 +144,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <Typography as="h6">Link</Typography>
+            <Typography as="h3">Link</Typography>
             <Button variant={"link"} size={"sm"}>
               Small
             </Button>
@@ -180,7 +180,7 @@ export default function Buttons() {
 
         <div className="flex flex-row gap-8">
           <div className="flex flex-col gap-4">
-            <Typography as="h6">Success</Typography>
+            <Typography as="h3">Success</Typography>
             <Button variant={"success"} size={"sm"}>
               Small
             </Button>
@@ -213,7 +213,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <Typography as="h6">Success Outine</Typography>
+            <Typography as="h3">Success Outine</Typography>
             <Button variant={"successOutline"} size={"sm"}>
               Small
             </Button>
@@ -246,7 +246,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <Typography as="h6">Warning</Typography>
+            <Typography as="h3">Warning</Typography>
             <Button variant={"warning"} size={"sm"}>
               Small
             </Button>
@@ -279,7 +279,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <Typography as="h6">Warning Outline</Typography>
+            <Typography as="h3">Warning Outline</Typography>
             <Button variant={"warningOutilne"} size={"sm"}>
               Small
             </Button>
@@ -312,7 +312,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <Typography as="h6">Destructive</Typography>
+            <Typography as="h3">Destructive</Typography>
             <Button variant={"destructive"} size={"sm"}>
               Small
             </Button>
@@ -345,7 +345,7 @@ export default function Buttons() {
             </Button>
           </div>
           <div className="flex flex-col gap-4">
-            <Typography as="h6">Destructive Outline</Typography>
+            <Typography as="h3">Destructive Outline</Typography>
             <Button variant={"destructiveOutilne"} size={"sm"}>
               Small
             </Button>
