@@ -6,7 +6,7 @@ import ViewGridIcon from "~/icons/view-grid.icon";
 
 export type ViewOptions = "table" | "grid";
 
-export default function TableViewButton({
+export default function ViewButton({
   view = "table",
 }: {
   view?: ViewOptions;
