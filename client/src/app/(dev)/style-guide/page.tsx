@@ -3,6 +3,7 @@ import Buttons from "./buttons";
 import Loader from "~/components/loader";
 import { Typography } from "~/components/typography";
 import Typographies from "./typographies";
+import StepsGuide from "./steps-guide";
 import StatsGuide from "./stats-guide";
 
 export default function StyleGuidePage() {
@@ -18,6 +19,7 @@ export default function StyleGuidePage() {
         <Typographies />
         <Buttons />
         <Icons />
+        <StepsGuide />
         <StatsGuide />
       </div>
     </main>
