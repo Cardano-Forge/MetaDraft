@@ -40,7 +40,7 @@
   }
 }
 
-/* Custom loader from css site */
+/* Custom loader */
 .loader {
   transform: rotateZ(45deg);
   perspective: 1000px;
