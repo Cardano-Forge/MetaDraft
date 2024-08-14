@@ -2,6 +2,7 @@
 
 import React from "react";
 import FilterButton from "~/components/filter-button";
+import SortButton from "~/components/sort-button";
 import { Typography } from "~/components/typography";
 
 import { Button } from "~/components/ui/button";
@@ -387,6 +388,8 @@ export default function Buttons() {
           <ViewButton view="grid" />
           |
           <FilterButton />
+          |
+          <SortButton />
         </div>
       </div>
     </div>
