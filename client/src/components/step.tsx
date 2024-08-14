@@ -15,9 +15,9 @@ export type StepProps = {
 };
 
 const variant: Record<StepStatus, string> = {
-  active: "bg-secondary",
-  done: "bg-card",
-  next: "bg-transparent border border-border/20 border-dashed",
+  active: "bg-secondary border-transparent",
+  done: "bg-card border-transparent",
+  next: "bg-transparent border-border/20 border-dashed",
 };
 
 export default function Step({ id, status, className, children }: StepProps) {
@@ -31,7 +31,7 @@ export default function Step({ id, status, className, children }: StepProps) {
   return (
     <a
       className={cn(
-        "flex w-full max-w-[224px] flex-col justify-between gap-6 rounded-3xl p-4",
+        "flex w-full max-w-[224px] flex-col justify-between gap-6 rounded-3xl p-4 border",
         variant[status],
         className,
       )}
