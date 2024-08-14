@@ -26,9 +26,6 @@ export default function UploadProjectButton() {
     accept: { "application/json": [], "text/csv": [] },
   });
 
-  console.log("acceptedFiles : ", acceptedFiles);
-  console.log("fileRejections : ", fileRejections);
-
   // Handling error
   useEffect(() => {
     // No file received
@@ -50,6 +47,8 @@ export default function UploadProjectButton() {
             `File type must be application/json or text/csv but received .${fileExtension}`,
           ),
         );
+      } else {
+        setError(new Error(rejected.errors[0]?.message));
       }
     }
   }, [fileRejections]);
