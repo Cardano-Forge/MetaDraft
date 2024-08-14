@@ -1,4 +1,5 @@
 import React from "react";
+import FilterButton from "~/components/filter-button";
 import { Typography } from "~/components/typography";
 
 import { Button } from "~/components/ui/button";
@@ -377,6 +378,9 @@ export default function Buttons() {
               destructiveOutilne
             </Button>
           </div>
+        </div>
+        <div className="flex flex-row items-center gap-4 rounded-xl border bg-[#444444] p-4">
+          <FilterButton />
         </div>
       </div>
     </div>
