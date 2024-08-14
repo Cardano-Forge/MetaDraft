@@ -3,13 +3,9 @@ import Step from "./step";
 
 export const Stepper = () => {
   return (
-    <section className="flex py-5 gap-2">
-      <Step id={1} status={"active"}>
-        NFTs Data Validation
-      </Step>
-      <Step id={2} status={"next"}>
-        Final validation
-      </Step>
-    </section>
+    <nav className="container flex gap-2 py-5">
+      <Step id={1}>NFTs Data Validation</Step>
+      <Step id={2}>Final validation</Step>
+    </nav>
   );
 };

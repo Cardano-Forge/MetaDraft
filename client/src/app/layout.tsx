@@ -22,7 +22,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${GeistSans.variable} ${inter.variable}`}>
-      <body className="px-5 md:px-10">
+      <body>
         {/* Header */}
         {/* Status */}
         <Stepper />
