@@ -4,7 +4,7 @@ import React from "react";
 export default function Logo() {
   return (
     <a href="/">
-      <Image width={300} height={80} src={"/logo.png"} alt="MetaDraft" />
+      <Image width={143} height={30} src={"/logo.png"} alt="MetaDraft" />
     </a>
   );
 }
