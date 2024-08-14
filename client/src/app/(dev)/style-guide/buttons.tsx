@@ -1,8 +1,11 @@
+"use client";
+
 import React from "react";
 import FilterButton from "~/components/filter-button";
 import { Typography } from "~/components/typography";
 
 import { Button } from "~/components/ui/button";
+import ViewButton from "~/components/view-button";
 import CheckCircleIcon from "~/icons/check-circle.icon";
 import ExportIcon from "~/icons/export.icon";
 
@@ -178,7 +181,6 @@ export default function Buttons() {
             </Button>
           </div>
         </div>
-
         <div className="flex flex-row gap-8">
           <div className="flex flex-col gap-4">
             <Typography as="h3">Success</Typography>
@@ -380,6 +382,9 @@ export default function Buttons() {
           </div>
         </div>
         <div className="flex flex-row items-center gap-4 rounded-xl border bg-[#444444] p-4">
+          <ViewButton />
+          |
+          <ViewButton view="grid" />
           <FilterButton />
         </div>
       </div>
