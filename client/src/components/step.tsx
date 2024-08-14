@@ -3,7 +3,7 @@ import React from "react";
 import { cn } from "~/lib/utils";
 import { Typography } from "./typography";
 import CheckIcon from "~/icons/check.icon";
-import { useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export type StepStatus = "active" | "done" | "next";
 
@@ -20,9 +20,13 @@ const variant: Record<StepStatus, string> = {
   next: "bg-transparent border-border/20 border-dashed",
 };
 
+enum Steps {
+  "/data-validation" = 1,
+  "/final-validation",
+}
 export default function Step({ id, status, className, children }: StepProps) {
-  const searchParams = useSearchParams();
-  const activeStep = Number(searchParams.get("s") ?? 1);
+  const pathname = usePathname();
+  const activeStep = Number(Steps[decodeURIComponent(pathname) as keyof typeof Steps]);
   status =
     status ?? (activeStep < id ? "next" : activeStep > id ? "done" : "active");
   const isDone = status === "done";
@@ -31,11 +35,11 @@ export default function Step({ id, status, className, children }: StepProps) {
   return (
     <a
       className={cn(
-        "flex w-full max-w-[224px] flex-col justify-between gap-6 rounded-3xl p-4 border",
+        "flex w-full max-w-[224px] flex-col justify-between gap-6 rounded-3xl border p-4",
         variant[status],
         className,
       )}
-      href={`?s=${id}`}
+      href={Steps[id]}
     >
       <div
         className={cn(
