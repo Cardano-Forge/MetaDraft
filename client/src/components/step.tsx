@@ -5,11 +5,11 @@ import CheckIcon from "~/icons/check.icon";
 
 export type StepStatus = "active" | "done" | "next";
 
-export type StepsProps = {
+export type StepProps = {
   id: number;
-  text: string;
   status: StepStatus;
   className?: string;
+  children?: React.ReactNode;
 };
 
 const variant: Record<StepStatus, string> = {
@@ -18,7 +18,7 @@ const variant: Record<StepStatus, string> = {
   next: "bg-transparent border border-border/20 border-dashed",
 };
 
-export default function Steps({ id, text, status, className }: StepsProps) {
+export default function Step({ id, status, className, children }: StepProps) {
   const isDone = status === "done";
   const isActive = status === "active";
   const isNext = status === "next";
@@ -32,7 +32,7 @@ export default function Steps({ id, text, status, className }: StepsProps) {
     >
       <div
         className={cn(
-          "font-inter flex h-8 w-8 items-center justify-center rounded-full bg-secondary",
+          "flex h-8 w-8 items-center justify-center rounded-full bg-secondary font-inter",
           isActive && "bg-white font-bold text-background",
           isDone && "border border-border bg-transparent",
         )}
@@ -43,7 +43,7 @@ export default function Steps({ id, text, status, className }: StepsProps) {
         as="regularText"
         className={cn(isActive && "font-semibold", isNext && "text-input/40")}
       >
-        {text}
+        {children}
       </Typography>
     </div>
   );
