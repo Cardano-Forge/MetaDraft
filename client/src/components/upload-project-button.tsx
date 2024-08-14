@@ -23,7 +23,7 @@ export default function UploadProjectButton() {
     acceptedFiles,
   } = useDropzone({
     maxFiles: 1,
-    accept: { "application/json": [], "text/csv": [] },
+    accept: { "application/json": [] }, // "text/csv": []
   });
 
   // Handling error
@@ -57,6 +57,8 @@ export default function UploadProjectButton() {
   useEffect(() => {
     if (acceptedFiles.length > 0) {
       // do something with the file
+
+      console.log(acceptedFiles);
     }
   }, [acceptedFiles]);
 
