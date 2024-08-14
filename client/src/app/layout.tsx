@@ -21,7 +21,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${GeistSans.variable} ${inter.variable}`}>
-      <body>{children}</body>
+      <body>
+        {/* Header */}
+        {children}</body>
     </html>
   );
 }
