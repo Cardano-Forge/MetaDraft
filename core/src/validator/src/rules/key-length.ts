@@ -11,29 +11,25 @@ import { metadataValidator } from "../utils/metadataChecks.ts";
  * Ensures metadata keys do not exceed 64 characters in length.
  */
 export class KeyLength extends BaseValidator {
-  constructor() {
+  constructor(options?: object) {
     const id = "key-length";
-    super(id);
+    super(id, options);
   }
 
-  async Execute(
-    asset_name: string,
-    metadata: unknown,
-    _metadatas: unknown[],
-  ): Promise<Result[]> {
-    console.debug(`Executing ${this.id} with: `, metadata);
-    return this.Logic(asset_name, metadata, _metadatas);
-  }
-
-  Logic(
-    asset_name: string,
+  Execute(
+    assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
-    const isInvalid = metadataValidator(asset_name, metadata, this.id);
+    console.debug(`Executing ${this.id} with: `, metadata);
+    return this.Logic(assetName, metadata, _metadatas);
+  }
+
+  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
+    const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
-    let warnings: KeyWithPath[] = [];
+    const warnings: KeyWithPath[] = [];
 
     const keys = extractKeysWithPaths(metadata as object);
 
@@ -52,7 +48,7 @@ export class KeyLength extends BaseValidator {
         },
       },
       "All checks passed. No issues detected.",
-      asset_name,
+      assetName,
       metadata,
       this.id,
     );

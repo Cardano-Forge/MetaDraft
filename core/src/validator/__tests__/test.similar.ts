@@ -12,11 +12,11 @@ const mapping = {
   CompareAttributesKeys: CompareAttributesKeys,
 } as const;
 
-Deno.test("CompareRootKeys - withSuccess", async () => {
+Deno.test("CompareRootKeys - withSuccess", () => {
   const metadata = [
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset000",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset000",
       name: "asset000",
       image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
       mediaType: "image/png",
@@ -46,11 +46,7 @@ Deno.test("CompareRootKeys - withSuccess", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -62,18 +58,18 @@ Deno.test("CompareRootKeys - withSuccess", async () => {
       state: "success",
       message: "No similar keys found.",
       input: metadata[0],
-      asset_name: "asset000",
-      validator_id: "compare-root-keys",
+      assetName: "asset000",
+      validatorId: "compare-root-keys",
       output: undefined,
     },
   ]);
 });
 
-Deno.test("CompareRootKeys - withWarning", async () => {
+Deno.test("CompareRootKeys - withWarning", () => {
   const metadata = [
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset000",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset000",
       name: "asset000",
       image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
       mediaType: "image/png",
@@ -107,11 +103,7 @@ Deno.test("CompareRootKeys - withWarning", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -126,18 +118,18 @@ Deno.test("CompareRootKeys - withWarning", async () => {
         "attrybutes is similar to attributes",
       ],
       input: metadata[0],
-      asset_name: "asset000",
-      validator_id: "compare-root-keys",
+      assetName: "asset000",
+      validatorId: "compare-root-keys",
       output: undefined,
     },
   ]);
 });
 
-Deno.test("CompareRootValues - withSuccess", async () => {
+Deno.test("CompareRootValues - withSuccess", () => {
   const metadata = [
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset000",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset000",
       name: "asset000",
       image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
       mediaType: "image/png",
@@ -171,11 +163,7 @@ Deno.test("CompareRootValues - withSuccess", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -187,18 +175,18 @@ Deno.test("CompareRootValues - withSuccess", async () => {
       state: "success",
       message: "No similar values found.",
       input: metadata[0],
-      asset_name: "asset000",
-      validator_id: "compare-root-values",
+      assetName: "asset000",
+      validatorId: "compare-root-values",
       output: undefined,
     },
   ]);
 });
 
-Deno.test("CompareAttributesValues - withSuccess", async () => {
+Deno.test("CompareAttributesValues - withSuccess", () => {
   const metadata = [
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset000",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset000",
       name: "asset000",
       image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
       mediaType: "image/png",
@@ -236,11 +224,7 @@ Deno.test("CompareAttributesValues - withSuccess", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -256,8 +240,8 @@ Deno.test("CompareAttributesValues - withSuccess", async () => {
         "foz is similar to foo",
       ],
       input: metadata[0],
-      asset_name: "asset000",
-      validator_id: "compare-attributes-keys",
+      assetName: "asset000",
+      validatorId: "compare-attributes-keys",
       output: undefined,
     },
   ]);

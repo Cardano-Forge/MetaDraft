@@ -7,26 +7,22 @@ import { metadataValidator } from "../utils/metadataChecks.ts";
 import { findWhitespace } from "../utils/whiteSpace.ts";
 
 export class KeyWhiteSpace extends BaseValidator {
-  constructor() {
+  constructor(options?: object) {
     const id = "key-white-space";
-    super(id);
+    super(id, options);
   }
 
-  async Execute(
-    asset_name: string,
-    metadata: unknown,
-    _metadatas: unknown[],
-  ): Promise<Result[]> {
-    console.debug(`Executing ${this.id} with: `, metadata);
-    return this.Logic(asset_name, metadata, _metadatas);
-  }
-
-  Logic(
-    asset_name: string,
+  Execute(
+    assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
-    const isInvalid = metadataValidator(asset_name, metadata, this.id);
+    console.debug(`Executing ${this.id} with: `, metadata);
+    return this.Logic(assetName, metadata, _metadatas);
+  }
+
+  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
+    const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
     const warnings: { path: string[]; whitespaceLocation: string }[] =
@@ -43,7 +39,7 @@ export class KeyWhiteSpace extends BaseValidator {
         },
       },
       "All checks passed. No issues detected.",
-      asset_name,
+      assetName,
       metadata,
       this.id,
     );

@@ -8,7 +8,7 @@ const mapping = {
   KeyWhiteSpace: KeyWhiteSpace,
 } as const;
 
-Deno.test("KeyWhiteSpace - withWarning", async () => {
+Deno.test("KeyWhiteSpace - withWarning", () => {
   const metadata = [
     {
       attributes: {
@@ -34,11 +34,7 @@ Deno.test("KeyWhiteSpace - withWarning", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      "NO_ASSET_NAME_PROVIDED",
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute("NO_ASSET_NAME_PROVIDED", asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -69,14 +65,14 @@ Deno.test("KeyWhiteSpace - withWarning", async () => {
         ],
       },
       input: metadata[0],
-      asset_name: "NO_ASSET_NAME_PROVIDED",
-      validator_id: "key-white-space",
+      assetName: "NO_ASSET_NAME_PROVIDED",
+      validatorId: "key-white-space",
       output: undefined,
     },
   ]);
 });
 
-Deno.test("KeyWhiteSpace - withArrayAndWarning", async () => {
+Deno.test("KeyWhiteSpace - withArrayAndWarning", () => {
   const metadata = [
     {
       attributes: {
@@ -99,11 +95,7 @@ Deno.test("KeyWhiteSpace - withArrayAndWarning", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      "NO_ASSET_NAME_PROVIDED",
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute("NO_ASSET_NAME_PROVIDED", asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -126,8 +118,8 @@ Deno.test("KeyWhiteSpace - withArrayAndWarning", async () => {
         ],
       },
       input: metadata[0],
-      asset_name: "NO_ASSET_NAME_PROVIDED",
-      validator_id: "key-white-space",
+      assetName: "NO_ASSET_NAME_PROVIDED",
+      validatorId: "key-white-space",
       output: undefined,
     },
   ]);

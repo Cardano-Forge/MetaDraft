@@ -28,17 +28,17 @@ export type Result = {
   message: string | object | undefined;
   input: unknown;
   output?: unknown | undefined; // undefined when there is an error/warning
-  asset_name: string;
-  validator_id: string;
+  assetName: string;
+  validatorId: string;
 };
 
 export interface IValidator {
   id: string; // tracker
   Execute(
-    _asset_name: string,
+    _assetName: string,
     _metadata: unknown,
     _metadatas: unknown[],
-  ): Promise<Result[]>;
+  ): Result[];
 }
 
 export type KeyWithPath = { key: string; path: string };

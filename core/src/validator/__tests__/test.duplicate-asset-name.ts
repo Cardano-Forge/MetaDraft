@@ -8,7 +8,7 @@ const mapping = {
   DuplicateAssetName: DuplicateAssetName,
 } as const;
 
-Deno.test("DuplicateAssetName - withWarning", async () => {
+Deno.test("DuplicateAssetName - withWarning", () => {
   const metadata = [
     {
       asset_0000: {
@@ -37,7 +37,7 @@ Deno.test("DuplicateAssetName - withWarning", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
+    mainValidator.Execute(
       Object.keys(asset_metadata)[0],
       Object.values(asset_metadata)[0],
       metadata,
@@ -46,6 +46,43 @@ Deno.test("DuplicateAssetName - withWarning", async () => {
 
   const result = mainValidator.GetResults();
 
-  console.debug(JSON.stringify(result, null, 2));
-  // assertEquals(result, );
+  // console.debug(JSON.stringify(result, null, 2));
+  assertEquals(result, [
+    {
+      state: "warning",
+      message: {
+        message: "Duplicated asset name identified.",
+        warnings: ["asset_0000"],
+      },
+      input: {
+        image: "adibou.png",
+      },
+      assetName: "asset_0000",
+      validatorId: "duplicate-asset-name",
+      output: undefined,
+    },
+    {
+      state: "warning",
+      message: {
+        message: "Duplicated asset name identified.",
+        warnings: ["asset_0000"],
+      },
+      input: {
+        image: "adibou.png",
+      },
+      assetName: "asset_0000",
+      validatorId: "duplicate-asset-name",
+      output: undefined,
+    },
+    {
+      state: "success",
+      message: "All checks passed. No issues detected.",
+      input: {
+        image: "roller-coaster-tycoon.png",
+      },
+      assetName: "asset_0001",
+      validatorId: "duplicate-asset-name",
+      output: undefined,
+    },
+  ]);
 });

@@ -8,11 +8,11 @@ const mapping = {
   DuplicateKeysValidator: DuplicateKeysValidator,
 } as const;
 
-Deno.test("DuplicateKeys - withWarnings", async () => {
+Deno.test("DuplicateKeys - withWarnings", () => {
   const metadata = [
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset000",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset000",
       name: "asset000",
       image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
       mediaType: "image/png",
@@ -51,11 +51,7 @@ Deno.test("DuplicateKeys - withWarnings", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -93,18 +89,18 @@ Deno.test("DuplicateKeys - withWarnings", async () => {
         ],
       },
       input: metadata[0],
-      asset_name: "asset000",
-      validator_id: "duplicate-keys",
+      assetName: "asset000",
+      validatorId: "duplicate-keys",
       output: undefined,
     },
   ]);
 });
 
-Deno.test("DuplicateKeys - withSuccess", async () => {
+Deno.test("DuplicateKeys - withSuccess", () => {
   const metadata = [
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset000",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset000",
       name: "asset000",
       image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
       mediaType: "image/png",
@@ -137,11 +133,7 @@ Deno.test("DuplicateKeys - withSuccess", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -153,8 +145,8 @@ Deno.test("DuplicateKeys - withSuccess", async () => {
       state: "success",
       message: "No significant duplicates detected in the metadata.",
       input: metadata[0],
-      asset_name: "asset000",
-      validator_id: "duplicate-keys",
+      assetName: "asset000",
+      validatorId: "duplicate-keys",
       output: undefined,
     },
   ]);

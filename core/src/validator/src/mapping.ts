@@ -20,6 +20,12 @@ import { KeyNameValidator } from "./rules/key-name.ts";
 import { KeySnakeCase } from "./rules/key-snake-case.ts";
 import { KeyTitleCase } from "./rules/key-title-case.ts";
 import { KeyTraitsValidator } from "./rules/key-traits.ts";
+import { KeyWhiteSpace } from "./rules/key-white-space.ts";
+import { DuplicateImage } from "./rules/duplicate-image.ts";
+import { DuplicateAssetName } from "./rules/duplicate-asset-name.ts";
+export { KeyWhiteSpace } from "./rules/key-white-space.ts";
+export { DuplicateImage } from "./rules/duplicate-image.ts";
+export { DuplicateAssetName } from "./rules/duplicate-asset-name.ts";
 
 export const mapping = {
   cip25Version1Validator: Cip25Version1Validator,
@@ -44,4 +50,7 @@ export const mapping = {
   keySnakeCase: KeySnakeCase,
   keyTitleCase: KeyTitleCase,
   keyTraitsValidator: KeyTraitsValidator,
+  keyWhiteSpace: KeyWhiteSpace,
+  duplicateImage: DuplicateImage,
+  duplicateAssetName: DuplicateAssetName,
 };

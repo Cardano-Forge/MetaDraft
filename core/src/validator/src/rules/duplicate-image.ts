@@ -10,29 +10,29 @@ function ensureString(image: string | string[]): string {
 }
 
 export class DuplicateImage extends BaseValidator {
-  constructor() {
+  constructor(options?: object) {
     const id = "duplicate-image";
-    super(id);
+    super(id, options);
   }
 
-  async Execute(
-    asset_name: string,
+  Execute(
+    assetName: string,
     metadata: unknown,
     metadatas: unknown[],
-  ): Promise<Result[]> {
+  ): Result[] {
     console.debug(`Executing ${this.id} with: `, metadata);
-    return this.Logic(asset_name, metadata, metadatas);
+    return this.Logic(assetName, metadata, metadatas);
   }
 
-  Logic(asset_name: string, metadata: unknown, metadatas: unknown[]): Result[] {
-    const isInvalid = metadataValidator(asset_name, metadata, this.id);
+  Logic(assetName: string, metadata: unknown, metadatas: unknown[]): Result[] {
+    const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
     const imageCountMap: Record<string, number> = {};
 
     // Count occurrences of 'image' key in metadatas array
     for (const meta of metadatas) {
-      const metadataToCompareWith = Object.values(meta as object)[0]; // Extract the asset_name and access the metadata
+      const metadataToCompareWith = Object.values(meta as object)[0]; // Extract the assetName and access the metadata
       if (
         typeof metadataToCompareWith === "object" &&
         metadataToCompareWith !== null &&
@@ -67,7 +67,7 @@ export class DuplicateImage extends BaseValidator {
         },
       },
       "All checks passed. No issues detected.",
-      asset_name,
+      assetName,
       metadata,
       this.id,
     );

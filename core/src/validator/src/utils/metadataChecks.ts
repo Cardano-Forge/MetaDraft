@@ -5,7 +5,7 @@ import { getStates } from "./getState.ts";
  * Will keep it that way to provide extra flexibility in case we want to validate native types as well.
  */
 export function metadataValidator(
-  asset_name: string,
+  assetName: string,
   metadata: unknown,
   requester: string,
 ) {
@@ -16,7 +16,7 @@ export function metadataValidator(
         message: `Metadata must be a non-null object.`,
       },
       "",
-      asset_name,
+      assetName,
       metadata,
       requester,
     );

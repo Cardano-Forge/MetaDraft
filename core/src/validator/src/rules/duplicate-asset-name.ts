@@ -6,27 +6,30 @@ import type { Result } from "../utils/types.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 
 export class DuplicateAssetName extends BaseValidator {
-  constructor() {
+  constructor(options?: object) {
     const id = "duplicate-asset-name";
-    super(id);
+    super(id, options);
   }
 
-  async Execute(
-    asset_name: string,
+  Execute(
+    assetName: string,
     metadata: unknown,
     metadatas: unknown[],
-  ): Promise<Result[]> {
+  ): Result[] {
     console.debug(`Executing ${this.id} with: `, metadata);
-    return this.Logic(asset_name, metadata, metadatas as object[]);
+    return this.Logic(assetName, metadata, metadatas as object[]);
   }
 
-  Logic(asset_name: string, metadata: unknown, metadatas: object[]): Result[] {
-    const isInvalid = metadataValidator(asset_name, metadata, this.id);
+  Logic(assetName: string, metadata: unknown, metadatas: object[]): Result[] {
+    const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
     const assetNames = metadatas.reduce(
       (acc: Record<string, number>, metadata: object) => {
-        const key = Object.keys(metadata)[0];
+        // TODO: the top level format must match this getter
+        // Need to determine the way we want to handle the assetName within the metadata
+        const key: string | undefined = Object.keys(metadata)[0];
+        if (!key) throw new Error("Asset name is undefined");
         acc[key] = (acc[key] || 0) + 1;
         return acc;
       },
@@ -34,8 +37,8 @@ export class DuplicateAssetName extends BaseValidator {
     );
 
     const warnings: string[] = [];
-    if (assetNames[asset_name] > 1) {
-      warnings.push(asset_name);
+    if (assetNames[assetName] && assetNames[assetName] > 1) {
+      warnings.push(assetName);
     }
 
     return getStates(
@@ -47,7 +50,7 @@ export class DuplicateAssetName extends BaseValidator {
         },
       },
       "All checks passed. No issues detected.",
-      asset_name,
+      assetName,
       metadata,
       this.id,
     );

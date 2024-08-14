@@ -5,5 +5,8 @@
     "convert-csv-to-json": "npm:convert-csv-to-json@2.48.0",
     "zod": "npm:zod@3.23.8",
     "fastest_levenshtein": "https://deno.land/x/fastest_levenshtein@1.0.10/mod.ts"
+  },
+  "task": {
+    "build": "deno run -A scripts/build_npm.ts 0.0.1"
   }
 }

@@ -10,36 +10,29 @@ import { distance, closest } from "fastest_levenshtein";
  * A validator that checks if root keys in metadata are too similar to each other based on a Levenshtein distance threshold.
  */
 export class CompareRootKeys extends BaseValidator {
-  private threshold = 2;
-
-  constructor() {
+  constructor(options?: { treshold: number }) {
     const id = "compare-root-keys";
-    super(id);
+    super(id, { threshold: 2, ...options });
   }
 
-  async Execute(
-    asset_name: string,
-    metadata: unknown,
-    _metadatas: unknown[],
-  ): Promise<Result[]> {
-    console.debug(`Executing ${this.id} with: `, metadata);
-    return this.Logic(asset_name, metadata, _metadatas);
-  }
-
-  Logic(
-    asset_name: string,
+  Execute(
+    assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
-    const isInvalid = metadataValidator(asset_name, metadata, this.id);
+    console.debug(`Executing ${this.id} with: `, metadata);
+    return this.Logic(assetName, metadata, _metadatas);
+  }
+
+  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
+    const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
-    let warnings: string[] = [];
+    const warnings: string[] = [];
 
     let similarKeysDetected = false;
 
     const keys = Object.keys(metadata as object);
-    console.debug("keys", keys);
 
     for (const key of keys) {
       const closestKey = closest(
@@ -49,14 +42,7 @@ export class CompareRootKeys extends BaseValidator {
 
       const distanceValue = distance(key, closestKey);
 
-      if (distanceValue < this.threshold) {
-        // console.log(
-        //   "Warning detected for",
-        //   key,
-        //   closestKey,
-        //   "with",
-        //   distanceValue,
-        // );
+      if (distanceValue < this.options.threshold) {
         warnings.push(`${key} is similar to ${closestKey}`);
       }
     }
@@ -71,7 +57,7 @@ export class CompareRootKeys extends BaseValidator {
         message: warnings,
       },
       "No similar keys found.",
-      asset_name,
+      assetName,
       metadata,
       this.id,
     );

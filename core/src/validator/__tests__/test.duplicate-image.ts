@@ -8,7 +8,7 @@ const mapping = {
   DuplicateImage: DuplicateImage,
 } as const;
 
-Deno.test("DuplicateImage - withWarning", async () => {
+Deno.test("DuplicateImage - withWarning", () => {
   const metadata = [
     {
       asset_0000: {
@@ -37,7 +37,7 @@ Deno.test("DuplicateImage - withWarning", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
+    mainValidator.Execute(
       Object.keys(asset_metadata)[0],
       Object.values(asset_metadata)[0],
       metadata,
@@ -57,8 +57,8 @@ Deno.test("DuplicateImage - withWarning", async () => {
       input: {
         image: "adibou.png",
       },
-      asset_name: "asset_0000",
-      validator_id: "duplicate-image",
+      assetName: "asset_0000",
+      validatorId: "duplicate-image",
       output: undefined,
     },
     {
@@ -70,8 +70,8 @@ Deno.test("DuplicateImage - withWarning", async () => {
       input: {
         image: "adibou.png",
       },
-      asset_name: "asset_0001",
-      validator_id: "duplicate-image",
+      assetName: "asset_0001",
+      validatorId: "duplicate-image",
       output: undefined,
     },
     {
@@ -80,14 +80,14 @@ Deno.test("DuplicateImage - withWarning", async () => {
       input: {
         image: "roller-coaster-tycoon.png",
       },
-      asset_name: "asset_0002",
-      validator_id: "duplicate-image",
+      assetName: "asset_0002",
+      validatorId: "duplicate-image",
       output: undefined,
     },
   ]);
 });
 
-Deno.test("DuplicateImage - withWarning", async () => {
+Deno.test("DuplicateImage - withWarning", () => {
   const metadata = [
     {
       asset_0000: {
@@ -116,7 +116,7 @@ Deno.test("DuplicateImage - withWarning", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
+    mainValidator.Execute(
       Object.keys(asset_metadata)[0],
       Object.values(asset_metadata)[0],
       metadata,
@@ -136,8 +136,8 @@ Deno.test("DuplicateImage - withWarning", async () => {
       input: {
         image: ["windows95", "C:", "adibou.png"],
       },
-      asset_name: "asset_0000",
-      validator_id: "duplicate-image",
+      assetName: "asset_0000",
+      validatorId: "duplicate-image",
       output: undefined,
     },
     {
@@ -149,8 +149,8 @@ Deno.test("DuplicateImage - withWarning", async () => {
       input: {
         image: ["windows95", "C:", "adibou.png"],
       },
-      asset_name: "asset_0001",
-      validator_id: "duplicate-image",
+      assetName: "asset_0001",
+      validatorId: "duplicate-image",
       output: undefined,
     },
     {
@@ -159,8 +159,8 @@ Deno.test("DuplicateImage - withWarning", async () => {
       input: {
         image: "roller-coaster-tycoon.png",
       },
-      asset_name: "asset_0002",
-      validator_id: "duplicate-image",
+      assetName: "asset_0002",
+      validatorId: "duplicate-image",
       output: undefined,
     },
   ]);

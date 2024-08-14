@@ -7,7 +7,7 @@ import { isAbsolute } from "node:path";
  * @param {string} filePath - The file path to check.
  * @return {boolean} `true` if the path is valid and accessible; otherwise, `false`.
  */
-export function isValidPath(filePath: string) {
+export function isValidPath(filePath: string): boolean {
   // Check if the path is absolute
   if (!isAbsolute(filePath)) {
     return false;
@@ -17,7 +17,7 @@ export function isValidPath(filePath: string) {
   try {
     accessSync(filePath);
     return true;
-  } catch (err) {
+  } catch {
     return false;
   }
 }

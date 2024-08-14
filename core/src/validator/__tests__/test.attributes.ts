@@ -28,11 +28,7 @@ Deno.test("KeyAttributesValidator - withWarning", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      "NO_ASSET_NAME_PROVIDED",
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute("NO_ASSET_NAME_PROVIDED", asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -56,8 +52,8 @@ Deno.test("KeyAttributesValidator - withWarning", async () => {
       },
       input: metadata[0],
       output: undefined,
-      asset_name: "NO_ASSET_NAME_PROVIDED",
-      validator_id: "key-attributes",
+      assetName: "NO_ASSET_NAME_PROVIDED",
+      validatorId: "key-attributes",
     },
   ]);
 });
@@ -102,8 +98,8 @@ Deno.test("KeyAttributesValidator - withSuccess", async () => {
         },
       },
       output: metadata[0],
-      asset_name: "NO_ASSET_NAME_PROVIDED",
-      validator_id: "key-attributes",
+      assetName: "NO_ASSET_NAME_PROVIDED",
+      validatorId: "key-attributes",
     },
   ]);
 });

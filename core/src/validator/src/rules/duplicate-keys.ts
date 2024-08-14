@@ -14,28 +14,22 @@ import type { Result } from "../utils/types.ts";
  * A validator that checks metadata for duplicate keys exceeding a specified threshold.
  */
 export class DuplicateKeysValidator extends BaseValidator {
-  private threshold = 3;
-
-  constructor() {
+  constructor(options?: object) {
     const id = "duplicate-keys";
-    super(id);
+    super(id, { threshold: 3, ...options });
   }
 
-  async Execute(
-    asset_name: string,
-    metadata: unknown,
-    _metadatas: unknown[],
-  ): Promise<Result[]> {
-    console.debug(`Executing ${this.id} with: `, metadata);
-    return this.Logic(asset_name, metadata, _metadatas);
-  }
-
-  Logic(
-    asset_name: string,
+  Execute(
+    assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
-    const isInvalid = metadataValidator(asset_name, metadata, this.id);
+    console.debug(`Executing ${this.id} with: `, metadata);
+    return this.Logic(assetName, metadata, _metadatas);
+  }
+
+  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
+    const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
     let warnings: {
@@ -45,18 +39,18 @@ export class DuplicateKeysValidator extends BaseValidator {
     }[] = [];
 
     const keys = extractKeysWithPaths(metadata as object);
-    // console.debug("KEYS", keys);
 
     const keyCounts = countKeys(keys);
-    // console.debug(keyCounts);
 
-    const paths = getPathsForExceedingKeys(keys, keyCounts, this.threshold);
-    // console.debug(paths);
+    const paths = getPathsForExceedingKeys(
+      keys,
+      keyCounts,
+      this.options.threshold,
+    );
 
     if (paths.length > 0) {
       warnings = formatPaths(paths, keyCounts) || [];
     }
-    // console.debug("WARNINGS", warnings);
 
     return getStates(
       {
@@ -68,7 +62,7 @@ export class DuplicateKeysValidator extends BaseValidator {
         },
       },
       "No significant duplicates detected in the metadata.",
-      asset_name,
+      assetName,
       metadata,
       this.id,
     );

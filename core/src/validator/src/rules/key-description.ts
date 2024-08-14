@@ -10,25 +10,21 @@ import type { Result } from "../utils/types.ts";
  * Ensures that metadata has an optional "description" field no longer than 64 characters.
  */
 export class KeyDescriptionValidator extends BaseValidator {
-  constructor() {
+  constructor(options?: object) {
     const id = "key-description";
-    super(id); // the description is not mandatory.
+    super(id, options); // the description is not mandatory.
   }
 
-  async Execute(
-    asset_name: string,
-    metadata: unknown,
-    _metadatas: unknown[],
-  ): Promise<Result[]> {
-    console.debug(`Executing ${this.id} with: `, metadata);
-    return this.Logic(asset_name, metadata, _metadatas);
-  }
-
-  Logic(
-    asset_name: string,
+  Execute(
+    assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
+    console.debug(`Executing ${this.id} with: `, metadata);
+    return this.Logic(assetName, metadata, _metadatas);
+  }
+
+  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
     const result = z
       .object({
         description: checkSize64.optional(),
@@ -38,7 +34,7 @@ export class KeyDescriptionValidator extends BaseValidator {
     return getStates(
       result,
       "`description` field is valid.",
-      asset_name,
+      assetName,
       metadata,
       this.id,
     );

@@ -11,11 +11,14 @@ const mapping = {
 export async function doStuff() {
   const metadatas = [
     {
-      attributes: {
-        foo: "bar",
-        number_field: 1,
-      },
-    },
+      asset_name:
+      {
+        attributes: {
+          foo: "bar",
+          number_field: 1,
+        },
+      }
+    }
   ];
 
   const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
@@ -29,8 +32,8 @@ export async function doStuff() {
 
   for (const asset_metadata of metadatas) {
     await mainValidator.Execute(
-      "NO_ASSET_NAME_PROVIDED",
-      asset_metadata,
+      Object.keys(asset_metadata)[0],
+      Object.values(asset_metadata)[0],
       metadatas,
     );
   }

@@ -18,8 +18,8 @@ const mapping = {
 
 const metadata = [
   {
-    policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-    asset_name: "asset000",
+    policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+    assetName: "asset000",
     name: "asset000",
     image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
     mediaType: "image/png",
@@ -39,7 +39,7 @@ const metadata = [
   },
 ];
 
-Deno.test("KeyTitleCase - withWarning", async () => {
+Deno.test("KeyTitleCase - withWarning", () => {
   const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
     "KeyTitleCase",
   ];
@@ -50,11 +50,7 @@ Deno.test("KeyTitleCase - withWarning", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -67,8 +63,8 @@ Deno.test("KeyTitleCase - withWarning", async () => {
       message: {
         message: "Some keys do not adhere to Title Case formatting.",
         warnings: [
-          { key: "policy_id", path: "policy_id" },
-          { key: "asset_name", path: "asset_name" },
+          { key: "policyId", path: "policyId" },
+          { key: "assetName", path: "assetName" },
           { key: "name", path: "name" },
           { key: "image", path: "image" },
           { key: "mediaType", path: "mediaType" },
@@ -80,14 +76,14 @@ Deno.test("KeyTitleCase - withWarning", async () => {
         ],
       },
       input: metadata[0],
-      asset_name: "asset000",
-      validator_id: "key-title-case",
+      assetName: "asset000",
+      validatorId: "key-title-case",
       output: undefined,
     },
   ]);
 });
 
-Deno.test("KeyCamelCase - withWarning", async () => {
+Deno.test("KeyCamelCase - withWarning", () => {
   const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
     "KeyCamelCase",
   ];
@@ -98,11 +94,7 @@ Deno.test("KeyCamelCase - withWarning", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -111,23 +103,17 @@ Deno.test("KeyCamelCase - withWarning", async () => {
 
   assertEquals(result, [
     {
-      state: "warning",
-      message: {
-        message: "Some keys do not adhere to Camel Case formatting.",
-        warnings: [
-          { key: "policy_id", path: "policy_id" },
-          { key: "asset_name", path: "asset_name" },
-        ],
-      },
+      state: "success",
+      message: "All checks passed. No issues detected.",
       input: metadata[0],
       output: undefined,
-      asset_name: "asset000",
-      validator_id: "key-camel-case",
+      assetName: "asset000",
+      validatorId: "key-camel-case",
     },
   ]);
 });
 
-Deno.test("KeySnakeCase - withWarning", async () => {
+Deno.test("KeySnakeCase - withWarning", () => {
   const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
     "KeySnakeCase",
   ];
@@ -138,11 +124,7 @@ Deno.test("KeySnakeCase - withWarning", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -154,17 +136,24 @@ Deno.test("KeySnakeCase - withWarning", async () => {
       state: "warning",
       message: {
         message: "Some keys do not adhere to Snake Case formatting.",
-        warnings: [{ key: "mediaType", path: "mediaType" }],
+        warnings: [
+          { key: "policyId", path: "policyId" },
+          {
+            key: "assetName",
+            path: "assetName",
+          },
+          { key: "mediaType", path: "mediaType" },
+        ],
       },
       input: metadata[0],
       output: undefined,
-      asset_name: "asset000",
-      validator_id: "key-snake-case",
+      assetName: "asset000",
+      validatorId: "key-snake-case",
     },
   ]);
 });
 
-Deno.test("KeyLowerCase - withWarning", async () => {
+Deno.test("KeyLowerCase - withWarning", () => {
   const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
     "KeyLowerCase",
   ];
@@ -175,33 +164,36 @@ Deno.test("KeyLowerCase - withWarning", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
 
-  console.debug(JSON.stringify(result));
+  // console.debug(JSON.stringify(result));
 
   assertEquals(result, [
     {
       state: "warning",
       message: {
         message: "Some keys do not adhere to Lower Case formatting.",
-        warnings: [{ key: "mediaType", path: "mediaType" }],
+        warnings: [
+          { key: "policyId", path: "policyId" },
+          {
+            key: "assetName",
+            path: "assetName",
+          },
+          { key: "mediaType", path: "mediaType" },
+        ],
       },
       input: metadata[0],
       output: undefined,
-      asset_name: "asset000",
-      validator_id: "key-lower-case",
+      assetName: "asset000",
+      validatorId: "key-lower-case",
     },
   ]);
 });
 
-Deno.test("KeyUpperCase - withWarning", async () => {
+Deno.test("KeyUpperCase - withWarning", () => {
   const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
     "KeyUpperCase",
   ];
@@ -212,11 +204,7 @@ Deno.test("KeyUpperCase - withWarning", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -229,8 +217,8 @@ Deno.test("KeyUpperCase - withWarning", async () => {
       message: {
         message: "Some keys do not adhere to Upper Case formatting.",
         warnings: [
-          { key: "policy_id", path: "policy_id" },
-          { key: "asset_name", path: "asset_name" },
+          { key: "policyId", path: "policyId" },
+          { key: "assetName", path: "assetName" },
           { key: "name", path: "name" },
           { key: "image", path: "image" },
           { key: "mediaType", path: "mediaType" },
@@ -243,8 +231,8 @@ Deno.test("KeyUpperCase - withWarning", async () => {
       },
       input: metadata[0],
       output: undefined,
-      asset_name: "asset000",
-      validator_id: "key-upper-case",
+      assetName: "asset000",
+      validatorId: "key-upper-case",
     },
   ]);
 });

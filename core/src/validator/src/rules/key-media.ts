@@ -10,25 +10,21 @@ import type { Result } from "../utils/types.ts";
  * Validates that metadata contains optional `media` object with valid media-related value.
  */
 export class KeyMediaValidator extends BaseValidator {
-  constructor() {
+  constructor(options?: object) {
     const id = "key-media";
-    super(id);
+    super(id, options);
   }
 
-  async Execute(
-    asset_name: string,
-    metadata: unknown,
-    _metadatas: unknown[],
-  ): Promise<Result[]> {
-    console.debug(`Executing ${this.id} with: `, metadata);
-    return this.Logic(asset_name, metadata, _metadatas);
-  }
-
-  Logic(
-    asset_name: string,
+  Execute(
+    assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
+    console.debug(`Executing ${this.id} with: `, metadata);
+    return this.Logic(assetName, metadata, _metadatas);
+  }
+
+  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
     const result = z
       .object({
         media: checkMedia.optional(),
@@ -38,7 +34,7 @@ export class KeyMediaValidator extends BaseValidator {
     return getStates(
       result,
       "`media` field is valid.",
-      asset_name,
+      assetName,
       metadata,
       this.id,
     );
