@@ -385,6 +385,7 @@ export default function Buttons() {
           <ViewButton />
           |
           <ViewButton view="grid" />
+          |
           <FilterButton />
         </div>
       </div>
