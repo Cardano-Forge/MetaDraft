@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import FilterButton from "~/components/filter-button";
 import { Typography } from "~/components/typography";
 
 import { Button } from "~/components/ui/button";
@@ -384,6 +385,8 @@ export default function Buttons() {
           <ViewButton />
           |
           <ViewButton view="grid" />
+          |
+          <FilterButton />
         </div>
       </div>
     </div>
