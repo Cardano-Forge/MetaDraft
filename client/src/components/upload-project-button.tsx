@@ -55,11 +55,14 @@ export default function UploadProjectButton() {
 
   // Success
   useEffect(() => {
-    if (acceptedFiles.length > 0) {
-      // do something with the file
-
-      console.log(acceptedFiles);
-    }
+    const fn = async () => {
+      if (acceptedFiles.length === 1) {
+        const res = await readJSON(acceptedFiles[0]);
+        console.log(res);
+        console.log(typeof res);
+      }
+    };
+    void fn();
   }, [acceptedFiles]);
 
   // Clear error after 8s
@@ -85,7 +88,7 @@ export default function UploadProjectButton() {
   return (
     <div
       {...getRootProps()}
-      className="flex h-[452px] w-full min-w-[300px] max-w-[610px] flex-col items-center justify-center gap-8 rounded-2xl border border-dashed border-input/20 bg-transparent hover:bg-card/70"
+      className="flex h-[452px] w-full min-w-[300px] flex-col items-center justify-center gap-8 rounded-2xl border border-dashed border-input/20 bg-transparent hover:bg-card/70"
     >
       <input {...getInputProps()} multiple={false} />
       <CloudUploadIcon />
@@ -115,3 +118,25 @@ export default function UploadProjectButton() {
     </div>
   );
 }
+
+const readJSON = async (file: File | undefined) => {
+  return new Promise((resolve, reject) => {
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        try {
+          return resolve(e.target?.result); // Parse the JSON
+        } catch (err) {
+          return reject(err);
+        }
+      };
+
+      reader.onerror = (err) => {
+        return reject(err);
+      };
+
+      reader.readAsText(file); // Read the file as text
+    }
+  });
+};
