@@ -4,7 +4,6 @@ import { GeistSans } from "geist/font/sans";
 import { Inter } from "next/font/google";
 
 import { type Metadata } from "next";
-import { Stepper } from "~/components/stepper";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,8 +23,6 @@ export default function RootLayout({
     <html lang="en" className={`${GeistSans.variable} ${inter.variable}`}>
       <body>
         {/* Header */}
-        {/* Status */}
-        <Stepper />
         {children}</body>
     </html>
   );
