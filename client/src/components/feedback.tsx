@@ -7,7 +7,7 @@ const GITHUB_ISSUE = "https://github.com/Cardano-Forge/MetaDraft/issues/new";
 export default function Feedback() {
   return (
     <a href={GITHUB_ISSUE} target="_blank" rel="noopener noreferrer">
-      <Button variant={"secondary"} icon={<NoteIcon />} className="px-8">
+      <Button variant={"secondary"} icon={<NoteIcon />} className="md:px-8">
         Send Feedback
       </Button>
     </a>
