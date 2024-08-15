@@ -10,7 +10,7 @@ const TypographyVariants = {
   h4: "font-bold tracking-tight text-base sm:text-lg md:text-xl",
   h5: "text-base font-semibold tracking-tight",
   h6: "text-base font-medium tracking-tight",
-  p: "text-base leading-7 [&:not(:first-child)]:mt-6",
+  p: "text-base leading-7",
   blockquote: "mt-6 border-l-2 pl-6 italic",
   ul: "my-6 ml-6 list-disc [&>li]:mt-2",
   inlineCode:
