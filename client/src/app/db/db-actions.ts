@@ -1,11 +1,6 @@
 import { formatError, formatSuccess } from "./utils";
 import db, { type MetadataDB } from "./pouch-db";
 
-const tryGetAll = () => {
-  // https://pouchdb.com/api.html#batch_fetch
-  // db.allDocs([options], [callback])
-};
-
 /**
  *
  * @param hash
@@ -64,5 +59,16 @@ export const setActiveProject = async (hash: string) => {
     });
   } catch (e) {
     console.error(e);
+  }
+};
+
+export const clearActiveProject = async () => {
+  const doc = await get("activeProject");
+  if (doc.data) {
+    try {
+      await db.remove("activeProject", doc.data._rev);
+    } catch (e) {
+      console.error(e);
+    }
   }
 };
