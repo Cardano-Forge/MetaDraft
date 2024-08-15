@@ -7,6 +7,8 @@ import {
 
 import { loadTemplates } from "./load-rules.ts";
 import { Message, summarize } from "./report.ts";
+import { DIVIDER } from "./contstant.ts";
+import { extractOptions } from "./utils.ts";
 
 export async function validate(
   metadataPath: string,
@@ -24,7 +26,11 @@ export async function validate(
   // 2. Build the validator from the validator package (CSV or JSON)
   const main = new Decorator("Main");
   for (const validator of rules) {
-    main.Enable(new mapping[validator as keyof typeof mapping]());
+    main.Enable(
+      new mapping[validator.split(DIVIDER)[0] as keyof typeof mapping](
+        extractOptions(validator),
+      ),
+    );
   }
 
   // 3. Load metadata (CSV or JSON)
@@ -36,7 +42,7 @@ export async function validate(
   // 4. Run the validation on each asset in the metadata input
   for (const metadata of metadatas) {
     console.debug(Object.keys(metadata)[0], Object.values(metadata));
-    await main.Execute(
+    main.Execute(
       Object.keys(metadata)[0], // extract asset_name
       Object.values(metadata)[0], // extract payload
       metadatas,

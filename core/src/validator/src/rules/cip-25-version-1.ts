@@ -10,36 +10,32 @@ import type { Result } from "../utils/types.ts";
  * Validates metadata for CIP-25 version 1 assets using Zod schema and checks against policy ID and asset name format.
  */
 export class Cip25Version1Validator extends BaseValidator {
-  constructor() {
+  constructor(options?: object) {
     const id = "cip-25-version-1";
-    super(id);
+    super(id, options);
   }
 
-  async Execute(
-    asset_name: string,
-    metadata: unknown,
-    _metadatas: unknown[],
-  ): Promise<Result[]> {
-    console.debug(`Executing ${this.id} with: `, metadata, asset_name);
-    return this.Logic(asset_name, metadata, _metadatas);
-  }
-
-  Logic(
-    asset_name: string,
+  Execute(
+    assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
+    console.debug(`Executing ${this.id} with: `, metadata, assetName);
+    return this.Logic(assetName, metadata, _metadatas);
+  }
+
+  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
     const result = z
       .object({
-        asset_name: checkSize64,
-        policy_id: checkHex56,
+        assetName: checkSize64,
+        policyId: checkHex56,
       })
       .safeParse(metadata);
 
     return getStates(
       result,
-      "`asset_name` and `policy_id` fields are valid.",
-      asset_name,
+      "`assetName` and `policyId` fields are valid.",
+      assetName,
       metadata,
       this.id,
     );

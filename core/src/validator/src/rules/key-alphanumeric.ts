@@ -11,30 +11,26 @@ import { metadataValidator } from "../utils/metadataChecks.ts";
  * Enforces that metadata keys are alphanumeric, allowing dashes and underscores.
  */
 export class KeyAlphanumeric extends BaseValidator {
-  constructor() {
+  constructor(options?: object) {
     const id = "key-alphanumeric";
-    super(id);
+    super(id, options);
   }
 
-  async Execute(
-    asset_name: string,
-    metadata: unknown,
-    _metadatas: unknown[],
-  ): Promise<Result[]> {
-    console.debug(`Executing ${this.id} with: `, metadata);
-    return this.Logic(asset_name, metadata, _metadatas);
-  }
-
-  Logic(
-    asset_name: string,
+  Execute(
+    assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
+    console.debug(`Executing ${this.id} with: `, metadata);
+    return this.Logic(assetName, metadata, _metadatas);
+  }
+
+  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
     const alphanumeric = /^[a-zA-Z0-9-_]+$/;
-    const isInvalid = metadataValidator(asset_name, metadata, this.id);
+    const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
-    let warnings: KeyWithPath[] = [];
+    const warnings: KeyWithPath[] = [];
 
     const keys = extractKeysWithPaths(metadata as object);
 
@@ -54,7 +50,7 @@ export class KeyAlphanumeric extends BaseValidator {
         },
       },
       "All checks passed. No issues detected.",
-      asset_name,
+      assetName,
       metadata,
       this.id,
     );

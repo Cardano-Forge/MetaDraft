@@ -10,68 +10,43 @@ import { distance, closest } from "fastest_levenshtein";
  * A validator that checks if root value strings in metadata are too similar to each other based on a Levenshtein distance threshold.
  */
 export class CompareRootValues extends BaseValidator {
-  private threshold = 2;
-
-  constructor() {
+  constructor(options?: { treshold: number }) {
     const id = "compare-root-values";
-    super(id);
+    super(id, { threshold: 2, ...options });
   }
 
-  async Execute(
-    asset_name: string,
-    metadata: unknown,
-    _metadatas: unknown[],
-  ): Promise<Result[]> {
-    console.debug(`Executing ${this.id} with: `, metadata);
-    return this.Logic(asset_name, metadata, _metadatas);
-  }
-
-  Logic(
-    asset_name: string,
+  Execute(
+    assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
-    const isInvalid = metadataValidator(asset_name, metadata, this.id);
+    console.debug(`Executing ${this.id} with: `, metadata);
+    return this.Logic(assetName, metadata, _metadatas);
+  }
+
+  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
+    const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
-    let warnings: string[] = [];
+    const warnings: string[] = [];
 
     let similarValuesDetected = false;
 
     const values = Object.values(metadata as object);
-    // console.debug(
-    //   "Values",
-    //   values,
-    //   values.filter((valueToCheck) => typeof valueToCheck === "string"),
-    // );
 
     const stringValues = values.filter(
       (valueToCheck) => typeof valueToCheck === "string",
     );
 
     for (const value of stringValues) {
-      // console.debug(
-      //   "QUE PASA",
-      //   value,
-      //   stringValues.filter((valueToCheck) => valueToCheck !== value),
-      // );
       const closestValue = closest(
         value,
         stringValues.filter((valueToCheck) => valueToCheck !== value),
       );
-      // console.debug("Closest Value", closestValue);
 
       const distanceValue = distance(value, closestValue);
-      // console.debug("Distance Value", distanceValue);
 
-      if (distanceValue < this.threshold) {
-        // console.log(
-        //   "Warning detected for",
-        //   value,
-        //   closestValue,
-        //   "with",
-        //   distanceValue,
-        // );
+      if (distanceValue < this.options.threshold) {
         warnings.push(`${value} is similar to ${closestValue}`);
       }
     }
@@ -86,7 +61,7 @@ export class CompareRootValues extends BaseValidator {
         message: warnings,
       },
       "No similar values found.",
-      asset_name,
+      assetName,
       metadata,
       this.id,
     );

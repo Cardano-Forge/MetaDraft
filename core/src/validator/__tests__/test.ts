@@ -27,25 +27,25 @@ const mapping = {
   HasRequiredKeysValidator: HasRequiredKeysValidator,
 } as const;
 
-Deno.test("Cip25Version1Validator", async () => {
+Deno.test("Cip25Version1Validator", () => {
   const metadata = [
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset000",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset000",
       name: "asset000",
       image: "ipfs://...",
       mediaType: "image/png",
     },
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset001",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset001",
       name: "asset001",
       image: "ipfs://...",
       mediaType: "image/png",
     },
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset002",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset002",
       name: "asset002",
       image: "ipfs://...",
       mediaType: "image/png",
@@ -62,11 +62,7 @@ Deno.test("Cip25Version1Validator", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -74,65 +70,65 @@ Deno.test("Cip25Version1Validator", async () => {
   assertEquals(result, [
     {
       state: "success",
-      message: "`asset_name` and `policy_id` fields are valid.",
+      message: "`assetName` and `policyId` fields are valid.",
       input: {
         ...metadata[0],
       },
       output: {
-        asset_name: "asset000",
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "asset000",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
       },
-      asset_name: "asset000",
-      validator_id: "cip-25-version-1",
+      assetName: "asset000",
+      validatorId: "cip-25-version-1",
     },
     {
       state: "success",
-      message: "`asset_name` and `policy_id` fields are valid.",
+      message: "`assetName` and `policyId` fields are valid.",
       input: {
         ...metadata[1],
       },
       output: {
-        asset_name: "asset001",
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "asset001",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
       },
-      asset_name: "asset001",
-      validator_id: "cip-25-version-1",
+      assetName: "asset001",
+      validatorId: "cip-25-version-1",
     },
     {
       state: "success",
-      message: "`asset_name` and `policy_id` fields are valid.",
+      message: "`assetName` and `policyId` fields are valid.",
       input: {
         ...metadata[2],
       },
       output: {
-        asset_name: "asset002",
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "asset002",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
       },
-      asset_name: "asset002",
-      validator_id: "cip-25-version-1",
+      assetName: "asset002",
+      validatorId: "cip-25-version-1",
     },
   ]);
 });
 
-Deno.test("Cip25Version2Validator", async () => {
+Deno.test("Cip25Version2Validator", () => {
   const metadata = [
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: Buffer.from("asset000").toString("hex"),
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: Buffer.from("asset000").toString("hex"),
       name: "asset000",
       image: "ipfs://...",
       mediaType: "image/png",
     },
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: Buffer.from("asset001").toString("hex"),
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: Buffer.from("asset001").toString("hex"),
       name: "asset001",
       image: "ipfs://...",
       mediaType: "image/png",
     },
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: Buffer.from("asset002").toString("hex"),
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: Buffer.from("asset002").toString("hex"),
       name: "asset002",
       image: "ipfs://...",
       mediaType: "image/png",
@@ -149,11 +145,7 @@ Deno.test("Cip25Version2Validator", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -161,51 +153,51 @@ Deno.test("Cip25Version2Validator", async () => {
   assertEquals(result, [
     {
       state: "success",
-      message: "`asset_name` and `policy_id` fields are valid.",
+      message: "`assetName` and `policyId` fields are valid.",
       input: {
         ...metadata[0],
       },
       output: {
-        asset_name: "6173736574303030",
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "6173736574303030",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
       },
-      asset_name: "6173736574303030",
-      validator_id: "cip-25-version-2",
+      assetName: "6173736574303030",
+      validatorId: "cip-25-version-2",
     },
     {
       state: "success",
-      message: "`asset_name` and `policy_id` fields are valid.",
+      message: "`assetName` and `policyId` fields are valid.",
       input: {
         ...metadata[1],
       },
       output: {
-        asset_name: "6173736574303031",
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "6173736574303031",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
       },
-      asset_name: "6173736574303031",
-      validator_id: "cip-25-version-2",
+      assetName: "6173736574303031",
+      validatorId: "cip-25-version-2",
     },
     {
       state: "success",
-      message: "`asset_name` and `policy_id` fields are valid.",
+      message: "`assetName` and `policyId` fields are valid.",
       input: {
         ...metadata[2],
       },
       output: {
-        asset_name: "6173736574303032",
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "6173736574303032",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
       },
-      asset_name: "6173736574303032",
-      validator_id: "cip-25-version-2",
+      assetName: "6173736574303032",
+      validatorId: "cip-25-version-2",
     },
   ]);
 });
 
-Deno.test("KeyNameValidator", async () => {
+Deno.test("KeyNameValidator", () => {
   const metadata = [
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset000",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset000",
       name: "asset000",
       image: "ipfs://...",
       mediaType: "image/png",
@@ -222,11 +214,7 @@ Deno.test("KeyNameValidator", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -241,17 +229,17 @@ Deno.test("KeyNameValidator", async () => {
       output: {
         name: "asset000",
       },
-      asset_name: "asset000",
-      validator_id: "key-name",
+      assetName: "asset000",
+      validatorId: "key-name",
     },
   ]);
 });
 
-Deno.test("KeyImageValidator", async () => {
+Deno.test("KeyImageValidator", () => {
   const metadata = [
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset000",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset000",
       name: "asset000",
       image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
       mediaType: "image/png",
@@ -268,11 +256,7 @@ Deno.test("KeyImageValidator", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -287,17 +271,17 @@ Deno.test("KeyImageValidator", async () => {
       output: {
         image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
       },
-      asset_name: "asset000",
-      validator_id: "key-image",
+      assetName: "asset000",
+      validatorId: "key-image",
     },
   ]);
 });
 
-Deno.test("KeyMediaTypeValidator", async () => {
+Deno.test("KeyMediaTypeValidator", () => {
   const metadata = [
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset000",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset000",
       name: "asset000",
       image: "ipfs://...",
       mediaType: "image/png",
@@ -314,11 +298,7 @@ Deno.test("KeyMediaTypeValidator", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -333,17 +313,17 @@ Deno.test("KeyMediaTypeValidator", async () => {
       output: {
         mediaType: "image/png",
       },
-      asset_name: "asset000",
-      validator_id: "key-media-type",
+      assetName: "asset000",
+      validatorId: "key-media-type",
     },
   ]);
 });
 
-Deno.test("KeyDescriptionValidator", async () => {
+Deno.test("KeyDescriptionValidator", () => {
   const metadata = [
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset000",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset000",
       name: "asset000",
       image: "ipfs://...",
       mediaType: "image/png",
@@ -362,11 +342,7 @@ Deno.test("KeyDescriptionValidator", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -382,17 +358,17 @@ Deno.test("KeyDescriptionValidator", async () => {
         description:
           "a non empty description using a random length because Im testing",
       },
-      asset_name: "asset000",
-      validator_id: "key-description",
+      assetName: "asset000",
+      validatorId: "key-description",
     },
   ]);
 });
 
-Deno.test("KeyFilesValidator", async () => {
+Deno.test("KeyFilesValidator", () => {
   const metadata = [
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset000",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset000",
       name: "asset000",
       image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
       mediaType: "image/png",
@@ -418,11 +394,7 @@ Deno.test("KeyFilesValidator", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -443,17 +415,17 @@ Deno.test("KeyFilesValidator", async () => {
           },
         ],
       },
-      asset_name: "asset000",
-      validator_id: "key-files",
+      assetName: "asset000",
+      validatorId: "key-files",
     },
   ]);
 });
 
-Deno.test("KeyAttributesValidator", async () => {
+Deno.test("KeyAttributesValidator", () => {
   const metadata = [
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset000",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset000",
       name: "asset000",
       image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
       mediaType: "image/png",
@@ -482,11 +454,7 @@ Deno.test("KeyAttributesValidator", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -503,17 +471,17 @@ Deno.test("KeyAttributesValidator", async () => {
           foo: "bar",
         },
       },
-      asset_name: "asset000",
-      validator_id: "key-attributes",
+      assetName: "asset000",
+      validatorId: "key-attributes",
     },
   ]);
 });
 
-Deno.test("KeyTraitsValidator", async () => {
+Deno.test("KeyTraitsValidator", () => {
   const metadata = [
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset000",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset000",
       name: "asset000",
       image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
       mediaType: "image/png",
@@ -543,11 +511,7 @@ Deno.test("KeyTraitsValidator", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -569,8 +533,8 @@ Deno.test("KeyTraitsValidator", async () => {
         },
       },
       input: {
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-        asset_name: "asset000",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "asset000",
         name: "asset000",
         image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
         mediaType: "image/png",
@@ -587,17 +551,17 @@ Deno.test("KeyTraitsValidator", async () => {
         traits: ["trait-1", { name: "trait-2", value: "2" }, "1"],
       },
       output: undefined,
-      asset_name: "asset000",
-      validator_id: "key-traits",
+      assetName: "asset000",
+      validatorId: "key-traits",
     },
   ]);
 });
 
-Deno.test("HasRequiredKeys", async () => {
+Deno.test("HasRequiredKeys", () => {
   const metadata = [
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset000",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset000",
       name: "asset000",
       image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
       mediaType: "image/png",
@@ -627,11 +591,7 @@ Deno.test("HasRequiredKeys", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      asset_metadata.asset_name,
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
@@ -641,8 +601,8 @@ Deno.test("HasRequiredKeys", async () => {
       state: "success",
       message: "All required keys are present.",
       input: {
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-        asset_name: "asset000",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "asset000",
         name: "asset000",
         image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
         mediaType: "image/png",
@@ -658,8 +618,8 @@ Deno.test("HasRequiredKeys", async () => {
         attributes: { foo: "bar" },
         traits: ["trait-1", "trait-2"],
       },
-      asset_name: "asset000",
-      validator_id: "has-required-keys",
+      assetName: "asset000",
+      validatorId: "has-required-keys",
       output: undefined,
     },
   ]);

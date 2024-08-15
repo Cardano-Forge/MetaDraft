@@ -2,17 +2,13 @@ import { BaseValidator } from "../core.ts";
 
 import { getStates } from "../utils/getState.ts";
 
-import type { KeyWithPath, Result } from "../utils/types.ts";
-import { isSnakeCase } from "../utils/casing.ts";
-import { extractKeysWithPaths } from "../utils/keys.ts";
+import type { Result } from "../utils/types.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
+import { findWhitespace } from "../utils/whiteSpace.ts";
 
-/**
- * Validates metadata keys follow Snake Case formatting.
- */
-export class KeySnakeCase extends BaseValidator {
+export class KeyWhiteSpace extends BaseValidator {
   constructor(options?: object) {
-    const id = "key-snake-case";
+    const id = "key-white-space";
     super(id, options);
   }
 
@@ -29,21 +25,14 @@ export class KeySnakeCase extends BaseValidator {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
-    const warnings: KeyWithPath[] = [];
-
-    const keys = extractKeysWithPaths(metadata as object);
-
-    keys.forEach((key) => {
-      if (!isSnakeCase(key.key)) {
-        warnings.push(key);
-      }
-    });
+    const warnings: { path: string[]; whitespaceLocation: string }[] =
+      findWhitespace(metadata as object);
 
     return getStates(
       {
         state: warnings.length === 0 ? "success" : "warning",
         message: {
-          message: "Some keys do not adhere to Snake Case formatting.",
+          message: "Trailing whitespaces found in the JSON object.",
           warnings,
         },
       },

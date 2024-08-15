@@ -10,25 +10,21 @@ import type { Result } from "../utils/types.ts";
  * Validates that metadata has a valid `mediaType` field matching regex.
  */
 export class KeyMediaTypeValidator extends BaseValidator {
-  constructor() {
+  constructor(options?: object) {
     const id = "key-media-type";
-    super(id);
+    super(id, options);
   }
 
-  async Execute(
-    asset_name: string,
-    metadata: unknown,
-    _metadatas: unknown[],
-  ): Promise<Result[]> {
-    console.debug(`Executing ${this.id} with: `, metadata);
-    return this.Logic(asset_name, metadata, _metadatas);
-  }
-
-  Logic(
-    asset_name: string,
+  Execute(
+    assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
+    console.debug(`Executing ${this.id} with: `, metadata);
+    return this.Logic(assetName, metadata, _metadatas);
+  }
+
+  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
     const result = z
       .object({
         mediaType: checkMediaType,
@@ -38,7 +34,7 @@ export class KeyMediaTypeValidator extends BaseValidator {
     return getStates(
       result,
       "`mediaType` field is valid.",
-      asset_name,
+      assetName,
       metadata,
       this.id,
     );

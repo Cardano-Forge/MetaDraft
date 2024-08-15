@@ -18,11 +18,11 @@ const mapping = {
   KeyDescriptionValidator: KeyDescriptionValidator,
 } as const;
 
-Deno.test("TestMultipleValidators", async () => {
+Deno.test("TestMultipleValidators", () => {
   const metadata = [
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset000",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset000",
       name: "asset000",
       image: "ipfs://...",
       mediaType: "image/png",
@@ -30,8 +30,8 @@ Deno.test("TestMultipleValidators", async () => {
         "a non empty description using a random length because Im testing", // 64 chars
     },
     {
-      policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-      asset_name: "asset001",
+      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+      assetName: "asset001",
       name: "asset001",
       image: "ipfs://...",
       mediaType: "image/png",
@@ -54,7 +54,7 @@ Deno.test("TestMultipleValidators", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
+    mainValidator.Execute(
       Object.keys(asset_metadata)[0],
       asset_metadata,
       metadata,
@@ -63,15 +63,13 @@ Deno.test("TestMultipleValidators", async () => {
 
   const result = mainValidator.GetResults();
 
-  // console.log(JSON.stringify(result));
-
   assertEquals(result, [
     {
       state: "success",
-      message: "`asset_name` and `policy_id` fields are valid.",
+      message: "`assetName` and `policyId` fields are valid.",
       input: {
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-        asset_name: "asset000",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "asset000",
         name: "asset000",
         image: "ipfs://...",
         mediaType: "image/png",
@@ -79,18 +77,18 @@ Deno.test("TestMultipleValidators", async () => {
           "a non empty description using a random length because Im testing",
       },
       output: {
-        asset_name: "asset000",
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "asset000",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
       },
-      asset_name: "policy_id",
-      validator_id: "cip-25-version-1",
+      assetName: "policyId",
+      validatorId: "cip-25-version-1",
     },
     {
       state: "success",
       message: "`name` field is valid.",
       input: {
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-        asset_name: "asset000",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "asset000",
         name: "asset000",
         image: "ipfs://...",
         mediaType: "image/png",
@@ -98,8 +96,8 @@ Deno.test("TestMultipleValidators", async () => {
           "a non empty description using a random length because Im testing",
       },
       output: { name: "asset000" },
-      asset_name: "policy_id",
-      validator_id: "key-name",
+      assetName: "policyId",
+      validatorId: "key-name",
     },
     {
       state: "error",
@@ -118,24 +116,24 @@ Deno.test("TestMultipleValidators", async () => {
         },
       },
       input: {
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-        asset_name: "asset000",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "asset000",
         name: "asset000",
         image: "ipfs://...",
         mediaType: "image/png",
         description:
           "a non empty description using a random length because Im testing",
       },
-      asset_name: "policy_id",
-      validator_id: "key-image",
+      assetName: "policyId",
+      validatorId: "key-image",
       output: undefined,
     },
     {
       state: "success",
       message: "`mediaType` field is valid.",
       input: {
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-        asset_name: "asset000",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "asset000",
         name: "asset000",
         image: "ipfs://...",
         mediaType: "image/png",
@@ -143,15 +141,15 @@ Deno.test("TestMultipleValidators", async () => {
           "a non empty description using a random length because Im testing",
       },
       output: { mediaType: "image/png" },
-      asset_name: "policy_id",
-      validator_id: "key-media-type",
+      assetName: "policyId",
+      validatorId: "key-media-type",
     },
     {
       state: "success",
       message: "`description` field is valid.",
       input: {
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-        asset_name: "asset000",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "asset000",
         name: "asset000",
         image: "ipfs://...",
         mediaType: "image/png",
@@ -162,15 +160,15 @@ Deno.test("TestMultipleValidators", async () => {
         description:
           "a non empty description using a random length because Im testing",
       },
-      asset_name: "policy_id",
-      validator_id: "key-description",
+      assetName: "policyId",
+      validatorId: "key-description",
     },
     {
       state: "success",
-      message: "`asset_name` and `policy_id` fields are valid.",
+      message: "`assetName` and `policyId` fields are valid.",
       input: {
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-        asset_name: "asset001",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "asset001",
         name: "asset001",
         image: "ipfs://...",
         mediaType: "image/png",
@@ -178,18 +176,18 @@ Deno.test("TestMultipleValidators", async () => {
           "a non empty  long description using a random length because Im testing",
       },
       output: {
-        asset_name: "asset001",
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "asset001",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
       },
-      asset_name: "policy_id",
-      validator_id: "cip-25-version-1",
+      assetName: "policyId",
+      validatorId: "cip-25-version-1",
     },
     {
       state: "success",
       message: "`name` field is valid.",
       input: {
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-        asset_name: "asset001",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "asset001",
         name: "asset001",
         image: "ipfs://...",
         mediaType: "image/png",
@@ -197,8 +195,8 @@ Deno.test("TestMultipleValidators", async () => {
           "a non empty  long description using a random length because Im testing",
       },
       output: { name: "asset001" },
-      asset_name: "policy_id",
-      validator_id: "key-name",
+      assetName: "policyId",
+      validatorId: "key-name",
     },
     {
       state: "error",
@@ -217,24 +215,24 @@ Deno.test("TestMultipleValidators", async () => {
         },
       },
       input: {
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-        asset_name: "asset001",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "asset001",
         name: "asset001",
         image: "ipfs://...",
         mediaType: "image/png",
         description:
           "a non empty  long description using a random length because Im testing",
       },
-      asset_name: "policy_id",
-      validator_id: "key-image",
+      assetName: "policyId",
+      validatorId: "key-image",
       output: undefined,
     },
     {
       state: "success",
       message: "`mediaType` field is valid.",
       input: {
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-        asset_name: "asset001",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "asset001",
         name: "asset001",
         image: "ipfs://...",
         mediaType: "image/png",
@@ -242,8 +240,8 @@ Deno.test("TestMultipleValidators", async () => {
           "a non empty  long description using a random length because Im testing",
       },
       output: { mediaType: "image/png" },
-      asset_name: "policy_id",
-      validator_id: "key-media-type",
+      assetName: "policyId",
+      validatorId: "key-media-type",
     },
     {
       state: "error",
@@ -261,16 +259,16 @@ Deno.test("TestMultipleValidators", async () => {
         },
       },
       input: {
-        policy_id: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
-        asset_name: "asset001",
+        policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
+        assetName: "asset001",
         name: "asset001",
         image: "ipfs://...",
         mediaType: "image/png",
         description:
           "a non empty  long description using a random length because Im testing",
       },
-      asset_name: "policy_id",
-      validator_id: "key-description",
+      assetName: "policyId",
+      validatorId: "key-description",
       output: undefined,
     },
   ]);

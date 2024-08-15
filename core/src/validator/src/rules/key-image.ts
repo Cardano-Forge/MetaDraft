@@ -10,25 +10,21 @@ import type { Result } from "../utils/types.ts";
  * Ensures metadata contains an "image" field as a string URL or array of strings.
  */
 export class KeyImageValidator extends BaseValidator {
-  constructor() {
+  constructor(options?: object) {
     const id = "key-image";
-    super(id);
+    super(id, options);
   }
 
-  async Execute(
-    asset_name: string,
-    metadata: unknown,
-    _metadatas: unknown[],
-  ): Promise<Result[]> {
-    console.debug(`Executing ${this.id} with: `, metadata);
-    return this.Logic(asset_name, metadata, _metadatas);
-  }
-
-  Logic(
-    asset_name: string,
+  Execute(
+    assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
+    console.debug(`Executing ${this.id} with: `, metadata);
+    return this.Logic(assetName, metadata, _metadatas);
+  }
+
+  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
     const result = z
       .object({
         image: checkImageIsStringOrArray,
@@ -38,7 +34,7 @@ export class KeyImageValidator extends BaseValidator {
     return getStates(
       result,
       "`image` field is valid.",
-      asset_name,
+      assetName,
       metadata,
       this.id,
     );

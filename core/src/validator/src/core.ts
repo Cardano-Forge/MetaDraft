@@ -7,16 +7,18 @@ import type { IValidator, Result } from "./utils/types.ts";
  */
 export class BaseValidator implements IValidator {
   readonly id: string;
+  readonly options: any;
 
-  constructor(id: string) {
+  constructor(id: string, options: any) {
     this.id = id;
+    this.options = options;
   }
 
   Execute(
-    _asset_name: string,
+    _assetName: string,
     _metadata: unknown,
     _metadatas: unknown[],
-  ): Promise<Result[]> {
+  ): Result[] {
     throw new Error("Method not implemented.");
   }
 }
@@ -24,7 +26,7 @@ export class BaseValidator implements IValidator {
 /**
  * This class serves as the main component for running rules against a set of metadata.
  * Custom validators must be enabled to create a template.
- * It requires an `asset_name`, a `metadata` object, and the complete metadata array to check and validate a collection.
+ * It requires an `assetName`, a `metadata` object, and the complete metadata array to check and validate a collection.
  * The `getResults` method returns a final summary of the validation process.
  */
 export class Decorator implements IValidator {
@@ -41,11 +43,11 @@ export class Decorator implements IValidator {
     this.validators.push(validator);
   }
 
-  async Execute(
-    asset_name: string,
+  Execute(
+    assetName: string,
     metadata: unknown,
     metadatas: unknown[],
-  ): Promise<Result[]> {
+  ): Result[] {
     console.debug("Execute in Decorator", this.validators);
     if (this.validators.length === 0) {
       console.debug("no validators defined.");
@@ -56,7 +58,7 @@ export class Decorator implements IValidator {
       console.debug("Validator", validator);
       this.validations = [
         ...this.validations,
-        ...(await validator.Execute(asset_name, metadata, metadatas)),
+        ...validator.Execute(assetName, metadata, metadatas),
       ];
     }
 

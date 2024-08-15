@@ -26,5 +26,8 @@ export { KeyNameValidator } from "./rules/key-name.ts";
 export { KeySnakeCase } from "./rules/key-snake-case.ts";
 export { KeyTitleCase } from "./rules/key-title-case.ts";
 export { KeyTraitsValidator } from "./rules/key-traits.ts";
+export { KeyWhiteSpace } from "./rules/key-white-space.ts";
+export { DuplicateImage } from "./rules/duplicate-image.ts";
+export { DuplicateAssetName } from "./rules/duplicate-asset-name.ts";
 
 export { mapping } from "./mapping.ts";

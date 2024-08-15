@@ -27,7 +27,7 @@ const mapping = {
   KeyTraitsValidator: KeyTraitsValidator,
 } as const;
 
-Deno.test("fort-gotten.json", async () => {
+Deno.test("fort-gotten.json", () => {
   const metadata = JSON.parse(
     readFileSync(join("__tests__", "payloads", "fort-gotten.json"), "utf8"),
   );
@@ -50,7 +50,7 @@ Deno.test("fort-gotten.json", async () => {
   }
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
+    mainValidator.Execute(
       Object.keys(
         asset_metadata["721"][
           "48ef9fb80a0ad2fd9f3d5b981ef3bfac2bae84137523217b387a775b"
@@ -104,8 +104,8 @@ Deno.test("fort-gotten.json", async () => {
         name: "Fort Gotten Ep02 Kid #3195",
       },
       output: { name: "Fort Gotten Ep02 Kid #3195" },
-      asset_name: "FortGottenEp02Kid3195",
-      validator_id: "key-name",
+      assetName: "FortGottenEp02Kid3195",
+      validatorId: "key-name",
     },
     {
       state: "success",
@@ -143,8 +143,8 @@ Deno.test("fort-gotten.json", async () => {
       output: {
         image: "ipfs://QmXTstzWgt3vs135V8J63sFVGDJnyBaEmFtFq23Xro8uPJ",
       },
-      asset_name: "FortGottenEp02Kid3195",
-      validator_id: "key-image",
+      assetName: "FortGottenEp02Kid3195",
+      validatorId: "key-image",
     },
     {
       state: "success",
@@ -180,8 +180,8 @@ Deno.test("fort-gotten.json", async () => {
         name: "Fort Gotten Ep02 Kid #3195",
       },
       output: { mediaType: "image/png" },
-      asset_name: "FortGottenEp02Kid3195",
-      validator_id: "key-media-type",
+      assetName: "FortGottenEp02Kid3195",
+      validatorId: "key-media-type",
     },
     {
       state: "success",
@@ -217,8 +217,8 @@ Deno.test("fort-gotten.json", async () => {
         name: "Fort Gotten Ep02 Kid #3195",
       },
       output: {},
-      asset_name: "FortGottenEp02Kid3195",
-      validator_id: "key-description",
+      assetName: "FortGottenEp02Kid3195",
+      validatorId: "key-description",
     },
     {
       state: "success",
@@ -262,8 +262,8 @@ Deno.test("fort-gotten.json", async () => {
           },
         ],
       },
-      asset_name: "FortGottenEp02Kid3195",
-      validator_id: "key-files",
+      assetName: "FortGottenEp02Kid3195",
+      validatorId: "key-files",
     },
     {
       state: "success",
@@ -299,8 +299,8 @@ Deno.test("fort-gotten.json", async () => {
         name: "Fort Gotten Ep02 Kid #3195",
       },
       output: {},
-      asset_name: "FortGottenEp02Kid3195",
-      validator_id: "key-attributes",
+      assetName: "FortGottenEp02Kid3195",
+      validatorId: "key-attributes",
     },
     {
       state: "success",
@@ -336,8 +336,8 @@ Deno.test("fort-gotten.json", async () => {
         name: "Fort Gotten Ep02 Kid #3195",
       },
       output: {},
-      asset_name: "FortGottenEp02Kid3195",
-      validator_id: "key-traits",
+      assetName: "FortGottenEp02Kid3195",
+      validatorId: "key-traits",
     },
     {
       state: "success",
@@ -375,8 +375,8 @@ Deno.test("fort-gotten.json", async () => {
         name: "Fort Gotten Ep02 Kid #3963",
       },
       output: { name: "Fort Gotten Ep02 Kid #3963" },
-      asset_name: "FortGottenEp02Kid3963",
-      validator_id: "key-name",
+      assetName: "FortGottenEp02Kid3963",
+      validatorId: "key-name",
     },
     {
       state: "success",
@@ -416,8 +416,8 @@ Deno.test("fort-gotten.json", async () => {
       output: {
         image: "ipfs://QmW1Z98f2u8oPJK9E9Hi3KEXNjzwdas3aT7iQzpX1525yS",
       },
-      asset_name: "FortGottenEp02Kid3963",
-      validator_id: "key-image",
+      assetName: "FortGottenEp02Kid3963",
+      validatorId: "key-image",
     },
     {
       state: "success",
@@ -455,8 +455,8 @@ Deno.test("fort-gotten.json", async () => {
         name: "Fort Gotten Ep02 Kid #3963",
       },
       output: { mediaType: "image/png" },
-      asset_name: "FortGottenEp02Kid3963",
-      validator_id: "key-media-type",
+      assetName: "FortGottenEp02Kid3963",
+      validatorId: "key-media-type",
     },
     {
       state: "success",
@@ -494,8 +494,8 @@ Deno.test("fort-gotten.json", async () => {
         name: "Fort Gotten Ep02 Kid #3963",
       },
       output: {},
-      asset_name: "FortGottenEp02Kid3963",
-      validator_id: "key-description",
+      assetName: "FortGottenEp02Kid3963",
+      validatorId: "key-description",
     },
     {
       state: "success",
@@ -541,8 +541,8 @@ Deno.test("fort-gotten.json", async () => {
           },
         ],
       },
-      asset_name: "FortGottenEp02Kid3963",
-      validator_id: "key-files",
+      assetName: "FortGottenEp02Kid3963",
+      validatorId: "key-files",
     },
     {
       state: "warning",
@@ -591,8 +591,8 @@ Deno.test("fort-gotten.json", async () => {
         mediaType: "image/png",
         name: "Fort Gotten Ep02 Kid #3963",
       },
-      asset_name: "FortGottenEp02Kid3963",
-      validator_id: "key-attributes",
+      assetName: "FortGottenEp02Kid3963",
+      validatorId: "key-attributes",
       output: undefined,
     },
     {
@@ -649,8 +649,8 @@ Deno.test("fort-gotten.json", async () => {
         mediaType: "image/png",
         name: "Fort Gotten Ep02 Kid #3963",
       },
-      asset_name: "FortGottenEp02Kid3963",
-      validator_id: "key-traits",
+      assetName: "FortGottenEp02Kid3963",
+      validatorId: "key-traits",
     },
   ]);
 });

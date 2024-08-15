@@ -9,7 +9,7 @@
 # Comparison and duplicate
 #
 
-compareRootKeys
+compareRootKeys=>{"threshold":3}
 compareRootValues
 duplicateKeysValidator
 

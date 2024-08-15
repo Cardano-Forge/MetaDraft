@@ -45,19 +45,19 @@ function getState(error: FormattedError | undefined = undefined): State {
  * the state represent a success, warning or error
  * the message is a string when it is a success, and an object containing the details for warning and error
  * the input and output are used to allow the developer to apply custom UI/UX component
- * the asset_name is required, it acts as an ID to know what input to update (such as a HTML id)
+ * the assetName is required, it acts as an ID to know what input to update (such as a HTML id)
  */
 /**
  * Formats and returns an array of result objects containing state, message, input, and output details for success, warning, or error conditions.
  *
  * @param {any} result - The zod result object to be processed.
- * @param {string} success_message - The message to display when the state is "success".
- * @param {string} asset_name - The required identifier for the asset, used to determine which input to update (e.g., an HTML id).
+ * @param {string} policyId - The message to display when the state is "success".
+ * @param {string} assetName - The required identifier for the asset, used to determine which input to update (e.g., an HTML id).
  * @param {unknown} metadata - The current asset metadata
- * @param {string} validator_id - A unique identifier for the validator. Defaults to "UNKNOWN".
+ * @param {string} validatorId - A unique identifier for the validator. Defaults to "UNKNOWN".
  *
  * @returns {Result[]} An array of formatted result objects with the following structure:
- *   - `asset_name` (string): The identifier for the asset.
+ *   - `assetName` (string): The identifier for the asset.
  *   - `state` (string): The state ("success", "warning", or "error").
  *   - `message` (string|Object): The message to display, an object in case of warning or error.
  *   - `input` (Object|undefined): Custom input for custom UI/UX components.
@@ -65,10 +65,10 @@ function getState(error: FormattedError | undefined = undefined): State {
  */
 export function getStates(
   result: unknown,
-  success_message: string,
-  asset_name: string,
+  successMessage: string,
+  assetName: string,
   metadata: unknown,
-  validator_id: string = "UNKNOWN",
+  validatorId: string = "UNKNOWN",
 ): Result[] {
   const isSuccess =
     (result as ZodStateError).success ||
@@ -79,7 +79,7 @@ export function getStates(
     : getState(formatError((result as ZodStateError).error));
 
   const message = isSuccess
-    ? success_message
+    ? successMessage
     : (result as ZodStateError).error
       ? formatError((result as ZodStateError).error)
       : (result as StateError).message;
@@ -90,8 +90,8 @@ export function getStates(
       message,
       input: metadata,
       output: (result as ZodStateError).data,
-      asset_name,
-      validator_id,
+      assetName,
+      validatorId,
     },
   ];
 }
