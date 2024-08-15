@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { FileRejection, useDropzone } from "react-dropzone";
+import { type FileRejection, useDropzone } from "react-dropzone";
 
 import CloudUploadIcon from "~/icons/cloud-upload.icon";
 import { Typography } from "./typography";
@@ -18,7 +18,6 @@ export default function UploadProjectButton() {
   const onDrop = useCallback(
     async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       // Handle accepted files
-
       if (acceptedFiles.length === 1) {
         const json = await readFile(acceptedFiles[0]);
         // const hash = await stringToHash(JSON.stringify(json));
@@ -59,7 +58,7 @@ export default function UploadProjectButton() {
         }
       }
     },
-    [],
+    [router],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
