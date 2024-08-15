@@ -5,13 +5,14 @@ import { useDropzone } from "react-dropzone";
 
 import CloudUploadIcon from "~/icons/cloud-upload.icon";
 import { Typography } from "./typography";
-
-function getFileExtension(filename: string) {
-  const parts = filename.split(".");
-  return parts.length > 1 ? parts.pop() : "";
-}
+import stringToHash from "~/lib/string-to-hash";
+import { getFileExtension } from "~/lib/get-file-extension";
+import { readFile } from "~/lib/read";
+import { upsert } from "~/app/db/db-actions";
+import { useRouter } from "next/navigation";
 
 export default function UploadProjectButton() {
+  const router = useRouter();
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
   const [error, setError] = useState<Error | undefined>(undefined);
 
@@ -53,31 +54,33 @@ export default function UploadProjectButton() {
     }
   }, [fileRejections]);
 
-  // Success
+  // Handle accepted File ~> read
   useEffect(() => {
-    const fn = async () => {
+    const read = async () => {
       if (acceptedFiles.length === 1) {
-        const res = await readJSON(acceptedFiles[0]);
-        console.log(res);
-        console.log(typeof res);
+        const json = await readFile(acceptedFiles[0]);
+        const hash = await stringToHash(JSON.stringify(json));
+        const meta = await upsert(hash, "metadata", json);
+        if (meta.success) {
+          router.push("/data-validation");
+        } else {
+          // fail
+          // TODO - handle error
+          console.log(meta);
+        }
       }
     };
-    void fn();
-  }, [acceptedFiles]);
+    void read();
+  }, [acceptedFiles, router]);
 
   // Clear error after 8s
   useEffect(() => {
     if (error) {
-      if (timeoutId.current) {
-        clearTimeout(timeoutId.current);
-      }
-
+      if (timeoutId.current) clearTimeout(timeoutId.current);
       timeoutId.current = setTimeout(() => {
         setError(undefined);
-      }, 3_000);
+      }, 5_000);
     }
-
-    // Cleanup function to clear the timeout if the component unmounts
     return () => {
       if (timeoutId.current) {
         clearTimeout(timeoutId.current);
@@ -118,25 +121,3 @@ export default function UploadProjectButton() {
     </div>
   );
 }
-
-const readJSON = async (file: File | undefined) => {
-  return new Promise((resolve, reject) => {
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        try {
-          return resolve(e.target?.result); // Parse the JSON
-        } catch (err) {
-          return reject(err);
-        }
-      };
-
-      reader.onerror = (err) => {
-        return reject(err);
-      };
-
-      reader.readAsText(file); // Read the file as text
-    }
-  });
-};

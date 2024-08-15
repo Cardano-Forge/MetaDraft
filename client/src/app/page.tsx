@@ -1,6 +1,11 @@
+import dynamic from "next/dynamic";
 import CreateProjectButton from "~/components/create-project-button";
 import { Typography } from "~/components/typography";
-import UploadProjectButton from "~/components/upload-project-button";
+
+const UploadProjectButton = dynamic(
+  () => import("~/components/upload-project-button"),
+  { ssr: false },
+);
 
 export default function HomePage() {
   return (
@@ -22,6 +27,9 @@ export default function HomePage() {
           accusantium doloremque laudantium, totam rem aperiam
         </Typography>
       </div>
+
+      {/* Check for active project Component */}
+
       <div className="flex w-full flex-col-reverse items-center justify-center gap-8 rounded-xl p-4 lg:flex-row">
         <CreateProjectButton />
         <UploadProjectButton />
