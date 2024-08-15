@@ -1,0 +1,23 @@
+{
+  "CFN00538": {
+    "id": "00538",
+    "tag": "CFN00538",
+    "name": "File Node Access Key #00538",
+    "image": "ipfs://QmfRJmAwRV6uAEmLUx6k7c2JmhsQiHk9gy93JYpoDXiPJQ",
+    "media": {
+      "Website": "https://www.cornucopias.io",
+      "Link Tree": "https://linktr.ee/CornucopiasGame"
+    },
+    "gameid": "CFNAK",
+    "season": "None",
+    "version": "1.0",
+    "fullName": "File Node Access Key #00538",
+    "mediaType": "image/png",
+    "typeClass": "Access",
+    "attributes": {
+      "NodeType": "File Node"
+    },
+    "description": "Cornucopias Node",
+    "projectName": "Cornucopias Game"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "CETARDIOwhitelist4": {
+    "head": "CETARDIO whitelist",
+    "name": "CETARDIO WL",
+    "image": "ipfs://QmNZb1qc7dY8m1zRgwfqTEztUxdF9eL9h666tbK95cAwP3",
+    "Discord": "https://discord.gg/MyProject",
+    "Twitter": "https://twitter.com/MyProject",
+    "Website": "https://myproject.com",
+    "mediaType": "image/png",
+    "description": "My cool NFT project description"
+  }
+}

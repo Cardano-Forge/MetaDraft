@@ -1,0 +1,31 @@
+[
+  {
+    "name": "SlothWif #0001",
+    "image": "ipfs://QmQxiTkABhocj1zfGrT2T9rqdXardyrbDQeeAWe3L7droL",
+    "website": "https://levvywifhat.com/slothwifs",
+    "description": [
+      "A Cardano meme token and 100% community project that is all ",
+      "about Levvy, the sloth who wears a hat, even when he sleeps!"
+    ],
+    "files": [
+      {
+        "mediaType": "image/png",
+        "src": "ipfs://QmPozBaFsNoAfXwWVcyk9AHrswvMuD8ZUsPmEW3owJB4st"
+      }
+    ],
+    "attributes": {
+      "Background": "Baby Blues",
+      "Back": "None",
+      "Skin": "Undead",
+      "Cloth": "None",
+      "Neck": "None",
+      "Hat": "Duck Hat",
+      "Mouth": "Joker",
+      "Eyes": "Round Glasses",
+      "Hands": "None",
+      "Border": "None",
+      "Burned Tokens": "None",
+      "Locked NFTs": "None"
+    }
+  }
+]

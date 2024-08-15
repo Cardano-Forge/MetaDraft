@@ -1,0 +1,28 @@
+name: build-cli
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write # Needed for auth with Deno Deploy
+  contents: read # Needed to clone the repository
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          registry-url: "https://registry.npmjs.org"
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x # Run with latest stable Deno.
+      - name: Compile step
+        working-directory: core/src/cli/
+        run: "deno task compile"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: metadraft
+          path: core/src/cli/build/metadraft

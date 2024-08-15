@@ -1,0 +1,15 @@
+{
+  "EarthNode976": {
+    "name": "EarthNode #976",
+    "files": [
+      {
+        "src": "ipfs://QmdqYBApdNWcHZn8rCj83xXdQXvoLfxumkJAzEHvTkMDTC",
+        "name": "EarthNode",
+        "mediaType": "video/mp4"
+      }
+    ],
+    "image": "ipfs://QmYUA3THPRhQcdmSzgJUTYMa98hvYWtD9i9vUG8ZcNeQeo",
+    "mediaType": "image/png",
+    "description": "Identifies the holder as a World Mobile EarthNode Operator"
+  }
+}

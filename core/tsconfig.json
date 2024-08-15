@@ -23,5 +23,5 @@
     }
   },
   "include": [".eslintrc.cjs", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.js"],
-  "exclude": ["node_modules", "dist", ".parcel-cache"]
+  "exclude": ["node_modules", "dist", ".parcel-cache", "__tests__"]
 }

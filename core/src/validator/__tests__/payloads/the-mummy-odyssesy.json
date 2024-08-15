@@ -1,0 +1,106 @@
+[
+  {
+    "721": {
+      "f4bade5156024295fcf1f2781ab9a3fde39c0164763f8b9acff15493": {
+        "TheMummyOdyssey0043": {
+          "attributes": {
+            "Background": "Light Yellow",
+            "Clothes": "None",
+            "Eyes": "Golden",
+            "Gauze": "Charcoal Black",
+            "Headgear": "Frankeinstein",
+            "Mouth": "Birthday Whistle",
+            "Pets": "King Cobra",
+            "Skin": "Light Blue"
+          },
+          "files": [
+            {
+              "mediaType": "image/jpeg",
+              "src": "ipfs://QmUi155RSqeKA9aeLA8KWYkW5wEPvJsH8mPHvWc2CHUgCs"
+            }
+          ],
+          "image": "ipfs://QmVA4drTS3bL47hJjWtr6b27T4TXS4FeqeJ9uo2UtzHDLr",
+          "name": "The Mummy Odyssey #0043"
+        }
+      }
+    }
+  },
+  {
+    "721": {
+      "f4bade5156024295fcf1f2781ab9a3fde39c0164763f8b9acff15493": {
+        "TheMummyOdyssey4103": {
+          "attributes": {
+            "Background": "Royal Red",
+            "Clothes": "None",
+            "Eyes": "Stoned",
+            "Gauze": "Charcoal Black",
+            "Headgear": "None",
+            "Mouth": "Blood Dripping",
+            "Pets": "None",
+            "Skin": "Beige"
+          },
+          "files": [
+            {
+              "mediaType": "image/jpeg",
+              "src": "ipfs://QmPsWPW4faViRD3LxG1txCRAhGBYYwz9zYFAXLwQviHuEA"
+            }
+          ],
+          "image": "ipfs://QmNfZmE7YqNST4uWpbY6Twhwp1CusgxKyGsQGafhqP2SJp",
+          "name": "The Mummy Odyssey #4103"
+        }
+      }
+    }
+  },
+  {
+    "721": {
+      "f4bade5156024295fcf1f2781ab9a3fde39c0164763f8b9acff15493": {
+        "TheMummyOdyssey0043": {
+          "attributes": {
+            "Background": "Light Yellow",
+            "Clothes": "None",
+            "Eyes": "Golden",
+            "Gauze": "Charcoal Black",
+            "Headgear": "Frankeinstein",
+            "Mouth": "Birthday Whistle",
+            "Pets": "King Cobra",
+            "Skin": "Light Blue"
+          },
+          "files": [
+            {
+              "mediaType": "image/jpeg",
+              "src": "ipfs://QmUi155RSqeKA9aeLA8KWYkW5wEPvJsH8mPHvWc2CHUgCs"
+            }
+          ],
+          "image": "ipfs://QmVA4drTS3bL47hJjWtr6b27T4TXS4FeqeJ9uo2UtzHDLr",
+          "name": "The Mummy Odyssey #0043"
+        }
+      }
+    }
+  },
+  {
+    "721": {
+      "f4bade5156024295fcf1f2781ab9a3fde39c0164763f8b9acff15493": {
+        "TheMummyOdyssey3316": {
+          "attributes": {
+            "Background": "Wine",
+            "Clothes": "None",
+            "Eyes": "Popped Eye",
+            "Gauze": "Reptile",
+            "Headgear": "None",
+            "Mouth": "Weed",
+            "Pets": "None",
+            "Skin": "Tan"
+          },
+          "files": [
+            {
+              "mediaType": "image/jpeg",
+              "src": "ipfs://QmecamKKgAKSnYuQ5s4aacALnuAkHXgd9FKbMQ7VPTfnfy"
+            }
+          ],
+          "image": "ipfs://QmPqANCH5dLnw6CNREEfUxvxi9A9ZLAKJs7cZjx7ucCaA5",
+          "name": "The Mummy Odyssey #3316"
+        }
+      }
+    }
+  }
+]

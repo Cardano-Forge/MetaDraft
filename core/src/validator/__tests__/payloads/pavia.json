@@ -1,0 +1,38 @@
+{
+  "PaviaEstate676": {
+    "name": "Pavia Estate #676",
+    "size": 10,
+    "type": "Estate",
+    "files": [
+      {
+        "src": "ipfs://QmNzTA7L312nALsacU7wfY2FvKtYk47GVENJq99Wheicay",
+        "name": "Estate",
+        "mediaType": "image/png"
+      }
+    ],
+    "image": "ipfs://QmNzTA7L312nALsacU7wfY2FvKtYk47GVENJq99Wheicay",
+    "plots": [
+      [-192, -116],
+      [-193, -116],
+      [-193, -117],
+      [-193, -118],
+      [-194, -116],
+      [-194, -117],
+      [-194, -118],
+      [-195, -116],
+      [-195, -117],
+      [-195, -118]
+    ],
+    "minter": [
+      "addr1q9jfztl0536jgz0urdlgetknzz06nku68ulhaznz8zhgsumxqy6nwh2rqdf",
+      "5st4hhp3whtwnc8sua8768kcqar3vk2sstgjr5t"
+    ],
+    "mediaType": "image/png",
+    "estateSize": 10,
+    "description": "The combination of 10 Pavia land parcels",
+    "productInformation": {
+      "Pavia io": "https://pavia.io",
+      "Copyright": "Pavia Corp 2024 all rights reserved"
+    }
+  }
+}
