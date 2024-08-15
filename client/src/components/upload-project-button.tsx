@@ -92,7 +92,7 @@ export default function UploadProjectButton() {
       <CloudUploadIcon />
       <div className="flex flex-col items-center justify-center gap-4">
         <Typography as={"largeText"} className="font-inter text-2xl">
-          Upload an existant project
+          Upload an existing project
         </Typography>
         {isDragActive ? (
           <Typography as={"mutedText"} className="font-normal">
