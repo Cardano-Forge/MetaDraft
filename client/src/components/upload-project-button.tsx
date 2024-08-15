@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { FileRejection, useDropzone } from "react-dropzone";
 
 import CloudUploadIcon from "~/icons/cloud-upload.icon";
 import { Typography } from "./typography";
-import stringToHash from "~/lib/string-to-hash";
 import { getFileExtension } from "~/lib/get-file-extension";
 import { readFile } from "~/lib/read";
 import { upsert } from "~/app/db/db-actions";
@@ -16,47 +15,10 @@ export default function UploadProjectButton() {
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
   const [error, setError] = useState<Error | undefined>(undefined);
 
-  const {
-    getRootProps,
-    getInputProps,
-    isDragActive,
-    fileRejections,
-    acceptedFiles,
-  } = useDropzone({
-    maxFiles: 1,
-    accept: { "application/json": [] }, // "text/csv": []
-  });
+  const onDrop = useCallback(
+    async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
+      // Handle accepted files
 
-  // Handling error
-  useEffect(() => {
-    // No file received
-    if (fileRejections.length === 0) setError(undefined);
-
-    // Too many in accepted or rejected files
-    if (fileRejections.length > 1)
-      setError(
-        new Error("Too many file were provided, please select only one file."),
-      );
-
-    // Has only on error
-    const rejected = fileRejections[0];
-    if (rejected) {
-      const fileExtension = getFileExtension(rejected.file.name);
-      if (rejected.errors[0]?.code === "file-invalid-type") {
-        setError(
-          new Error(
-            `File type must be application/json or text/csv but received .${fileExtension}`,
-          ),
-        );
-      } else {
-        setError(new Error(rejected.errors[0]?.message));
-      }
-    }
-  }, [fileRejections]);
-
-  // Handle accepted File ~> read
-  useEffect(() => {
-    const read = async () => {
       if (acceptedFiles.length === 1) {
         const json = await readFile(acceptedFiles[0]);
         // const hash = await stringToHash(JSON.stringify(json));
@@ -69,9 +31,43 @@ export default function UploadProjectButton() {
           console.log(meta);
         }
       }
-    };
-    void read();
-  }, [acceptedFiles, router]);
+
+      // ** Handle rejected files
+      // No file received
+      if (fileRejections.length === 0) setError(undefined);
+
+      // Too many in accepted or rejected files
+      if (fileRejections.length > 1)
+        setError(
+          new Error(
+            "Too many file were provided, please select only one file.",
+          ),
+        );
+
+      // Has only on error
+      const rejected = fileRejections[0];
+      if (rejected) {
+        const fileExtension = getFileExtension(rejected.file.name);
+        if (rejected.errors[0]?.code === "file-invalid-type") {
+          setError(
+            new Error(
+              `File type must be application/json or text/csv but received .${fileExtension}`,
+            ),
+          );
+        } else {
+          setError(new Error(rejected.errors[0]?.message));
+        }
+      }
+    },
+    [],
+  );
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    onDrop,
+    maxFiles: 1,
+    accept: { "application/json": [] }, // "text/csv": []
+  });
 
   // Clear error after 8s
   useEffect(() => {
