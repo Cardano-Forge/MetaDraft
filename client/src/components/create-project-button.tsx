@@ -8,7 +8,7 @@ export default function CreateProjectButton() {
   return (
     <Button
       variant={"secondary"}
-      className="flex h-[452px] w-full min-w-[300px] max-w-[610px] flex-col items-center justify-center gap-8 rounded-2xl bg-card hover:bg-card/70"
+      className="flex h-[452px] w-full min-w-[300px] flex-col items-center justify-center gap-8 rounded-2xl bg-card hover:bg-card/70"
       disabled
     >
       <DocumentAddIcon />
