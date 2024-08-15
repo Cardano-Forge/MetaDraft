@@ -1,28 +1,3 @@
-"use client";
-
-import { useState } from "react";
-import { doStuff } from "~/server/validations";
-
 export default function HomePage() {
-  const [validations, setValidations] = useState("");
-
-  async function onClickDoStuff() {
-    const validations = await doStuff();
-    setValidations(validations);
-  }
-
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          Metadraft
-        </h1>
-      </div>
-
-      <div>
-        <button onClick={() => onClickDoStuff()}>Click me !</button>
-        <pre>{validations}</pre>
-      </div>
-    </main>
-  );
+  return <main className="container">Home page</main>;
 }

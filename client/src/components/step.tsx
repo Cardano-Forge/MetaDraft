@@ -1,38 +1,49 @@
+"use client";
 import React from "react";
 import { cn } from "~/lib/utils";
 import { Typography } from "./typography";
 import CheckIcon from "~/icons/check.icon";
+import { usePathname } from "next/navigation";
 
 export type StepStatus = "active" | "done" | "next";
 
-export type StepsProps = {
+export type StepProps = {
   id: number;
-  text: string;
-  status: StepStatus;
+  status?: StepStatus;
   className?: string;
+  children?: React.ReactNode;
 };
 
 const variant: Record<StepStatus, string> = {
-  active: "bg-secondary",
-  done: "bg-background",
-  next: "bg-transparent border border-border/20 border-dashed",
+  active: "bg-secondary border-transparent",
+  done: "bg-card border-transparent",
+  next: "bg-transparent border-border/20 border-dashed",
 };
 
-export default function Steps({ id, text, status, className }: StepsProps) {
+enum Steps {
+  "/data-validation" = 1,
+  "/final-validation",
+}
+export default function Step({ id, status, className, children }: StepProps) {
+  const pathname = usePathname();
+  const activeStep = Number(Steps[decodeURIComponent(pathname) as keyof typeof Steps]);
+  status =
+    status ?? (activeStep < id ? "next" : activeStep > id ? "done" : "active");
   const isDone = status === "done";
   const isActive = status === "active";
   const isNext = status === "next";
   return (
-    <div
+    <a
       className={cn(
-        "flex w-full max-w-[224px] flex-col justify-between gap-2 rounded-3xl p-4",
+        "flex w-full max-w-[224px] flex-col justify-between gap-6 rounded-3xl border p-4",
         variant[status],
         className,
       )}
+      href={Steps[id]}
     >
       <div
         className={cn(
-          "font-inter flex h-8 w-8 items-center justify-center rounded-full bg-secondary",
+          "flex h-8 w-8 items-center justify-center rounded-full bg-secondary font-inter",
           isActive && "bg-white font-bold text-background",
           isDone && "border border-border bg-transparent",
         )}
@@ -43,8 +54,8 @@ export default function Steps({ id, text, status, className }: StepsProps) {
         as="regularText"
         className={cn(isActive && "font-semibold", isNext && "text-input/40")}
       >
-        {text}
+        {children}
       </Typography>
-    </div>
+    </a>
   );
 }

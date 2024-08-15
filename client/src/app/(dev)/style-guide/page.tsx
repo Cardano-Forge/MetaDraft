@@ -5,6 +5,7 @@ import { Typography } from "~/components/typography";
 import Typographies from "./typographies";
 import StepsGuide from "./steps-guide";
 import StatsGuide from "./stats-guide";
+import HomeButtons from "./home-buttons";
 
 export default function StyleGuidePage() {
   return (
@@ -16,6 +17,7 @@ export default function StyleGuidePage() {
           <Loader />
           <Loader className="loader-white" />
         </div>
+        <HomeButtons />
         <Typographies />
         <Buttons />
         <Icons />
