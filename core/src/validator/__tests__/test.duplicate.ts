@@ -56,8 +56,6 @@ Deno.test("DuplicateKeys - withWarnings", () => {
 
   const result = mainValidator.GetResults();
 
-  // console.log(JSON.stringify(result));
-
   assertEquals(result, [
     {
       state: "warning",
@@ -137,8 +135,6 @@ Deno.test("DuplicateKeys - withSuccess", () => {
   }
 
   const result = mainValidator.GetResults();
-
-  // console.log(JSON.stringify(result));
 
   assertEquals(result, [
     {

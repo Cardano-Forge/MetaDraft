@@ -55,8 +55,6 @@ Deno.test("KeyTitleCase - withWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  // console.debug(JSON.stringify(result));
-
   assertEquals(result, [
     {
       state: "warning",
@@ -99,8 +97,6 @@ Deno.test("KeyCamelCase - withWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  // console.debug(JSON.stringify(result));
-
   assertEquals(result, [
     {
       state: "success",
@@ -128,8 +124,6 @@ Deno.test("KeySnakeCase - withWarning", () => {
   }
 
   const result = mainValidator.GetResults();
-
-  // console.debug(JSON.stringify(result));
 
   assertEquals(result, [
     {
@@ -169,8 +163,6 @@ Deno.test("KeyLowerCase - withWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  // console.debug(JSON.stringify(result));
-
   assertEquals(result, [
     {
       state: "warning",
@@ -208,8 +200,6 @@ Deno.test("KeyUpperCase - withWarning", () => {
   }
 
   const result = mainValidator.GetResults();
-
-  // console.debug(JSON.stringify(result));
 
   assertEquals(result, [
     {

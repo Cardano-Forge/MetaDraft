@@ -46,7 +46,6 @@ Deno.test("DuplicateImage - withWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  // console.debug(JSON.stringify(result, null, 2));
   assertEquals(result, [
     {
       state: "warning",
@@ -125,7 +124,6 @@ Deno.test("DuplicateImage - withWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  // console.debug(JSON.stringify(result, null, 2));
   assertEquals(result, [
     {
       state: "warning",

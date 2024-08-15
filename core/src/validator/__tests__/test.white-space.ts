@@ -39,7 +39,6 @@ Deno.test("KeyWhiteSpace - withWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  // console.debug(JSON.stringify(result, null, 2));
   assertEquals(result, [
     {
       state: "warning",
@@ -100,7 +99,6 @@ Deno.test("KeyWhiteSpace - withArrayAndWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  // console.debug(JSON.stringify(result, null, 2));
   assertEquals(result, [
     {
       state: "warning",

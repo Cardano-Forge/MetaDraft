@@ -28,8 +28,6 @@ export class KeyWhiteSpace extends BaseValidator {
     const warnings: { path: string[]; whitespaceLocation: string }[] =
       findWhitespace(metadata as object);
 
-    // console.debug("Results", warnings, warnings.length);
-
     return getStates(
       {
         state: warnings.length === 0 ? "success" : "warning",

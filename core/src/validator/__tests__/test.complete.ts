@@ -63,8 +63,6 @@ Deno.test("TestMultipleValidators", () => {
 
   const result = mainValidator.GetResults();
 
-  // console.log(JSON.stringify(result));
-
   assertEquals(result, [
     {
       state: "success",

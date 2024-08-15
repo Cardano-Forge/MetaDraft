@@ -32,7 +32,6 @@ export class KeyTitleCase extends BaseValidator {
     const warnings: KeyWithPath[] = [];
 
     const keys = extractKeysWithPaths(metadata as object);
-    // console.debug("KEYS", keys);
 
     keys.forEach((key) => {
       if (!isTitleCase(key.key)) {

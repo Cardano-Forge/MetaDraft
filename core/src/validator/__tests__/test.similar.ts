@@ -51,8 +51,6 @@ Deno.test("CompareRootKeys - withSuccess", () => {
 
   const result = mainValidator.GetResults();
 
-  // console.log(JSON.stringify(result));
-
   assertEquals(result, [
     {
       state: "success",
@@ -107,8 +105,6 @@ Deno.test("CompareRootKeys - withWarning", () => {
   }
 
   const result = mainValidator.GetResults();
-
-  // console.log(JSON.stringify(result));
 
   assertEquals(result, [
     {
@@ -168,8 +164,6 @@ Deno.test("CompareRootValues - withSuccess", () => {
 
   const result = mainValidator.GetResults();
 
-  // console.log(JSON.stringify(result));
-
   assertEquals(result, [
     {
       state: "success",
@@ -228,8 +222,6 @@ Deno.test("CompareAttributesValues - withSuccess", () => {
   }
 
   const result = mainValidator.GetResults();
-
-  // console.log(JSON.stringify(result));
 
   assertEquals(result, [
     {
