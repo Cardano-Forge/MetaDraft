@@ -1,0 +1,32 @@
+name: publish-validator
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write # Needed for auth with Deno Deploy
+  contents: read # Needed to clone the repository
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          registry-url: "https://registry.npmjs.org"
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x # Run with latest stable Deno.
+      - name: Build step
+        working-directory: core/src/validator/
+        run: "deno task build $(cat ./deno.json | jq -r '.version')"
+      - name: Release to npm
+        working-directory: core/src/validator/npm/
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Release to JSR
+        working-directory: core/src/validator/
+        run: deno publish
