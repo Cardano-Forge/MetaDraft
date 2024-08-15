@@ -15,6 +15,7 @@
       "npm:@ts-morph/bootstrap@0.22": "npm:@ts-morph/bootstrap@0.22.0",
       "npm:@types/node": "npm:@types/node@18.16.19",
       "npm:code-block-writer@^13.0.1": "npm:code-block-writer@13.0.2",
+      "npm:convert-csv-to-json@2.48.0": "npm:convert-csv-to-json@2.48.0",
       "npm:fastest-levenshtein@1.0.16": "npm:fastest-levenshtein@1.0.16",
       "npm:zod@3.23.8": "npm:zod@3.23.8"
     },
@@ -131,6 +132,10 @@
       },
       "code-block-writer@13.0.2": {
         "integrity": "sha512-XfXzAGiStXSmCIwrkdfvc7FS5Dtj8yelCtyOf2p2skCAfvLd6zu0rGzuS9NSCO3bq1JKpFZ7tbKdKlcd5occQA==",
+        "dependencies": {}
+      },
+      "convert-csv-to-json@2.48.0": {
+        "integrity": "sha512-XkmztvCyY1qbUA1dlait7fmazAS0vDhYOzhMu90NPMvqBVY0/2GmAW1XzTzlKPpW5K/4ZaTKEO2Jb7e4saIQxg==",
         "dependencies": {}
       },
       "fast-glob@3.3.2": {
