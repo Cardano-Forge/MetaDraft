@@ -23,7 +23,7 @@
     "next": "^14.2.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "@ada-anvil/metadraft-validator": "^0.1.0",
+    "@ada-anvil/metadraft-validator": "file:../core/src/validator/npm",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.3"
