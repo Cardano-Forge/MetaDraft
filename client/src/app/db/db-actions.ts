@@ -55,7 +55,7 @@ export const upsert = async <T>(
  * @param hash
  */
 export const setActiveProject = async (hash: string) => {
-  const doc = await get(hash);
+  const doc = await get("activeProject");
   try {
     await db.put({
       _id: "activeProject",
