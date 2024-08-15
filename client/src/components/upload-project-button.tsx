@@ -59,8 +59,8 @@ export default function UploadProjectButton() {
     const read = async () => {
       if (acceptedFiles.length === 1) {
         const json = await readFile(acceptedFiles[0]);
-        const hash = await stringToHash(JSON.stringify(json));
-        const meta = await upsert(hash, "metadata", json);
+        // const hash = await stringToHash(JSON.stringify(json));
+        const meta = await upsert("metadata", "metadata", json);
         if (meta.success) {
           router.push("/data-validation");
         } else {
