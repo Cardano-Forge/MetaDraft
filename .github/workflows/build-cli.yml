@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, windows-latest, ubuntu-20.04]
+        platform: [macos-latest, windows-latest, ubuntu-latest]
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v3
@@ -25,8 +25,8 @@ jobs:
           deno-version: v1.x # Run with latest stable Deno.
       - name: Compile step
         working-directory: core/cli/
-        run: "deno task compile"
+        run: "deno compile -A --output build/metadraft-${{ matrix.platform }} ./src/mod.ts"
       - uses: actions/upload-artifact@v4
         with:
           name: metadraft
-          path: core/cli/build/metadraft
+          path: core/cli/build/metadraft*
