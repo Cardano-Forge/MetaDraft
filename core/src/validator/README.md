@@ -132,4 +132,6 @@ Distributed under the MIT License. See LICENSE for more information.
 <b> | </b>
 <a href="https://discord.gg/RN4D7wzc" target="_blank">Discord</a>
 <b> | </b>
+<a href="https://projectcatalyst.io/funds/11/cardano-open-developers/anvil-open-source-metadata-validator" target="_blank">Catalyst - Fund11</a>
+<b> | </b>
 </div>
