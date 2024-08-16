@@ -11,6 +11,7 @@ import { metadataValidator } from "../utils/metadataChecks.ts";
  * Validates that metadata keys do not exceed 64 characters in length.
  *
  * @class KeyLength
+ * @module Rules
  * @extends BaseValidator
  *
  */

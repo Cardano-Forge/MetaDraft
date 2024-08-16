@@ -4,7 +4,7 @@ import type { FormattedError } from "./types.ts";
 /**
  * Formats a Zod error into a structured `FormattedError` object.
  * If no error is provided, it returns `undefined`.
- *
+ * @category Utils
  * @param {ZodError | undefined} error - The Zod validation error to format. If `undefined`, the function will return `undefined`.
  * @return {FormattedError | undefined} A formatted error object containing `message`, `errorCode`, `status`, and `path` properties.
  */

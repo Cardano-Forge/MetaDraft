@@ -11,6 +11,7 @@ import { metadataValidator } from "../utils/metadataChecks.ts";
  * Validates that metadata keys adhere to Snake Case formatting. Warns when keys do not follow this casing convention.
  *
  * @class KeySnakeCase
+ * @module Rules
  * @extends BaseValidator
  */
 export class KeySnakeCase extends BaseValidator {

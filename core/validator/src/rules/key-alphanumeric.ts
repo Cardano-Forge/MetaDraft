@@ -11,6 +11,7 @@ import { metadataValidator } from "../utils/metadataChecks.ts";
  * Enforces that metadata keys are alphanumeric, allowing dashes and underscores.
  *
  * @class KeyAlphanumeric
+ * @module Rules
  * @extends BaseValidator
  */
 export class KeyAlphanumeric extends BaseValidator {

@@ -20,6 +20,7 @@ function ensureString(image: string | string[]): string {
  *
  * This validator counts the occurrences of each image path and identifies duplicates based on the count. It assumes that the image path is a string or an array of strings under the 'image' key in each metadata object.
  * @class DuplicateImage
+ * @module Rules
  * @extends BaseValidator
  */
 export class DuplicateImage extends BaseValidator {

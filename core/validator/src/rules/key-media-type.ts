@@ -10,6 +10,7 @@ import type { Result } from "../utils/types.ts";
  * Validates that metadata has a valid `mediaType` field matching a predefined regex pattern.
  *
  * @class KeyMediaTypeValidator
+ * @module Rules
  * @extends BaseValidator
  */
 export class KeyMediaTypeValidator extends BaseValidator {

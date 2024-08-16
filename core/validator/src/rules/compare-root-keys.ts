@@ -12,6 +12,7 @@ import { distance, closest } from "fastest_levenshtein";
  * This validator uses the `fastest-levenshtein` library under the hood to calculate the Levenshtein distance between keys. It considers two keys as similar if their distance is less than or equal to the provided threshold.
  *
  * @class CompareRootKeys
+ * @module Rules
  * @extends BaseValidator
  */
 export class CompareRootKeys extends BaseValidator {

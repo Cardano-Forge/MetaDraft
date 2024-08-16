@@ -11,6 +11,7 @@ import { metadataValidator } from "../utils/metadataChecks.ts";
  * Ensures metadata keys follow Upper Case words format.
  *
  * @class KeyUpperCase
+ * @module Rules
  * @extends BaseValidator
  */
 export class KeyUpperCase extends BaseValidator {

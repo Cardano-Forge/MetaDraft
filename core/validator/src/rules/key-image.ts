@@ -10,6 +10,7 @@ import type { Result } from "../utils/types.ts";
  * Validates that metadata contains an "image" field formatted as a string URL or array of strings.
  *
  * @class KeyImageValidator
+ * @module Rules
  * @extends BaseValidator
  *
  */

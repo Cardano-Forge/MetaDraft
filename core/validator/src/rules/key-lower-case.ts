@@ -11,6 +11,7 @@ import { metadataValidator } from "../utils/metadataChecks.ts";
  * Validates that metadata keys follow Lower Case formatting (all lowercase, words separated by spaces).
  *
  * @class KeyLowerCase
+ * @module Rules
  * @extends BaseValidator
  *
  */

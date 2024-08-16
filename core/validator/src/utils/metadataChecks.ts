@@ -3,7 +3,7 @@ import { Result } from "./types.ts";
 
 /**
  * Validates if the provided metadata is a non-null object. If not, it returns an error state using `getStates`.
- *
+ * @category Utils
  * @param {string} assetName - The name of the asset.
  * @param {unknown} metadata - The metadata to validate. It should be a non-null object.
  * @param {string} requester - The ID or name of the entity requesting this validation.

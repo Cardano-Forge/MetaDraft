@@ -12,6 +12,7 @@ import type { Result } from "../utils/types.ts";
  * This validator uses Zod schema to validate metadata against policy ID and asset name format.
  *
  * @class Cip25Version2Validator
+ * @module Rules
  * @extends BaseValidator
  */
 export class Cip25Version2Validator extends BaseValidator {

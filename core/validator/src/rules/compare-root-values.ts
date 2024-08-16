@@ -12,6 +12,7 @@ import { distance, closest } from "fastest_levenshtein";
  * This validator filters out non-string values and calculates the Levenshtein distance between the remaining string values. It considers two values as similar if their distance is less than or equal to the provided threshold.
  *
  * @class CompareRootValues
+ * @module Rules
  * @extends BaseValidator
  */
 export class CompareRootValues extends BaseValidator {

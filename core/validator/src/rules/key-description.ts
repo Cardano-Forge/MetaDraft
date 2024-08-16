@@ -10,6 +10,7 @@ import type { Result } from "../utils/types.ts";
  * Validates that metadata for a given asset has an optional "description" field no longer than 64 characters.
  *
  * @class KeyDescriptionValidator
+ * @module Rules
  * @extends BaseValidator
  *
  */

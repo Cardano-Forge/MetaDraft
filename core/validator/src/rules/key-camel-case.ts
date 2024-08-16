@@ -11,6 +11,7 @@ import { metadataValidator } from "../utils/metadataChecks.ts";
  * Enforces Camel Case formatting for metadata keys.
  *
  * @class KeyCamelCase
+ * @module Rules
  * @extends BaseValidator
  */
 export class KeyCamelCase extends BaseValidator {

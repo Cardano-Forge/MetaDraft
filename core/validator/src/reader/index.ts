@@ -3,6 +3,8 @@ import { DataRead, IReader } from "../utils/types.ts";
 /**
  * Represents an abstract base class for data readers.
  *
+ * @module Reader
+ * @class BaseReader
  * @abstract
  */
 export abstract class BaseReader implements IReader {

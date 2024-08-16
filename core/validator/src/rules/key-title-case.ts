@@ -11,6 +11,7 @@ import { metadataValidator } from "../utils/metadataChecks.ts";
  * Validates that metadata keys adhere to Title Case formatting. Warns when keys do not follow this casing convention.
  *
  * @class KeyTitleCase
+ * @module Rules
  * @extends BaseValidator
  */
 export class KeyTitleCase extends BaseValidator {

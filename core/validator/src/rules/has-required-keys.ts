@@ -8,6 +8,7 @@ import type { Result } from "../utils/types.ts";
  * A validator ensuring that metadata includes essential fields such as "name", "description", and "image".
  *
  * @class HasRequiredKeysValidator
+ * @module Rules
  * @extends BaseValidator
  */
 export class HasRequiredKeysValidator extends BaseValidator {

@@ -3,7 +3,7 @@ import { isAbsolute } from "node:path";
 
 /**
  * Checks if a given file path is valid, absolute, and accessible.
- *
+ * @category Utils
  * @param {string} filePath - The file path to check. If the path is not absolute,
  *                            it will be treated as invalid.
  *

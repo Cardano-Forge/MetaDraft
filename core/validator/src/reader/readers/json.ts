@@ -7,6 +7,8 @@ import { isValidPath } from "../../utils/file.ts";
 /**
  * A reader implementation for JSON data.
  *
+ * @module Reader
+ * @class JsonReader
  * @extends {BaseReader}
  */
 export class JsonReader extends BaseReader {

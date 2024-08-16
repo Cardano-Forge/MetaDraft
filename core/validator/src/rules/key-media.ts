@@ -10,6 +10,7 @@ import type { Result } from "../utils/types.ts";
  * Validates that metadata optionally contains a valid `media` object with valid media-related values.
  *
  * @class KeyMediaValidator
+ * @module Rules
  * @extends BaseValidator
  */
 export class KeyMediaValidator extends BaseValidator {

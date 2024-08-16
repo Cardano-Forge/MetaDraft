@@ -10,6 +10,7 @@ import type { Result } from "../utils/types.ts";
  * Validates that metadata for a given asset has an optional "files" field formatted as an array of file objects.
  *
  * @class KeyFilesValidator
+ * @module Rules
  * @extends BaseValidator
  *
  */

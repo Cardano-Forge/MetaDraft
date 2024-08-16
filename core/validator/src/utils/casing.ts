@@ -2,7 +2,7 @@
  * Checks if a given string is in title case (e.g., "Title Case").
  *
  * Each word should start with an uppercase letter, and the rest of the letters in each word should be lowercase.
- *
+ * @category Utils
  * @param {string} str - The input string to check.
  * @return {boolean} Whether the string is in title case.
  */
@@ -20,7 +20,7 @@ export function isTitleCase(str: string): boolean {
  * Checks if a given string is in camel case (e.g., "camelCase").
  *
  * The first word is lowercase, and subsequent words are capitalized.
- *
+ * @category Utils
  * @param {string} str - The input string to check.
  * @return {boolean} Whether the string is in camel case.
  */
@@ -33,7 +33,7 @@ export function isCamelCase(str: string): boolean {
  * Checks if a given string is in snake case (e.g., "snake_case").
  *
  * All lowercase letters are separated by underscores.
- *
+ * @category Utils
  * @param {string} str - The input string to check.
  * @return {boolean} Whether the string is in snake case.
  */
@@ -44,7 +44,7 @@ export function isSnakeCase(str: string): boolean {
 
 /**
  * Checks if a given string contains only uppercase words (e.g., "UPPER_CASE").
- *
+ * @category Utils
  * @param {string} str - The input string to check.
  * @return {boolean} Whether the string consists of all uppercase words.
  */
@@ -54,7 +54,7 @@ export function isUpperCaseWords(str: string): boolean {
 
 /**
  * Checks if a given string contains only lowercase words (e.g., "lower_case").
- *
+ * @category Utils
  * @param {string} str - The input string to check.
  * @return {boolean} Whether the string consists of all lowercase words.
  */

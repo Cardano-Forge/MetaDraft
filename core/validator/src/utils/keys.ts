@@ -2,7 +2,7 @@ import { KeyWithPaths } from "./types.ts";
 
 /**
  * Recursively extract all keys from an object, keeping track of the path to each key.
- *
+ * @category Utils
  * @param obj - The input object to extract keys from.
  * @param path - (Optional) The current path used for nested objects. Defaults to an empty string.
  * @returns {KeyWithPaths[]} An array of objects containing the key and its full path.
@@ -28,7 +28,7 @@ export function extractKeysWithPaths(obj: object, path = ""): KeyWithPaths {
 
 /**
  * Count the occurrences of each key in an array of objects with paths.
- *
+ * @category Utils
  * @param keysWithPaths - An array of objects containing keys and their respective paths.
  * @returns {Record<string, number>} A record where keys are the unique keys from the input array,
  * and values are the corresponding occurrence counts.
@@ -50,7 +50,7 @@ export const countKeys = (
 
 /**
  * Get an array of objects containing the keys that exceed the given threshold and their respective paths.
- *
+ * @category Utils
  * @param keysWithPaths - An array of objects containing keys and their respective paths.
  * @param keyCounts - A record where keys are unique keys from the input array, and values are occurrence counts.
  * @param threshold - The minimum number of occurrences for a key to be considered excessive.
@@ -82,7 +82,7 @@ export function getPathsForExceedingKeys(
 
 /**
  * Format the output to match the frontend's expected format.
- *
+ * @category Utils
  * @param paths - An array of objects containing keys and their respective paths.
  * @param keyCounts - A record where keys are unique keys from the input array, and values are occurrence counts.
  * @returns {Array<{ field: string; paths: string[]; occurences: number }>} An array containing objects with

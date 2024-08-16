@@ -10,6 +10,7 @@ import type { Result } from "../utils/types.ts";
  * Validates that metadata has a valid `name` field with a size less than or equal to 64 characters.
  *
  * @class KeyNameValidator
+ * @module Rules
  * @extends BaseValidator
  */
 export class KeyNameValidator extends BaseValidator {

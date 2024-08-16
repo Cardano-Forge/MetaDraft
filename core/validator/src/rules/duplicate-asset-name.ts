@@ -11,6 +11,7 @@ import { metadataValidator } from "../utils/metadataChecks.ts";
  * This validator counts the occurrences of each asset name and identifies duplicates based on the count. It assumes that the asset name is the top-level key in each metadata object.
  *
  * @class DuplicateAssetName
+ * @module Rules
  * @extends BaseValidator
  */
 export class DuplicateAssetName extends BaseValidator {

@@ -14,6 +14,7 @@ import type { Result } from "../utils/types.ts";
  * A validator that checks metadata for duplicate keys exceeding a specified threshold.
  *
  * @class DuplicateKeysValidator
+ * @module Rules
  * @extends BaseValidator
  */
 export class DuplicateKeysValidator extends BaseValidator {

@@ -10,6 +10,7 @@ import { distance, closest } from "fastest_levenshtein";
  * A validator that checks if attribute keys in metadata are too similar to each other based on a Levenshtein distance threshold.
  *
  * @class CompareAttributesKeys
+ * @module Rules
  * @extends BaseValidator
  */
 export class CompareAttributesKeys extends BaseValidator {

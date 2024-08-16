@@ -10,6 +10,7 @@ import type { Result } from "../utils/types.ts";
  * Validates that metadata has an optional "attributes" field with correct formatting using zod.
  *
  * @class KeyAttributesValidator
+ * @module Rules
  * @extends BaseValidator
  */
 export class KeyAttributesValidator extends BaseValidator {

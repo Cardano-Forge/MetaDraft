@@ -10,6 +10,7 @@ import { findWhitespace } from "../utils/whiteSpace.ts";
  * Validates that metadata keys have no trailing whitespace characters.
  *
  * @class KeyWhiteSpace
+ * @module Rules
  * @extends BaseValidator
  */
 export class KeyWhiteSpace extends BaseValidator {

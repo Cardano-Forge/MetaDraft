@@ -10,6 +10,7 @@ import type { Result } from "../utils/types.ts";
  * Validates metadata object has optional "traits" field using Zod schema.
  *
  * @class KeyTraitsValidator
+ * @module Rules
  * @extends BaseValidator
  */
 export class KeyTraitsValidator extends BaseValidator {

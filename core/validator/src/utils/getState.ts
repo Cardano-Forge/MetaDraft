@@ -12,7 +12,7 @@ import type {
  * If all detected issues are warnings, the state is set to "warning".
  * If at least one error is detected, the state is set to "error".
  * Otherwise, it returns "success".
- *
+ * @category Utils
  * @param {FormattedError | undefined} error - Error formatted using zod, or undefined (in case of undefined, it means "success").
  *
  * @returns {State} The state, which can be "success", "warning", or "error".
@@ -49,7 +49,7 @@ function getState(error: FormattedError | undefined = undefined): State {
  */
 /**
  * Formats and returns an array of result objects containing state, message, input, and output details for success, warning, or error conditions.
- *
+ * @category Utils
  * @param {any} result - The zod result object to be processed.
  * @param {string} successMessage - The message to display when the state is "success".
  * @param {string} assetName - The required identifier for the asset, used to determine which input to update (e.g., an HTML id).
