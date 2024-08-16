@@ -9,7 +9,11 @@ permissions:
 
 jobs:
   build-and-publish:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [macos-latest, windows-latest, ubuntu-20.04]
+    runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
@@ -20,9 +24,9 @@ jobs:
         with:
           deno-version: v1.x # Run with latest stable Deno.
       - name: Compile step
-        working-directory: core/src/cli/
+        working-directory: core/cli/
         run: "deno task compile"
       - uses: actions/upload-artifact@v4
         with:
           name: metadraft
-          path: core/src/cli/build/metadraft
+          path: core/cli/build/metadraft
