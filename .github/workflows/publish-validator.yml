@@ -29,4 +29,4 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Release to JSR
         working-directory: core/src/validator/
-        run: deno publish
+        run: deno publish --allow-dirty
