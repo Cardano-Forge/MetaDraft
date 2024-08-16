@@ -8,14 +8,10 @@ Deno.test("Short string", () => {
 });
 
 Deno.test("Exactly 64 chars", () => {
-  const str = split(
-    "Long String that is exactly 64 characters long, so need two more",
-  );
+  const str =
+    "Long String that is exactly 64 characters long, so need two more";
 
-  assertEquals(
-    str,
-    "Long String that is exactly 64 characters long, so need two more",
-  );
+  assertEquals(split(str), str);
 });
 
 Deno.test("Exactly 65 chars", () => {
@@ -41,9 +37,9 @@ Deno.test("84 characters", () => {
 });
 
 Deno.test("Shasum256", () => {
-  const str = split("e7bc546316d2d0ec13a2d3117b13468f5e939f95");
+  const str = "e7bc546316d2d0ec13a2d3117b13468f5e939f95";
 
-  assertEquals(str, "e7bc546316d2d0ec13a2d3117b13468f5e939f95");
+  assertEquals(split(str), str);
 });
 
 Deno.test("a long description", () => {
@@ -62,7 +58,6 @@ Deno.test("a long string array description", () => {
     "about Levvy, the sloth who wears a hat, even when he sleeps!",
   ]);
 
-  console.log("str", str);
   assertEquals(str, [
     "A Cardano meme token and 100% community project that is all ",
     "about Levvy, the sloth who wears a hat, even when he sleeps!",
@@ -85,9 +80,8 @@ Deno.test("Long word", () => {
     "qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjk bonjour",
   );
 
-  console.debug("str", str);
-  // assertEquals(str, [
-  //   "e7bc546316d2d0ec13a2d3117b13468f5e939f95e7bc546316d2d0ec13a2d311",
-  //   "7b13468f5e939f95",
-  // ]);
+  assertEquals(str, [
+    "qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopas",
+    "dfghjk bonjour",
+  ]);
 });
