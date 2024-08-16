@@ -1,7 +1,7 @@
 import { assertEquals } from "@std/assert";
 import { Buffer } from "node:buffer";
 
-import { Decorator } from "../src/core.ts";
+import { Validator } from "../src/core.ts";
 
 import { Cip25Version1Validator } from "../src/rules/cip-25-version-1.ts";
 import { Cip25Version2Validator } from "../src/rules/cip-25-version-2.ts";
@@ -56,7 +56,7 @@ Deno.test("Cip25Version1Validator", () => {
     "Cip25Version1Validator",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -139,7 +139,7 @@ Deno.test("Cip25Version2Validator", () => {
     "Cip25Version2Validator",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -208,7 +208,7 @@ Deno.test("KeyNameValidator", () => {
     "KeyNameValidator",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -250,7 +250,7 @@ Deno.test("KeyImageValidator", () => {
     "KeyImageValidator",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -292,7 +292,7 @@ Deno.test("KeyMediaTypeValidator", () => {
     "KeyMediaTypeValidator",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -336,7 +336,7 @@ Deno.test("KeyDescriptionValidator", () => {
     "KeyDescriptionValidator",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -388,7 +388,7 @@ Deno.test("KeyFilesValidator", () => {
     "KeyFilesValidator",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -448,7 +448,7 @@ Deno.test("KeyAttributesValidator", () => {
     "KeyAttributesValidator",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -505,7 +505,7 @@ Deno.test("KeyTraitsValidator", () => {
     "KeyTraitsValidator",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -585,7 +585,7 @@ Deno.test("HasRequiredKeys", () => {
     "HasRequiredKeysValidator",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }

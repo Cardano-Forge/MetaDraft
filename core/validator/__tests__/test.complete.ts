@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 
-import { Decorator } from "../src/core.ts";
+import { Validator } from "../src/core.ts";
 
 import { Cip25Version1Validator } from "../src/rules/cip-25-version-1.ts";
 import { Cip25Version2Validator } from "../src/rules/cip-25-version-2.ts";
@@ -48,7 +48,7 @@ Deno.test("TestMultipleValidators", () => {
     "KeyDescriptionValidator",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }

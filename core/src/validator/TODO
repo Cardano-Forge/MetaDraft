@@ -1,9 +1,0 @@
-- [x] Do values rules (typos, duplicates, upper/lower cases, etc.)
-- [x] Custom hasKeys rule
-- [x] ~Bring it back to NodeJS / Jest and all the dependencies...~ Deno works !
-- [x] Write oneliner description on each rule
-
-Run tests: deno test -A __tests__/*.ts
-
-FIXME: "@std/assert": "jsr:@std/assert@1.0.1",
-1.0.2 is broken !

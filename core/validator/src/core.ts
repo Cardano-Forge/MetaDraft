@@ -29,7 +29,7 @@ export class BaseValidator implements IValidator {
  * It requires an `assetName`, a `metadata` object, and the complete metadata array to check and validate a collection.
  * The `getResults` method returns a final summary of the validation process.
  */
-export class Decorator implements IValidator {
+export class Validator implements IValidator {
   readonly id: string;
   private validations: Result[] = [];
   protected validators: IValidator[] = [];
@@ -48,7 +48,7 @@ export class Decorator implements IValidator {
     metadata: unknown,
     metadatas: unknown[],
   ): Result[] {
-    console.debug("Execute in Decorator", this.validators);
+    console.debug("Execute in Validator", this.validators);
     if (this.validators.length === 0) {
       console.debug("no validators defined.");
       return [];

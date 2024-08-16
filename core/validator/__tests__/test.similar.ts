@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 
-import { Decorator } from "../src/core.ts";
+import { Validator } from "../src/core.ts";
 
 import { CompareRootKeys } from "../src/rules/compare-root-keys.ts";
 import { CompareRootValues } from "../src/rules/compare-root-values.ts";
@@ -40,7 +40,7 @@ Deno.test("CompareRootKeys - withSuccess", () => {
     "CompareRootKeys",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -95,7 +95,7 @@ Deno.test("CompareRootKeys - withWarning", () => {
     "CompareRootKeys",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -153,7 +153,7 @@ Deno.test("CompareRootValues - withSuccess", () => {
     "CompareRootValues",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -212,7 +212,7 @@ Deno.test("CompareAttributesValues - withSuccess", () => {
     "CompareAttributesKeys",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }

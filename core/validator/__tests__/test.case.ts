@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 
-import { Decorator } from "../src/core.ts";
+import { Validator } from "../src/core.ts";
 
 import { KeyTitleCase } from "../src/rules/key-title-case.ts";
 import { KeyCamelCase } from "../src/rules/key-camel-case.ts";
@@ -44,7 +44,7 @@ Deno.test("KeyTitleCase - withWarning", () => {
     "KeyTitleCase",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -86,7 +86,7 @@ Deno.test("KeyCamelCase - withWarning", () => {
     "KeyCamelCase",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -114,7 +114,7 @@ Deno.test("KeySnakeCase - withWarning", () => {
     "KeySnakeCase",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -152,7 +152,7 @@ Deno.test("KeyLowerCase - withWarning", () => {
     "KeyLowerCase",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -190,7 +190,7 @@ Deno.test("KeyUpperCase - withWarning", () => {
     "KeyUpperCase",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
