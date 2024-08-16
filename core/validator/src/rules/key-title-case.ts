@@ -8,14 +8,30 @@ import { extractKeysWithPaths } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 
 /**
- * Validates metadata keys follow Title Case formatting.
+ * Validates that metadata keys adhere to Title Case formatting. Warns when keys do not follow this casing convention.
+ *
+ * @class KeyTitleCase
+ * @extends BaseValidator
  */
 export class KeyTitleCase extends BaseValidator {
+  /**
+   * Creates an instance of KeyTitleCase.
+   *
+   * @param options - Optional configuration for the validator. Currently not used.
+   */
   constructor(options?: object) {
     const id = "key-title-case";
     super(id, options);
   }
 
+  /**
+   * Executes the validation logic for a given asset and metadata.
+   *
+   * @param assetName - The name of the asset being validated.
+   * @param metadata - The metadata object to validate. Keys should adhere to Title Case formatting.
+   * @param _metadatas - An array of metadata objects, ignored in this validator.
+   * @returns {Result[]} An array of validation results, including warnings for non-Title Case keys.
+   */
   Execute(
     assetName: string,
     metadata: unknown,
@@ -25,6 +41,14 @@ export class KeyTitleCase extends BaseValidator {
     return this.Logic(assetName, metadata, _metadatas);
   }
 
+  /**
+   * The core validation logic for the KeyTitleCase class.
+   *
+   * @param assetName - The name of the asset being validated.
+   * @param metadata - The metadata object to validate. Keys should adhere to Title Case formatting.
+   * @param _metadatas - Ignored; included for compatibility with BaseValidator.
+   * @returns {Result[]} An array of validation results, including warnings for non-Title Case keys.
+   */
   Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;

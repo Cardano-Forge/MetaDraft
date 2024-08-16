@@ -1,9 +1,15 @@
 import type { IValidator, Result } from "./utils/types.ts";
 
 /**
- * Class for creating new validators.
- * The ID must be unique, serving as an identifier for tracking and debugging rules.
- * The `execute` function must be implemented by the validator.
+ * Base class for creating new validators.
+ *
+ * @class BaseValidator
+ * @implements {IValidator}
+ * @param {string} id - Unique identifier for tracking and debugging rules. Must be unique.
+ * @param {object} [options={}] - Optional configuration options for the validator.
+ *
+ * @example
+ * const myValidator = new BaseValidator("MY_VALIDATOR", { someOption: "value" });
  */
 export class BaseValidator implements IValidator {
   readonly id: string;
@@ -14,6 +20,17 @@ export class BaseValidator implements IValidator {
     this.options = options;
   }
 
+  /**
+   * Executes the validation logic.
+   *
+   * @method Execute
+   * @param {string} assetName - The name of the asset to validate.
+   * @param {object} metadata - The metadata object to validate against.
+   * @param {Array<object>} metadatas - The complete metadata array for context.
+   * @returns {Result[]} An array of validation results.
+   *
+   * @throws Will throw an error if the method is not implemented.
+   */
   Execute(
     _assetName: string,
     _metadata: unknown,
@@ -24,10 +41,15 @@ export class BaseValidator implements IValidator {
 }
 
 /**
- * This class serves as the main component for running rules against a set of metadata.
- * Custom validators must be enabled to create a template.
- * It requires an `assetName`, a `metadata` object, and the complete metadata array to check and validate a collection.
- * The `getResults` method returns a final summary of the validation process.
+ * Main validator class for running rules against a set of metadata.
+ *
+ * @class Validator
+ * @implements {IValidator}
+ * @param {string} id - Unique identifier for tracking and debugging purposes.
+ *
+ * @example
+ * const validator = new Validator("MY_VALIDATOR");
+ * validator.Enable(new MyCustomValidator());
  */
 export class Validator implements IValidator {
   readonly id: string;
@@ -38,11 +60,26 @@ export class Validator implements IValidator {
     this.id = id;
   }
 
+  /**
+   * Enables a custom validator.
+   *
+   * @method Enable
+   * @param {IValidator} validator - The validator to enable.
+   */
   Enable(validator: IValidator) {
     console.debug("Enabling validator:", validator.id);
     this.validators.push(validator);
   }
 
+  /**
+   * Executes the validation process with enabled validators.
+   *
+   * @method Execute
+   * @param {string} assetName - The name of the asset to validate.
+   * @param {object} metadata - The metadata object to validate against.
+   * @param {Array<object>} metadatas - The complete metadata array for context.
+   * @returns {Result[]} An array of validation results.
+   */
   Execute(
     assetName: string,
     metadata: unknown,
@@ -65,6 +102,12 @@ export class Validator implements IValidator {
     return this.validations;
   }
 
+  /**
+   * Retrieves the final summary of validation results.
+   *
+   * @method GetResults
+   * @returns {Result[]} An array of validation results.
+   */
   GetResults(): Result[] {
     return this.validations;
   }

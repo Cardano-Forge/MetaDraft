@@ -8,14 +8,30 @@ import { extractKeysWithPaths } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 
 /**
- * Validates metadata keys follow Snake Case formatting.
+ * Validates that metadata keys adhere to Snake Case formatting. Warns when keys do not follow this casing convention.
+ *
+ * @class KeySnakeCase
+ * @extends BaseValidator
  */
 export class KeySnakeCase extends BaseValidator {
+  /**
+   * Creates an instance of KeySnakeCase.
+   *
+   * @param options - Optional configuration for the validator. Currently not used.
+   */
   constructor(options?: object) {
     const id = "key-snake-case";
     super(id, options);
   }
 
+  /**
+   * Executes the validation logic for a given asset and metadata.
+   *
+   * @param assetName - The name of the asset being validated.
+   * @param metadata - The metadata object to validate. Keys should adhere to Snake Case formatting.
+   * @param _metadatas - An array of metadata objects, ignored in this validator.
+   * @returns {Result[]} An array of validation results, including warnings for non-Snake Case keys.
+   */
   Execute(
     assetName: string,
     metadata: unknown,
@@ -25,6 +41,14 @@ export class KeySnakeCase extends BaseValidator {
     return this.Logic(assetName, metadata, _metadatas);
   }
 
+  /**
+   * The core validation logic for the KeySnakeCase class.
+   *
+   * @param assetName - The name of the asset being validated.
+   * @param metadata - The metadata object to validate. Keys should adhere to Snake Case formatting.
+   * @param _metadatas - Ignored; included for compatibility with BaseValidator.
+   * @returns {Result[]} An array of validation results, including warnings for non-Snake Case keys.
+   */
   Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;

@@ -2,10 +2,9 @@ import { Buffer } from "node:buffer";
 
 import z from "zod";
 
-//
-// REGEXP
-//
-
+/**
+ * Regular expressions used in validation rules.
+ */
 const HEX56_REGEXP = /^[0-9a-fA-F]{56}$/;
 const REGEX_MEDIA_TYPE = /^(image\/|video\/|audio\/|application\/|model\/)/;
 const URI_REGEXP = /^(https?|ftp|ipfs):\/\/[^\s/$.?#].[^\s]*$/i;
@@ -27,6 +26,10 @@ const stringArraySchema = z
     message: "The array must contain at least one string.",
   });
 
+/**
+ * Checks if a string is within the specified length limit.
+ * @param {string} input - The input string to be checked.
+ */
 export const checkSize64 = z.union([stringSchema, stringArraySchema]);
 
 export const checkHex56 = str.regex(HEX56_REGEXP, {
@@ -76,12 +79,19 @@ const stringImageArraySchema = z
       "The combined length of all strings in the array must be at most 64 characters.",
   });
 
-// Define the combined schema for either a single string or an array of strings
+/**
+ * Checks if a string is either a valid URI or BASE64 format.
+ * @param {string} input - The input string to be checked.
+ */
 export const checkImageIsStringOrArray = z.union([
   singleStringSchema,
   stringImageArraySchema,
 ]);
 
+/**
+ * Checks if all elements in an array are of the same type.
+ * @param {Array<unknown>} input - The input array to be checked.
+ */
 export const arrayUniqueTypeSchema = z
   .array(z.any())
   .superRefine((arr: unknown[], ctx) => {
@@ -98,7 +108,10 @@ export const arrayUniqueTypeSchema = z
     return true;
   });
 
-// Define the schema for media type validation
+/**
+ * Checks if a string is a valid media type.
+ * @param {string} input - The input string to be checked.
+ */
 export const checkMediaType = str.refine(
   (value: string) => REGEX_MEDIA_TYPE.test(value),
   {
@@ -107,6 +120,9 @@ export const checkMediaType = str.refine(
   },
 );
 
+/**
+ * Checks if the provided files array contains valid objects with required fields.
+ */
 export const checkFiles = z.array(
   z.object({
     name: checkSize64.optional(),
@@ -115,6 +131,10 @@ export const checkFiles = z.array(
   }),
 );
 
+/**
+ * Checks if a string or number is used instead of another type.
+ * @param {unknown} input - The input value to be checked.
+ */
 export const valueIsNotString = z
   .string()
   .or(z.number())

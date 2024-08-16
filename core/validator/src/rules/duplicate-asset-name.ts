@@ -5,12 +5,33 @@ import { getStates } from "../utils/getState.ts";
 import type { Result } from "../utils/types.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 
+/**
+ * A validator that checks if there are any duplicate asset names in the provided metadatas.
+ *
+ * This validator counts the occurrences of each asset name and identifies duplicates based on the count. It assumes that the asset name is the top-level key in each metadata object.
+ *
+ * @class DuplicateAssetName
+ * @extends BaseValidator
+ */
 export class DuplicateAssetName extends BaseValidator {
+  /**
+   * Constructs a new instance of the `DuplicateAssetName` validator with an optional configuration object.
+   *
+   * @param {object} [options] - The options for the validator (not used in this validator).
+   */
   constructor(options?: object) {
     const id = "duplicate-asset-name";
     super(id, options);
   }
 
+  /**
+   * Executes the validation logic for a given asset and metadatas.
+   *
+   * @param {string} assetName - The name of the asset being validated.
+   * @param {unknown} metadata - The metadata associated with the asset.
+   * @param {object[]} metadatas - An array of all metadatas being validated.
+   * @returns {Result[]} An array containing the validation results.
+   */
   Execute(
     assetName: string,
     metadata: unknown,
@@ -20,6 +41,14 @@ export class DuplicateAssetName extends BaseValidator {
     return this.Logic(assetName, metadata, metadatas as object[]);
   }
 
+  /**
+   * Logic method to check for duplicate asset names.
+   *
+   * @param {string} assetName - The name of the asset being validated.
+   * @param {object} metadata - The metadata associated with the asset.
+   * @param {object[]} metadatas - An array of all metadatas being validated.
+   * @returns {Result[]} - Returns an array containing validation results.
+   */
   Logic(assetName: string, metadata: unknown, metadatas: object[]): Result[] {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;

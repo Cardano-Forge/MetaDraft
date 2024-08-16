@@ -51,7 +51,7 @@ function getState(error: FormattedError | undefined = undefined): State {
  * Formats and returns an array of result objects containing state, message, input, and output details for success, warning, or error conditions.
  *
  * @param {any} result - The zod result object to be processed.
- * @param {string} policyId - The message to display when the state is "success".
+ * @param {string} successMessage - The message to display when the state is "success".
  * @param {string} assetName - The required identifier for the asset, used to determine which input to update (e.g., an HTML id).
  * @param {unknown} metadata - The current asset metadata
  * @param {string} validatorId - A unique identifier for the validator. Defaults to "UNKNOWN".

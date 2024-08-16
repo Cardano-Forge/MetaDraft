@@ -9,13 +9,29 @@ import { metadataValidator } from "../utils/metadataChecks.ts";
 
 /**
  * Ensures metadata keys follow Upper Case words format.
+ *
+ * @class KeyUpperCase
+ * @extends BaseValidator
  */
 export class KeyUpperCase extends BaseValidator {
+  /**
+   * Creates an instance of KeyUpperCase validator.
+   *
+   * @param options - Optional configuration for the validator. Currently not used.
+   */
   constructor(options?: object) {
     const id = "key-upper-case";
     super(id, options);
   }
 
+  /**
+   * Executes the validation logic for a given asset and metadata.
+   *
+   * @param assetName - The name of the asset being validated.
+   * @param metadata - The metadata object to validate. Keys should follow Upper Case words format.
+   * @param _metadatas - An array of metadata objects, ignored in this validator.
+   * @returns {Result[]} An array of validation results indicating whether the metadata keys adhere to Upper Case formatting.
+   */
   Execute(
     assetName: string,
     metadata: unknown,
@@ -25,6 +41,14 @@ export class KeyUpperCase extends BaseValidator {
     return this.Logic(assetName, metadata, _metadatas);
   }
 
+  /**
+   * Validates that metadata keys follow Upper Case words format.
+   *
+   * @param assetName - The name of the asset being validated.
+   * @param metadata - The metadata object to validate.
+   * @param _metadatas - An array of metadata objects, ignored in this validator.
+   * @returns {Result[]} Validation results indicating whether the metadata keys adhere to Upper Case formatting.
+   */
   Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;

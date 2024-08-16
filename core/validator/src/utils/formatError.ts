@@ -1,15 +1,18 @@
-import { ZodError } from "zod";
+import { ZodError, ZodIssue } from "zod";
 import type { FormattedError } from "./types.ts";
 
 /**
- * Wrapper function around zod flatten function.
- * Requires to include the custom "status" parameter.
+ * Formats a Zod error into a structured `FormattedError` object.
+ * If no error is provided, it returns `undefined`.
+ *
+ * @param {ZodError | undefined} error - The Zod validation error to format. If `undefined`, the function will return `undefined`.
+ * @return {FormattedError | undefined} A formatted error object containing `message`, `errorCode`, `status`, and `path` properties.
  */
 export function formatError(
   error: ZodError | undefined,
 ): FormattedError | undefined {
   if (!error) return undefined;
-  return error.flatten((issue: any) => ({
+  return error.flatten((issue: ZodIssue) => ({
     message: issue.message,
     errorCode: issue.code,
     status: issue.params?.status || "error",

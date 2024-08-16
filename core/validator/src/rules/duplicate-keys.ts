@@ -12,13 +12,30 @@ import type { Result } from "../utils/types.ts";
 
 /**
  * A validator that checks metadata for duplicate keys exceeding a specified threshold.
+ *
+ * @class DuplicateKeysValidator
+ * @extends BaseValidator
  */
 export class DuplicateKeysValidator extends BaseValidator {
+  /**
+   * Creates an instance of DuplicateKeysValidator.
+   *
+   * @param {object} [options] - The options for the validator.
+   * @param {number} [options.threshold=3] - The threshold number of occurrences before considering a key duplicated.
+   */
   constructor(options?: object) {
     const id = "duplicate-keys";
     super(id, { threshold: 3, ...options });
   }
 
+  /**
+   * Executes the validation logic for metadata.
+   *
+   * @param {string} assetName - The name of the asset being validated.
+   * @param {unknown} metadata - The metadata to validate.
+   * @param {unknown[]} _metadatas - An array of all metadatas, currently not used.
+   * @returns {Result[]} - An array of validation results.
+   */
   Execute(
     assetName: string,
     metadata: unknown,
@@ -28,6 +45,14 @@ export class DuplicateKeysValidator extends BaseValidator {
     return this.Logic(assetName, metadata, _metadatas);
   }
 
+  /**
+   * The main validation logic for checking duplicate keys in metadata.
+   *
+   * @param {string} assetName - The name of the asset being validated.
+   * @param {unknown} metadata - The metadata to validate.
+   * @param {unknown[]} _metadatas - An array of all metadatas, currently not used.
+   * @returns {Result[]} - An array of validation results.
+   */
   Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
