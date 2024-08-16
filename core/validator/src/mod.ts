@@ -2,7 +2,7 @@ export { ReaderFactory } from "./reader/factory.ts";
 
 export { Validator, BaseValidator } from "./core.ts";
 
-export { split } from "./format/split.js";
+export { split } from "./format/split.ts";
 
 export * from "./utils/types.ts";
 
