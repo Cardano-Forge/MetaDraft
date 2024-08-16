@@ -24,7 +24,7 @@
     "pouchdb": "^9.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "@ada-anvil/metadraft-validator": "file:../core/src/validator/npm",
+    "@ada-anvil/metadraft-validator": "^0.0.7",
     "react-dropzone": "^14.2.3",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
@@ -48,6 +48,5 @@
   },
   "ct3aMetadata": {
     "initVersion": "7.36.2"
-  },
-  "packageManager": "pnpm@8.15.8"
+  }
 }
