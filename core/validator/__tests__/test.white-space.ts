@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 
-import { Decorator } from "../src/core.ts";
+import { Validator } from "../src/core.ts";
 
 import { KeyWhiteSpace } from "../src/rules/key-white-space.ts";
 
@@ -28,7 +28,7 @@ Deno.test("KeyWhiteSpace - withWarning", () => {
     "KeyWhiteSpace",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -88,7 +88,7 @@ Deno.test("KeyWhiteSpace - withArrayAndWarning", () => {
     "KeyWhiteSpace",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }

@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 
-import { Decorator } from "../src/core.ts";
+import { Validator } from "../src/core.ts";
 
 import { DuplicateAssetName } from "../src/rules/duplicate-asset-name.ts";
 
@@ -31,7 +31,7 @@ Deno.test("DuplicateAssetName - withWarning", () => {
     "DuplicateAssetName",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
