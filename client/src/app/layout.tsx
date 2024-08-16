@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 
 import { type Metadata } from "next";
 import Header from "~/components/header";
+import { RxdbProvider } from "~/providers/rxdb.provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,10 +23,12 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${GeistSans.variable} ${inter.variable}`}>
-      <body>
-        <Header />
-        {children}
-      </body>
+      <RxdbProvider>
+        <body>
+          <Header />
+          {children}
+        </body>
+      </RxdbProvider>
     </html>
   );
 }

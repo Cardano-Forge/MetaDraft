@@ -7,13 +7,17 @@ import CloudUploadIcon from "~/icons/cloud-upload.icon";
 import { Typography } from "./typography";
 import { getFileExtension } from "~/lib/get-file-extension";
 import { readFile } from "~/lib/read";
-import { upsert } from "~/app/db/db-actions";
 import { useRouter } from "next/navigation";
+import { useRxCollection } from "rxdb-hooks";
+import { type Metadata, type ActiveProject } from "~/lib/db/types";
 
 export default function UploadProjectButton() {
   const router = useRouter();
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
   const [error, setError] = useState<Error | undefined>(undefined);
+  const metadataCollection = useRxCollection<Metadata>("metadata");
+  const activeProjectCollection =
+    useRxCollection<ActiveProject>("activeProject");
 
   const onDrop = useCallback(
     async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
@@ -21,8 +25,17 @@ export default function UploadProjectButton() {
       if (acceptedFiles.length === 1) {
         const json = await readFile(acceptedFiles[0]);
         // const hash = await stringToHash(JSON.stringify(json));
-        const meta = await upsert("metadata", "metadata", json);
-        if (meta.success) {
+
+        const meta = await metadataCollection?.upsert({
+          id: "nonce",
+          data: json,
+        });
+        if (meta) {
+          await activeProjectCollection?.upsert({
+            id: "activeProject",
+            metadataId: meta.id,
+          });
+
           router.push("/data-validation");
         } else {
           // fail
@@ -58,7 +71,7 @@ export default function UploadProjectButton() {
         }
       }
     },
-    [router],
+    [metadataCollection, activeProjectCollection, router],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

@@ -1,11 +1,7 @@
-import dynamic from "next/dynamic";
 import CreateProjectButton from "~/components/create-project-button";
 import { Typography } from "~/components/typography";
+import UploadProjectButton from "~/components/upload-project-button";
 
-const UploadProjectButton = dynamic(
-  () => import("~/components/upload-project-button"),
-  { ssr: false },
-);
 
 export default function HomePage() {
   return (
