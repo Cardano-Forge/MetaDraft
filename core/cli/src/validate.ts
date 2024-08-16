@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import {
-  Decorator,
+  Validator,
   mapping,
   ReaderFactory,
 } from "@ada-anvil/metadraft-validator";
@@ -24,7 +24,7 @@ export async function validate(
   const rules = loadTemplates(templatePath);
 
   // 2. Build the validator from the validator package (CSV or JSON)
-  const main = new Decorator("Main");
+  const main = new Validator("Main");
   for (const validator of rules) {
     main.Enable(
       new mapping[validator.split(DIVIDER)[0] as keyof typeof mapping](

@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 
-import { Decorator } from "../src/core.ts";
+import { Validator } from "../src/core.ts";
 
 import { KeyTraitsValidator } from "../src/rules/key-traits.ts";
 
@@ -36,7 +36,7 @@ Deno.test("KeyTraitsValidator - withWarning", () => {
     "KeyTraitsValidator",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }

@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 
-import { Decorator } from "../src/core.ts";
+import { Validator } from "../src/core.ts";
 
 import { KeyAttributesValidator } from "../src/rules/key-attributes.ts";
 
@@ -22,7 +22,7 @@ Deno.test("KeyAttributesValidator - withWarning", async () => {
     "KeyAttributesValidator",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
@@ -72,7 +72,7 @@ Deno.test("KeyAttributesValidator - withSuccess", async () => {
     "KeyAttributesValidator",
   ];
 
-  const mainValidator = new Decorator("Main");
+  const mainValidator = new Validator("Main");
   for (const validator of validatorsReceivedFromFrontend) {
     mainValidator.Enable(new mapping[validator]());
   }
