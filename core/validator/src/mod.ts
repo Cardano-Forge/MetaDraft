@@ -2,6 +2,8 @@ export { ReaderFactory } from "./reader/factory.ts";
 
 export { Decorator, BaseValidator } from "./core.ts";
 
+export { split } from "./format/split.js";
+
 export * from "./utils/types.ts";
 
 export { Cip25Version1Validator } from "./rules/cip-25-version-1.ts";
