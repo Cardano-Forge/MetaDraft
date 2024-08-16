@@ -9,13 +9,15 @@ import { getFileExtension } from "~/lib/get-file-extension";
 import { readFile } from "~/lib/read";
 import { useRouter } from "next/navigation";
 import { useRxCollection } from "rxdb-hooks";
+import { type Metadata, type ActiveProject } from "~/lib/db/types";
 
 export default function UploadProjectButton() {
   const router = useRouter();
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
   const [error, setError] = useState<Error | undefined>(undefined);
-  const metadataCollection = useRxCollection("metadata");
-  const activeProjectCollection = useRxCollection("activeProject");
+  const metadataCollection = useRxCollection<Metadata>("metadata");
+  const activeProjectCollection =
+    useRxCollection<ActiveProject>("activeProject");
 
   const onDrop = useCallback(
     async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
@@ -31,7 +33,7 @@ export default function UploadProjectButton() {
         if (meta) {
           await activeProjectCollection?.upsert({
             id: "activeProject",
-            metadataId: "nonce",
+            metadataId: meta.id,
           });
 
           router.push("/data-validation");

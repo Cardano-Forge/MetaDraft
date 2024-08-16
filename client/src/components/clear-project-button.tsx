@@ -3,11 +3,12 @@ import React from "react";
 import { Button } from "./ui/button";
 import { RefreshCwIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import {  useRxData } from "rxdb-hooks";
+import { useRxData } from "rxdb-hooks";
+import { type ActiveProject } from "~/lib/db/types";
 
 export default function ClearProjectButton() {
   const router = useRouter();
-  const { result } = useRxData("activeProject", (collection) =>
+  const { result } = useRxData<ActiveProject>("activeProject", (collection) =>
     collection.findOne(),
   );
 
