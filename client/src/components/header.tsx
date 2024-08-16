@@ -1,12 +1,7 @@
 import React from "react";
 import Feedback from "./feedback";
 import Logo from "./logo";
-import dynamic from "next/dynamic";
-
-const ClearProjectButton = dynamic(
-  () => import("~/components/clear-project-button"),
-  { ssr: false },
-);
+import ClearProjectButton from "./clear-project-button";
 
 export default function Header() {
   return (
