@@ -28,5 +28,5 @@ jobs:
         run: "deno compile -A --output build/metadraft-${{ matrix.platform }} ./src/mod.ts"
       - uses: actions/upload-artifact@v4
         with:
-          name: metadraft
+          name: metadraft-${{ matrix.platform }}
           path: core/cli/build/metadraft*
