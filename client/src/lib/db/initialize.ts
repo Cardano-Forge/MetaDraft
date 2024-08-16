@@ -1,12 +1,10 @@
-import { createRxDatabase, removeRxDatabase } from "rxdb";
+import { createRxDatabase } from "rxdb";
 import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
-const name = "metadraft";
-const storage = getRxStorageDexie();
 export const initialize = async () => {
   // create RxDB
   const db = await createRxDatabase({
-    name,
-    storage,
+    name: "metadraft",
+    storage: getRxStorageDexie(),
   });
   await db.addCollections({
     metadata: {
@@ -46,7 +44,4 @@ export const initialize = async () => {
     },
   });
   return db;
-};
-export const wipe = async () => {
-  await removeRxDatabase(name, storage);
 };

@@ -3,7 +3,7 @@
 import React from "react";
 import { type RxDatabase } from "rxdb";
 import { Provider } from "rxdb-hooks";
-import { initialize, wipe } from "~/lib/db/initialize";
+import { initialize } from "~/lib/db/initialize";
 
 export const RxdbProvider = (props: { children: React.ReactNode }) => {
   const [db, setDb] = React.useState<RxDatabase | undefined>(undefined);
@@ -16,7 +16,7 @@ export const RxdbProvider = (props: { children: React.ReactNode }) => {
         //ignore
       });
     return () => {
-      void wipe();
+      void db?.remove();
     };
   }, []);
 
