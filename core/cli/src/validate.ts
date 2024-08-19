@@ -9,6 +9,7 @@ import { loadTemplates } from "./load-rules.ts";
 import { Message, summarize } from "./report.ts";
 import { DIVIDER } from "./contstant.ts";
 import { extractOptions } from "./utils.ts";
+import { DataRead, Result } from "./types.ts";
 
 export async function validate(
   metadataPath: string,
@@ -37,7 +38,12 @@ export async function validate(
   const reader = ReaderFactory.createReader(
     metadataPath.substring(metadataPath.lastIndexOf(".") + 1).toLowerCase(),
   );
-  const metadatas: object[] = await reader.Load(metadataPath);
+  reader.Load(metadataPath);
+  const metadatas: DataRead[] | null = reader.Read();
+
+  if (!metadatas) {
+    throw new Error("No metadatas loaded");
+  }
 
   // 4. Run the validation on each asset in the metadata input
   for (const metadata of metadatas) {
@@ -48,7 +54,7 @@ export async function validate(
       metadatas,
     );
   }
-  const result = main.GetResults();
+  const result: Result[] = main.GetResults();
 
   // 4. Save the report on the local FS
   fs.writeFileSync(
