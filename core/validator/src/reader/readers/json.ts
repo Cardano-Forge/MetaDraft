@@ -36,7 +36,7 @@ export class JsonReader extends BaseReader {
   /**
    * Reads and returns the loaded JSON data as an array of {@link DataRead} objects.
    *
-   * @return {Promise<DataRead[]>} The read JSON data.
+   * @return {DataRead[] | null} The read JSON data.
    */
   Read(): DataRead[] | null {
     return this.data;

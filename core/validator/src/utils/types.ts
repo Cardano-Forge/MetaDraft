@@ -148,7 +148,7 @@ export interface IReader {
   /**
    * Reads and returns either an array of data records asynchronously or synchronously if already available.
    *
-   * @returns {Promise<DataRead[]> | DataRead[]} An array of data records.
+   * @returns {DataRead[] | null} An array of data records.
    */
   Read(): DataRead[] | null;
 }

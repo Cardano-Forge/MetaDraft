@@ -64,7 +64,7 @@ export class CsvReader extends BaseReader {
   /**
    * Reads and returns the loaded CSV data as an array of {@link DataRead} objects.
    *
-   * @return {Promise<DataRead[]>} The read CSV data.
+   * @return {DataRead[] | null} The read CSV data.
    */
   Read(): DataRead[] | null {
     return this.data;
