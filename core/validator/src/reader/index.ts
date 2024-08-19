@@ -20,10 +20,10 @@ export abstract class BaseReader implements IReader {
   /**
    * Loads data from a specified path or uses provided data.
    *
-   * @param {string | PromiseLike<string>} _pathOrData - The file path or data to load.
-   * @return {Promise<object> | object} The loaded data.
+   * @param {string} _pathOrData - The file path or data to load.
+   * @return {DataRead[]} The loaded data.
    */
-  Load(_pathOrData: string): Promise<object> | object {
+  Load(_pathOrData: string): DataRead[] {
     throw new Error("Method not implemented.");
   }
   /**

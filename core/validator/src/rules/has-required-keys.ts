@@ -53,16 +53,16 @@ export class HasRequiredKeysValidator extends BaseValidator {
 
     const keys = Object.keys(metadata as object);
 
-    const policyId = ["name", "image"];
+    const requiredKeys = ["name", "image"];
 
-    const hasAllRequiredKeys = policyId.every((requiredKey) =>
+    const hasAllRequiredKeys = requiredKeys.every((requiredKey) =>
       keys.some((key) => key === requiredKey),
     );
 
     return getStates(
       {
         state: hasAllRequiredKeys ? "success" : "error",
-        message: `Required keys missing: ["name", "description", "image", "mediaType"]. Keys received: ${keys.join(", ")}`,
+        message: `Required keys missing: ["name", "image"]. Keys received: ${keys.join(", ")}`,
       },
       "All required keys are present.",
       assetName,

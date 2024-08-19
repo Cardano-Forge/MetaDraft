@@ -20,10 +20,10 @@ export class JsonReader extends BaseReader {
   /**
    * Loads JSON data from a specified path or uses provided JSON data string.
    *
-   * @param {string | PromiseLike<string>} pathOrData - The file path containing JSON data or the JSON data as a string.
-   * @return {object} The loaded JSON data as an object.
+   * @param {string} pathOrData - The file path containing JSON data or the JSON data as a string.
+   * @return {DataRead[]} The loaded JSON data as an object.
    */
-  Load(pathOrData: string): object {
+  Load(pathOrData: string): DataRead[] {
     if (isValidPath(pathOrData)) {
       this.data = JSON.parse(readFileSync(pathOrData, "utf8"));
     } else {

@@ -56,7 +56,7 @@ export interface Result {
   /**
    * An optional message or object associated with the validation result. Defaults to `undefined`.
    */
-  message?: string | object | undefined;
+  message: string | object | undefined;
 
   /**
    * The input data that was validated.
@@ -66,7 +66,7 @@ export interface Result {
   /**
    * The output data resulting from successful validation (optional). Set to `undefined` when there is an error/warning.
    */
-  output?: unknown | undefined;
+  output: unknown | undefined;
 
   /**
    * The name of the asset being validated.
