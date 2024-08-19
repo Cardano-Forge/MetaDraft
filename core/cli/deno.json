@@ -8,6 +8,8 @@
   },
   "tasks": {
     "start": "deno run -A src/mod.ts",
-    "compile": "deno compile -A --output build/metadraft ./src/mod.ts"
+    "compile": "deno compile -A --output build/metadraft ./src/mod.ts",
+    "lint": "deno lint src/",
+    "lint:fix": "deno lint --fix src/"
   }
 }

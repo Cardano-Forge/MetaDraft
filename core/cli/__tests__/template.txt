@@ -12,6 +12,8 @@
 compareRootKeys=>{"threshold":3}
 compareRootValues
 duplicateKeysValidator
+duplicateImage
+duplicateAssetName
 
 #
 # mandatory
@@ -31,6 +33,7 @@ keyDescriptionValidator
 keyFilesValidator
 keyMediaValidator
 keyNameValidator
+keyWhiteSpace
 
 #
 # Custom keys
