@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 
-import { DataRead } from "../../utils/types.ts";
+import type { DataRead } from "../../utils/types.ts";
 import { BaseReader } from "../index.ts";
 import { isValidPath } from "../../utils/file.ts";
 
@@ -30,15 +30,15 @@ export class JsonReader extends BaseReader {
       this.data = JSON.parse(pathOrData);
     }
 
-    return this.data;
+    return this.data as DataRead[];
   }
 
   /**
    * Reads and returns the loaded JSON data as an array of {@link DataRead} objects.
    *
-   * @return {Promise<DataRead[]>} The read JSON data.
+   * @return {DataRead[] | null} The read JSON data.
    */
-  async Read(): Promise<DataRead[]> {
+  Read(): DataRead[] | null {
     return this.data;
   }
 }

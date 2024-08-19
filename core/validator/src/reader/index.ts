@@ -1,4 +1,4 @@
-import { DataRead, IReader } from "../utils/types.ts";
+import type { DataRead, IReader } from "../utils/types.ts";
 
 /**
  * Represents an abstract base class for data readers.
@@ -11,23 +11,27 @@ export abstract class BaseReader implements IReader {
   /**
    * The loaded data. This property will be set by the {@link load} method.
    */
-  data: any;
+  data: DataRead[] | null;
+
+  constructor() {
+    this.data = null;
+  }
 
   /**
    * Loads data from a specified path or uses provided data.
    *
    * @param {string | PromiseLike<string>} _pathOrData - The file path or data to load.
-   * @return {Promise<any> | any} The loaded data.
+   * @return {Promise<object> | object} The loaded data.
    */
-  Load(_pathOrData: string): Promise<any> | any {
+  Load(_pathOrData: string): Promise<object> | object {
     throw new Error("Method not implemented.");
   }
   /**
    * Reads and returns the data.
    *
-   * @return {Promise<DataRead[]> | DataRead[]} The read data.
+   * @return {DataRead[] | null} The read data.
    */
-  Read(): Promise<DataRead[]> | DataRead[] {
+  Read(): DataRead[] | null {
     throw new Error("Method not implemented.");
   }
 }

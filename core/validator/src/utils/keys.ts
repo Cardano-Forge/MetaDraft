@@ -1,4 +1,4 @@
-import { KeyWithPaths } from "./types.ts";
+import type { KeyWithPaths } from "./types.ts";
 
 /**
  * Recursively extract all keys from an object, keeping track of the path to each key.

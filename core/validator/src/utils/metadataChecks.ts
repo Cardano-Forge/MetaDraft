@@ -1,5 +1,5 @@
 import { getStates } from "./getState.ts";
-import { Result } from "./types.ts";
+import type { Result } from "./types.ts";
 
 /**
  * Validates if the provided metadata is a non-null object. If not, it returns an error state using `getStates`.

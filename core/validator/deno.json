@@ -1,6 +1,6 @@
 {
   "name": "@ada-anvil/metadraft-validator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "exports": "./src/mod.ts",
   "imports": {
     "@deno/dnt": "jsr:@deno/dnt@^0.41.2",
@@ -10,6 +10,9 @@
     "fastest_levenshtein": "npm:fastest-levenshtein@1.0.16"
   },
   "tasks": {
-    "build": "deno run -A scripts/build_npm.ts"
+    "build": "deno run -A scripts/build_npm.ts",
+    "lint": "deno lint src/",
+    "lint:fix": "deno lint --fix src/",
+    "test": "deno test -A __tests__/**/*.ts"
   }
 }
