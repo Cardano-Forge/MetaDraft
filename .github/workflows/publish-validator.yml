@@ -11,7 +11,7 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "20.x"
@@ -20,13 +20,13 @@ jobs:
         with:
           deno-version: v1.x # Run with latest stable Deno.
       - name: Build step
-        working-directory: core/src/validator/
+        working-directory: core/validator/
         run: "deno task build $(cat ./deno.json | jq -r '.version')"
       - name: Release to npm
-        working-directory: core/src/validator/npm/
+        working-directory: core/validator/npm/
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Release to JSR
-        working-directory: core/src/validator/
+        working-directory: core/validator/
         run: deno publish --allow-dirty
