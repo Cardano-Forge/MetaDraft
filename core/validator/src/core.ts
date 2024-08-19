@@ -6,18 +6,18 @@ import type { IValidator, Result } from "./utils/types.ts";
  * @class BaseValidator
  * @implements {IValidator}
  * @param {string} id - Unique identifier for tracking and debugging rules. Must be unique.
- * @param {object} [options={}] - Optional configuration options for the validator.
+ * @param {unknown|undefined} [options={}] - Optional configuration options for the validator.
  *
  * @example
  * const myValidator = new BaseValidator("MY_VALIDATOR", { someOption: "value" });
  */
 export class BaseValidator implements IValidator {
   readonly id: string;
-  readonly options: any;
+  readonly options: unknown | undefined;
 
-  constructor(id: string, options: any) {
+  constructor(id: string, options: unknown | undefined) {
     this.id = id;
-    this.options = options;
+    this.options = options || {};
   }
 
   /**

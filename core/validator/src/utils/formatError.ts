@@ -1,4 +1,4 @@
-import { ZodError, ZodIssue } from "zod";
+import type { ZodError, ZodIssue } from "zod";
 import type { FormattedError } from "./types.ts";
 
 /**
@@ -12,10 +12,12 @@ export function formatError(
   error: ZodError | undefined,
 ): FormattedError | undefined {
   if (!error) return undefined;
-  return error.flatten((issue: ZodIssue) => ({
-    message: issue.message,
-    errorCode: issue.code,
-    status: issue.params?.status || "error",
-    path: issue.path.join("/"),
-  })) as FormattedError;
+  return error.flatten(
+    (issue: ZodIssue & { params?: { status?: string } }) => ({
+      message: issue.message,
+      errorCode: issue.code,
+      status: issue.params?.status || "error",
+      path: issue.path.join("/"),
+    }),
+  ) as FormattedError;
 }

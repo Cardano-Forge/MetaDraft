@@ -1,6 +1,6 @@
 import { Buffer } from "node:buffer";
 
-import z from "zod";
+import z, { type RefinementCtx } from "zod";
 
 /**
  * Regular expressions used in validation rules.
@@ -94,10 +94,9 @@ export const checkImageIsStringOrArray = z.union([
  */
 export const arrayUniqueTypeSchema = z
   .array(z.any())
-  .superRefine((arr: unknown[], ctx) => {
+  .superRefine((arr: unknown[], ctx: RefinementCtx) => {
     if (arr.length === 0) return true; // Empty array is considered valid
-    const type = typeof arr[0];
-    const same = arr.every((item) => typeof item === type);
+    const same = arr.every((item) => typeof item === typeof arr[0]);
     if (!same) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -138,7 +137,7 @@ export const checkFiles = z.array(
 export const valueIsNotString = z
   .string()
   .or(z.number())
-  .superRefine((value: unknown, ctx) => {
+  .superRefine((value: unknown, ctx: RefinementCtx) => {
     if (typeof value !== "string") {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,

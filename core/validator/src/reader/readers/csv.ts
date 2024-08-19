@@ -1,6 +1,6 @@
 import csvToJson from "convert-csv-to-json";
 
-import { CsvOptions, DataRead } from "../../utils/types.ts";
+import type { CsvOptions, DataRead } from "../../utils/types.ts";
 import { BaseReader } from "../index.ts";
 import { isValidPath } from "../../utils/file.ts";
 
@@ -58,7 +58,7 @@ export class CsvReader extends BaseReader {
       this.data = reader.csvStringToJson(pathOrData);
     }
 
-    return this.data;
+    return this.data as DataRead[];
   }
 
   /**
@@ -66,7 +66,7 @@ export class CsvReader extends BaseReader {
    *
    * @return {Promise<DataRead[]>} The read CSV data.
    */
-  async Read(): Promise<DataRead[]> {
+  Read(): DataRead[] | null {
     return this.data;
   }
 }

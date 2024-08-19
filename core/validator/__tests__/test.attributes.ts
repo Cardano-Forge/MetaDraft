@@ -8,7 +8,7 @@ const mapping = {
   KeyAttributesValidator: KeyAttributesValidator,
 } as const;
 
-Deno.test("KeyAttributesValidator - withWarning", async () => {
+Deno.test("KeyAttributesValidator - withWarning", () => {
   const metadata = [
     {
       attributes: {

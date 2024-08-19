@@ -1,6 +1,6 @@
 import { CsvReader } from "./readers/csv.ts";
 import { JsonReader } from "./readers/json.ts";
-import { CsvOptions, IReader } from "../utils/types.ts";
+import type { CsvOptions, IReader } from "../utils/types.ts";
 
 /**
  * A factory class responsible for creating data readers based on the specified type.

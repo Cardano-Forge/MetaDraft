@@ -2,7 +2,7 @@ import { BaseValidator } from "../core.ts";
 
 import { getStates } from "../utils/getState.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
-import type { Result } from "../utils/types.ts";
+import type { OptionsWithThreshold, Result } from "../utils/types.ts";
 
 import { distance, closest } from "fastest_levenshtein";
 
@@ -22,7 +22,7 @@ export class CompareRootValues extends BaseValidator {
    * @param {object} [options] - The options for the validator.
    * @param {number} [options.threshold=2] - The Levenshtein distance threshold below which values are considered similar.
    */
-  constructor(options?: { treshold: number }) {
+  constructor(options?: OptionsWithThreshold) {
     const id = "compare-root-values";
     super(id, { threshold: 2, ...options });
   }
@@ -74,7 +74,7 @@ export class CompareRootValues extends BaseValidator {
 
       const distanceValue = distance(value, closestValue);
 
-      if (distanceValue < this.options.threshold) {
+      if (distanceValue < (this.options as OptionsWithThreshold).threshold) {
         warnings.push(`${value} is similar to ${closestValue}`);
       }
     }

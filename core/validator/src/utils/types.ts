@@ -1,4 +1,4 @@
-import { ZodError } from "zod";
+import type { ZodError } from "zod";
 /**
  * Type representing a formatted error object containing message, errorCode, status, and path.
  */
@@ -135,22 +135,22 @@ export interface IReader {
   /**
    * The current data being read by the reader.
    */
-  data: any;
+  data: DataRead[] | null;
 
   /**
    * Loads data asynchronously from the given path or returns it synchronously if already available.
    *
    * @param {string} pathOrData - Either a file path to load or an existing data object.
-   * @returns {Promise<any> | any} The loaded data.
+   * @returns {Promise<object> | object} The loaded data.
    */
-  Load(pathOrData: string): Promise<any> | any;
+  Load(pathOrData: string): Promise<object> | object;
 
   /**
    * Reads and returns either an array of data records asynchronously or synchronously if already available.
    *
    * @returns {Promise<DataRead[]> | DataRead[]} An array of data records.
    */
-  Read(): Promise<DataRead[]> | DataRead[];
+  Read(): DataRead[] | null;
 }
 
 /**
@@ -195,7 +195,7 @@ export type ZodStateError = {
   /**
    * The data associated with the validation attempt.
    */
-  data: Object;
+  data: object;
 };
 
 /**
@@ -215,5 +215,9 @@ export type StateError = {
   /**
    * The data associated with the validation attempt.
    */
-  data: Object;
+  data: object;
+};
+
+export type OptionsWithThreshold = {
+  threshold: number;
 };

@@ -8,7 +8,7 @@ import {
   getPathsForExceedingKeys,
 } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
-import type { Result } from "../utils/types.ts";
+import type { OptionsWithThreshold, Result } from "../utils/types.ts";
 
 /**
  * A validator that checks metadata for duplicate keys exceeding a specified threshold.
@@ -24,7 +24,7 @@ export class DuplicateKeysValidator extends BaseValidator {
    * @param {object} [options] - The options for the validator.
    * @param {number} [options.threshold=3] - The threshold number of occurrences before considering a key duplicated.
    */
-  constructor(options?: object) {
+  constructor(options?: OptionsWithThreshold) {
     const id = "duplicate-keys";
     super(id, { threshold: 3, ...options });
   }
@@ -71,7 +71,7 @@ export class DuplicateKeysValidator extends BaseValidator {
     const paths = getPathsForExceedingKeys(
       keys,
       keyCounts,
-      this.options.threshold,
+      (this.options as OptionsWithThreshold).threshold,
     );
 
     if (paths.length > 0) {
