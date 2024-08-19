@@ -1,3 +1,4 @@
+import { ZodError } from "zod";
 /**
  * Type representing a formatted error object containing message, errorCode, status, and path.
  */
