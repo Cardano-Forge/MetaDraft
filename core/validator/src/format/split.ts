@@ -1,6 +1,6 @@
 /**
  * Splits a given string or array of strings into smaller chunks, ensuring each chunk is no longer than 64 characters.
- *
+ * @category Formatter
  * @param {string|string[]} str - The input string or array of strings to split.
  * @returns {string|string[]} The formatted result as a single string (if the original length was less than or equal to 64) or an array of strings (if longer).
  */

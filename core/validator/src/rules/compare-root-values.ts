@@ -8,13 +8,33 @@ import { distance, closest } from "fastest_levenshtein";
 
 /**
  * A validator that checks if root value strings in metadata are too similar to each other based on a Levenshtein distance threshold.
+ *
+ * This validator filters out non-string values and calculates the Levenshtein distance between the remaining string values. It considers two values as similar if their distance is less than or equal to the provided threshold.
+ *
+ * @class CompareRootValues
+ * @module Rules
+ * @extends BaseValidator
  */
 export class CompareRootValues extends BaseValidator {
+  /**
+   * Constructs a new instance of the `CompareRootValues` validator.
+   *
+   * @param {object} [options] - The options for the validator.
+   * @param {number} [options.threshold=2] - The Levenshtein distance threshold below which values are considered similar.
+   */
   constructor(options?: { treshold: number }) {
     const id = "compare-root-values";
     super(id, { threshold: 2, ...options });
   }
 
+  /**
+   * Executes the validation logic for a given asset and metadata.
+   *
+   * @param {string} assetName - The name of the asset being validated.
+   * @param {unknown} metadata - The metadata associated with the asset.
+   * @param {unknown[]} _metadatas - An array of all metadatas (not used in this validator).
+   * @returns {Result[]} An array containing the validation results.
+   */
   Execute(
     assetName: string,
     metadata: unknown,
@@ -24,6 +44,14 @@ export class CompareRootValues extends BaseValidator {
     return this.Logic(assetName, metadata, _metadatas);
   }
 
+  /**
+   * The main logic of the validator that checks for similar root value strings in the provided metadata.
+   *
+   * @param {string} assetName - The name of the asset being validated.
+   * @param {unknown} metadata - The metadata associated with the asset.
+   * @param {unknown[]} _metadatas - An array of all metadatas (not used in this validator).
+   * @returns {Result[]} An array containing the validation results.
+   */
   Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;

@@ -4,6 +4,9 @@ import { CsvOptions, IReader } from "../utils/types.ts";
 
 /**
  * A factory class responsible for creating data readers based on the specified type.
+ *
+ * @module Reader
+ * @class ReaderFactory
  */
 export class ReaderFactory {
   /**

@@ -7,6 +7,8 @@ import { isValidPath } from "../../utils/file.ts";
 /**
  * A reader implementation for CSV data using {@link https://www.npmjs.com/package/convert-csv-to-json convert-csv-to-json} library.
  *
+ * @module Reader
+ * @class CsvReader
  * @extends {BaseReader}
  */
 export class CsvReader extends BaseReader {

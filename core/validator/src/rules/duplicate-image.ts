@@ -5,16 +5,43 @@ import { getStates } from "../utils/getState.ts";
 import type { Result } from "../utils/types.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 
+/**
+ * Ensures that the given `image` is a string by joining any array elements.
+ *
+ * @param {string | string[]} image - The image path to ensure is a string.
+ * @returns {string} The ensured string image path.
+ */
 function ensureString(image: string | string[]): string {
   return Array.isArray(image) ? image.join("") : image;
 }
 
+/**
+ * A validator that checks if there are any duplicate image paths across assets in the provided metadatas.
+ *
+ * This validator counts the occurrences of each image path and identifies duplicates based on the count. It assumes that the image path is a string or an array of strings under the 'image' key in each metadata object.
+ * @class DuplicateImage
+ * @module Rules
+ * @extends BaseValidator
+ */
 export class DuplicateImage extends BaseValidator {
+  /**
+   * Constructs a new instance of the `DuplicateImage` validator with an optional configuration object.
+   *
+   * @param {object} [options] - The options for the validator (not used in this validator).
+   */
   constructor(options?: object) {
     const id = "duplicate-image";
     super(id, options);
   }
 
+  /**
+   * Executes the validation logic for a given asset and metadatas.
+   *
+   * @param {string} assetName - The name of the asset being validated.
+   * @param {unknown} metadata - The metadata associated with the asset.
+   * @param {object[]} metadatas - An array of all metadatas being validated.
+   * @returns {Result[]} An array containing the validation results.
+   */
   Execute(
     assetName: string,
     metadata: unknown,
@@ -24,6 +51,14 @@ export class DuplicateImage extends BaseValidator {
     return this.Logic(assetName, metadata, metadatas);
   }
 
+  /**
+   * Logic method to check for duplicate image paths.
+   *
+   * @param {string} assetName - The name of the asset being validated.
+   * @param {object} metadata - The metadata associated with the asset.
+   * @param {object[]} metadatas - An array of all metadatas being validated.
+   * @returns {Result[]} An array containing the validation results.
+   */
   Logic(assetName: string, metadata: unknown, metadatas: unknown[]): Result[] {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;

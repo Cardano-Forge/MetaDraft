@@ -1,5 +1,21 @@
 type Path = string[];
 
+/**
+ * Recursively searches an object and its nested properties for whitespace.
+ * @category Utils
+ * @param {object} obj - The object to search.
+ * @param {string[]} [path=[]] - An optional array representing the current path within the object. Defaults to an empty array.
+ * @return {{ path: string[], whitespaceLocation: 'key' | 'value' }[]} - An array of objects containing the paths and locations ('key' or 'value') where whitespace was found.
+ *
+ * @example
+ * const obj = { a: "   test   ", b: [1, " trim me ", { c: "keep me" }] };
+ * console.log(findWhitespace(obj));
+ * // Output:
+ * [
+ *   { path: ['a'], whitespaceLocation: 'value' },
+ *   { path: ['b', '[1]'], whitespaceLocation: 'value' }
+ * ]
+ */
 export function findWhitespace(
   obj: object,
   path: Path = [],
