@@ -28,6 +28,10 @@
 
 1. Inside the `__tests__` directory, create tests to validate various potential cases and edge scenarios for your rule.
 
+## Update the CLI template
+
+1. You can add the new rules in that file: `core/cli/__tests__/template.txt`
+
 ## Creating a Pull Request (PR)
 
 After completing these steps, use GitHub to create a pull request against the main branch for review and eventual merging into the complete solution.

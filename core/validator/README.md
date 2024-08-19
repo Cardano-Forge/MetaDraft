@@ -30,11 +30,14 @@
 2. Run tests: `deno test -A __tests__/**/*.ts`
 3. Register new rule [New Rule](./docs/new-rule.md)
 
----
+**Compatible with:**
+- **Deno**: https://jsr.io/@ada-anvil/metadraft-validator
+- **Node.js**: https://www.npmjs.com/package/@ada-anvil/metadraft-validator
 
-## Screenshots
+**Supported Platforms & Usage:**
+- **Next.js and Node 20**: Server-side only, installed via npm.js
+- **Deno**: Direct usage
 
-TODO
 ---
 
 ### Releases and Github Actions

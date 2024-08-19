@@ -12,7 +12,7 @@ yargs(Deno.args)
   .command(
     "validate",
     "Validate metadata using a template",
-    (yargs: any) => {
+    (yargs) => {
       return yargs
         .option("m", {
           alias: "metadata-to-validate",
