@@ -7,7 +7,7 @@ import { checkMediaType } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
 
 /**
- * Validates that metadata has a valid `mediaType` field matching a predefined regex pattern.
+ * Validates that metadata has a valid optional `mediaType` field matching a predefined regex pattern.
  *
  * @class KeyMediaTypeValidator
  * @module Rules
@@ -28,7 +28,7 @@ export class KeyMediaTypeValidator extends BaseValidator {
    * Executes the validation logic for a given asset and metadata.
    *
    * @param assetName - The name of the asset being validated.
-   * @param metadata - The metadata object to validate. Must contain a valid `mediaType` field.
+   * @param metadata - The metadata object to validate. Should contain a valid `mediaType` field.
    * @param _metadatas - An array of metadata objects, ignored in this validator.
    * @returns {Result[]} An array of validation results.
    */
@@ -45,14 +45,14 @@ export class KeyMediaTypeValidator extends BaseValidator {
    * The core validation logic for the KeyMediaTypeValidator class.
    *
    * @param assetName - The name of the asset being validated.
-   * @param metadata - The metadata object to validate. Must contain a valid `mediaType` field.
+   * @param metadata - The metadata object to validate. Should contain a valid `mediaType` field.
    * @param _metadatas - Ignored; included for compatibility with BaseValidator.
    * @returns {Result[]} An array of validation results.
    */
   Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
     const result = z
       .object({
-        mediaType: checkMediaType,
+        mediaType: checkMediaType.optional(),
       })
       .safeParse(metadata);
 
