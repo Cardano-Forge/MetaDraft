@@ -58,21 +58,31 @@ export class CompareAttributesKeys extends BaseValidator {
 
     let similarKeysDetected = false;
 
-    const keys = Object.keys(
-      (metadata as { attributes: Record<string, unknown> }).attributes,
-    );
-
-    for (const key of keys) {
-      const closestKey = closest(
-        key,
-        keys.filter((fKey) => fKey !== key),
+    let keys: string[];
+    try {
+      keys = Object.keys(
+        (metadata as { attributes: Record<string, unknown> }).attributes,
       );
 
-      const distanceValue = distance(key, closestKey);
+      for (const key of keys) {
+        const closestKey = closest(
+          key,
+          keys.filter((fKey) => fKey !== key),
+        );
 
-      if (distanceValue < (this.options as OptionsWithThreshold).threshold) {
-        warnings.push(`${key} is similar to ${closestKey}`);
+        if (closestKey) {
+          const distanceValue = distance(key, closestKey);
+          if (
+            distanceValue < (this.options as OptionsWithThreshold).threshold
+          ) {
+            warnings.push(`${key} is similar to ${closestKey}`);
+          }
+        }
       }
+    } catch (e: unknown) {
+      warnings.push(
+        "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set.",
+      );
     }
 
     if (warnings.length > 0) {
