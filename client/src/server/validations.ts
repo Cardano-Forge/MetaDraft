@@ -1,38 +1,21 @@
 "use server";
 
-import { Decorator } from "@ada-anvil/metadraft-validator";
+import { Validator, mapping } from "@ada-anvil/metadraft-validator";
 
-import { KeyAttributesValidator } from "@ada-anvil/metadraft-validator";
-
-const mapping = {
-  KeyAttributesValidator: KeyAttributesValidator,
-} as const;
-
-export async function doStuff() {
-  const metadatas = [
-    {
-      asset_name:
-      {
-        attributes: {
-          foo: "bar",
-          number_field: 1,
-        },
-      }
-    }
+export async function doStuff(metadatas: any) {
+ 
+  const template: [keyof typeof mapping] = [
+    "keyAttributesValidator",
   ];
 
-  const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
-    "KeyAttributesValidator",
-  ];
-
-  const mainValidator = new Decorator("Main");
-  for (const validator of validatorsReceivedFromFrontend) {
+  const mainValidator = new Validator("Main");
+  for (const validator of template) {
     mainValidator.Enable(new mapping[validator]());
   }
 
   for (const asset_metadata of metadatas) {
-    await mainValidator.Execute(
-      Object.keys(asset_metadata)[0],
+    mainValidator.Execute(
+      Object.keys(asset_metadata)[0]!,
       Object.values(asset_metadata)[0],
       metadatas,
     );
