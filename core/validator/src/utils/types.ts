@@ -61,12 +61,12 @@ export interface Result {
   /**
    * The input data that was validated.
    */
-  input: unknown;
+  input?: unknown;
 
   /**
    * The output data resulting from successful validation (optional). Set to `undefined` when there is an error/warning.
    */
-  output: unknown | undefined;
+  output?: unknown | undefined;
 
   /**
    * The name of the asset being validated.
@@ -100,7 +100,7 @@ export interface IValidator {
     _assetName: string,
     _metadata: unknown,
     _metadatas: unknown[],
-  ): Result[];
+  ): Promise<Result[]> | Result[];
 }
 
 /**

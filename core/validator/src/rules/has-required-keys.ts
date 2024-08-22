@@ -1,6 +1,7 @@
 import { BaseValidator } from "../core.ts";
 
 import { getStates } from "../utils/getState.ts";
+import { logger } from "../utils/logger.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 import type { Result } from "../utils/types.ts";
 
@@ -35,7 +36,7 @@ export class HasRequiredKeysValidator extends BaseValidator {
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
-    console.debug(`Executing ${this.id} with: `, metadata);
+    logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
   }
 

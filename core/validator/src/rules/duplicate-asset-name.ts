@@ -4,6 +4,7 @@ import { getStates } from "../utils/getState.ts";
 
 import type { Result } from "../utils/types.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
+import { logger } from "../utils/logger.ts";
 
 /**
  * A validator that checks if there are any duplicate asset names in the provided metadatas.
@@ -38,7 +39,7 @@ export class DuplicateAssetName extends BaseValidator {
     metadata: unknown,
     metadatas: unknown[],
   ): Result[] {
-    console.debug(`Executing ${this.id} with: `, metadata);
+    logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, metadatas as object[]);
   }
 
