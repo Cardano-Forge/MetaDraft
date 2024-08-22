@@ -7,7 +7,7 @@ export default function Actions() {
     <div className="flex flex-row items-center gap-2 p-2">
       <ViewButton view="table" />
       <ViewButton view="grid" />
-      <FilterButton />
+      {/* <FilterButton /> */}
     </div>
   );
 }
