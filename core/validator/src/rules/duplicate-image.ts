@@ -32,7 +32,7 @@ export class DuplicateImage extends BaseValidator {
    */
   constructor(options?: object) {
     const id = "duplicate-image";
-    super(id, options);
+    super(id, options, "once");
   }
 
   /**
@@ -61,6 +61,7 @@ export class DuplicateImage extends BaseValidator {
    * @returns {Result[]} An array containing the validation results.
    */
   Logic(assetName: string, metadata: unknown, metadatas: unknown[]): Result[] {
+    // TODO: Convert to the once approach
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 

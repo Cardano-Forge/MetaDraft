@@ -23,7 +23,7 @@ export class DuplicateAssetName extends BaseValidator {
    */
   constructor(options?: object) {
     const id = "duplicate-asset-name";
-    super(id, options);
+    super(id, options, "once");
   }
 
   /**
@@ -52,6 +52,7 @@ export class DuplicateAssetName extends BaseValidator {
    * @returns {Result[]} - Returns an array containing validation results.
    */
   Logic(assetName: string, metadata: unknown, metadatas: object[]): Result[] {
+    // TODO: Convert to the once approach
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 

@@ -15,19 +15,25 @@ import type { IValidator, Result } from "./utils/types.ts";
 export class BaseValidator implements IValidator {
   readonly id: string;
   readonly options: unknown | undefined;
+  readonly type: "once" | "all";
 
-  constructor(id: string, options: unknown | undefined) {
+  constructor(
+    id: string,
+    options: unknown | undefined,
+    type: "once" | "all" = "all",
+  ) {
     this.id = id;
     this.options = options || {};
+    this.type = type;
   }
 
   /**
    * Executes the validation logic.
    *
    * @method Execute
-   * @param {string} assetName - The name of the asset to validate.
-   * @param {object} metadata - The metadata object to validate against.
-   * @param {Array<object>} metadatas - The complete metadata array for context.
+   * @param {string} _assetName - The name of the asset to validate.
+   * @param {object} _metadata - The metadata object to validate against.
+   * @param {Array<object>} _metadatas - The complete metadata array for context.
    * @returns {Result[]} An array of validation results.
    *
    * @throws Will throw an error if the method is not implemented.
@@ -54,11 +60,13 @@ export class BaseValidator implements IValidator {
  */
 export class Validator implements IValidator {
   readonly id: string;
+  readonly type: "once" | "all";
   private validations: Result[] = [];
   protected validators: IValidator[] = [];
 
-  constructor(id: string) {
+  constructor(id: string, type: "once" | "all" = "all") {
     this.id = id;
+    this.type = type;
   }
 
   /**
@@ -81,28 +89,45 @@ export class Validator implements IValidator {
    * @param {Array<object>} metadatas - The complete metadata array for context.
    * @returns {Result[]} An array of validation results.
    */
-  async Execute(
+  Execute(
     assetName: string,
     metadata: unknown,
     metadatas: unknown[],
-  ): Promise<Result[]> {
-    logger("Execute in Validator", this.validators);
+  ): Result[] {
+    logger(
+      "Execute in Validator",
+      this.validators.filter((v) => v.type === "all"),
+    );
     if (this.validators.length === 0) {
       logger("no validators defined.");
       return [];
     }
 
-
-    const validations = await Promise.all(chunkArray(this.validators, 6)
-      .map(validators => Promise.all(validators
-        .map(validator => validator.Execute(assetName, metadata, metadatas)))));
-
-      this.validations = [
-        ...this.validations,
-        ...validations.flat(Infinity) as Result[],
-      ];
+    for (const validator of this.validators.filter((v) => v.type === "all")) {
+      const validations = validator.Execute(assetName, metadata, metadatas);
+      this.validations = [...this.validations, ...validations];
+      // this.validations.push(...validations);
+    }
 
     return this.validations;
+  }
+
+  /**
+   * TODO JSDOC
+   */
+  ExecuteOnce(metadatas: unknown[]) {
+    logger(
+      "Execute in Validator",
+      this.validators.filter((v) => v.type === "once"),
+    );
+    if (this.validators.length === 0) {
+      logger("no validators defined.");
+      return [];
+    }
+    for (const validator of this.validators.filter((v) => v.type === "once")) {
+      const validations = validator.Execute("", undefined, metadatas);
+      this.validations = [...this.validations, ...validations];
+    }
   }
 
   /**
@@ -114,12 +139,4 @@ export class Validator implements IValidator {
   GetResults(): Result[] {
     return this.validations;
   }
-}
-
-function chunkArray(array: IValidator[], size: number):IValidator[][] {
-  const chunks:IValidator[][] = [];
-  for (let i = 0; i < array.length; i += size) {
-    chunks.push(array.slice(i, i + size));
-  }
-  return chunks;
 }

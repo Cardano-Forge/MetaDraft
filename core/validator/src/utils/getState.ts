@@ -69,7 +69,7 @@ export function getStates(
   assetName: string,
   metadata: unknown,
   validatorId: string = "UNKNOWN",
-  simplified: boolean = true
+  simplified: boolean = true,
 ): Result[] {
   const isSuccess =
     (result as ZodStateError).success ||
@@ -85,12 +85,16 @@ export function getStates(
       ? formatError((result as ZodStateError).error)
       : (result as StateError).message;
 
+  if (simplified === true && state === "success") {
+    return [];
+  }
+
   return [
     {
       state,
       message,
       input: simplified ? undefined : metadata,
-      output: simplified ? undefined: (result as ZodStateError).data,
+      output: simplified ? undefined : (result as ZodStateError).data,
       assetName,
       validatorId,
     },

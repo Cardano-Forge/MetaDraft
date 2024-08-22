@@ -87,6 +87,10 @@ export interface IValidator {
    * A unique identifier for the validator (used as a tracker).
    */
   id: string;
+  /**
+   * A type of validator to run per asset or once per validation.
+   */
+  type: "once" | "all";
 
   /**
    * Executes the validation logic with provided asset name, metadata, and metadatas.
@@ -100,7 +104,7 @@ export interface IValidator {
     _assetName: string,
     _metadata: unknown,
     _metadatas: unknown[],
-  ): Promise<Result[]> | Result[];
+  ): Result[];
 }
 
 /**
