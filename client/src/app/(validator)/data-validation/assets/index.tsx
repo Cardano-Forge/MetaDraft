@@ -24,6 +24,9 @@ export default function Assets() {
     );
   if (!metadata) return <div>No data found.</div>;
 
+  // TODO - validate metadata format
+  type IMetadata = Record<string, Record<string, unknown>>[];
+
   const handleValidation = async () => {
     const res = await doStuff(metadata);
     setResults(res);
@@ -36,7 +39,7 @@ export default function Assets() {
       <Button onClick={handleValidation}>Validate</Button>
       <div className="flex flex-col gap-4 rounded-2xl bg-card p-4">
         <Header />
-        <Content metadata={metadata} />
+        <Content metadata={metadata as IMetadata} />
       </div>
     </>
   );
