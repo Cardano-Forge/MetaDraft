@@ -130,3 +130,5 @@ dist
 .pnp.*
 
 .DS_Store
+
+do_not_commit.json

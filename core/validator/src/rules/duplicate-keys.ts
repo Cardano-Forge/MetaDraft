@@ -7,6 +7,7 @@ import {
   formatPaths,
   getPathsForExceedingKeys,
 } from "../utils/keys.ts";
+import { logger } from "../utils/logger.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 import type { OptionsWithThreshold, Result } from "../utils/types.ts";
 
@@ -42,7 +43,7 @@ export class DuplicateKeysValidator extends BaseValidator {
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
-    console.debug(`Executing ${this.id} with: `, metadata);
+    logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
   }
 

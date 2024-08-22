@@ -6,6 +6,7 @@ import type { KeyWithPath, Result } from "../utils/types.ts";
 
 import { extractKeysWithPaths } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
+import { logger } from "../utils/logger.ts";
 
 /**
  * Enforces that metadata keys are alphanumeric, allowing dashes and underscores.
@@ -38,7 +39,7 @@ export class KeyAlphanumeric extends BaseValidator {
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
-    console.debug(`Executing ${this.id} with: `, metadata);
+    logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
   }
 
