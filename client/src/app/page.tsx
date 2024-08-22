@@ -2,7 +2,6 @@ import CreateProjectButton from "~/components/create-project-button";
 import { Typography } from "~/components/typography";
 import UploadProjectButton from "~/components/upload-project-button";
 
-
 export default function HomePage() {
   return (
     <main className="container flex flex-col gap-8">

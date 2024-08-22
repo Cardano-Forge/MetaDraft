@@ -26,7 +26,7 @@ export default function ViewButton({
       variant={active ? "default" : "outline"}
       size={"icon"}
       className={cn(
-        "rounded-lg text-border/50",
+        "rounded-lg text-border/50 h-[50px] w-[50px]",
         active && "bg-secondary text-border hover:bg-secondary/70",
       )}
       onClick={handleChangeView}

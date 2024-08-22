@@ -3,10 +3,8 @@
 import { Validator, mapping } from "@ada-anvil/metadraft-validator";
 
 export async function doStuff(metadatas: any) {
- 
-  const template: [keyof typeof mapping] = [
-    "keyAttributesValidator",
-  ];
+  console.log(metadatas);
+  const template: [keyof typeof mapping] = ["keyAttributesValidator"];
 
   const mainValidator = new Validator("Main");
   for (const validator of template) {
