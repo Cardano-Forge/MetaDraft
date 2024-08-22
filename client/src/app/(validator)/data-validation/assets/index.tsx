@@ -7,12 +7,13 @@ import { Button } from "~/components/ui/button";
 import { type Metadata } from "~/lib/db/types";
 import { doStuff } from "~/server/validations";
 import Header from "./header";
+import Content from "./content";
 
 export default function Assets() {
   const [results, setResults] = useState<string | undefined>(undefined);
   const metadataCollection = useRxCollection<Metadata>("metadata");
   const query = metadataCollection?.find();
-  const { result, isFetching, isExhausted } = useRxQuery(query);
+  const { result, isFetching } = useRxQuery(query);
 
   const metadata = result[0]?.data;
   if (isFetching)
@@ -24,11 +25,8 @@ export default function Assets() {
   if (!metadata) return <div>No data found.</div>;
 
   const handleValidation = async () => {
-    if (metadata) {
-      const res = await doStuff(metadata);
-      setResults(res);
-      // console.log("VALIDATION : ", res);
-    }
+    const res = await doStuff(metadata);
+    setResults(res);
   };
 
   console.log("VALIDATION : ", results);
@@ -38,6 +36,7 @@ export default function Assets() {
       <Button onClick={handleValidation}>Validate</Button>
       <div className="flex flex-col gap-4 rounded-2xl bg-card p-4">
         <Header />
+        <Content metadata={metadata} />
       </div>
     </>
   );
