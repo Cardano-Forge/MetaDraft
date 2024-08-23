@@ -34,7 +34,7 @@ export default function Assets() {
   return (
     <>
       <Button onClick={handleValidation}>Validate</Button>
-      <div className="flex flex-col gap-4 rounded-2xl bg-card p-4">
+      <div className="flex flex-col rounded-2xl bg-card">
         <Header />
         <Content metadata={metadata} />
       </div>
