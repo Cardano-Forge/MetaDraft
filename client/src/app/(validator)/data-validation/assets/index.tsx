@@ -27,9 +27,8 @@ export default function Assets() {
   const handleValidation = async () => {
     const res = await doStuff(metadata);
     setResults(res);
+    console.log("VALIDATION RESULTS : ", JSON.parse(res));
   };
-
-  console.log("VALIDATION : ", results);
 
   return (
     <>

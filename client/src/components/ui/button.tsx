@@ -19,17 +19,17 @@ const buttonVariants = cva(
         outline: "border border-border/15 hover:bg-border/10 ",
         secondary: "bg-secondary text-secondary-foreground hover:bg-card",
         success:
-          "bg-success text-success-foreground hover:bg-success/75 outline outline-1 outline-success/30 border-[3px] border-background",
+          "bg-success text-success-foreground hover:bg-success/75 outline outline-1 outline-success/30 border-[3px] border-secondary",
         successOutline:
-          "border border-success text-success hover:bg-success/30",
+          "border border-success/50 text-success hover:bg-success/30",
         warning:
-          "bg-warning text-warning-foreground hover:bg-warning/75 outline outline-1 outline-warning/30 border-[3px] border-background",
+          "bg-warning text-warning-foreground hover:bg-warning/75 outline outline-1 outline-warning/30 border-[3px] border-secondary",
         warningOutilne:
-          "border border-warning text-warning hover:bg-warning/30",
+          "border border-warning/50 text-warning hover:bg-warning/30",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/80 outline outline-1 outline-destructive/30 border-[3px] border-background",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/80 outline outline-1 outline-destructive/30 border-[3px] border-secondary",
         destructiveOutilne:
-          "border border-destructive text-destructive hover:bg-destructive/30",
+          "border border-destructive/50 text-destructive hover:bg-destructive/30",
         ghost: "hover:bg-secondary/30",
         link: "text-primary underline-offset-4 hover:underline",
       },

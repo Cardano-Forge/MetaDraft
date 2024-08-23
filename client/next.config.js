@@ -7,7 +7,7 @@ await import("./src/env.js");
 /** @type {import("next").NextConfig} */
 const config = {
   images: {
-    domains: ["ipfs.io"],
+    remotePatterns: [{ protocol: "https", hostname: "ipfs.io" }],
   },
   experimental: {
     serverActions: {
