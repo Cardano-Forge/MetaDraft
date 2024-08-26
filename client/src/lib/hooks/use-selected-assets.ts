@@ -1,7 +1,10 @@
-import { useState } from "react";
+import useLocalStorage from "./use-local-storage";
 
 export const useSelectedAssets = () => {
-  const [assets, setAssets] = useState<Record<string, unknown>[]>([]);
+  const [assets, setAssets] = useLocalStorage<Record<string, unknown>[]>(
+    "selected_assets",
+    [],
+  );
 
   const selectAll = (all: Record<string, unknown>[]) => setAssets(all);
 

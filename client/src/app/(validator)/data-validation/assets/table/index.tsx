@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { type CheckedState } from "@radix-ui/react-checkbox";
 
@@ -28,9 +28,16 @@ type TableViewProps = {
 };
 
 export default function TableView({ metadata, page, setPage }: TableViewProps) {
-  const [allSelected, setAllSelected] = useState<CheckedState>(false);
   const { assets, selectAll, handleAddOrRemove, clear, isSelected } =
     useSelectedAssets();
+  const [allSelected, setAllSelected] = useState<CheckedState>(
+    assets.length == metadata[page - 1]?.length,
+  );
+
+  useEffect(() => {
+    setAllSelected(assets.length == metadata[page - 1]?.length);
+  }, [assets]);
+
   const handleSelectAll = (checked: CheckedState) => {
     if (checked) {
       selectAll(metadata[page - 1] ?? []);
