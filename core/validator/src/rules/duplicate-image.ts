@@ -4,6 +4,7 @@ import { getStates } from "../utils/getState.ts";
 
 import type { Result } from "../utils/types.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
+import { logger } from "../utils/logger.ts";
 
 /**
  * Ensures that the given `image` is a string by joining any array elements.
@@ -47,7 +48,7 @@ export class DuplicateImage extends BaseValidator {
     metadata: unknown,
     metadatas: unknown[],
   ): Result[] {
-    console.debug(`Executing ${this.id} with: `, metadata);
+    logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, metadatas);
   }
 

@@ -5,6 +5,7 @@ import { BaseValidator } from "../core.ts";
 import { getStates } from "../utils/getState.ts";
 import { checkTraits } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
+import { logger } from "../utils/logger.ts";
 
 /**
  * Validates metadata object has optional "traits" field using Zod schema.
@@ -37,7 +38,7 @@ export class KeyTraitsValidator extends BaseValidator {
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
-    console.debug(`Executing ${this.id} with: `, metadata);
+    logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
   }
 

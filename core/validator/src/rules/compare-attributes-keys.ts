@@ -1,6 +1,7 @@
 import { BaseValidator } from "../core.ts";
 
 import { getStates } from "../utils/getState.ts";
+import { logger } from "../utils/logger.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 import type { OptionsWithThreshold, Result } from "../utils/types.ts";
 
@@ -38,7 +39,7 @@ export class CompareAttributesKeys extends BaseValidator {
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
-    console.debug(`Executing ${this.id} with: `, metadata);
+    logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
   }
 
@@ -79,7 +80,7 @@ export class CompareAttributesKeys extends BaseValidator {
           }
         }
       }
-    } catch (e: unknown) {
+    } catch {
       warnings.push(
         "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set.",
       );

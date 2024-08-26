@@ -1,32 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "./ui/button";
 import UnorderedListIcon from "~/icons/unordered-list.icon";
 import { cn } from "~/lib/utils";
 import ViewGridIcon from "~/icons/view-grid.icon";
+import useLocalStorage from "~/lib/hooks/use-local-storage";
 
 export type ViewOptions = "table" | "grid";
 
-export default function ViewButton({
-  view = "table",
-}: {
-  view?: ViewOptions;
-}) {
-  const [active, setActive] = useState<boolean>(false);
-  const handleChangeView = () => setActive((prev) => !prev);
+export default function ViewButton({ view = "table" }: { view?: ViewOptions }) {
+  const [assetView, setView] = useLocalStorage("asset_view", "table");
 
-  // TODO - maybe better to handle state here when PouchDB is ready (offline DB), get view like { asset_view: "table" | "grid" }
-  // const [active, setActive] = useState<boolean>(asset_view === view);
-  // const handleActiveState = () => {
-  //   if(view === active) return;
-  // TODO - save offline DB ~> this should re-render both button to keep only one view active
-  // }
+  const active = assetView === view;
+  const handleChangeView = () => setView(view);
 
   return (
     <Button
-      variant={active ? "default" : "outline"}
+      variant={"outline"}
       size={"icon"}
       className={cn(
-        "rounded-lg text-border/50",
+        "h-[50px] w-[50px] rounded-lg text-border/50",
         active && "bg-secondary text-border hover:bg-secondary/70",
       )}
       onClick={handleChangeView}

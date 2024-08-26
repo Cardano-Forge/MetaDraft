@@ -24,6 +24,8 @@ export default function UploadProjectButton() {
       // Handle accepted files
       if (acceptedFiles.length === 1) {
         const json = await readFile(acceptedFiles[0]);
+        // TODO - ZOD check the json format
+        
         // const hash = await stringToHash(JSON.stringify(json));
 
         const meta = await metadataCollection?.upsert({

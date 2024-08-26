@@ -6,6 +6,7 @@ import type { KeyWithPath, Result } from "../utils/types.ts";
 import { isCamelCase } from "../utils/casing.ts";
 import { extractKeysWithPaths } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
+import { logger } from "../utils/logger.ts";
 
 /**
  * Enforces Camel Case formatting for metadata keys.
@@ -38,7 +39,7 @@ export class KeyCamelCase extends BaseValidator {
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
-    console.debug(`Executing ${this.id} with: `, metadata);
+    logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
   }
 

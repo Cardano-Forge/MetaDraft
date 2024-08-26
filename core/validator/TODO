@@ -1,1 +1,4 @@
 - [ ] Add a value length check (each value in the object must be 64 or less)
+- [ ] Casing that allows Title case + space
+- [ ] Alphanumeric must allow spaces as well
+- [ ] refactor metadata format to [<metadata>] (duplicate asset name)

@@ -1,3 +1,4 @@
+import { logger } from "./utils/logger.ts";
 import type { IValidator, Result } from "./utils/types.ts";
 
 /**
@@ -67,7 +68,7 @@ export class Validator implements IValidator {
    * @param {IValidator} validator - The validator to enable.
    */
   Enable(validator: IValidator) {
-    console.debug("Enabling validator:", validator.id);
+    logger("Enabling validator:", validator.id);
     this.validators.push(validator);
   }
 
@@ -80,24 +81,26 @@ export class Validator implements IValidator {
    * @param {Array<object>} metadatas - The complete metadata array for context.
    * @returns {Result[]} An array of validation results.
    */
-  Execute(
+  async Execute(
     assetName: string,
     metadata: unknown,
     metadatas: unknown[],
-  ): Result[] {
-    console.debug("Execute in Validator", this.validators);
+  ): Promise<Result[]> {
+    logger("Execute in Validator", this.validators);
     if (this.validators.length === 0) {
-      console.debug("no validators defined.");
+      logger("no validators defined.");
       return [];
     }
 
-    for (const validator of this.validators) {
-      console.debug("Validator", validator);
+
+    const validations = await Promise.all(chunkArray(this.validators, 6)
+      .map(validators => Promise.all(validators
+        .map(validator => validator.Execute(assetName, metadata, metadatas)))));
+
       this.validations = [
         ...this.validations,
-        ...validator.Execute(assetName, metadata, metadatas),
+        ...validations.flat(Infinity) as Result[],
       ];
-    }
 
     return this.validations;
   }
@@ -111,4 +114,12 @@ export class Validator implements IValidator {
   GetResults(): Result[] {
     return this.validations;
   }
+}
+
+function chunkArray(array: IValidator[], size: number):IValidator[][] {
+  const chunks:IValidator[][] = [];
+  for (let i = 0; i < array.length; i += size) {
+    chunks.push(array.slice(i, i + size));
+  }
+  return chunks;
 }

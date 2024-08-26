@@ -5,6 +5,7 @@ import { BaseValidator } from "../core.ts";
 import { getStates } from "../utils/getState.ts";
 import { checkHex56, checkSize64 } from "./zod.ts";
 import type { Result } from "../utils/types.ts";
+import { logger } from "../utils/logger.ts";
 
 /**
  * A validator for CIP-25 version 1 assets.
@@ -39,7 +40,7 @@ export class Cip25Version1Validator extends BaseValidator {
     metadata: unknown,
     _metadatas: unknown[],
   ): Result[] {
-    console.debug(`Executing ${this.id} with: `, metadata, assetName);
+    logger(`Executing ${this.id} with: `, metadata, assetName);
     return this.Logic(assetName, metadata, _metadatas);
   }
 
