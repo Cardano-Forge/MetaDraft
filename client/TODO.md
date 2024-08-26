@@ -7,5 +7,5 @@
 - [ ] results state ~> match asset
 - [ ] quick action state change
 - [x] multi select ~> state change
-- [ ] reset project clear local storage
+- [x] reset project clear local storage
 - [ ] MILESTONE 4 ~> Remove local storage for rxdb (check witch one is quicker)
