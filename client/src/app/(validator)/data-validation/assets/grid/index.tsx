@@ -1,7 +1,7 @@
-import React from "react";
 import { type Metadata } from "~/lib/db/types";
-import Footer from "../footer";
+
 import Card from "./card";
+import Footer from "../footer";
 
 type GridViewProps = {
   metadata: Metadata["data"][];

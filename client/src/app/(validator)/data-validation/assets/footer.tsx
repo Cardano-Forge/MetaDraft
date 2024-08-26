@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { useSelectedAssets } from "~/lib/hooks/use-selected-assets";
 
 type FooterProps = {
   page: number;
@@ -9,11 +10,23 @@ type FooterProps = {
 };
 
 export default function Footer({ page, lastPage, setPage }: FooterProps) {
+  const { clear } = useSelectedAssets();
   const handlePageChange = (page: number) => {
     const url = new URL(window.location.href);
     url.searchParams.set("page", page.toString());
     window.history.replaceState({}, "", url.toString()); // Update the URL without reloading the page
     setPage(page);
+    clear();
+  };
+
+  const handlePrevious = () => {
+    handlePageChange(page - 1);
+    clear();
+  };
+
+  const handleNext = () => {
+    handlePageChange(page + 1);
+    clear();
   };
 
   return (
@@ -23,7 +36,7 @@ export default function Footer({ page, lastPage, setPage }: FooterProps) {
           disabled={page === 1}
           className="px-6"
           variant={"outline"}
-          onClick={() => handlePageChange(page - 1)}
+          onClick={handlePrevious}
         >
           Previous
         </Button>
@@ -31,7 +44,7 @@ export default function Footer({ page, lastPage, setPage }: FooterProps) {
           disabled={page === lastPage}
           className="px-6"
           variant={"secondary"}
-          onClick={() => handlePageChange(page + 1)}
+          onClick={handleNext}
         >
           Next
         </Button>
