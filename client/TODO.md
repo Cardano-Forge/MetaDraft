@@ -1,5 +1,5 @@
 - [ ] upload zod validator + formater
-- [ ] Asset view save in url and localstorage
+- [x] Asset view save in url and localstorage
 - [ ] keep page in localstorage too
 - [ ] Project Name, save in localstorage as file name (editable ?)
 - [ ] Stats from data ~> keep state in localstorage
