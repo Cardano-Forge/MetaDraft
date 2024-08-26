@@ -15,8 +15,9 @@ type ContentProps = {
 export default function Content({ metadata }: ContentProps) {
   const searchParams = useSearchParams();
   const param = searchParams.get("page");
+  const view = searchParams.get("view");
   const [page, setPage] = useState<number>(param ? +param : 1);
-  const [assetView] = useLocalStorage("asset_view", "table"); // maybe set it in url
+  const [assetView] = useLocalStorage("asset_view", view ?? "table"); // maybe set it in url
 
   const chunked = chunk(metadata, 10);
 

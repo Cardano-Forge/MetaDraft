@@ -15,12 +15,12 @@ export default function DataValidation() {
           </Typography>
         </div>
         <div className="flex flex-row items-center gap-4">
-          <Button
+          {/* <Button
             variant={"outline"}
             onClick={() => alert("should make this step in REMINDER state")}
           >
             Remind me later
-          </Button>
+          </Button> */}
           <Button onClick={() => alert("should make this step in DONE state")}>
             Validate this step
           </Button>

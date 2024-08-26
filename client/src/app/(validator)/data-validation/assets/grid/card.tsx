@@ -24,16 +24,16 @@ export default function Card({ asset }: CardProps) {
         <Checkbox />
       </div>
       <div className="flex flex-col gap-4 p-4">
-        <Status state="success" />
+        <Status state="error" />
         <Typography as="largeText">{asset.name as string}</Typography>
         <div className="flex flex-row items-end justify-between">
           <div className="flex flex-col gap-2">
             <Typography as="smallText">ID {asset.name as string}</Typography>
             <Typography
               as="smallText"
-              className="max-w-24 overflow-hidden text-ellipsis"
+              className="max-w-24 truncate"
             >
-              {(asset.image as string).replace("ipfs://", "")}
+              CID {(asset.image as string).replace("ipfs://", "")}
             </Typography>
           </div>
           <Actions state="success" />
