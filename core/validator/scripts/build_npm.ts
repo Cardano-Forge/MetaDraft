@@ -4,8 +4,8 @@ await emptyDir("./npm");
 
 await build({
   entryPoints: ["./src/mod.ts"],
-  typeCheck: true,
-  test: false, // skip tests for this commit
+  typeCheck: "both",
+  test: true,
   outDir: "./npm",
   shims: {
     // see JS docs for overview and more options

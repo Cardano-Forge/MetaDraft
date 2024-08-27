@@ -4,10 +4,6 @@ import { Validator } from "../src/core.ts";
 
 import { KeyAttributesValidator } from "../src/rules/key-attributes.ts";
 
-const mapping = {
-  KeyAttributesValidator: KeyAttributesValidator,
-} as const;
-
 Deno.test("KeyAttributesValidator - withWarning", () => {
   const metadata = [
     {
@@ -18,14 +14,8 @@ Deno.test("KeyAttributesValidator - withWarning", () => {
     },
   ];
 
-  const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
-    "KeyAttributesValidator",
-  ];
-
   const mainValidator = new Validator("Main");
-  for (const validator of validatorsReceivedFromFrontend) {
-    mainValidator.Enable(new mapping[validator]());
-  }
+  mainValidator.Enable(new KeyAttributesValidator());
 
   for (const asset_metadata of metadata) {
     mainValidator.Execute("NO_ASSET_NAME_PROVIDED", asset_metadata, metadata);
@@ -33,32 +23,32 @@ Deno.test("KeyAttributesValidator - withWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  console.debug(JSON.stringify(result, null, 2));
-  assertEquals(result, [
-    {
-      state: "warning",
-      message: {
-        formErrors: [],
-        fieldErrors: {
-          attributes: [
-            {
-              message: "It is recommended to use string instead of number",
-              errorCode: "custom",
-              status: "warning",
-              path: "attributes/number_field",
+  assertEquals(result, {
+    NO_ASSET_NAME_PROVIDED: {
+      status: "warning",
+      warnings: [
+        {
+          validatorId: "key-attributes",
+          message: {
+            formErrors: [],
+            fieldErrors: {
+              attributes: [
+                {
+                  message: "It is recommended to use string instead of number",
+                  errorCode: "custom",
+                  status: "warning",
+                  path: "attributes/number_field",
+                },
+              ],
             },
-          ],
+          },
         },
-      },
-      input: metadata[0],
-      output: undefined,
-      assetName: "NO_ASSET_NAME_PROVIDED",
-      validatorId: "key-attributes",
+      ],
     },
-  ]);
+  });
 });
 
-Deno.test("KeyAttributesValidator - withSuccess", async () => {
+Deno.test("KeyAttributesValidator - withSuccess", () => {
   const metadata = [
     {
       attributes: {
@@ -68,38 +58,16 @@ Deno.test("KeyAttributesValidator - withSuccess", async () => {
     },
   ];
 
-  const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
-    "KeyAttributesValidator",
-  ];
-
   const mainValidator = new Validator("Main");
-  for (const validator of validatorsReceivedFromFrontend) {
-    mainValidator.Enable(new mapping[validator]());
-  }
+  mainValidator.Enable(new KeyAttributesValidator());
 
   for (const asset_metadata of metadata) {
-    await mainValidator.Execute(
-      "NO_ASSET_NAME_PROVIDED",
-      asset_metadata,
-      metadata,
-    );
+    mainValidator.Execute("NO_ASSET_NAME_PROVIDED", asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, [
-    {
-      state: "success",
-      message: "`attributes` field is valid.",
-      input: {
-        attributes: {
-          foo: "bar",
-          number_field: "1",
-        },
-      },
-      output: metadata[0],
-      assetName: "NO_ASSET_NAME_PROVIDED",
-      validatorId: "key-attributes",
-    },
-  ]);
+  assertEquals(result, {
+    NO_ASSET_NAME_PROVIDED: { status: "success", warnings: [] },
+  });
 });

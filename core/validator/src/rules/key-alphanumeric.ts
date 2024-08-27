@@ -1,8 +1,8 @@
 import { BaseValidator } from "../core.ts";
 
-import { getStates } from "../utils/getState.ts";
+import { GetValidationOutput } from "../utils/getState.ts";
 
-import type { KeyWithPath, Result } from "../utils/types.ts";
+import type { KeyWithPath, StateOutput } from "../utils/types.ts";
 
 import { extractKeysWithPaths } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
@@ -32,13 +32,13 @@ export class KeyAlphanumeric extends BaseValidator {
    * @param {string} assetName - The name of the asset being validated.
    * @param {unknown} metadata - The metadata to validate.
    * @param {unknown[]} _metadatas - An array of all metadatas, currently not used.
-   * @returns {Result[]} - An array of validation results.
+   * @returns {StateOutput} - An array of validation results.
    */
   Execute(
     assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
-  ): Result[] {
+  ): StateOutput {
     logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
   }
@@ -49,9 +49,13 @@ export class KeyAlphanumeric extends BaseValidator {
    * @param {string} assetName - The name of the asset being validated.
    * @param {unknown} metadata - The metadata to validate.
    * @param {unknown[]} _metadatas - An array of all metadatas, currently not used.
-   * @returns {Result[]} - An array of validation results.
+   * @returns {StateOutput} - An array of validation results.
    */
-  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
+  Logic(
+    assetName: string,
+    metadata: unknown,
+    _metadatas: unknown[],
+  ): StateOutput {
     const alphanumeric = /^[a-zA-Z0-9-_]+$/;
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
@@ -66,7 +70,7 @@ export class KeyAlphanumeric extends BaseValidator {
       }
     });
 
-    return getStates(
+    return GetValidationOutput(
       {
         state: warnings.length === 0 ? "success" : "warning",
         message: {

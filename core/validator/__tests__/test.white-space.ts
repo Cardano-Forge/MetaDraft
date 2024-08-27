@@ -4,10 +4,6 @@ import { Validator } from "../src/core.ts";
 
 import { KeyWhiteSpace } from "../src/rules/key-white-space.ts";
 
-const mapping = {
-  KeyWhiteSpace: KeyWhiteSpace,
-} as const;
-
 Deno.test("KeyWhiteSpace - withWarning", () => {
   const metadata = [
     {
@@ -24,14 +20,8 @@ Deno.test("KeyWhiteSpace - withWarning", () => {
     },
   ];
 
-  const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
-    "KeyWhiteSpace",
-  ];
-
   const mainValidator = new Validator("Main");
-  for (const validator of validatorsReceivedFromFrontend) {
-    mainValidator.Enable(new mapping[validator]());
-  }
+  mainValidator.Enable(new KeyWhiteSpace());
 
   for (const asset_metadata of metadata) {
     mainValidator.Execute("NO_ASSET_NAME_PROVIDED", asset_metadata, metadata);
@@ -39,36 +29,34 @@ Deno.test("KeyWhiteSpace - withWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, [
-    {
-      state: "warning",
-      message: {
-        message: "Trailing whitespaces found in the JSON object.",
-        warnings: [
-          {
-            path: ["attributes", "foo"],
-            whitespaceLocation: "value",
+  assertEquals(result, {
+    NO_ASSET_NAME_PROVIDED: {
+      status: "warning",
+      warnings: [
+        {
+          validatorId: "key-white-space",
+          message: {
+            message: "Trailing whitespaces found in the JSON object.",
+            warnings: [
+              { path: ["attributes", "foo"], whitespaceLocation: "value" },
+              {
+                path: ["attributes", "nested", "bar"],
+                whitespaceLocation: "value",
+              },
+              {
+                path: ["attributes", "nested", " two"],
+                whitespaceLocation: "key",
+              },
+              {
+                path: ["attributes", "nested", "three"],
+                whitespaceLocation: "value",
+              },
+            ],
           },
-          {
-            path: ["attributes", "nested", "bar"],
-            whitespaceLocation: "value",
-          },
-          {
-            path: ["attributes", "nested", " two"],
-            whitespaceLocation: "key",
-          },
-          {
-            path: ["attributes", "nested", "three"],
-            whitespaceLocation: "value",
-          },
-        ],
-      },
-      input: metadata[0],
-      assetName: "NO_ASSET_NAME_PROVIDED",
-      validatorId: "key-white-space",
-      output: undefined,
+        },
+      ],
     },
-  ]);
+  });
 });
 
 Deno.test("KeyWhiteSpace - withArrayAndWarning", () => {
@@ -84,14 +72,8 @@ Deno.test("KeyWhiteSpace - withArrayAndWarning", () => {
     },
   ];
 
-  const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
-    "KeyWhiteSpace",
-  ];
-
   const mainValidator = new Validator("Main");
-  for (const validator of validatorsReceivedFromFrontend) {
-    mainValidator.Enable(new mapping[validator]());
-  }
+  mainValidator.Enable(new KeyWhiteSpace());
 
   for (const asset_metadata of metadata) {
     mainValidator.Execute("NO_ASSET_NAME_PROVIDED", asset_metadata, metadata);
@@ -99,26 +81,24 @@ Deno.test("KeyWhiteSpace - withArrayAndWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, [
-    {
-      state: "warning",
-      message: {
-        message: "Trailing whitespaces found in the JSON object.",
-        warnings: [
-          {
-            path: ["attributes", "foo"],
-            whitespaceLocation: "value",
+  assertEquals(result, {
+    NO_ASSET_NAME_PROVIDED: {
+      status: "warning",
+      warnings: [
+        {
+          validatorId: "key-white-space",
+          message: {
+            message: "Trailing whitespaces found in the JSON object.",
+            warnings: [
+              { path: ["attributes", "foo"], whitespaceLocation: "value" },
+              {
+                path: ["attributes", "nested", "arr", "[1]"],
+                whitespaceLocation: "value",
+              },
+            ],
           },
-          {
-            path: ["attributes", "nested", "arr", "[1]"],
-            whitespaceLocation: "value",
-          },
-        ],
-      },
-      input: metadata[0],
-      assetName: "NO_ASSET_NAME_PROVIDED",
-      validatorId: "key-white-space",
-      output: undefined,
+        },
+      ],
     },
-  ]);
+  });
 });

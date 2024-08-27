@@ -4,10 +4,6 @@ import { Validator } from "../src/core.ts";
 
 import { KeyTraitsValidator } from "../src/rules/key-traits.ts";
 
-const mapping = {
-  KeyTraitsValidator: KeyTraitsValidator,
-} as const;
-
 Deno.test("KeyTraitsValidator - withWarning", () => {
   const metadata = [
     {
@@ -32,14 +28,8 @@ Deno.test("KeyTraitsValidator - withWarning", () => {
     },
   ];
 
-  const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
-    "KeyTraitsValidator",
-  ];
-
   const mainValidator = new Validator("Main");
-  for (const validator of validatorsReceivedFromFrontend) {
-    mainValidator.Enable(new mapping[validator]());
-  }
+  mainValidator.Enable(new KeyTraitsValidator());
 
   for (const asset_metadata of metadata) {
     mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
@@ -47,32 +37,34 @@ Deno.test("KeyTraitsValidator - withWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, [
-    {
-      state: "warning",
-      message: {
-        formErrors: [],
-        fieldErrors: {
-          traits: [
-            {
-              message: "All elements in the array should be of the same type.",
-              errorCode: "custom",
-              status: "warning",
-              path: "traits",
+  assertEquals(result, {
+    asset000: {
+      status: "warning",
+      warnings: [
+        {
+          validatorId: "key-traits",
+          message: {
+            formErrors: [],
+            fieldErrors: {
+              traits: [
+                {
+                  message:
+                    "All elements in the array should be of the same type.",
+                  errorCode: "custom",
+                  status: "warning",
+                  path: "traits",
+                },
+                {
+                  message: "It is recommended to use string instead of number",
+                  errorCode: "custom",
+                  status: "warning",
+                  path: "traits/2",
+                },
+              ],
             },
-            {
-              message: "It is recommended to use string instead of number",
-              errorCode: "custom",
-              status: "warning",
-              path: "traits/2",
-            },
-          ],
+          },
         },
-      },
-      input: metadata[0],
-      output: undefined,
-      assetName: "asset000",
-      validatorId: "key-traits",
+      ],
     },
-  ]);
+  });
 });

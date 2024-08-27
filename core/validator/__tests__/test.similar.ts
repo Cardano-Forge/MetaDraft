@@ -6,12 +6,6 @@ import { CompareRootKeys } from "../src/rules/compare-root-keys.ts";
 import { CompareRootValues } from "../src/rules/compare-root-values.ts";
 import { CompareAttributesKeys } from "../src/rules/compare-attributes-keys.ts";
 
-const mapping = {
-  CompareRootKeys: CompareRootKeys,
-  CompareRootValues: CompareRootValues,
-  CompareAttributesKeys: CompareAttributesKeys,
-} as const;
-
 Deno.test("CompareRootKeys - withSuccess", () => {
   const metadata = [
     {
@@ -36,14 +30,8 @@ Deno.test("CompareRootKeys - withSuccess", () => {
     },
   ];
 
-  const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
-    "CompareRootKeys",
-  ];
-
   const mainValidator = new Validator("Main");
-  for (const validator of validatorsReceivedFromFrontend) {
-    mainValidator.Enable(new mapping[validator]());
-  }
+  mainValidator.Enable(new CompareRootKeys());
 
   for (const asset_metadata of metadata) {
     mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
@@ -51,16 +39,7 @@ Deno.test("CompareRootKeys - withSuccess", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, [
-    {
-      state: "success",
-      message: "No similar keys found.",
-      input: metadata[0],
-      assetName: "asset000",
-      validatorId: "compare-root-keys",
-      output: undefined,
-    },
-  ]);
+  assertEquals(result, { asset000: { status: "success", warnings: [] } });
 });
 
 Deno.test("CompareRootKeys - withWarning", () => {
@@ -91,14 +70,8 @@ Deno.test("CompareRootKeys - withWarning", () => {
     },
   ];
 
-  const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
-    "CompareRootKeys",
-  ];
-
   const mainValidator = new Validator("Main");
-  for (const validator of validatorsReceivedFromFrontend) {
-    mainValidator.Enable(new mapping[validator]());
-  }
+  mainValidator.Enable(new CompareRootKeys());
 
   for (const asset_metadata of metadata) {
     mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
@@ -106,19 +79,20 @@ Deno.test("CompareRootKeys - withWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, [
-    {
-      state: "warning",
-      message: [
-        "attributes is similar to attrybutes",
-        "attrybutes is similar to attributes",
+  assertEquals(result, {
+    asset000: {
+      status: "warning",
+      warnings: [
+        {
+          validatorId: "compare-root-keys",
+          message: [
+            "attributes is similar to attrybutes",
+            "attrybutes is similar to attributes",
+          ],
+        },
       ],
-      input: metadata[0],
-      assetName: "asset000",
-      validatorId: "compare-root-keys",
-      output: undefined,
     },
-  ]);
+  });
 });
 
 Deno.test("CompareRootValues - withSuccess", () => {
@@ -149,14 +123,8 @@ Deno.test("CompareRootValues - withSuccess", () => {
     },
   ];
 
-  const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
-    "CompareRootValues",
-  ];
-
   const mainValidator = new Validator("Main");
-  for (const validator of validatorsReceivedFromFrontend) {
-    mainValidator.Enable(new mapping[validator]());
-  }
+  mainValidator.Enable(new CompareRootValues());
 
   for (const asset_metadata of metadata) {
     mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
@@ -164,16 +132,7 @@ Deno.test("CompareRootValues - withSuccess", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, [
-    {
-      state: "success",
-      message: "No similar values found.",
-      input: metadata[0],
-      assetName: "asset000",
-      validatorId: "compare-root-values",
-      output: undefined,
-    },
-  ]);
+  assertEquals(result, { asset000: { status: "success", warnings: [] } });
 });
 
 Deno.test("CompareAttributesValues - withSuccess", () => {
@@ -208,33 +167,27 @@ Deno.test("CompareAttributesValues - withSuccess", () => {
     },
   ];
 
-  const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
-    "CompareAttributesKeys",
-  ];
-
   const mainValidator = new Validator("Main");
-  for (const validator of validatorsReceivedFromFrontend) {
-    mainValidator.Enable(new mapping[validator]());
-  }
+  mainValidator.Enable(new CompareAttributesKeys());
 
   for (const asset_metadata of metadata) {
     mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
-
-  assertEquals(result, [
-    {
-      state: "warning",
-      message: [
-        "foo is similar to foo1",
-        "foo1 is similar to foo",
-        "foz is similar to foo",
+  assertEquals(result, {
+    asset000: {
+      status: "warning",
+      warnings: [
+        {
+          validatorId: "compare-attributes-keys",
+          message: [
+            "foo is similar to foo1",
+            "foo1 is similar to foo",
+            "foz is similar to foo",
+          ],
+        },
       ],
-      input: metadata[0],
-      assetName: "asset000",
-      validatorId: "compare-attributes-keys",
-      output: undefined,
     },
-  ]);
+  });
 });

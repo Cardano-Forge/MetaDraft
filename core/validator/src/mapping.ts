@@ -22,12 +22,11 @@ import { KeyTitleCase } from "./rules/key-title-case.ts";
 import { KeyTraitsValidator } from "./rules/key-traits.ts";
 import { KeyWhiteSpace } from "./rules/key-white-space.ts";
 import { DuplicateImage } from "./rules/duplicate-image.ts";
-import { DuplicateAssetName } from "./rules/duplicate-asset-name.ts";
-import { DuplicateAssetNameAndImage } from "./rules/duplicate-asset-name-and-image.ts";
+import { DuplicateName } from "./rules/duplicate-name.ts";
+import { DuplicateNameAndImage } from "./rules/duplicate-name-and-image.ts";
 export { KeyWhiteSpace } from "./rules/key-white-space.ts";
 export { DuplicateImage } from "./rules/duplicate-image.ts";
-export { DuplicateAssetName } from "./rules/duplicate-asset-name.ts";
-export { DuplicateAssetNameAndImage } from "./rules/duplicate-asset-name-and-image.ts";
+export { DuplicateName } from "./rules/duplicate-name.ts";
 
 export const mapping = {
   cip25Version1Validator: Cip25Version1Validator,
@@ -54,6 +53,6 @@ export const mapping = {
   keyTraitsValidator: KeyTraitsValidator,
   keyWhiteSpace: KeyWhiteSpace,
   duplicateImage: DuplicateImage,
-  duplicateAssetName: DuplicateAssetName,
-  duplicateAssetNameAndImage: DuplicateAssetNameAndImage,
+  duplicateName: DuplicateName,
+  duplicateNameAndImage: DuplicateNameAndImage,
 };

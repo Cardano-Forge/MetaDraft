@@ -4,10 +4,6 @@ import { Validator } from "../src/core.ts";
 
 import { DuplicateKeysValidator } from "../src/rules/duplicate-keys.ts";
 
-const mapping = {
-  DuplicateKeysValidator: DuplicateKeysValidator,
-} as const;
-
 Deno.test("DuplicateKeys - withWarnings", () => {
   const metadata = [
     {
@@ -41,57 +37,51 @@ Deno.test("DuplicateKeys - withWarnings", () => {
     },
   ];
 
-  const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
-    "DuplicateKeysValidator",
-  ];
-
   const mainValidator = new Validator("Main");
-  for (const validator of validatorsReceivedFromFrontend) {
-    mainValidator.Enable(new mapping[validator]());
-  }
+  mainValidator.Enable(new DuplicateKeysValidator());
 
   for (const asset_metadata of metadata) {
     mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
-
-  assertEquals(result, [
-    {
-      state: "warning",
-      message: {
-        message:
-          "Some keys appear multiple times within the provided metadata. The following keys were found more than once",
-        warnings: [
-          {
-            field: "name",
-            paths: [
-              "name",
-              "attributes.Special1.name",
-              "attributes.Special2.name",
-              "attributes.attributes.Special1.name",
-              "attributes.attributes.Special2.name",
+  assertEquals(result, {
+    asset000: {
+      status: "warning",
+      warnings: [
+        {
+          validatorId: "duplicate-keys",
+          message: {
+            message:
+              "Some keys appear multiple times within the provided metadata. The following keys were found more than once",
+            warnings: [
+              {
+                field: "name",
+                paths: [
+                  "name",
+                  "attributes.Special1.name",
+                  "attributes.Special2.name",
+                  "attributes.attributes.Special1.name",
+                  "attributes.attributes.Special2.name",
+                ],
+                occurences: 5,
+              },
+              {
+                field: "value",
+                paths: [
+                  "attributes.Special1.value",
+                  "attributes.Special2.value",
+                  "attributes.attributes.Special1.value",
+                  "attributes.attributes.Special2.value",
+                ],
+                occurences: 4,
+              },
             ],
-            occurences: 5,
           },
-          {
-            field: "value",
-            paths: [
-              "attributes.Special1.value",
-              "attributes.Special2.value",
-              "attributes.attributes.Special1.value",
-              "attributes.attributes.Special2.value",
-            ],
-            occurences: 4,
-          },
-        ],
-      },
-      input: metadata[0],
-      assetName: "asset000",
-      validatorId: "duplicate-keys",
-      output: undefined,
+        },
+      ],
     },
-  ]);
+  });
 });
 
 Deno.test("DuplicateKeys - withSuccess", () => {
@@ -121,14 +111,8 @@ Deno.test("DuplicateKeys - withSuccess", () => {
     },
   ];
 
-  const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
-    "DuplicateKeysValidator",
-  ];
-
   const mainValidator = new Validator("Main");
-  for (const validator of validatorsReceivedFromFrontend) {
-    mainValidator.Enable(new mapping[validator]());
-  }
+  mainValidator.Enable(new DuplicateKeysValidator());
 
   for (const asset_metadata of metadata) {
     mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
@@ -136,14 +120,5 @@ Deno.test("DuplicateKeys - withSuccess", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, [
-    {
-      state: "success",
-      message: "No significant duplicates detected in the metadata.",
-      input: metadata[0],
-      assetName: "asset000",
-      validatorId: "duplicate-keys",
-      output: undefined,
-    },
-  ]);
+  assertEquals(result, { asset000: { status: "success", warnings: [] } });
 });
