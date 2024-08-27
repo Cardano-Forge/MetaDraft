@@ -5,5 +5,5 @@ export type ActiveProject = {
 
 export type Metadata = {
   id: string;
-  data: object;
+  data: Record<string, unknown>[];
 };

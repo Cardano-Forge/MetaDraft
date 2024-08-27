@@ -16,6 +16,7 @@ export default function ClearProjectButton() {
     const confirms = confirm("You will lose all current progress");
     if (confirms) {
       await result[0]?.remove();
+      window.localStorage.clear();
       router.push("/");
     }
   };

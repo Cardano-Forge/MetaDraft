@@ -1,44 +1,61 @@
 "use server";
 
-import { Decorator } from "@ada-anvil/metadraft-validator";
+import {
+  CompareAttributesKeys,
+  CompareRootKeys,
+  CompareRootValues,
+  DuplicateAssetName,
+  DuplicateImage,
+  DuplicateKeysValidator,
+  HasRequiredKeysValidator,
+  IValidator,
+  KeyAlphanumeric,
+  KeyCamelCase,
+  KeyFilesValidator,
+  KeyImageValidator,
+  KeyLength,
+  KeyMediaTypeValidator,
+  KeyNameValidator,
+  KeyTitleCase,
+  KeyWhiteSpace,
+  Validator,
+  mapping,
+} from "@ada-anvil/metadraft-validator";
 
-import { KeyAttributesValidator } from "@ada-anvil/metadraft-validator";
+export async function doStuff(metadata: object[]) {
+  console.time(`timeToValidate`);
 
-const mapping = {
-  KeyAttributesValidator: KeyAttributesValidator,
-} as const;
-
-export async function doStuff() {
-  const metadatas = [
-    {
-      asset_name:
-      {
-        attributes: {
-          foo: "bar",
-          number_field: 1,
-        },
-      }
-    }
+  const template: IValidator[] = [
+    new HasRequiredKeysValidator(),
+    new CompareRootKeys(),
+    new CompareRootValues(),
+    new KeyCamelCase(),
+    new KeyTitleCase(),
+    new KeyWhiteSpace(),
+    new KeyNameValidator(),
+    new KeyLength(),
+    new KeyMediaTypeValidator(),
+    new KeyImageValidator(),
+    new KeyFilesValidator(),
+    new KeyAlphanumeric(),
+    new DuplicateImage(),
+    new DuplicateAssetName(),
+    new DuplicateKeysValidator(),
+    new CompareAttributesKeys(),
   ];
 
-  const validatorsReceivedFromFrontend: [keyof typeof mapping] = [
-    "KeyAttributesValidator",
-  ];
-
-  const mainValidator = new Decorator("Main");
-  for (const validator of validatorsReceivedFromFrontend) {
-    mainValidator.Enable(new mapping[validator]());
+  const mainValidator = new Validator("Main");
+  for (const validator of template) {
+    mainValidator.Enable(validator);
   }
 
-  for (const asset_metadata of metadatas) {
-    await mainValidator.Execute(
-      Object.keys(asset_metadata)[0],
-      Object.values(asset_metadata)[0],
-      metadatas,
-    );
+  for (const asset of metadata) {
+    mainValidator.Execute((asset as { name: string }).name, asset, metadata);
   }
 
   const result = mainValidator.GetResults();
+
+  console.timeEnd(`timeToValidate`);
 
   return JSON.stringify(result, null, 2);
 }
