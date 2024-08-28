@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import { type Metadata } from "next";
 import Header from "~/components/header";
 import { RxdbProvider } from "~/providers/rxdb.provider";
+import { ActiveProjectProvider } from "~/providers/active-project.provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,8 +26,10 @@ export default function RootLayout({
     <html lang="en" className={`${GeistSans.variable} ${inter.variable}`}>
       <RxdbProvider>
         <body>
-          <Header />
-          {children}
+          <ActiveProjectProvider>
+            <Header />
+            {children}
+          </ActiveProjectProvider>
         </body>
       </RxdbProvider>
     </html>

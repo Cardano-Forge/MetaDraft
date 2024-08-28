@@ -3,24 +3,21 @@ import React from "react";
 import { Button } from "./ui/button";
 import { RefreshCwIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useRxData } from "rxdb-hooks";
-import { type ActiveProject } from "~/lib/db/types";
+import { useActiveProject } from "~/providers/active-project.provider";
 
 export default function ClearProjectButton() {
   const router = useRouter();
-  const { result } = useRxData<ActiveProject>("activeProject", (collection) =>
-    collection.findOne(),
-  );
+  const activeProject = useActiveProject();
 
   const handleClick = async () => {
     const confirms = confirm("You will lose all current progress");
     if (confirms) {
-      await result[0]?.remove();
+      await activeProject?.remove();
       window.localStorage.clear();
       router.push("/");
     }
   };
-  if (!result[0]) return null;
+  if (!activeProject) return null;
   return (
     <Button onClick={handleClick}>
       <RefreshCwIcon className="mr-2" /> New Project
