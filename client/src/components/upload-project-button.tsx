@@ -101,7 +101,7 @@ export default function UploadProjectButton() {
   return (
     <div
       {...getRootProps()}
-      className="flex h-[452px] w-full min-w-[300px] flex-col items-center justify-center gap-8 rounded-2xl border border-dashed border-input/20 bg-transparent hover:bg-card/70"
+      className="cursor-pointer flex w-full min-h-[450px] min-w-[300px] flex-col items-center justify-center gap-8 rounded-2xl border border-dashed border-input/20 bg-transparent hover:bg-card/70"
     >
       <input {...getInputProps()} multiple={false} />
       <CloudUploadIcon />
@@ -117,7 +117,7 @@ export default function UploadProjectButton() {
           <>
             <Typography as={"mutedText"} className="font-normal">
               <span className="text-white">Upload</span> or{" "}
-              <span className="text-white">drag and drop</span> your Json file
+              <span className="text-white">drag and drop</span> your JSON file
             </Typography>
 
             {!!error && (
