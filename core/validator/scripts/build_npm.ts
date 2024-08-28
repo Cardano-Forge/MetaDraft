@@ -4,7 +4,7 @@ await emptyDir("./npm");
 
 await build({
   entryPoints: ["./src/mod.ts"],
-  typeCheck: true,
+  typeCheck: "both",
   test: true,
   outDir: "./npm",
   shims: {

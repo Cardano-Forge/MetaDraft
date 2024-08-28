@@ -1,9 +1,9 @@
 import { BaseValidator } from "../core.ts";
 
-import { getStates } from "../utils/getState.ts";
+import { GetValidationOutput } from "../utils/getState.ts";
 import { logger } from "../utils/logger.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
-import type { OptionsWithThreshold, Result } from "../utils/types.ts";
+import type { OptionsWithThreshold, StateOutput } from "../utils/types.ts";
 
 import { distance, closest } from "fastest_levenshtein";
 
@@ -38,7 +38,7 @@ export class CompareAttributesKeys extends BaseValidator {
     assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
-  ): Result[] {
+  ): StateOutput {
     logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
   }
@@ -51,7 +51,11 @@ export class CompareAttributesKeys extends BaseValidator {
    * @param _metadatas - An array of metadata objects, currently unused but provided for consistency with other validators.
    * @returns An array of results from validation checks.
    */
-  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
+  Logic(
+    assetName: string,
+    metadata: unknown,
+    _metadatas: unknown[],
+  ): StateOutput {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
@@ -90,7 +94,7 @@ export class CompareAttributesKeys extends BaseValidator {
       similarKeysDetected = true;
     }
 
-    return getStates(
+    return GetValidationOutput(
       {
         state: similarKeysDetected ? "warning" : "success",
         message: warnings,

@@ -1,8 +1,8 @@
 import { BaseValidator } from "../core.ts";
 
-import { getStates } from "../utils/getState.ts";
+import { GetValidationOutput } from "../utils/getState.ts";
 
-import type { KeyWithPath, Result } from "../utils/types.ts";
+import type { KeyWithPath, StateOutput } from "../utils/types.ts";
 import { isSnakeCase } from "../utils/casing.ts";
 import { extractKeysWithPaths } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
@@ -32,13 +32,13 @@ export class KeySnakeCase extends BaseValidator {
    * @param assetName - The name of the asset being validated.
    * @param metadata - The metadata object to validate. Keys should adhere to Snake Case formatting.
    * @param _metadatas - An array of metadata objects, ignored in this validator.
-   * @returns {Result[]} An array of validation results, including warnings for non-Snake Case keys.
+   * @returns {StateOutput} An array of validation results, including warnings for non-Snake Case keys.
    */
   Execute(
     assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
-  ): Result[] {
+  ): StateOutput {
     logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
   }
@@ -49,9 +49,13 @@ export class KeySnakeCase extends BaseValidator {
    * @param assetName - The name of the asset being validated.
    * @param metadata - The metadata object to validate. Keys should adhere to Snake Case formatting.
    * @param _metadatas - Ignored; included for compatibility with BaseValidator.
-   * @returns {Result[]} An array of validation results, including warnings for non-Snake Case keys.
+   * @returns {StateOutput} An array of validation results, including warnings for non-Snake Case keys.
    */
-  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
+  Logic(
+    assetName: string,
+    metadata: unknown,
+    _metadatas: unknown[],
+  ): StateOutput {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
@@ -65,7 +69,7 @@ export class KeySnakeCase extends BaseValidator {
       }
     });
 
-    return getStates(
+    return GetValidationOutput(
       {
         state: warnings.length === 0 ? "success" : "warning",
         message: {

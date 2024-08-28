@@ -1,7 +1,7 @@
+import type { StateOutput } from "../mod.ts";
 import { formatError } from "./formatError.ts";
 import type {
   FormattedError,
-  Result,
   State,
   StateError,
   ZodStateError,
@@ -41,36 +41,27 @@ function getState(error: FormattedError | undefined = undefined): State {
 }
 
 /**
- * Returns a formatted object the errors, warning and/or success
- * the state represent a success, warning or error
- * the message is a string when it is a success, and an object containing the details for warning and error
- * the input and output are used to allow the developer to apply custom UI/UX component
- * the assetName is required, it acts as an ID to know what input to update (such as a HTML id)
- */
-/**
- * Formats and returns an array of result objects containing state, message, input, and output details for success, warning, or error conditions.
- * @category Utils
- * @param {any} result - The zod result object to be processed.
- * @param {string} successMessage - The message to display when the state is "success".
- * @param {string} assetName - The required identifier for the asset, used to determine which input to update (e.g., an HTML id).
- * @param {unknown} metadata - The current asset metadata
- * @param {string} validatorId - A unique identifier for the validator. Defaults to "UNKNOWN".
+ * Generates validation output based on the given result and other parameters.
  *
- * @returns {Result[]} An array of formatted result objects with the following structure:
- *   - `assetName` (string): The identifier for the asset.
- *   - `state` (string): The state ("success", "warning", or "error").
- *   - `message` (string|Object): The message to display, an object in case of warning or error.
- *   - `input` (Object|undefined): Custom input for custom UI/UX components.
- *   - `output` (Object|undefined): Custom output for custom UI/UX components.
+ * @param {unknown} result - The validation result object. Expected to have the following shape:
+ *   - error?: ZodError (if validation failed)
+ *   - success?: boolean (indicating successful validation)
+ *   - state?: 'success' | 'error' (if validation result is StateError)
+ *   - message?: string (if validation result is StateError)
+ * @param {string} successMessage - The message to display upon successful validation.
+ * @param {string} [_assetName] - The name of the asset being validated. Defaults to "UNKNOWN". Kept to keep the same structure that we had
+ * @param {unknown} [_metadata] - Any additional metadata related to the validation process. Kept to keep the same structure that we had
+ * @param {string} [validatorId="UNKNOWN"] - The ID of the validator performing the check. Defaults to "UNKNOWN".
+ * @returns {StateOutput}
+ *   - An object containing the validation status and warning messages.
  */
-export function getStates(
+export function GetValidationOutput(
   result: unknown,
   successMessage: string,
-  assetName: string,
-  metadata: unknown,
+  _assetName: string,
+  _metadata: unknown,
   validatorId: string = "UNKNOWN",
-  simplified: boolean = true
-): Result[] {
+): StateOutput {
   const isSuccess =
     (result as ZodStateError).success ||
     (result as StateError).state === "success";
@@ -85,14 +76,8 @@ export function getStates(
       ? formatError((result as ZodStateError).error)
       : (result as StateError).message;
 
-  return [
-    {
-      state,
-      message,
-      input: simplified ? undefined : metadata,
-      output: simplified ? undefined: (result as ZodStateError).data,
-      assetName,
-      validatorId,
-    },
-  ];
+  return {
+    status: state,
+    warnings: [{ validatorId: validatorId, message }],
+  };
 }

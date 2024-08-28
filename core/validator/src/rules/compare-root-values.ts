@@ -1,9 +1,9 @@
 import { BaseValidator } from "../core.ts";
 
-import { getStates } from "../utils/getState.ts";
+import { GetValidationOutput } from "../utils/getState.ts";
 import { logger } from "../utils/logger.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
-import type { OptionsWithThreshold, Result } from "../utils/types.ts";
+import type { OptionsWithThreshold, StateOutput } from "../utils/types.ts";
 
 import { distance, closest } from "fastest_levenshtein";
 
@@ -34,13 +34,13 @@ export class CompareRootValues extends BaseValidator {
    * @param {string} assetName - The name of the asset being validated.
    * @param {unknown} metadata - The metadata associated with the asset.
    * @param {unknown[]} _metadatas - An array of all metadatas (not used in this validator).
-   * @returns {Result[]} An array containing the validation results.
+   * @returns {StateOutput} An array containing the validation results.
    */
   Execute(
     assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
-  ): Result[] {
+  ): StateOutput {
     logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
   }
@@ -51,9 +51,13 @@ export class CompareRootValues extends BaseValidator {
    * @param {string} assetName - The name of the asset being validated.
    * @param {unknown} metadata - The metadata associated with the asset.
    * @param {unknown[]} _metadatas - An array of all metadatas (not used in this validator).
-   * @returns {Result[]} An array containing the validation results.
+   * @returns {StateOutput} An array containing the validation results.
    */
-  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
+  Logic(
+    assetName: string,
+    metadata: unknown,
+    _metadatas: unknown[],
+  ): StateOutput {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
@@ -84,7 +88,7 @@ export class CompareRootValues extends BaseValidator {
       similarValuesDetected = true;
     }
 
-    return getStates(
+    return GetValidationOutput(
       {
         state: similarValuesDetected ? "warning" : "success",
         message: warnings,

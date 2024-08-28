@@ -2,9 +2,9 @@ import z from "zod";
 
 import { BaseValidator } from "../core.ts";
 
-import { getStates } from "../utils/getState.ts";
+import { GetValidationOutput } from "../utils/getState.ts";
 import { checkTraits } from "./zod.ts";
-import type { Result } from "../utils/types.ts";
+import type { StateOutput } from "../utils/types.ts";
 import { logger } from "../utils/logger.ts";
 
 /**
@@ -31,13 +31,13 @@ export class KeyTraitsValidator extends BaseValidator {
    * @param assetName - The name of the asset being validated.
    * @param metadata - The metadata object to validate. Should have an optional "traits" field matching the Zod schema.
    * @param _metadatas - An array of metadata objects, ignored in this validator.
-   * @returns {Result[]} An array of validation results indicating whether the "traits" field matches the Zod schema.
+   * @returns {StateOutput} An array of validation results indicating whether the "traits" field matches the Zod schema.
    */
   Execute(
     assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
-  ): Result[] {
+  ): StateOutput {
     logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
   }
@@ -50,14 +50,18 @@ export class KeyTraitsValidator extends BaseValidator {
    * @param _metadatas - Ignored; included for compatibility with BaseValidator.
    * @returns {z.SafeParseResult} The validation result indicating whether the "traits" field matches the Zod schema.
    */
-  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
+  Logic(
+    assetName: string,
+    metadata: unknown,
+    _metadatas: unknown[],
+  ): StateOutput {
     const result = z
       .object({
         traits: checkTraits.optional(),
       })
       .safeParse(metadata);
 
-    return getStates(
+    return GetValidationOutput(
       result,
       "`traits` field is valid.",
       assetName,

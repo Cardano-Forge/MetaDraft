@@ -1,5 +1,5 @@
-import { getStates } from "./getState.ts";
-import type { Result } from "./types.ts";
+import type { StateOutput } from "./types.ts";
+import { GetValidationOutput } from "./getState.ts";
 
 /**
  * Validates if the provided metadata is a non-null object. If not, it returns an error state using `getStates`.
@@ -16,9 +16,9 @@ export function metadataValidator(
   assetName: string,
   metadata: unknown,
   requester: string,
-): Result[] | undefined {
+): StateOutput | undefined {
   if (typeof metadata !== "object" || metadata === null) {
-    return getStates(
+    return GetValidationOutput(
       {
         state: "error",
         message: `Metadata must be a non-null object.`,

@@ -45,41 +45,6 @@ export interface FormattedError {
 export type State = "success" | "warning" | "error";
 
 /**
- * Type representing a validation result containing state, message, input, output (optional), assetName, and validatorId.
- */
-export interface Result {
-  /**
-   * The current validation state.
-   */
-  state: State;
-
-  /**
-   * An optional message or object associated with the validation result. Defaults to `undefined`.
-   */
-  message: string | object | undefined;
-
-  /**
-   * The input data that was validated.
-   */
-  input?: unknown;
-
-  /**
-   * The output data resulting from successful validation (optional). Set to `undefined` when there is an error/warning.
-   */
-  output?: unknown | undefined;
-
-  /**
-   * The name of the asset being validated.
-   */
-  assetName: string;
-
-  /**
-   * The identifier for the validator used in this result.
-   */
-  validatorId: string;
-}
-
-/**
  * Interface representing a validator with a unique `id` (tracker) and an `Execute` method that returns validation results.
  */
 export interface IValidator {
@@ -87,6 +52,10 @@ export interface IValidator {
    * A unique identifier for the validator (used as a tracker).
    */
   id: string;
+  /**
+   * A type of validator to run per asset or once per validation.
+   */
+  type: "once" | "all";
 
   /**
    * Executes the validation logic with provided asset name, metadata, and metadatas.
@@ -94,13 +63,61 @@ export interface IValidator {
    * @param {string} _assetName - The name of the asset being validated.
    * @param {unknown} _metadata - The metadata associated with the asset.
    * @param {unknown[]} _metadatas - An array of additional metadata objects.
-   * @returns {Result[]} An array of validation results.
+   * @returns {StateOutput} An object of validation results.
    */
   Execute(
     _assetName: string,
     _metadata: unknown,
     _metadatas: unknown[],
-  ): Promise<Result[]> | Result[];
+  ): StateOutput;
+
+  /**
+   * Executes the validation logic with provided asset name, metadata, and metadatas.
+   *
+   * @param {unknown[]} _metadatas - An array of additional metadata objects.
+   * @param {Record<string, StateOutput>} _validations An object of validation results.
+   * @returns {Record<string, StateOutput>} An object of validation results.
+   */
+  ExecuteOnce(
+    _metadatas: unknown[],
+    _validations: Record<string, StateOutput>,
+  ): Record<string, StateOutput>;
+}
+
+/**
+ * Interface representing a validator with a unique `id` (tracker) and an `Execute` method that returns validation results.
+ */
+export interface IMainValidator {
+  /**
+   * A unique identifier for the validator (used as a tracker).
+   */
+  id: string;
+  /**
+   * A type of validator to run per asset or once per validation.
+   */
+  type: "once" | "all";
+
+  /**
+   * Executes the validation logic with provided asset name, metadata, and metadatas.
+   *
+   * @param {string} _assetName - The name of the asset being validated.
+   * @param {unknown} _metadata - The metadata associated with the asset.
+   * @param {unknown[]} _metadatas - An array of additional metadata objects.
+   * @returns {Record<string, StateOutput>} An object of validation results.
+   */
+  Execute(
+    _assetName: string,
+    _metadata: unknown,
+    _metadatas: unknown[],
+  ): Record<string, StateOutput>;
+
+  /**
+   * Executes the validation logic with provided asset name, metadata, and metadatas.
+   *
+   * @param {unknown[]} _metadatas - An array of additional metadata objects.
+   * @returns {Record<string, StateOutput>} An object of validation results.
+   */
+  ExecuteOnce(_metadatas: unknown[]): Record<string, StateOutput>;
 }
 
 /**
@@ -220,4 +237,12 @@ export type StateError = {
 
 export type OptionsWithThreshold = {
   threshold: number;
+};
+
+export type StateOutput = {
+  status: State;
+  warnings: Array<{
+    validatorId: string;
+    message: string | object | undefined;
+  }>;
 };

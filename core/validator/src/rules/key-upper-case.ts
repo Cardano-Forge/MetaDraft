@@ -1,8 +1,8 @@
 import { BaseValidator } from "../core.ts";
 
-import { getStates } from "../utils/getState.ts";
+import { GetValidationOutput } from "../utils/getState.ts";
 
-import type { KeyWithPath, Result } from "../utils/types.ts";
+import type { KeyWithPath, StateOutput } from "../utils/types.ts";
 import { isUpperCaseWords } from "../utils/casing.ts";
 import { extractKeysWithPaths } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
@@ -32,13 +32,13 @@ export class KeyUpperCase extends BaseValidator {
    * @param assetName - The name of the asset being validated.
    * @param metadata - The metadata object to validate. Keys should follow Upper Case words format.
    * @param _metadatas - An array of metadata objects, ignored in this validator.
-   * @returns {Result[]} An array of validation results indicating whether the metadata keys adhere to Upper Case formatting.
+   * @returns {StateOutput} An array of validation results indicating whether the metadata keys adhere to Upper Case formatting.
    */
   Execute(
     assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
-  ): Result[] {
+  ): StateOutput {
     logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
   }
@@ -49,9 +49,13 @@ export class KeyUpperCase extends BaseValidator {
    * @param assetName - The name of the asset being validated.
    * @param metadata - The metadata object to validate.
    * @param _metadatas - An array of metadata objects, ignored in this validator.
-   * @returns {Result[]} Validation results indicating whether the metadata keys adhere to Upper Case formatting.
+   * @returns {StateOutput} Validation results indicating whether the metadata keys adhere to Upper Case formatting.
    */
-  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
+  Logic(
+    assetName: string,
+    metadata: unknown,
+    _metadatas: unknown[],
+  ): StateOutput {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
@@ -65,7 +69,7 @@ export class KeyUpperCase extends BaseValidator {
       }
     });
 
-    return getStates(
+    return GetValidationOutput(
       {
         state: warnings.length === 0 ? "success" : "warning",
         message: {

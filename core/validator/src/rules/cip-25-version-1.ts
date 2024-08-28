@@ -2,9 +2,9 @@ import z from "zod";
 
 import { BaseValidator } from "../core.ts";
 
-import { getStates } from "../utils/getState.ts";
+import { GetValidationOutput } from "../utils/getState.ts";
 import { checkHex56, checkSize64 } from "./zod.ts";
-import type { Result } from "../utils/types.ts";
+import type { StateOutput } from "../utils/types.ts";
 import { logger } from "../utils/logger.ts";
 
 /**
@@ -39,7 +39,7 @@ export class Cip25Version1Validator extends BaseValidator {
     assetName: string,
     metadata: unknown,
     _metadatas: unknown[],
-  ): Result[] {
+  ): StateOutput {
     logger(`Executing ${this.id} with: `, metadata, assetName);
     return this.Logic(assetName, metadata, _metadatas);
   }
@@ -52,7 +52,11 @@ export class Cip25Version1Validator extends BaseValidator {
    * @param _metadatas - An array of metadata objects, currently unused but provided for consistency with other validators.
    * @returns An array of results from validation checks.
    */
-  Logic(assetName: string, metadata: unknown, _metadatas: unknown[]): Result[] {
+  Logic(
+    assetName: string,
+    metadata: unknown,
+    _metadatas: unknown[],
+  ): StateOutput {
     const result = z
       .object({
         assetName: checkSize64,
@@ -60,7 +64,7 @@ export class Cip25Version1Validator extends BaseValidator {
       })
       .safeParse(metadata);
 
-    return getStates(
+    return GetValidationOutput(
       result,
       "`assetName` and `policyId` fields are valid.",
       assetName,
