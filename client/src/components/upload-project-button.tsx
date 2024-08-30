@@ -10,6 +10,7 @@ import { readFile } from "~/lib/read";
 import { useRouter } from "next/navigation";
 import { useRxCollection } from "rxdb-hooks";
 import { type Metadata, type ActiveProject } from "~/lib/db/types";
+import { jsonFileSchema } from "~/lib/zod-schemas";
 
 export default function UploadProjectButton() {
   const router = useRouter();
@@ -24,13 +25,13 @@ export default function UploadProjectButton() {
       // Handle accepted files
       if (acceptedFiles.length === 1) {
         const json = await readFile(acceptedFiles[0]);
-        // TODO - ZOD check the json format
-        
+        // TODO - Handle parse failure
+        const data = jsonFileSchema.parse(json);
         // const hash = await stringToHash(JSON.stringify(json));
 
         const meta = await metadataCollection?.upsert({
           id: "nonce",
-          data: json,
+          data,
         });
         if (meta) {
           await activeProjectCollection?.upsert({
