@@ -1,4 +1,4 @@
-import CreateProjectButton from "~/components/create-project-button";
+import { MetadataTemplate } from "~/components/metadata-template";
 import { Typography } from "~/components/typography";
 import UploadProjectButton from "~/components/upload-project-button";
 
@@ -25,8 +25,8 @@ export default function HomePage() {
 
       {/* Check for active project Component */}
 
-      <div className="flex w-full flex-col-reverse items-center justify-center gap-8 rounded-xl p-4 lg:flex-row">
-        <CreateProjectButton />
+      <div className="flex w-full flex-col-reverse items-stretch justify-center gap-8 rounded-xl p-4 lg:flex-row">
+        <MetadataTemplate />
         <UploadProjectButton />
       </div>
     </main>

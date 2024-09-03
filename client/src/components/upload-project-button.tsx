@@ -10,6 +10,7 @@ import { readFile } from "~/lib/read";
 import { useRouter } from "next/navigation";
 import { useRxCollection } from "rxdb-hooks";
 import { type Metadata, type ActiveProject } from "~/lib/db/types";
+import { jsonFileSchema } from "~/lib/zod-schemas";
 
 export default function UploadProjectButton() {
   const router = useRouter();
@@ -24,13 +25,13 @@ export default function UploadProjectButton() {
       // Handle accepted files
       if (acceptedFiles.length === 1) {
         const json = await readFile(acceptedFiles[0]);
-        // TODO - ZOD check the json format
-        
+        // TODO - Handle parse failure
+        const data = jsonFileSchema.parse(json);
         // const hash = await stringToHash(JSON.stringify(json));
 
         const meta = await metadataCollection?.upsert({
           id: "nonce",
-          data: json,
+          data,
         });
         if (meta) {
           await activeProjectCollection?.upsert({
@@ -101,7 +102,7 @@ export default function UploadProjectButton() {
   return (
     <div
       {...getRootProps()}
-      className="flex h-[452px] w-full min-w-[300px] flex-col items-center justify-center gap-8 rounded-2xl border border-dashed border-input/20 bg-transparent hover:bg-card/70"
+      className="cursor-pointer flex w-full min-h-[450px] min-w-[300px] flex-col items-center justify-center gap-8 rounded-2xl border border-dashed border-input/20 bg-transparent hover:bg-card/70"
     >
       <input {...getInputProps()} multiple={false} />
       <CloudUploadIcon />
@@ -117,7 +118,7 @@ export default function UploadProjectButton() {
           <>
             <Typography as={"mutedText"} className="font-normal">
               <span className="text-white">Upload</span> or{" "}
-              <span className="text-white">drag and drop</span> your Json file
+              <span className="text-white">drag and drop</span> your JSON file
             </Typography>
 
             {!!error && (
