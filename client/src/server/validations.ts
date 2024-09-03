@@ -8,7 +8,7 @@ import {
   DuplicateImage,
   DuplicateKeysValidator,
   HasRequiredKeysValidator,
-  IValidator,
+  type IValidator,
   KeyAlphanumeric,
   KeyCamelCase,
   KeyFilesValidator,
@@ -19,7 +19,6 @@ import {
   KeyTitleCase,
   KeyWhiteSpace,
   Validator,
-  mapping,
 } from "@ada-anvil/metadraft-validator";
 
 export async function doStuff(metadata: object[]) {

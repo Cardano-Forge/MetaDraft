@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRxCollection, useRxQuery } from "rxdb-hooks";
+import { useRxData } from "rxdb-hooks";
 
 import Loader from "~/components/loader";
 import { Button } from "~/components/ui/button";
@@ -13,12 +13,14 @@ import { doStuff } from "~/server/validations";
 
 import Header from "./header";
 import Content from "./content";
+import { useActiveProject } from "~/providers/active-project.provider";
 
 export default function Assets() {
   const [results, setResults] = useState<string | undefined>(undefined);
-  const metadataCollection = useRxCollection<Metadata>("metadata");
-  const query = metadataCollection?.find();
-  const { result, isFetching } = useRxQuery(query);
+  const activeProject = useActiveProject();
+  const { result, isFetching } = useRxData<Metadata>("metadata", (collection) =>
+    collection.findByIds([activeProject?.metadataId ?? ""]),
+  );
 
   const metadata = result[0]?.data;
   if (isFetching)
@@ -27,8 +29,7 @@ export default function Assets() {
         <Loader />
       </div>
     );
-  if (!metadata) return <div>No data found.</div>;
-
+  if (!activeProject || !metadata) return <div>No data found.</div>;
   const handleValidation = async () => {
     const res = await doStuff(metadata);
     setResults(res);

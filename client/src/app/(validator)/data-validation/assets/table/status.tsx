@@ -1,5 +1,4 @@
 import React from "react";
-import { capitalize } from "~/lib/capitalize-word";
 import { type Status } from "~/lib/types";
 import { cn } from "~/lib/utils";
 
