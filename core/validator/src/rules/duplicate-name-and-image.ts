@@ -1,6 +1,6 @@
 import { BaseValidator } from "../core.ts";
 
-import type { StateOutput } from "../utils/types.ts";
+import type { Metadata, StateOutput } from "../utils/types.ts";
 import { logger } from "../utils/logger.ts";
 
 /**
@@ -35,21 +35,18 @@ export class DuplicateNameAndImage extends BaseValidator {
     validations: Record<string, StateOutput>,
   ): Record<string, StateOutput> {
     logger(`Executing ${this.id} with: `, metadatas.length);
-    return this.Logic(
-      metadatas as { image: string | string[]; name: string }[],
-      validations,
-    );
+    return this.Logic(metadatas as Metadata[], validations);
   }
 
   /**
    * Logic method to check for duplicate asset names or image.
    *
-   * @param {{ image: string | string[]; name: string }[]} metadatas - An array of all metadatas being validated.
+   * @param {Metadata[]} metadatas - An array of all metadatas being validated.
    * @param {Record<string, StateOutput>} validations - An object of all validations made.
    * @returns {Record<string, StateOutput>} - Returns an array containing validation results.
    */
   Logic(
-    metadatas: { image: string | string[]; name: string }[],
+    metadatas: Metadata[],
     validations: Record<string, StateOutput>,
   ): Record<string, StateOutput> {
     const seen = {
@@ -59,17 +56,17 @@ export class DuplicateNameAndImage extends BaseValidator {
 
     const success: { name: string; image: string | string[] }[] = [];
 
-    for (const metadata of metadatas) {
+    for (const entry of metadatas) {
       let errorDetected = false;
       let nameDuplicated = false;
       if (
-        typeof metadata === "object" &&
-        metadata !== null &&
-        "image" in metadata
+        typeof entry === "object" &&
+        entry !== null &&
+        "image" in entry.metadata
       ) {
-        const image: string = Array.isArray(metadata.image)
-          ? metadata.image.join("")
-          : metadata.image;
+        const image: string = Array.isArray(entry.metadata.image)
+          ? entry.metadata.image.join("")
+          : entry.metadata.image;
         if (seen.images.has(image)) {
           errorDetected = true;
         }
@@ -77,29 +74,29 @@ export class DuplicateNameAndImage extends BaseValidator {
       }
 
       if (
-        typeof metadata === "object" &&
-        metadata !== null &&
-        "name" in metadata
+        typeof entry === "object" &&
+        entry !== null &&
+        "name" in entry.metadata
       ) {
-        if (seen.names.has(metadata.name)) {
+        if (seen.names.has(entry.metadata.name)) {
           errorDetected = true;
           nameDuplicated = true;
         }
-        seen.names.add(metadata.name);
+        seen.names.add(entry.metadata.name);
       }
 
       if (!errorDetected) {
-        success.push(metadata);
+        success.push(entry.metadata);
       } else {
-        validations[metadata.name].warnings.push({
+        validations[entry.assetName].warnings.push({
           validatorId: this.id,
-          message: `Name: ${metadata.name} has been detected as a duplicate.`,
+          message: `Name: ${entry.metadata.name} has been detected as a duplicate.`,
         });
 
         if (nameDuplicated) {
-          validations[metadata.name].status = "error";
-        } else if (validations[metadata.name].status !== "error") {
-          validations[metadata.name].status = "warning";
+          validations[entry.assetName].status = "error";
+        } else if (validations[entry.assetName].status !== "error") {
+          validations[entry.assetName].status = "warning";
         }
       }
     }

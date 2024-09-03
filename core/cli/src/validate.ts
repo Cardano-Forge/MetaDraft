@@ -6,10 +6,9 @@ import {
 } from "@ada-anvil/metadraft-validator";
 
 import { loadTemplates } from "./load-rules.ts";
-import { Message, summarize } from "./report.ts";
 import { DIVIDER } from "./contstant.ts";
 import { extractOptions } from "./utils.ts";
-import { DataRead, Result } from "./types.ts";
+import { DataRead, Metadata } from "./types.ts";
 
 export async function validate(
   metadataPath: string,
@@ -46,36 +45,22 @@ export async function validate(
   }
 
   // 4. Run the validation on each asset in the metadata input
+  console.time("timeAll");
   for (const metadata of metadatas) {
-    console.debug(Object.keys(metadata)[0], Object.values(metadata));
     main.Execute(
-      Object.keys(metadata)[0], // extract asset_name
-      Object.values(metadata)[0], // extract payload
+      (metadata as Metadata).assetName, // extract asset_name
+      (metadata as Metadata).metadata, // extract payload
       metadatas,
     );
   }
-  const result: Result[] = main.GetResults();
+  console.timeEnd("timeAll");
+
+  console.time("timeOnce");
+  main.ExecuteOnce(metadatas);
+  console.timeEnd("timeOnce");
+
+  const result = main.GetResults();
 
   // 4. Save the report on the local FS
-  fs.writeFileSync(
-    outputPath,
-    JSON.stringify(
-      {
-        summary: result.reduce(
-          (
-            acc: string[],
-            message: { message: Message | undefined | object; state: string },
-          ) => [
-            ...acc,
-            // Possible to have a nested message in case they are warnings (custom object)
-            summarize(message),
-          ],
-          [],
-        ),
-        detailled: result,
-      },
-      null,
-      2,
-    ),
-  );
+  fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
 }

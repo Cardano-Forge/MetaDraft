@@ -7,16 +7,25 @@ import { DuplicateImage } from "../src/rules/duplicate-image.ts";
 Deno.test("DuplicateImage - withWarning", () => {
   const metadata = [
     {
-      name: "asset_0000",
-      image: "adibou.png",
+      assetName: "asset_0000",
+      metadata: {
+        name: "asset_0000",
+        image: "adibou.png",
+      },
     },
     {
-      name: "asset_0001",
-      image: "adibou.png",
+      assetName: "asset_0001",
+      metadata: {
+        name: "asset_0001",
+        image: "adibou.png",
+      },
     },
     {
-      name: "asset_0002",
-      image: "roller-coaster-tycoon.png",
+      assetName: "asset_0002",
+      metadata: {
+        name: "asset_0002",
+        image: "roller-coaster-tycoon.png",
+      },
     },
   ];
 
@@ -43,16 +52,25 @@ Deno.test("DuplicateImage - withWarning", () => {
 Deno.test("DuplicateImage - withWarning", () => {
   const metadata = [
     {
-      name: "asset_0000",
-      image: ["windows95", "C:", "adibou.png"],
+      assetName: "asset_0000",
+      metadata: {
+        name: "asset_0000",
+        image: ["windows95", "C:", "adibou.png"],
+      },
     },
     {
-      name: "asset_0001",
-      image: ["windows95", "C:", "adibou.png"],
+      assetName: "asset_0001",
+      metadata: {
+        name: "asset_0001",
+        image: ["windows95", "C:", "adibou.png"],
+      },
     },
     {
-      name: "asset_0002",
-      image: "roller-coaster-tycoon.png",
+      assetName: "asset_0002",
+      metadata: {
+        name: "asset_0002",
+        image: "roller-coaster-tycoon.png",
+      },
     },
   ];
 
