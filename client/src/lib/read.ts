@@ -1,4 +1,4 @@
-const readFile = async (file: File | undefined) => {
+export const readFile = async (file: File | undefined) => {
   return new Promise<object>((resolve, reject) => {
     if (file) {
       const reader = new FileReader();
@@ -20,7 +20,7 @@ const readFile = async (file: File | undefined) => {
   });
 };
 
-const readJSON = (data: string | undefined): object => {
+export const readJSON = (data: string | undefined): object => {
   if (!data) return {};
   try {
     return JSON.parse(data) as object;
@@ -29,4 +29,13 @@ const readJSON = (data: string | undefined): object => {
   }
 };
 
-export { readFile, readJSON };
+export const getFileName = (file: File | undefined) => {
+  if (!file) return "Project Name";
+
+  const lastDotIndex = file.name.lastIndexOf(".");
+  if (lastDotIndex === -1 || lastDotIndex === 0) {
+    return file.name;
+  }
+
+  return file.name.slice(0, lastDotIndex);
+};

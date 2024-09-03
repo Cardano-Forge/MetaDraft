@@ -6,10 +6,9 @@ import Footer from "../footer";
 type GridViewProps = {
   metadata: Metadata["data"][];
   page: number;
-  setPage: (value: React.SetStateAction<number>) => void;
 };
 
-export default function GridView({ metadata, page, setPage }: GridViewProps) {
+export default function GridView({ metadata, page }: GridViewProps) {
   return (
     <>
       <div className="grid grid-flow-col grid-rows-2 gap-4 px-4">
@@ -17,7 +16,7 @@ export default function GridView({ metadata, page, setPage }: GridViewProps) {
           <Card key={meta.name as string} asset={meta} />
         ))}
       </div>
-      <Footer page={page} lastPage={metadata.length} setPage={setPage} />
+      <Footer page={page} lastPage={metadata.length} />
     </>
   );
 }

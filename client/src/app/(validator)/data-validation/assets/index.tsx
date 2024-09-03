@@ -16,20 +16,23 @@ import Content from "./content";
 import { useActiveProject } from "~/providers/active-project.provider";
 
 export default function Assets() {
-  const [results, setResults] = useState<string | undefined>(undefined);
+  const [results, setResults] = useState<string | undefined>(undefined); // to remove 
   const activeProject = useActiveProject();
   const { result, isFetching } = useRxData<Metadata>("metadata", (collection) =>
     collection.findByIds([activeProject?.metadataId ?? ""]),
   );
 
-  const metadata = result[0]?.data;
   if (isFetching)
     return (
       <div className="flex items-center justify-center">
         <Loader />
       </div>
     );
+
+  const metadata = result[0]?.data;
+
   if (!activeProject || !metadata) return <div>No data found.</div>;
+
   const handleValidation = async () => {
     const res = await doStuff(metadata);
     setResults(res);

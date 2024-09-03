@@ -1,21 +1,21 @@
 import React from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { bind } from "~/lib/bind-number";
 import { useSelectedAssets } from "~/lib/hooks/use-selected-assets";
 
 type FooterProps = {
   page: number;
   lastPage: number;
-  setPage: (value: React.SetStateAction<number>) => void;
 };
 
-export default function Footer({ page, lastPage, setPage }: FooterProps) {
+export default function Footer({ page, lastPage }: FooterProps) {
   const { clear } = useSelectedAssets();
   const handlePageChange = (page: number) => {
+    const boundPage = bind(1, lastPage, page);
     const url = new URL(window.location.href);
-    url.searchParams.set("page", page.toString());
+    url.searchParams.set("page", boundPage.toString());
     window.history.replaceState({}, "", url.toString()); // Update the URL without reloading the page
-    setPage(page);
     clear();
   };
 
@@ -33,7 +33,7 @@ export default function Footer({ page, lastPage, setPage }: FooterProps) {
     <div className="flex flex-row items-center justify-between px-4 py-2">
       <div className="flex flex-row items-center gap-2">
         <Button
-          disabled={page === 1}
+          disabled={page <= 1}
           className="px-6"
           variant={"outline"}
           onClick={handlePrevious}
@@ -41,7 +41,7 @@ export default function Footer({ page, lastPage, setPage }: FooterProps) {
           Previous
         </Button>
         <Button
-          disabled={page === lastPage}
+          disabled={page >= lastPage}
           className="px-6"
           variant={"secondary"}
           onClick={handleNext}

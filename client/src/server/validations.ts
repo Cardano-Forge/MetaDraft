@@ -1,14 +1,12 @@
 "use server";
 
 import {
+  type IValidator,
   CompareAttributesKeys,
   CompareRootKeys,
   CompareRootValues,
-  DuplicateAssetName,
-  DuplicateImage,
   DuplicateKeysValidator,
   HasRequiredKeysValidator,
-  type IValidator,
   KeyAlphanumeric,
   KeyCamelCase,
   KeyFilesValidator,
@@ -19,6 +17,7 @@ import {
   KeyTitleCase,
   KeyWhiteSpace,
   Validator,
+  DuplicateNameAndImage,
 } from "@ada-anvil/metadraft-validator";
 
 export async function doStuff(metadata: object[]) {
@@ -37,10 +36,9 @@ export async function doStuff(metadata: object[]) {
     new KeyImageValidator(),
     new KeyFilesValidator(),
     new KeyAlphanumeric(),
-    new DuplicateImage(),
-    new DuplicateAssetName(),
     new DuplicateKeysValidator(),
     new CompareAttributesKeys(),
+    new DuplicateNameAndImage(),
   ];
 
   const mainValidator = new Validator("Main");

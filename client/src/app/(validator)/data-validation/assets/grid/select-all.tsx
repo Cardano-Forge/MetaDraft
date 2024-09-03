@@ -34,8 +34,6 @@ export default function SelectAll({ metadata }: SelectAllProps) {
     setAllSelected(checked);
   };
 
-  console.log(assets);
-
   return (
     <div className="mx-2 flex items-center space-x-2">
       <Checkbox

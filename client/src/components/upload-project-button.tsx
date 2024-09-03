@@ -6,10 +6,10 @@ import { type FileRejection, useDropzone } from "react-dropzone";
 import CloudUploadIcon from "~/icons/cloud-upload.icon";
 import { Typography } from "./typography";
 import { getFileExtension } from "~/lib/get-file-extension";
-import { readFile } from "~/lib/read";
+import { getFileName, readFile } from "~/lib/read";
 import { useRouter } from "next/navigation";
 import { useRxCollection } from "rxdb-hooks";
-import { type Metadata, type ActiveProject } from "~/lib/db/types";
+import type { Metadata, ActiveProject, Project } from "~/lib/db/types";
 import { jsonFileSchema } from "~/lib/zod-schemas";
 
 export default function UploadProjectButton() {
@@ -17,6 +17,7 @@ export default function UploadProjectButton() {
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
   const [error, setError] = useState<Error | undefined>(undefined);
   const metadataCollection = useRxCollection<Metadata>("metadata");
+  const projectCollection = useRxCollection<Project>("project");
   const activeProjectCollection =
     useRxCollection<ActiveProject>("activeProject");
 
@@ -25,14 +26,30 @@ export default function UploadProjectButton() {
       // Handle accepted files
       if (acceptedFiles.length === 1) {
         const json = await readFile(acceptedFiles[0]);
+
         // TODO - Handle parse failure
-        const data = jsonFileSchema.parse(json);
-        // const hash = await stringToHash(JSON.stringify(json));
+        const data = jsonFileSchema.parse(json); // TODO - ZOD check the json format better for CIP25
+
+        // const hash = await stringToHash(JSON.stringify(json)); // This will be the active project id
 
         const meta = await metadataCollection?.upsert({
           id: "nonce",
           data,
         });
+
+        // TODO - VALIDATION HERE TO UPDATE DATA
+
+        const project: Project = {
+          id: "project",
+          name: getFileName(acceptedFiles[0]),
+          nfts: data.length,
+          errorsDetected: data.length,
+          errorsFlagged: 0,
+          valids: 0,
+        };
+
+        await projectCollection?.upsert(project);
+
         if (meta) {
           await activeProjectCollection?.upsert({
             id: "activeProject",
@@ -102,7 +119,7 @@ export default function UploadProjectButton() {
   return (
     <div
       {...getRootProps()}
-      className="cursor-pointer flex w-full min-h-[450px] min-w-[300px] flex-col items-center justify-center gap-8 rounded-2xl border border-dashed border-input/20 bg-transparent hover:bg-card/70"
+      className="flex min-h-[450px] w-full min-w-[300px] cursor-pointer flex-col items-center justify-center gap-8 rounded-2xl border border-dashed border-input/20 bg-transparent hover:bg-card/70"
     >
       <input {...getInputProps()} multiple={false} />
       <CloudUploadIcon />
