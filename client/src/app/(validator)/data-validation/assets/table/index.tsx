@@ -47,8 +47,6 @@ export default function TableView({ metadata, page, setPage }: TableViewProps) {
     setAllSelected(checked);
   };
 
-  console.log(assets);
-
   return (
     <>
       <Table>

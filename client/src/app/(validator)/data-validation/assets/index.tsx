@@ -22,14 +22,17 @@ export default function Assets() {
     collection.findByIds([activeProject?.metadataId ?? ""]),
   );
 
-  const metadata = result[0]?.data;
   if (isFetching)
     return (
       <div className="flex items-center justify-center">
         <Loader />
       </div>
     );
+
+  const metadata = result[0]?.data;
+  
   if (!activeProject || !metadata) return <div>No data found.</div>;
+
   const handleValidation = async () => {
     const res = await doStuff(metadata);
     setResults(res);
