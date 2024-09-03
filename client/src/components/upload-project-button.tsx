@@ -6,7 +6,7 @@ import { type FileRejection, useDropzone } from "react-dropzone";
 import CloudUploadIcon from "~/icons/cloud-upload.icon";
 import { Typography } from "./typography";
 import { getFileExtension } from "~/lib/get-file-extension";
-import { readFile } from "~/lib/read";
+import { getFileName, readFile } from "~/lib/read";
 import { useRouter } from "next/navigation";
 import { useRxCollection } from "rxdb-hooks";
 import { type Metadata, type ActiveProject } from "~/lib/db/types";
@@ -27,12 +27,17 @@ export default function UploadProjectButton() {
         const json = await readFile(acceptedFiles[0]);
         // TODO - Handle parse failure
         const data = jsonFileSchema.parse(json);
+        const projectName = getFileName(acceptedFiles[0]);
+        console.log(projectName);
+        // TODO - ZOD check the json format
+
         // const hash = await stringToHash(JSON.stringify(json));
 
         const meta = await metadataCollection?.upsert({
           id: "nonce",
           data,
         });
+
         if (meta) {
           await activeProjectCollection?.upsert({
             id: "activeProject",
