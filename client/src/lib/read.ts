@@ -30,5 +30,12 @@ export const readJSON = (data: string | undefined): object => {
 };
 
 export const getFileName = (file: File | undefined) => {
-  return file?.name ?? "Project Name";
+  if (!file) return "Project Name";
+
+  const lastDotIndex = file.name.lastIndexOf(".");
+  if (lastDotIndex === -1 || lastDotIndex === 0) {
+    return file.name;
+  }
+
+  return file.name.slice(0, lastDotIndex);
 };

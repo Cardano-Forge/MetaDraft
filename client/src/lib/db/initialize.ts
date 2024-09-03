@@ -1,3 +1,4 @@
+import { strict } from "assert";
 import { createRxDatabase } from "rxdb";
 import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
 export const initialize = async () => {
@@ -38,6 +39,23 @@ export const initialize = async () => {
           metadataId: {
             type: "string",
             maxLength: 100,
+          },
+        },
+      },
+    },
+    validations: {
+      schema: {
+        title: "validations",
+        version: 0,
+        type: "object",
+        primaryKey: "id",
+        properties: {
+          id: {
+            type: "string",
+            maxLength: 100,
+          },
+          validations: {
+            type: "object",
           },
         },
       },
