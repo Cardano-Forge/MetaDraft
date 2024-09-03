@@ -26,8 +26,9 @@ export default function UploadProjectButton() {
       // Handle accepted files
       if (acceptedFiles.length === 1) {
         const json = await readFile(acceptedFiles[0]);
+
         // TODO - Handle parse failure
-        const data = jsonFileSchema.parse(json); // TODO - ZOD check the json format
+        const data = jsonFileSchema.parse(json); // TODO - ZOD check the json format better for CIP25
 
         // const hash = await stringToHash(JSON.stringify(json)); // This will be the active project id
 
@@ -46,8 +47,6 @@ export default function UploadProjectButton() {
           errorsFlagged: 0,
           valids: 0,
         };
-
-        console.log(project);
 
         await projectCollection?.upsert(project);
 

@@ -21,22 +21,9 @@ export const Status = () => {
       </div>
     );
 
-  // console.log(result);
   const project = result[0]?._data;
-  console.log("project results", project);
 
   if (!activeProject || !project) return <div>No data found.</div>;
-  //TODO get data from offline db
-  // const data = {
-  //   name: "Funplastic",
-  //   stats: {
-  //     nfts: 10_000,
-  //     unchecked: 9_950,
-  //     errorsDetected: 2,
-  //     errorsFlagged: 3,
-  //     valid: 50,
-  //   },
-  // };
 
   return (
     <header className="container flex flex-wrap justify-between gap-2">
@@ -45,14 +32,7 @@ export const Status = () => {
         <Stat icon="database" stat={project.nfts}>
           NFTs in this collection
         </Stat>
-        {/* <Stat icon="clock" stat={data.stats.unchecked}>
-          NFTs unchecked
-        </Stat> */}
-        <Stat
-          icon="exclamation"
-          stat={project.errorsDetected}
-          variant="error"
-        >
+        <Stat icon="exclamation" stat={project.errorsDetected} variant="error">
           Errors detected
         </Stat>
         <Stat icon="flag" stat={project.errorsFlagged} variant="warning">
