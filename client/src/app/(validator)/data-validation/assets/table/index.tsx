@@ -24,10 +24,9 @@ import { cn } from "~/lib/utils";
 type TableViewProps = {
   metadata: Metadata["data"][];
   page: number;
-  setPage: (value: React.SetStateAction<number>) => void;
 };
 
-export default function TableView({ metadata, page, setPage }: TableViewProps) {
+export default function TableView({ metadata, page }: TableViewProps) {
   const { assets, selectAll, handleAddOrRemove, clear, isSelected } =
     useSelectedAssets();
   const [allSelected, setAllSelected] = useState<CheckedState>(
@@ -106,7 +105,7 @@ export default function TableView({ metadata, page, setPage }: TableViewProps) {
           })}
         </TableBody>
       </Table>
-      <Footer page={page} lastPage={metadata.length} setPage={setPage} />
+      <Footer page={page} lastPage={metadata.length} />
     </>
   );
 }
