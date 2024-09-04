@@ -1,6 +1,6 @@
 import { BaseValidator } from "../core.ts";
 
-import type { StateOutput } from "../utils/types.ts";
+import type { Metadata, StateOutput } from "../utils/types.ts";
 import { logger } from "../utils/logger.ts";
 
 /**
@@ -35,41 +35,44 @@ export class DuplicateName extends BaseValidator {
     validations: Record<string, StateOutput>,
   ): Record<string, StateOutput> {
     logger(`Executing ${this.id} with: `, metadatas.length);
-    return this.Logic(metadatas as { name: string }[], validations);
+    return this.Logic(metadatas as Metadata[], validations);
   }
 
   /**
    * Logic method to check for duplicate asset names.
    *
-   * @param {{ name: string }[]} metadatas - An array of all metadatas being validated.
+   * @param {Metadata[]} metadatas - An array of all metadatas being validated.
    * @param {Record<string, StateOutput>} validations - An object of all validations made.
    * @returns {Record<string, StateOutput>} - Returns an array containing validation results.
    */
   Logic(
-    metadatas: { name: string }[],
+    metadatas: Metadata[],
     validations: Record<string, StateOutput>,
   ): Record<string, StateOutput> {
     const seen = {
       names: new Set<string>(),
     };
 
-    for (const metadata of metadatas) {
+    for (const entry of metadatas) {
       if (
-        typeof metadata === "object" &&
-        metadata !== null &&
-        "name" in metadata
+        typeof entry === "object" &&
+        entry !== null &&
+        "name" in entry.metadata
       ) {
-        if (seen.names.has(metadata.name)) {
-          if (!validations[metadata.name]) {
-            validations[metadata.name] = { status: "error", warnings: [] };
+        if (seen.names.has(entry.metadata.name)) {
+          if (!validations[entry.assetName]) {
+            validations[entry.assetName] = {
+              status: "error",
+              warnings: [],
+            };
           }
-          validations[metadata.name].warnings.push({
+          validations[entry.assetName].warnings.push({
             validatorId: this.id,
-            message: `Name: ${metadata.name} has been detected as a duplicate.`,
+            message: `Name: ${entry.metadata.name} has been detected as a duplicate.`,
           });
-          validations[metadata.name].status = "error";
+          validations[entry.assetName].status = "error";
         }
-        seen.names.add(metadata.name);
+        seen.names.add(entry.metadata.name);
       }
     }
 

@@ -246,3 +246,8 @@ export type StateOutput = {
     message: string | object | undefined;
   }>;
 };
+
+export type Metadata = {
+  assetName: string;
+  metadata: { name: string; image: string | string[] };
+};
