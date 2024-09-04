@@ -2,15 +2,16 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { type FileRejection, useDropzone } from "react-dropzone";
+import { useRouter } from "next/navigation";
+import { useRxCollection } from "rxdb-hooks";
 
 import CloudUploadIcon from "~/icons/cloud-upload.icon";
 import { Typography } from "./typography";
 import { getFileExtension } from "~/lib/get-file-extension";
 import { getFileName, readFile } from "~/lib/read";
-import { useRouter } from "next/navigation";
-import { useRxCollection } from "rxdb-hooks";
+import { JSONSchema } from "~/lib/zod-schemas";
 import type { Metadata, ActiveProject, Project } from "~/lib/db/types";
-import { jsonFileSchema } from "~/lib/zod-schemas";
+import type { MetatdataJSON } from "~/lib/types";
 
 export default function UploadProjectButton() {
   const router = useRouter();
@@ -28,8 +29,12 @@ export default function UploadProjectButton() {
         const json = await readFile(acceptedFiles[0]);
 
         // TODO - Handle parse failure
-        const data = jsonFileSchema.parse(json); // TODO - ZOD check the json format better for CIP25
-
+        const data: MetatdataJSON = JSONSchema.parse(json); // TODO - ZOD check the json format better for CIP25
+        if (!JSONSchema.safeParse(json).success) {
+          setError(new Error(`Your JSON is not in the right format`));
+          return;
+        }
+        console.log(data);
         // const hash = await stringToHash(JSON.stringify(json)); // This will be the active project id
 
         const meta = await metadataCollection?.upsert({
