@@ -26,15 +26,16 @@ export default function UploadProjectButton() {
     async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       // Handle accepted files
       if (acceptedFiles.length === 1) {
+        // Get JSON object[] format of the file.
         const json = await readFile(acceptedFiles[0]);
-
-        // TODO - Handle parse failure
-        const data: MetatdataJSON = JSONSchema.parse(json); // TODO - ZOD check the json format better for CIP25
+        // Zod Validation
         if (!JSONSchema.safeParse(json).success) {
-          setError(new Error(`Your JSON is not in the right format`));
+          setError(new Error(`Your metadata is not in the right format`));
           return;
         }
+        const data: MetatdataJSON = JSONSchema.parse(json);
         console.log(data);
+
         // const hash = await stringToHash(JSON.stringify(json)); // This will be the active project id
 
         const meta = await metadataCollection?.upsert({
@@ -43,6 +44,7 @@ export default function UploadProjectButton() {
         });
 
         // TODO - VALIDATION HERE TO UPDATE DATA
+      
 
         const project: Project = {
           id: "project",

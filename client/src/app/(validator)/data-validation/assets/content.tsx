@@ -17,6 +17,8 @@ export default function Content({ metadata }: ContentProps) {
   const view = searchParams.get("view") ?? "table"; // Default to : table
   const page = getPageFromParams(currentPage, metadata.length);
 
+  return <div>false</div>;
+
   if (view === "table") return <TableView metadata={metadata} page={page} />;
 
   return <GridView metadata={metadata} page={page} />;
