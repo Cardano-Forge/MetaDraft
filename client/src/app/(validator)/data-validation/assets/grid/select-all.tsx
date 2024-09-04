@@ -4,16 +4,16 @@ import { type CheckedState } from "@radix-ui/react-checkbox";
 import { Typography } from "~/components/typography";
 import { Checkbox } from "~/components/ui/checkbox";
 
-import { type Metadata } from "~/lib/db/types";
 import { useSelectedAssets } from "~/lib/hooks/use-selected-assets";
 import { useSearchParams } from "next/navigation";
+import type { MetatdataJSON } from "~/lib/types";
 
-export default function SelectAll() {
-  // todo - get metadata from here
+export default function SelectAll({ metadata }: { metadata: MetatdataJSON[] }) {
   const searchParams = useSearchParams();
   const param = searchParams.get("page");
   const page = param ? +param - 1 : 0;
   const { assets, selectAll, clear } = useSelectedAssets();
+
   const [allSelected, setAllSelected] = useState<CheckedState>(
     assets.length == metadata[page]?.length,
   );

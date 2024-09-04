@@ -7,14 +7,13 @@ import Actions from "./actions";
 import { Checkbox } from "~/components/ui/checkbox";
 import { useSelectedAssets } from "~/lib/hooks/use-selected-assets";
 import { cn } from "~/lib/utils";
-import { MetatdataJSON, ValidatorResult, ValidatorResults } from "~/lib/types";
+import type { MetatdataJSON } from "~/lib/types";
 
 type CardProps = {
   asset: MetatdataJSON[number];
-  validations: ValidatorResults;
 };
 
-export default function Card({ asset, validations }: CardProps) {
+export default function Card({ asset }: CardProps) {
   const { handleAddOrRemove, isSelected } = useSelectedAssets();
 
   return (

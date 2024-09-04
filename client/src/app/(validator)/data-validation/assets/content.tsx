@@ -6,25 +6,38 @@ import { type Metadata } from "~/lib/db/types";
 import TableView from "./table";
 import GridView from "./grid";
 import { bind } from "~/lib/bind-number";
-import { ValidatorResults } from "~/lib/types";
+import { useActiveProject } from "~/providers/active-project.provider";
+import { useRxData } from "rxdb-hooks";
+import Loader from "~/components/loader";
+import { chunk } from "~/lib/chunk";
 
-type ContentProps = {
-  metadata: Metadata["data"][];
-  validations: ValidatorResults;
-};
-
-export default function Content({ metadata, validations }: ContentProps) {
+export default function Content() {
   const searchParams = useSearchParams();
-  const currentPage = searchParams.get("page");
   const view = searchParams.get("view") ?? "table"; // Default to : table
-  const page = getPageFromParams(currentPage, metadata.length);
+  const activeProject = useActiveProject();
+  const { result, isFetching } = useRxData<Metadata>("metadata", (collection) =>
+    collection.findByIds([activeProject?.metadataId ?? ""]),
+  );
 
-  if (view === "table")
+  if (isFetching)
     return (
-      <TableView metadata={metadata} validations={validations} page={page} />
+      <div className="flex items-center justify-center">
+        <Loader />
+      </div>
     );
 
-  return <GridView metadata={metadata} page={page} validations={validations} />;
+  const metadata = result[0]?.data;
+
+  if (!activeProject || !metadata) return <div>No data found.</div>;
+
+  const pagedMetadata = chunk(metadata, 10);
+  const currentPage = searchParams.get("page");
+  const page = getPageFromParams(currentPage, pagedMetadata.length);
+
+  if (view === "table")
+    return <TableView metadata={pagedMetadata} page={page} />;
+
+  return <GridView metadata={pagedMetadata} page={page} />;
 }
 
 const getPageFromParams = (param: string | null, max: number) => {

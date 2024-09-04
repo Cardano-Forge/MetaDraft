@@ -20,19 +20,15 @@ import Status from "./status";
 import Actions from "./actions";
 import Footer from "../footer";
 import { cn } from "~/lib/utils";
-import { type ValidatorResults } from "~/lib/types";
 
 type TableViewProps = {
   metadata: Metadata["data"][];
-  validations: ValidatorResults;
   page: number;
 };
 
-export default function TableView({
-  metadata,
-  validations,
-  page,
-}: TableViewProps) {
+// TODO - HOOK TO GET ASSET STATE
+
+export default function TableView({ metadata, page }: TableViewProps) {
   const { assets, selectAll, handleAddOrRemove, clear, isSelected } =
     useSelectedAssets();
   const [allSelected, setAllSelected] = useState<CheckedState>(
@@ -94,9 +90,10 @@ export default function TableView({
                   />
                 </TableCell>
                 <TableCell className="font-bold">{meta.assetName}</TableCell>
-                <TableCell>
-                  {/* TODO - formater for all possible image */}
-                  {(meta.metadata.image as string).replace("ipfs://", "")}
+                <TableCell className="text-ellipsis">
+                  {Array.isArray(meta.metadata.image)
+                    ? meta.metadata.image.join("")
+                    : meta.metadata.image}
                 </TableCell>
                 <TableCell>
                   <Status
