@@ -8,6 +8,8 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { useSelectedAssets } from "~/lib/hooks/use-selected-assets";
 import { cn } from "~/lib/utils";
 import type { MetatdataJSON } from "~/lib/types";
+import useAssetState from "~/lib/hooks/use-asset-state";
+import Loader from "~/components/loader";
 
 type CardProps = {
   asset: MetatdataJSON[number];
@@ -15,6 +17,14 @@ type CardProps = {
 
 export default function Card({ asset }: CardProps) {
   const { handleAddOrRemove, isSelected } = useSelectedAssets();
+  const { isFetching, getState } = useAssetState();
+
+  if (isFetching)
+    return (
+      <div className="flex items-center justify-center">
+        <Loader />
+      </div>
+    );
 
   return (
     <div
@@ -37,13 +47,7 @@ export default function Card({ asset }: CardProps) {
         />
       </div>
       <div className="flex flex-col gap-4 p-4">
-        <Status
-          state={
-            validations[asset.assetName]
-              ? (validations[asset.assetName]?.status ?? "success")
-              : "success"
-          }
-        />
+        <Status state={getState(meta.assetName)} />
         <Typography as="largeText">{asset.assetName}</Typography>
         <div className="flex flex-row items-end justify-between">
           <div className="flex flex-col gap-2">
@@ -52,13 +56,7 @@ export default function Card({ asset }: CardProps) {
               CID {(asset.metadata.image as string).replace("ipfs://", "")}
             </Typography>
           </div>
-          <Actions
-            state={
-              validations[asset.assetName]
-                ? (validations[asset.assetName]?.status ?? "success")
-                : "success"
-            }
-          />
+          <Actions state={getState(meta.assetName)} />
         </div>
       </div>
     </div>

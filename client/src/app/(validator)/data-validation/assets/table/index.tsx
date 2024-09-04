@@ -20,6 +20,8 @@ import Status from "./status";
 import Actions from "./actions";
 import Footer from "../footer";
 import { cn } from "~/lib/utils";
+import useAssetState from "~/lib/hooks/use-asset-state";
+import Loader from "~/components/loader";
 
 type TableViewProps = {
   metadata: Metadata["data"][];
@@ -34,6 +36,7 @@ export default function TableView({ metadata, page }: TableViewProps) {
   const [allSelected, setAllSelected] = useState<CheckedState>(
     assets.length == metadata[page - 1]?.length,
   );
+  const { isFetching, getState } = useAssetState();
 
   useEffect(() => {
     setAllSelected(assets.length == metadata[page - 1]?.length);
@@ -47,6 +50,13 @@ export default function TableView({ metadata, page }: TableViewProps) {
     }
     setAllSelected(checked);
   };
+
+  if (isFetching)
+    return (
+      <div className="flex items-center justify-center">
+        <Loader />
+      </div>
+    );
 
   return (
     <>
@@ -96,22 +106,10 @@ export default function TableView({ metadata, page }: TableViewProps) {
                     : meta.metadata.image}
                 </TableCell>
                 <TableCell>
-                  <Status
-                    state={
-                      validations[meta.assetName]?.status
-                        ? (validations[meta.assetName]?.status ?? "success")
-                        : "success"
-                    }
-                  />
+                  <Status state={getState(meta.assetName)} />
                 </TableCell>
                 <TableCell>
-                  <Actions
-                    state={
-                      validations[meta.assetName]
-                        ? (validations[meta.assetName]?.status ?? "success")
-                        : "success"
-                    }
-                  />
+                  <Actions state={getState(meta.assetName)} />
                 </TableCell>
               </TableRow>
             );
