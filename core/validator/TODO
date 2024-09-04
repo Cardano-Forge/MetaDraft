@@ -3,7 +3,6 @@
 - [ ] Casing that allows Title case + space (like this must be valid: "Body Color")
 - [ ] Alphanumeric must allow spaces as well (Like this must be valid: "Body Color")
 - [ ] Check of the image is an actual image (PNG or GIF), video should not be allowed
-- [ ] Implement the `simplified` value to be configurable from top level
-- [ ] Check duplicated assetName
-- [ ] Fix asset name when using the execute once
-- [ ] Check if the hardcoded values are using the `[{metadata: {}, assetName: ""}]` structure
+- [ ] Check duplicated assetName, this one is still to be done.
+- [x] Fix asset name when using the execute once
+- [x] Check if the hardcoded values are using the `[{metadata: {}, assetName: ""}]` structure

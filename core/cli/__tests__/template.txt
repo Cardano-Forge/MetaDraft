@@ -13,7 +13,8 @@ compareRootKeys=>{"threshold":3}
 compareRootValues
 duplicateKeysValidator
 duplicateImage
-duplicateAssetName
+duplicateName
+duplicateNameAndImage
 
 #
 # mandatory

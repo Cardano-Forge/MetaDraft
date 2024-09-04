@@ -9,20 +9,26 @@
 3. **Set the ID**: Ensure the `id` property of your rule matches the filename.
 
 4. **Implement rule logic**:
-   - Directly in the `execute` method if the checks are straightforward.
+   - Directly in the `execute` or `executeOnce` method if the checks are straightforward.
    - If the rule has complex checks, consider creating a separate file in the `utils` directory.
 
 5. The `execute` method accepts the following parameters:
    - `assetName`: The name of the asset being validated.
    - `assetMetadata`: An object containing metadata for the asset.
    - `metadatas`: An array of all metadatas available.
+6. The `executeOnce` method accepts the following parameters:
+   - `metadatas`: An array of all metadatas available.
+   - `validations`: The validations output for all assets.
 
-6. **Return value**: Ensure your function returns a `Result[]`. It's strongly recommended to use `getStates` for consistent output formatting.
+6. **Return value**:
+  - The `executeOnce` returns `Record<string, StateOutput>`
+  - The `execute` returns `StateOutput`
+  - The difference between both is that one returns the whole object with all validations and the other one returns the output per assets.
 
 ## Registering the Rule
 
 1. Follow the structure in the `mod.ts` file to export your rule for testing purposes.
-2. Update the `mapping.ts` file to include your new rule. Notice that the key is in camelCase for frontend usage.
+2. Update the `mapping.ts` file to include your new rule. Notice that the key is in camelCase for CLI usage.
 
 ## Writing Tests
 

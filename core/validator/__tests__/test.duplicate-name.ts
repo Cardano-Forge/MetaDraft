@@ -7,16 +7,25 @@ import { DuplicateName } from "../src/rules/duplicate-name.ts";
 Deno.test("DuplicateName - withWarning", () => {
   const metadata = [
     {
-      name: "asset_0000",
-      image: "adibou.png",
+      assetName: "asset_0000",
+      metadata: {
+        name: "asset_0000",
+        image: "adibou.png",
+      },
     },
     {
-      name: "asset_0000",
-      image: "adibou.png",
+      assetName: "asset_0001",
+      metadata: {
+        name: "asset_0001",
+        image: "roller-coaster-tycoon.png",
+      },
     },
     {
-      name: "asset_0001",
-      image: "roller-coaster-tycoon.png",
+      assetName: "asset_0002",
+      metadata: {
+        name: "asset_0000",
+        image: "adibou.png",
+      },
     },
   ];
 
@@ -28,7 +37,7 @@ Deno.test("DuplicateName - withWarning", () => {
   const result = mainValidator.GetResults();
 
   assertEquals(result, {
-    asset_0000: {
+    asset_0002: {
       status: "error",
       warnings: [
         {
