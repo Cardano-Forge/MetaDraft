@@ -87,6 +87,7 @@ Deno.test("TestEarthnode", () => {
           ],
         },
       ],
+      errors: [],
     },
   });
 });

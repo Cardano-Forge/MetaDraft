@@ -127,13 +127,15 @@ export class Validator implements IMainValidator {
 
       // Build the validations output object.
       if (!this.validations[assetName]) {
-        this.validations[assetName] = { status: "success", warnings: [] };
+        this.validations[assetName] = { status: "success", warnings: [], errors: [] };
       }
       if (validations.status !== "success") {
-        this.validations[assetName].warnings.push(...validations.warnings);
+        this.validations[assetName].status = validations.status;
         if (validations.status === "error") {
-          this.validations[assetName].status = validations.status;
-        } else if (
+          this.validations[assetName].errors.push(...validations.warnings);
+        } else if(validations.status === "warning"){
+          this.validations[assetName].warnings.push(...validations.warnings);
+        }else if (
           this.validations[assetName].status !== "warning" &&
           this.validations[assetName].status !== "error"
         )

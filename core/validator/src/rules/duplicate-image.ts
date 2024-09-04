@@ -67,6 +67,7 @@ export class DuplicateImage extends BaseValidator {
             validations[entry.assetName] = {
               status: "warning",
               warnings: [],
+              errors: [],
             };
           }
           validations[entry.assetName].warnings.push({

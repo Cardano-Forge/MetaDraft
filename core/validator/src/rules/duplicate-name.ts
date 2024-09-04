@@ -64,13 +64,15 @@ export class DuplicateName extends BaseValidator {
             validations[entry.assetName] = {
               status: "error",
               warnings: [],
+              errors: [],
             };
           }
-          validations[entry.assetName].warnings.push({
+
+          validations[entry.assetName].status = "error";
+          validations[entry.assetName].errors.push({
             validatorId: this.id,
             message: `Name: ${entry.metadata.name} has been detected as a duplicate.`,
           });
-          validations[entry.assetName].status = "error";
         }
         seen.names.add(entry.metadata.name);
       }

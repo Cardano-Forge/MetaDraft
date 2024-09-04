@@ -64,6 +64,7 @@ Deno.test("KeyTitleCase - withWarning", () => {
           },
         },
       ],
+      errors: [],
     },
   });
 });
@@ -78,7 +79,9 @@ Deno.test("KeyCamelCase - withSuccess", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, { asset000: { status: "success", warnings: [] } });
+  assertEquals(result, {
+    asset000: { status: "success", warnings: [], errors: [] },
+  });
 });
 
 Deno.test("KeySnakeCase - withWarning", () => {
@@ -107,6 +110,7 @@ Deno.test("KeySnakeCase - withWarning", () => {
           },
         },
       ],
+      errors: [],
     },
   });
 });
@@ -137,6 +141,7 @@ Deno.test("KeyLowerCase - withWarning", () => {
           },
         },
       ],
+      errors: [],
     },
   });
 });
@@ -174,6 +179,7 @@ Deno.test("KeyUpperCase - withWarning", () => {
           },
         },
       ],
+      errors: [],
     },
   });
 });

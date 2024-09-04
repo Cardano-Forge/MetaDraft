@@ -65,6 +65,7 @@ Deno.test("KeyTraitsValidator - withWarning", () => {
           },
         },
       ],
+      errors: [],
     },
   });
 });

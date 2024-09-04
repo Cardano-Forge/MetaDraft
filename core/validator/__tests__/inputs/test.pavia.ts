@@ -103,6 +103,7 @@ Deno.test("TestPavia", () => {
           },
         },
       ],
+      errors: [],
     },
   });
 });
