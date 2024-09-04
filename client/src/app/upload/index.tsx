@@ -5,8 +5,9 @@ import { type FileRejection, useDropzone } from "react-dropzone";
 import { useRouter } from "next/navigation";
 import { useRxCollection } from "rxdb-hooks";
 
+import { AlertDialog } from "~/components/ui/alert-dialog";
+import { Typography } from "~/components/typography";
 import CloudUploadIcon from "~/icons/cloud-upload.icon";
-import { Typography } from "./typography";
 import { getFileExtension } from "~/lib/get-file-extension";
 import { getFileName, readFile } from "~/lib/read";
 import { JSONSchema } from "~/lib/zod-schemas";
@@ -16,23 +17,16 @@ import type {
   Project,
   MetadataValidations,
 } from "~/lib/db/types";
-import type { MetatdataJSON, ValidatorResults } from "~/lib/types";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "./ui/alert-dialog";
 import { validateMetadata } from "~/server/validations";
+
+import UploadAlert from "./upload-alert";
 
 export default function UploadProjectButton() {
   const router = useRouter();
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
   const [error, setError] = useState<Error | undefined>(undefined);
   const [alert, setAlert] = useState<boolean>(false);
+  // RXBD
   const metadataCollection = useRxCollection<Metadata>("metadata");
   const projectCollection = useRxCollection<Project>("project");
   const validationsCollection =
@@ -40,31 +34,31 @@ export default function UploadProjectButton() {
   const activeProjectCollection =
     useRxCollection<ActiveProject>("activeProject");
 
+  // Upload
   const onDrop = useCallback(
     async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
-      // Handle accepted files
+      // ** Handle accepted files
       if (acceptedFiles.length === 1) {
-        // Get JSON object[] format of the file.
         try {
+          // Get JSON object[] format of the file.
           const json = await readFile(acceptedFiles[0]);
           // Zod Validation
-          if (!JSONSchema.safeParse(json).success) {
+          const zodValidation = JSONSchema.safeParse(json);
+          if (!zodValidation.success) {
             setAlert(true);
             return;
           }
-
-          const data: MetatdataJSON = JSONSchema.parse(json); // Zod Validator Throw on fail
 
           // const hash = await stringToHash(JSON.stringify(json)); // This will be the active project id
 
           // Add metadata in RXDB
           const meta = await metadataCollection?.upsert({
             id: "nonce",
-            data,
+            data: zodValidation.data,
           });
 
-          const results = await validateMetadata(data); // Validate the metadata
-          const validations = JSON.parse(results) as ValidatorResults; // JSON parse string to object
+          // Validate the metadata
+          const validations = await validateMetadata(zodValidation.data);
           // Add validations in RXDB
           await validationsCollection?.upsert({
             id: "validations",
@@ -72,20 +66,20 @@ export default function UploadProjectButton() {
           });
 
           // todo - method to get errors, warning & success number
-
           const project: Project = {
             id: "project",
             name: getFileName(acceptedFiles[0]),
-            nfts: data.length,
-            errorsDetected: data.length,
+            nfts: zodValidation.data.length,
+            errorsDetected: zodValidation.data.length,
             errorsFlagged: 0,
             valids: 0,
           };
 
-          // Add porject information in RXDB
+          // Add project information in RXDB
           await projectCollection?.upsert(project);
 
           if (meta) {
+            // Add active project in RXDB
             await activeProjectCollection?.upsert({
               id: "activeProject",
               metadataId: meta.id,
@@ -93,12 +87,15 @@ export default function UploadProjectButton() {
 
             router.push("/data-validation");
           } else {
-            // fail
-            // TODO - handle error
-            console.log(meta);
+            // Falied to save metadata in RXDB
+            setError(
+              new Error("Something went wrong while save metadata in browser."),
+            );
           }
         } catch (error) {
-          console.log("CATCH ERROR : ", error);
+          setError(
+            new Error((error as Error).message ?? "Something went wrong"),
+          );
         }
       }
 
@@ -129,7 +126,13 @@ export default function UploadProjectButton() {
         }
       }
     },
-    [metadataCollection, activeProjectCollection, router],
+    [
+      metadataCollection,
+      validationsCollection,
+      projectCollection,
+      activeProjectCollection,
+      router,
+    ],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -139,13 +142,13 @@ export default function UploadProjectButton() {
     accept: { "application/json": [] }, // "text/csv": []
   });
 
-  // Clear error after 8s
+  // Clear error after 6s
   useEffect(() => {
     if (error) {
       if (timeoutId.current) clearTimeout(timeoutId.current);
       timeoutId.current = setTimeout(() => {
         setError(undefined);
-      }, 5_000);
+      }, 6_000);
     }
     return () => {
       if (timeoutId.current) {
@@ -190,27 +193,7 @@ export default function UploadProjectButton() {
         </div>
       </div>
       <AlertDialog open={alert} onOpenChange={setAlert}>
-        <AlertDialogContent className="border-destructive">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="text-center text-2xl font-bold text-red-500">
-              Format Error
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-center">
-              Your metadata does not conform to the required format. <br />
-              <br />
-              Please review the formatting guidelines and ensure that your
-              metadata matches the example provided. This includes adhering to
-              the specified structure, key naming conventions, and data types.
-              Following the example closely will help avoid any potential
-              issues.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="!justify-center">
-            <AlertDialogCancel className="w-full text-destructive sm:mx-6">
-              Close
-            </AlertDialogCancel>
-          </AlertDialogFooter>
-        </AlertDialogContent>
+        <UploadAlert />
       </AlertDialog>
     </>
   );

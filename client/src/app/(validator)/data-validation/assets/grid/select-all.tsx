@@ -8,11 +8,8 @@ import { type Metadata } from "~/lib/db/types";
 import { useSelectedAssets } from "~/lib/hooks/use-selected-assets";
 import { useSearchParams } from "next/navigation";
 
-type SelectAllProps = {
-  metadata: Metadata["data"][];
-};
-
-export default function SelectAll({ metadata }: SelectAllProps) {
+export default function SelectAll() {
+  // todo - get metadata from here
   const searchParams = useSearchParams();
   const param = searchParams.get("page");
   const page = param ? +param - 1 : 0;

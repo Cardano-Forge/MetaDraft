@@ -31,8 +31,6 @@ export default function Assets() {
   const metadata = result[0]?.data;
   const validations = validatorResults[0]?._data.validations;
 
-  console.log("validation results from rxdb", validations);
-
   if (!activeProject || !metadata || !validations)
     return <div>No data found.</div>;
 

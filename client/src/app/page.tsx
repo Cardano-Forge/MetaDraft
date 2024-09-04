@@ -1,6 +1,6 @@
 import { MetadataTemplate } from "~/components/metadata-template";
 import { Typography } from "~/components/typography";
-import UploadProjectButton from "~/components/upload-project-button";
+import UploadProjectButton from "./upload";
 
 export default function HomePage() {
   return (

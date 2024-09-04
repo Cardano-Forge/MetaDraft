@@ -19,7 +19,7 @@ import {
   Validator,
   DuplicateNameAndImage,
 } from "@ada-anvil/metadraft-validator";
-import type { MetatdataJSON } from "~/lib/types";
+import type { MetatdataJSON, ValidatorResults } from "~/lib/types";
 
 export async function validateMetadata(metadata: MetatdataJSON) {
   console.time(`timeToValidate`);
@@ -55,5 +55,5 @@ export async function validateMetadata(metadata: MetatdataJSON) {
 
   console.timeEnd(`timeToValidate`);
 
-  return JSON.stringify(result, null, 2);
+  return result as ValidatorResults;
 }

@@ -1,5 +1,6 @@
 import type { z } from "zod";
 import type { CIP25Schema, FilesSchema, JSONSchema } from "../zod-schemas";
+import { type StateOutput } from "@ada-anvil/metadraft-validator";
 
 /**
  * Asset possible status
@@ -19,24 +20,6 @@ export type CIP25 = z.infer<typeof CIP25Schema>;
 export type MetatdataJSON = z.infer<typeof JSONSchema>;
 
 /**
- * Error message
- */
-// TODO - better message type
-export type ErrorMessage = {
-  validatorId: string;
-  message: unknown;
-};
-
-/**
- * Validator result for an NFT
- */
-export type ValidatorResult = {
-  status: Status;
-  warnings?: ErrorMessage[];
-  errors?: ErrorMessage[];
-};
-
-/**
  * Validator results for NFTs
  */
-export type ValidatorResults = Record<string, ValidatorResult>;
+export type ValidatorResults = Record<string, StateOutput>;

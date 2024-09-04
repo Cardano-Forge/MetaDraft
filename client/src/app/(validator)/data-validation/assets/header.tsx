@@ -1,16 +1,10 @@
 import ViewButton from "~/components/view-button";
 
-import { type Metadata } from "~/lib/db/types";
-
 import SelectAll from "./grid/select-all";
 import SearchBar from "./search-bar";
 import { useSearchParams } from "next/navigation";
 
-type HeaderProps = {
-  metadata: Metadata["data"][];
-};
-
-export default function Header({ metadata }: HeaderProps) {
+export default function Header() {
   const searchParams = useSearchParams();
   const view = searchParams.get("view");
   const isGridView = view === "grid";
@@ -21,7 +15,7 @@ export default function Header({ metadata }: HeaderProps) {
         <ViewButton view="table" />
         <ViewButton view="grid" />
         {/* <FilterButton /> */}
-        {isGridView && <SelectAll metadata={metadata} />}
+        {isGridView && <SelectAll />}
       </div>
       <SearchBar />
     </div>

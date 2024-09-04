@@ -1,10 +1,5 @@
 import { z } from "zod";
 
-// TODO - ZOD check the json format
-const metadataSchema = z.record(z.string(), z.unknown());
-
-export const jsonFileSchema = z.array(metadataSchema);
-
 /**
  * CIP25 Files recommanded schema
  */
@@ -27,6 +22,9 @@ export const CIP25Schema = z
   })
   .catchall(z.unknown());
 
+/**
+ * Format required for the metadata.json file
+ */
 export const JSONSchema = z.array(
   z.object({
     assetName: z.string(),
