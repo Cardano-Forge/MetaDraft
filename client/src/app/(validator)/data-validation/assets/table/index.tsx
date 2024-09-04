@@ -20,13 +20,19 @@ import Status from "./status";
 import Actions from "./actions";
 import Footer from "../footer";
 import { cn } from "~/lib/utils";
+import { type ValidatorResults } from "~/lib/types";
 
 type TableViewProps = {
   metadata: Metadata["data"][];
+  validations: ValidatorResults;
   page: number;
 };
 
-export default function TableView({ metadata, page }: TableViewProps) {
+export default function TableView({
+  metadata,
+  validations,
+  page,
+}: TableViewProps) {
   const { assets, selectAll, handleAddOrRemove, clear, isSelected } =
     useSelectedAssets();
   const [allSelected, setAllSelected] = useState<CheckedState>(
@@ -58,7 +64,7 @@ export default function TableView({ metadata, page }: TableViewProps) {
               />
             </TableHead>
             <TableHead className="w-24 text-white/70">NFT</TableHead>
-            <TableHead className="text-white/70">ID</TableHead>
+            <TableHead className="text-white/70">NAME</TableHead>
             <TableHead className="text-white/70">CID</TableHead>
             <TableHead className="w-44 text-white/70">STATUS</TableHead>
             <TableHead className="w-52 text-white/70">QUICK ACTIONS</TableHead>
@@ -68,7 +74,7 @@ export default function TableView({ metadata, page }: TableViewProps) {
           {metadata[page - 1]?.map((meta) => {
             return (
               <TableRow
-                key={meta.name as string}
+                key={meta.assetName}
                 className={cn(isSelected(meta) && "bg-muted")}
               >
                 <TableHead>
@@ -83,22 +89,32 @@ export default function TableView({ metadata, page }: TableViewProps) {
                     width={64}
                     height={64}
                     alt=""
-                    src={formatIPFS(meta.image as string)}
+                    src={formatIPFS(meta.metadata.image as string)}
                     className="rounded-xl"
                   />
                 </TableCell>
-                <TableCell className="font-bold">
-                  {meta.name as string}
-                </TableCell>
+                <TableCell className="font-bold">{meta.assetName}</TableCell>
                 <TableCell>
                   {/* TODO - formater for all possible image */}
-                  {(meta.image as string).replace("ipfs://", "")}
+                  {(meta.metadata.image as string).replace("ipfs://", "")}
                 </TableCell>
                 <TableCell>
-                  <Status state="success" />
+                  <Status
+                    state={
+                      validations[meta.assetName]?.status
+                        ? (validations[meta.assetName]?.status ?? "success")
+                        : "success"
+                    }
+                  />
                 </TableCell>
                 <TableCell>
-                  <Actions state="success" />
+                  <Actions
+                    state={
+                      validations[meta.assetName]
+                        ? (validations[meta.assetName]?.status ?? "success")
+                        : "success"
+                    }
+                  />
                 </TableCell>
               </TableRow>
             );

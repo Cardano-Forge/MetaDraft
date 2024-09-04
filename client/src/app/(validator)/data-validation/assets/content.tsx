@@ -6,22 +6,25 @@ import { type Metadata } from "~/lib/db/types";
 import TableView from "./table";
 import GridView from "./grid";
 import { bind } from "~/lib/bind-number";
+import { ValidatorResults } from "~/lib/types";
 
 type ContentProps = {
   metadata: Metadata["data"][];
+  validations: ValidatorResults;
 };
 
-export default function Content({ metadata }: ContentProps) {
+export default function Content({ metadata, validations }: ContentProps) {
   const searchParams = useSearchParams();
   const currentPage = searchParams.get("page");
   const view = searchParams.get("view") ?? "table"; // Default to : table
   const page = getPageFromParams(currentPage, metadata.length);
 
-  return <div>false</div>;
+  if (view === "table")
+    return (
+      <TableView metadata={metadata} validations={validations} page={page} />
+    );
 
-  if (view === "table") return <TableView metadata={metadata} page={page} />;
-
-  return <GridView metadata={metadata} page={page} />;
+  return <GridView metadata={metadata} page={page} validations={validations} />;
 }
 
 const getPageFromParams = (param: string | null, max: number) => {
