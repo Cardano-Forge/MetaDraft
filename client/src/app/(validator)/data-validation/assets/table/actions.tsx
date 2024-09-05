@@ -3,7 +3,6 @@ import ArrowRightIcon from "~/icons/arrow-right.icon";
 import CheckIcon from "~/icons/check.icon";
 import FlagIcon from "~/icons/flag.icon";
 import useAssetState from "~/lib/hooks/use-asset-state";
-import { useSelectedAssets } from "~/lib/hooks/use-selected-assets";
 import { type Status } from "~/lib/types";
 
 type ActionsType = {
@@ -15,19 +14,9 @@ export default function Actions({ state, assetName }: ActionsType) {
   const isSuccess = state === "success";
   const isWarning = state === "warning";
   const { updateState } = useAssetState();
-  const { assets } = useSelectedAssets();
 
-  const handleUpdateState = async (state: Status) => {
-    const assetNames = [assetName];
-
-    assets.forEach((asset) => {
-      if (!assetNames.includes(asset.assetName)) {
-        assetNames.push(asset.assetName);
-      }
-    });
-
-    await updateState(assetNames, state);
-  };
+  const handleUpdateState = async (state: Status) =>
+    await updateState([assetName], state);
 
   return (
     <div className="flex flex-row items-center gap-2 p-2">
