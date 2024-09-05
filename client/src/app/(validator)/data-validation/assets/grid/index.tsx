@@ -9,7 +9,7 @@ type GridViewProps = {
 
 export default function GridView({ metadata, page }: GridViewProps) {
   return (
-    <div className="grid grid-flow-col grid-rows-2 gap-4 px-4">
+    <div className="grid grid-flow-row grid-cols-5 gap-4 px-4">
       {metadata[page - 1]?.map((meta) => (
         <Card key={meta.assetName} asset={meta} />
       ))}

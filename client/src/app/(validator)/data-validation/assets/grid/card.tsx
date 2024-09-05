@@ -56,7 +56,10 @@ export default function Card({ asset }: CardProps) {
               CID {(asset.metadata.image as string).replace("ipfs://", "")}
             </Typography>
           </div>
-          <Actions state={getState(asset.assetName)} />
+          <Actions
+            state={getState(asset.assetName)}
+            assetName={asset.assetName}
+          />
         </div>
       </div>
     </div>

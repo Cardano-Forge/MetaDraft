@@ -101,7 +101,10 @@ export default function TableView({ metadata, page }: TableViewProps) {
                 <Status state={getState(meta.assetName)} />
               </TableCell>
               <TableCell>
-                <Actions state={getState(meta.assetName)} />
+                <Actions
+                  state={getState(meta.assetName)}
+                  assetName={meta.assetName}
+                />
               </TableCell>
             </TableRow>
           );
