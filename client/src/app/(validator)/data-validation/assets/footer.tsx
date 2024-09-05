@@ -1,16 +1,17 @@
+import { useSearchParams } from "next/navigation";
 import React from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { bind } from "~/lib/bind-number";
+import { getPageFromParams } from "~/lib/get-page-from-param";
 import { useSelectedAssets } from "~/lib/hooks/use-selected-assets";
 
-type FooterProps = {
-  page: number;
-  lastPage: number;
-};
-
-export default function Footer({ page, lastPage }: FooterProps) {
+export default function Footer({ lastPage }: { lastPage: number }) {
   const { clear } = useSelectedAssets();
+  const searchParams = useSearchParams();
+  const currentPage = searchParams.get("page");
+  const page = getPageFromParams(currentPage, lastPage);
+
   const handlePageChange = (page: number) => {
     const boundPage = bind(1, lastPage, page);
     const url = new URL(window.location.href);

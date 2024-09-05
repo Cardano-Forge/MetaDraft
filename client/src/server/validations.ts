@@ -19,8 +19,11 @@ import {
   Validator,
   DuplicateNameAndImage,
 } from "@ada-anvil/metadraft-validator";
+import type { MetatdataJSON, ValidatorResults } from "~/lib/types";
 
-export async function doStuff(metadata: object[]) {
+export async function validateMetadata(
+  metadata: MetatdataJSON,
+): Promise<ValidatorResults> {
   console.time(`timeToValidate`);
 
   const template: IValidator[] = [
@@ -47,12 +50,12 @@ export async function doStuff(metadata: object[]) {
   }
 
   for (const asset of metadata) {
-    mainValidator.Execute((asset as { name: string }).name, asset, metadata);
+    mainValidator.Execute(asset.assetName, asset.metadata, metadata);
   }
 
   const result = mainValidator.GetResults();
 
   console.timeEnd(`timeToValidate`);
 
-  return JSON.stringify(result, null, 2);
+  return result;
 }

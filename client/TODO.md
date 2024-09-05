@@ -1,11 +1,10 @@
-- [ ] upload zod validator + formater
+- [x] upload zod validator + formater
 - [x] Asset view save in url and localstorage
-- [ ] image loading view
-- [ ] Project Name, save in localstorage as file name (editable ?)
-- [ ] Stats from data ~> keep state in localstorage
-- [ ] results state ~> match asset
+- [ ] image loading view + fallback
+- [x] Project Name, save in localstorage as file name (editable ?)
+- [-] Stats from data ~> keep state in localstorage
+- [x] results state ~> match asset
 - [ ] quick action state change
 - [x] multi select ~> state change
 - [x] reset project clear local storage
-- [ ] MILESTONE 4 ~> Remove local storage for rxdb (check witch one is quicker)
-- [ ] remove view from localstorage
+- [x] remove view from localstorage

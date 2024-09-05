@@ -3,8 +3,11 @@
 import { Typography } from "~/components/typography";
 import Assets from "./assets";
 import { Button } from "~/components/ui/button";
+import { useRouter } from "next/navigation";
 
-export default function DataValidation() {
+export default function DataValidation() {  
+  const router = useRouter();
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-row items-center justify-between">
@@ -15,7 +18,7 @@ export default function DataValidation() {
           </Typography>
         </div>
         <div className="flex flex-row items-center gap-4">
-          <Button onClick={() => alert("should make this step in DONE state")}>
+          <Button onClick={() => router.push("/summary")}>
             Validate this step
           </Button>
         </div>

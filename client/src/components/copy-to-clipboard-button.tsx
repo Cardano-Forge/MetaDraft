@@ -27,7 +27,11 @@ export const CopyButton = ({
       title="copy to clipboard"
       onClick={handleClick}
     >
-      {hasCopied ? <CheckIcon /> : <CopyIcon />}
+      {hasCopied ? (
+        <CheckIcon className="h-5 w-5" />
+      ) : (
+        <CopyIcon className="h-5 w-5" />
+      )}
       <span className="sr-only">copy to clipboard</span>
     </Button>
   );

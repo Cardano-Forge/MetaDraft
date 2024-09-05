@@ -22,7 +22,7 @@ const variant: Record<StepStatus, string> = {
 
 enum Steps {
   "/data-validation" = 1,
-  "/final-validation",
+  "/summary",
 }
 export default function Step({ id, status, className, children }: StepProps) {
   const pathname = usePathname();

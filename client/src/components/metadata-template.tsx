@@ -5,18 +5,21 @@ import { CopyButton } from "./copy-to-clipboard-button";
 
 const example = `
   [
-    "<asset_name>": {
-      "name": <string>,
-      "image": <uri | array>,
-      "mediaType": image/<mime_sub_type>,
-      "description": <string | array>,
-      "files": [{
-        "name": <string>,
-        "mediaType": <mime_type>,
-        "src": <uri | array>,
+    { 
+      "assetName": <string>
+      "metadata": {
+        "name": <string>, [required]
+        "image": <uri | array>, [required]
+        "mediaType": image/<mime_sub_type>,
+        "description": <string | array>,
+        "files": [{
+          "name": <string>,
+          "mediaType": <mime_type>,
+          "src": <uri | array>,
           <other_properties>
-      }],
-      <other properties>
+        }],
+        <other properties>
+      }
     },
     ...
   ]`;
@@ -24,7 +27,7 @@ const example = `
 export const MetadataTemplate = () => {
   return (
     <div className="relative rounded-2xl border border-input/20 bg-card">
-      <pre className="overflow-scroll p-3">
+      <pre className="custom-scroll overflow-scroll p-3">
         <code>
           {`// example of JSON file data
 `}
@@ -42,7 +45,7 @@ export const MetadataTemplate = () => {
       </div>
       <CopyButton
         data={example}
-        className="absolute right-1 top-1 text-background"
+        className="absolute right-2 top-2 text-border/60"
       />
     </div>
   );

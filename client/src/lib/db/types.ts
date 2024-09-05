@@ -1,3 +1,5 @@
+import type { MetatdataJSON, ValidatorResults } from "../types";
+
 export type ActiveProject = {
   id: string;
   metadataId: string;
@@ -5,12 +7,12 @@ export type ActiveProject = {
 
 export type Metadata = {
   id: string;
-  data: Record<string, unknown>[];
+  data: MetatdataJSON;
 };
 
 export type MetadataValidations = {
   id: string;
-  data: Record<string, Record<string, unknown>>;
+  validations: ValidatorResults;
 };
 
 export type Project = {
