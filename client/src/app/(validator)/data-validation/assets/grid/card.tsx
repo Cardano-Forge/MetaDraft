@@ -29,7 +29,7 @@ export default function Card({ asset }: CardProps) {
   return (
     <div
       className={cn(
-        "relative flex flex-col rounded-xl border border-white/20 bg-card",
+        "relative flex flex-col rounded-xl items-center border border-white/20 bg-card",
         isSelected(asset) && "border-white/60 bg-muted",
       )}
     >

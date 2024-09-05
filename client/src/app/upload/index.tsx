@@ -21,7 +21,7 @@ import type {
 import { validateMetadata } from "~/server/validations";
 
 import UploadAlert from "./upload-alert";
-import { getStats } from "~/lib/get-stats";
+import { getStatsFromValidations } from "~/lib/get-stats";
 import { getStatus } from "~/lib/get-status";
 
 export default function UploadProjectButton() {
@@ -70,7 +70,7 @@ export default function UploadProjectButton() {
           });
 
           // Get project information
-          const stats = getStats(validations, zodValidation.data.length);
+          const stats = getStatsFromValidations(validations, zodValidation.data.length);
           const project: Project = {
             id: "project",
             name: getFileName(acceptedFiles[0]),
