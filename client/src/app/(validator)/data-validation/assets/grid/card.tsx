@@ -47,7 +47,7 @@ export default function Card({ asset }: CardProps) {
         />
       </div>
       <div className="flex flex-col gap-4 p-4">
-        <Status state={getState(meta.assetName)} />
+        <Status state={getState(asset.assetName)} />
         <Typography as="largeText">{asset.assetName}</Typography>
         <div className="flex flex-row items-end justify-between">
           <div className="flex flex-col gap-2">
@@ -56,7 +56,7 @@ export default function Card({ asset }: CardProps) {
               CID {(asset.metadata.image as string).replace("ipfs://", "")}
             </Typography>
           </div>
-          <Actions state={getState(meta.assetName)} />
+          <Actions state={getState(asset.assetName)} />
         </div>
       </div>
     </div>
