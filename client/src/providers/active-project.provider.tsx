@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { type RxDocument } from "rxdb";
 import { useRxData } from "rxdb-hooks";
 import Loader from "~/components/loader";
@@ -24,21 +24,25 @@ export const ActiveProjectProvider = ({
     (collection) => collection.findOne(),
   );
 
+  useEffect(() => {
+    if (pathname === "/") {
+      if (!!result[0]?.metadataId) {
+        router.push("/data-validation");
+      }
+    } else {
+      if (!result[0]) {
+        router.push("/");
+      }
+    }
+  }, [pathname, result, router]);
+
   if (isFetching)
     return (
       <main className="container flex flex-wrap place-content-center pt-32">
         <Loader />
       </main>
     );
-  if (pathname === "/") {
-    if (!!result[0]?.metadataId) {
-      router.push("/data-validation");
-    }
-  } else {
-    if (!result[0]) {
-      router.push("/");
-    }
-  }
+
   if (result[0])
     return (
       <ActiveProjectContext.Provider value={result[0]}>
