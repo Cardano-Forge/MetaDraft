@@ -2,6 +2,7 @@ import { useRxCollection, useRxData } from "rxdb-hooks";
 import type { Status } from "~/lib/types";
 import type { MetadataStatus, Project } from "../db/types";
 import { getStatsFromStatus } from "../get-stats";
+import { useSelectedAssets } from "./use-selected-assets";
 
 export default function useAssetState() {
   const statusCollection = useRxCollection<MetadataStatus>("status");
@@ -23,19 +24,23 @@ export default function useAssetState() {
     return status[assetName]!;
   };
 
-  const updateState = async (assetName: string, state: Status) => {
+  const updateState = async (assetNames: string[], state: Status) => {
     try {
       if (!status || !project) throw new Error("No status found.");
-      const newStatus = { ...status, [assetName]: state };
+      let newStatus = { ...status };
+
+      assetNames.forEach((assetName) => {
+        newStatus = { ...newStatus, [assetName]: state };
+      });
+
       // Update status in RXDB
       await statusCollection?.upsert({
         id: "assetStatus",
         status: newStatus,
       });
 
-      const stats = getStatsFromStatus(newStatus);
-
       // Update stats in RXDB
+      const stats = getStatsFromStatus(newStatus);
       await projectCollection?.upsert({ ...project, ...stats });
     } catch (error) {
       console.error(error);
