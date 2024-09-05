@@ -78,6 +78,8 @@ export function GetValidationOutput(
 
   return {
     status: state,
-    warnings: [{ validatorId: validatorId, message }],
+    warnings:
+      state === "warning" ? [{ validatorId: validatorId, message }] : [],
+    errors: state === "error" ? [{ validatorId: validatorId, message }] : [],
   };
 }

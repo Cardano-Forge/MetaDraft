@@ -97,6 +97,7 @@ Deno.test("TestCornucopias", () => {
           },
         },
       ],
+      errors: [],
     },
   });
 });

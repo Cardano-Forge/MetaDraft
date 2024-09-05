@@ -39,7 +39,8 @@ Deno.test("DuplicateName - withWarning", () => {
   assertEquals(result, {
     asset_0002: {
       status: "error",
-      warnings: [
+      warnings: [],
+      errors: [
         {
           validatorId: "duplicate-name",
           message: "Name: asset_0000 has been detected as a duplicate.",

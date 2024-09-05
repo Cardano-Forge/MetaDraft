@@ -52,7 +52,7 @@ Deno.test("fort-gotten.json", () => {
   const result = mainValidator.GetResults();
 
   assertEquals(result, {
-    FortGottenEp02Kid3195: { status: "success", warnings: [] },
+    FortGottenEp02Kid3195: { status: "success", warnings: [], errors: [] },
     FortGottenEp02Kid3963: {
       status: "warning",
       warnings: [
@@ -96,6 +96,7 @@ Deno.test("fort-gotten.json", () => {
           },
         },
       ],
+      errors: [],
     },
   });
 });

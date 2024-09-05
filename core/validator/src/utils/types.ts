@@ -245,6 +245,10 @@ export type StateOutput = {
     validatorId: string;
     message: string | object | undefined;
   }>;
+  errors: Array<{
+    validatorId: string;
+    message: string | object | undefined;
+  }>;
 };
 
 export type Metadata = {

@@ -88,14 +88,29 @@ export class DuplicateNameAndImage extends BaseValidator {
       if (!errorDetected) {
         success.push(entry.metadata);
       } else {
-        validations[entry.assetName].warnings.push({
-          validatorId: this.id,
-          message: `Name: ${entry.metadata.name} has been detected as a duplicate.`,
-        });
+        if (!validations[entry.assetName]) {
+          validations[entry.assetName] = {
+            status: "warning",
+            warnings: [],
+            errors: [],
+          };
+        }
 
+        const message = `Name: ${entry.metadata.name} has been detected as a duplicate.`;
         if (nameDuplicated) {
           validations[entry.assetName].status = "error";
-        } else if (validations[entry.assetName].status !== "error") {
+          validations[entry.assetName].errors.push({
+            validatorId: this.id,
+            message,
+          });
+        } else {
+          validations[entry.assetName].warnings.push({
+            validatorId: this.id,
+            message,
+          });
+        }
+
+        if (validations[entry.assetName].status !== "error") {
           validations[entry.assetName].status = "warning";
         }
       }

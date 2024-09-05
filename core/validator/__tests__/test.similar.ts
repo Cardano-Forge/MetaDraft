@@ -39,7 +39,9 @@ Deno.test("CompareRootKeys - withSuccess", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, { asset000: { status: "success", warnings: [] } });
+  assertEquals(result, {
+    asset000: { status: "success", warnings: [], errors: [] },
+  });
 });
 
 Deno.test("CompareRootKeys - withWarning", () => {
@@ -91,6 +93,7 @@ Deno.test("CompareRootKeys - withWarning", () => {
           ],
         },
       ],
+      errors: [],
     },
   });
 });
@@ -132,7 +135,9 @@ Deno.test("CompareRootValues - withSuccess", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, { asset000: { status: "success", warnings: [] } });
+  assertEquals(result, {
+    asset000: { status: "success", warnings: [], errors: [] },
+  });
 });
 
 Deno.test("CompareAttributesValues - withSuccess", () => {
@@ -188,6 +193,7 @@ Deno.test("CompareAttributesValues - withSuccess", () => {
           ],
         },
       ],
+      errors: [],
     },
   });
 });
