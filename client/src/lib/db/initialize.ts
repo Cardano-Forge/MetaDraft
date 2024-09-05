@@ -12,6 +12,7 @@ export const initialize = async () => {
     activeProject: activeProjectSchema,
     validations: validationsSchema,
     project: projectSchema,
+    status: statusSchema,
   });
 
   return db;
@@ -109,3 +110,21 @@ const projectSchema = {
     },
   },
 };
+
+const statusSchema = {
+  schema: {
+    title: "status",
+    version: 0,
+    type: "object",
+    primaryKey: "id",
+    properties: {
+      id: {
+        type: "string",
+        maxLength: 100,
+      },
+      status: {
+        type: "object",
+      },
+    },
+  },
+}

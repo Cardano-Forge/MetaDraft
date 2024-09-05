@@ -21,6 +21,7 @@ import { validateMetadata } from "~/server/validations";
 
 import UploadAlert from "./upload-alert";
 import { getStats } from "~/lib/get-stats";
+import { getStatus } from "~/lib/get-status";
 
 export default function UploadProjectButton() {
   const router = useRouter();
@@ -66,8 +67,8 @@ export default function UploadProjectButton() {
             validations,
           });
 
+          // Get project information
           const stats = getStats(validations, zodValidation.data.length);
-
           const project: Project = {
             id: "project",
             name: getFileName(acceptedFiles[0]),
@@ -83,6 +84,8 @@ export default function UploadProjectButton() {
               id: "activeProject",
               metadataId: meta.id,
             });
+            const status = getStatus(meta.data, validations);
+            console.log(status);
 
             router.push("/data-validation");
           } else {
