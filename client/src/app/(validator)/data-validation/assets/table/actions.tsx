@@ -38,14 +38,14 @@ export default function Actions({ state, assetName }: ActionsType) {
       >
         <CheckIcon className="h-4 w-4" />
       </Button>
-      <Button
+      {/* <Button
         size={"icon"}
         variant={"outline"}
         className="border-white/50"
         disabled
       >
         <ArrowRightIcon className="h-4 w-4" />
-      </Button>
+      </Button> */}
     </div>
   );
 }
