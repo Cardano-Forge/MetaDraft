@@ -29,7 +29,7 @@ export default function Card({ asset }: CardProps) {
   return (
     <div
       className={cn(
-        "relative flex flex-col rounded-xl items-center border border-white/20 bg-card",
+        "relative flex flex-col items-center rounded-xl border border-white/20 bg-card",
         isSelected(asset) && "border-white/60 bg-muted",
       )}
     >
@@ -42,6 +42,7 @@ export default function Card({ asset }: CardProps) {
       />
       <div className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-secondary/30">
         <Checkbox
+          disabled
           checked={isSelected(asset)}
           onCheckedChange={() => handleAddOrRemove(asset)}
         />

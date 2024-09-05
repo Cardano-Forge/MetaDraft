@@ -61,7 +61,11 @@ export default function TableView({ metadata, page }: TableViewProps) {
       <TableHeader className="h-14 bg-secondary text-white/50 hover:bg-secondary [&>*]:border-white/30">
         <TableRow>
           <TableHead className="w-12">
-            <Checkbox checked={allSelected} onCheckedChange={handleSelectAll} />
+            <Checkbox
+              disabled
+              checked={allSelected}
+              onCheckedChange={handleSelectAll}
+            />
           </TableHead>
           <TableHead className="w-24 text-white/70">NFT</TableHead>
           <TableHead className="text-white/70">NAME</TableHead>
@@ -79,6 +83,7 @@ export default function TableView({ metadata, page }: TableViewProps) {
             >
               <TableHead>
                 <Checkbox
+                  disabled
                   checked={isSelected(meta)}
                   onCheckedChange={() => handleAddOrRemove(meta)}
                 />
