@@ -21,7 +21,9 @@ import {
 } from "@ada-anvil/metadraft-validator";
 import type { MetatdataJSON, ValidatorResults } from "~/lib/types";
 
-export async function validateMetadata(metadata: MetatdataJSON) {
+export async function validateMetadata(
+  metadata: MetatdataJSON,
+): Promise<ValidatorResults> {
   console.time(`timeToValidate`);
 
   const template: IValidator[] = [
@@ -55,5 +57,5 @@ export async function validateMetadata(metadata: MetatdataJSON) {
 
   console.timeEnd(`timeToValidate`);
 
-  return result as ValidatorResults;
+  return result;
 }
