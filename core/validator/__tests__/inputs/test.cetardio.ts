@@ -92,6 +92,7 @@ Deno.test("TestCetardio", () => {
           ],
         },
       ],
+      errors: [],
     },
   });
 });

@@ -108,6 +108,7 @@ Deno.test("TestKwic", () => {
           },
         },
       ],
+      errors: [],
     },
   });
 });

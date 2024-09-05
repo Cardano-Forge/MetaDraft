@@ -55,6 +55,7 @@ Deno.test("KeyWhiteSpace - withWarning", () => {
           },
         },
       ],
+      errors: [],
     },
   });
 });
@@ -99,6 +100,7 @@ Deno.test("KeyWhiteSpace - withArrayAndWarning", () => {
           },
         },
       ],
+      errors: [],
     },
   });
 });

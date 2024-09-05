@@ -2,7 +2,13 @@
 
 Currently there is 3 formats:
 
-To get more examples take a look in the `__tests__/` directory.
+The validation process produces output in one of the following formats.
+You can find more examples in the `__tests__/` directory.
+
+Each validator's output is sorted into either the `warnings` or `errors` array within the asset object.
+
+The top-level status is an `error` if any test returns an error.
+Otherwise, it can be a `warning` or `success` using the same logic as the `error`.
 
 **Message only**:
 
@@ -15,11 +21,17 @@ assetNameXYZ: {
       message: "...",
     },
   ],
+  errors: [
+    {
+      validatorId: "...",
+      message: "...",
+    },
+  ],
 }
 ```
 
 **Message as an object for details**:
-*The warnings object structure can change depending on the context of the rule*
+*(the structure may vary depending on the context of the rule)*
 
 ```json
 assetNameXYZ: {
@@ -44,6 +56,7 @@ assetNameXYZ: {
       },
     },
   ],
+  errors: []
 }
 ```
 
@@ -93,5 +106,6 @@ assetNameXYZ: {
       },
     },
   ],
+  errors: []
 }
 ```

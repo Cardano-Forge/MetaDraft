@@ -45,6 +45,7 @@ Deno.test("DuplicateImage - withWarning", () => {
           message: "Image: adibou.png has been detected as a duplicate.",
         },
       ],
+      errors: [],
     },
   });
 });
@@ -91,6 +92,7 @@ Deno.test("DuplicateImage - withWarning", () => {
             "Image: windows95C:adibou.png has been detected as a duplicate.",
         },
       ],
+      errors: [],
     },
   });
 });

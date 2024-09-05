@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { formatIPFS } from "~/lib/format-ipfs-url";
+import { getImageSrc } from "~/lib/get-image-src";
 import Status from "../table/status";
 import { Typography } from "~/components/typography";
 import Actions from "./actions";
@@ -36,8 +36,8 @@ export default function Card({ asset }: CardProps) {
       <Image
         width={248}
         height={248}
-        alt=""
-        src={formatIPFS(asset.metadata.image as string)}
+        alt="nft"
+        src={getImageSrc(asset.metadata.image)}
         className="rounded-xl"
       />
       <div className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-secondary/30">
@@ -47,7 +47,7 @@ export default function Card({ asset }: CardProps) {
         />
       </div>
       <div className="flex flex-col gap-4 p-4">
-        <Status state={getState(meta.assetName)} />
+        <Status state={getState(asset.assetName)} />
         <Typography as="largeText">{asset.assetName}</Typography>
         <div className="flex flex-row items-end justify-between">
           <div className="flex flex-col gap-2">
@@ -56,7 +56,7 @@ export default function Card({ asset }: CardProps) {
               CID {(asset.metadata.image as string).replace("ipfs://", "")}
             </Typography>
           </div>
-          <Actions state={getState(meta.assetName)} />
+          <Actions state={getState(asset.assetName)} />
         </div>
       </div>
     </div>
