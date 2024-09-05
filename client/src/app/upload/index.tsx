@@ -20,6 +20,7 @@ import type {
 import { validateMetadata } from "~/server/validations";
 
 import UploadAlert from "./upload-alert";
+import { getStats } from "~/lib/get-stats";
 
 export default function UploadProjectButton() {
   const router = useRouter();
@@ -65,14 +66,12 @@ export default function UploadProjectButton() {
             validations,
           });
 
-          // todo - method to get errors, warning & success number
+          const stats = getStats(validations, zodValidation.data.length);
+
           const project: Project = {
             id: "project",
             name: getFileName(acceptedFiles[0]),
-            nfts: zodValidation.data.length,
-            errorsDetected: zodValidation.data.length,
-            errorsFlagged: 0,
-            valids: 0,
+            ...stats,
           };
 
           // Add project information in RXDB
