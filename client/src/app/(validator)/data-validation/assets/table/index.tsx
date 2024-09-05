@@ -12,7 +12,6 @@ import {
 } from "~/components/ui/table";
 import { Checkbox } from "~/components/ui/checkbox";
 
-import { formatIPFS } from "~/lib/format-ipfs-url";
 import { useSelectedAssets } from "~/lib/hooks/use-selected-assets";
 
 import Status from "./status";
@@ -21,6 +20,8 @@ import { cn } from "~/lib/utils";
 import useAssetState from "~/lib/hooks/use-asset-state";
 import Loader from "~/components/loader";
 import type { MetatdataJSON } from "~/lib/types";
+import { getImageSrc } from "~/lib/get-image-src";
+import { getCID } from "~/lib/get-cid";
 
 type TableViewProps = {
   metadata: MetatdataJSON[];
@@ -87,16 +88,14 @@ export default function TableView({ metadata, page }: TableViewProps) {
                 <Image
                   width={64}
                   height={64}
-                  alt=""
-                  src={formatIPFS(meta.metadata.image as string)}
+                  alt="nft"
+                  src={getImageSrc(meta.metadata.image)}
                   className="rounded-xl"
                 />
               </TableCell>
               <TableCell className="font-bold">{meta.assetName}</TableCell>
               <TableCell className="text-ellipsis">
-                {Array.isArray(meta.metadata.image)
-                  ? meta.metadata.image.join("")
-                  : meta.metadata.image}
+                {getCID(meta.metadata.image)}
               </TableCell>
               <TableCell>
                 <Status state={getState(meta.assetName)} />
