@@ -15,7 +15,7 @@ export default function useAssetState() {
   };
 
   const getWarnings = (assetName: string) => {
-    const validations = result[0]?._data.validations;
+    const validations = result[0]?.validations;
     if (!validations) return undefined;
     return validations[assetName]?.warnings;
   };
