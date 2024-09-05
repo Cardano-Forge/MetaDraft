@@ -60,13 +60,13 @@ export default function TableView({ metadata, page }: TableViewProps) {
     <Table>
       <TableHeader className="h-14 bg-secondary text-white/50 hover:bg-secondary [&>*]:border-white/30">
         <TableRow>
-          <TableHead className="w-12">
+          {/* <TableHead className="w-12">
             <Checkbox
               disabled
               checked={allSelected}
               onCheckedChange={handleSelectAll}
             />
-          </TableHead>
+          </TableHead> */}
           <TableHead className="w-24 text-white/70">NFT</TableHead>
           <TableHead className="text-white/70">NAME</TableHead>
           <TableHead className="text-white/70">CID</TableHead>
@@ -81,13 +81,13 @@ export default function TableView({ metadata, page }: TableViewProps) {
               key={meta.assetName}
               className={cn(isSelected(meta) && "bg-muted")}
             >
-              <TableHead>
+              {/* <TableCell>
                 <Checkbox
                   disabled
                   checked={isSelected(meta)}
                   onCheckedChange={() => handleAddOrRemove(meta)}
                 />
-              </TableHead>
+              </TableCell> */}
               <TableCell>
                 {/* TODO - formater for all possible image, not only IPFS */}
                 <Image

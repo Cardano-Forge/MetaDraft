@@ -40,13 +40,13 @@ export default function Card({ asset }: CardProps) {
         src={getImageSrc(asset.metadata.image)}
         className="rounded-xl"
       />
-      <div className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-secondary/30">
+      {/* <div className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-secondary/30">
         <Checkbox
           disabled
           checked={isSelected(asset)}
           onCheckedChange={() => handleAddOrRemove(asset)}
         />
-      </div>
+      </div> */}
       <div className="flex flex-col gap-4 p-4">
         <Status state={getState(asset.assetName)} />
         <Typography as="largeText">{asset.assetName}</Typography>

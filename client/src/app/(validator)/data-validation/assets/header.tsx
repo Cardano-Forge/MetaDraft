@@ -14,7 +14,7 @@ export default function Header() {
   const { result, isFetching } = useRxData<Metadata>("metadata", (collection) =>
     collection.findByIds([activeProject?.metadataId ?? ""]),
   );
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
 
   if (isFetching)
     return (
@@ -24,8 +24,8 @@ export default function Header() {
     );
 
   const metadata = result[0]?.data;
-  const view = searchParams.get("view");
-  const isGridView = view === "grid";
+  // const view = searchParams.get("view");
+  // const isGridView = view === "grid";
 
   if (!activeProject || !metadata) return <div>No data found.</div>;
 
@@ -37,7 +37,7 @@ export default function Header() {
         <ViewButton view="table" />
         <ViewButton view="grid" />
         {/* <FilterButton /> */}
-        {isGridView && <SelectAll metadata={pagedMetadata} />}
+        {/* {isGridView && <SelectAll metadata={pagedMetadata} />} */}
       </div>
       <SearchBar />
     </div>
