@@ -77,10 +77,11 @@ export const useValidations = () => {
   return { validations, isFetching, getKeyCount, getWarnings, getErrors };
 };
 
+type Temp = { message: string };
+
 const getMessage = (msg: unknown) => {
   if (!msg) return "";
   if (typeof msg === "string") return msg;
-  if (msg.message && typeof msg.message === "string")
-    return msg.message as string;
+  if ((msg as Temp).message) return (msg as Temp).message;
   return "";
 };
