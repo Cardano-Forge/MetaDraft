@@ -37,7 +37,10 @@ export const useValidations = () => {
   };
 
   const getKeyCount = () => {
-    const keys: Record<"warnings" | "errors", Record<string, number>> = {
+    const keys: Record<
+      "warnings" | "errors",
+      Record<string, { count: number; message: string }>
+    > = {
       warnings: {},
       errors: {},
     };
@@ -45,19 +48,25 @@ export const useValidations = () => {
     Object.keys(status).map((key) => {
       if (status[key] !== "success") {
         // WARNINGS
-        validations[key]?.warnings.forEach(({ validatorId }) => {
+        validations[key]?.warnings.forEach(({ validatorId, message }) => {
           if (keys.warnings[validatorId]) {
-            keys.warnings[validatorId]++;
+            keys.warnings[validatorId].count++;
           } else {
-            keys.warnings[validatorId] = 1;
+            keys.warnings[validatorId] = {
+              count: 1,
+              message: getMessage(message),
+            };
           }
         });
         // ERRORS
-        validations[key]?.errors.forEach(({ validatorId }) => {
+        validations[key]?.errors.forEach(({ validatorId, message }) => {
           if (keys.errors[validatorId]) {
-            keys.errors[validatorId]++;
+            keys.errors[validatorId].count++;
           } else {
-            keys.errors[validatorId] = 1;
+            keys.errors[validatorId] = {
+              count: 1,
+              message: getMessage(message),
+            };
           }
         });
       }
@@ -66,4 +75,12 @@ export const useValidations = () => {
   };
 
   return { validations, isFetching, getKeyCount, getWarnings, getErrors };
+};
+
+const getMessage = (msg: unknown) => {
+  if (!msg) return "";
+  if (typeof msg === "string") return msg;
+  if (msg.message && typeof msg.message === "string")
+    return msg.message as string;
+  return "";
 };
