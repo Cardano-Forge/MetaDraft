@@ -1,24 +1,38 @@
+import { type StateOutput } from "@ada-anvil/metadraft-validator";
+
 import React from "react";
+import { Typography } from "~/components/typography";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import { Button, ButtonVariants } from "~/components/ui/button";
+import { Button, type ButtonVariants } from "~/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
 import { Separator } from "~/components/ui/separator";
+import ExclamationIcon from "~/icons/exclamation.icon";
 import useAssetState from "~/lib/hooks/use-asset-state";
 import { useValidations } from "~/lib/hooks/use-validations";
+import { hyphenToTitleCase } from "~/lib/hyphen-to-title-case";
 import { type Status } from "~/lib/types";
 import { cn } from "~/lib/utils";
+
+type TempValidation = {
+  message: string;
+  warnings: Temp[];
+  errors: Temp[];
+};
+type Temp = { key: string; path: string };
 
 type StatusProps = {
   assetName: string;
@@ -44,8 +58,12 @@ const text: Record<Status, string> = {
 
 export default function Status({ assetName }: StatusProps) {
   const { getState } = useAssetState();
-  const {} = useValidations();
+  const { getValidations } = useValidations();
   const state = getState(assetName);
+
+  const validations = getValidations(assetName);
+
+  if (!validations) return null;
 
   return (
     <Dialog>
@@ -61,37 +79,121 @@ export default function Status({ assetName }: StatusProps) {
           {text[state]}
         </Button>
       </DialogTrigger>
-      <DialogContent className="rounded-xl border-none">
+      <DialogContent className="max-w-3xl !rounded-2xl border-none px-10">
         <DialogHeader>
-          <DialogTitle>Errors summary</DialogTitle>
-          <DialogDescription className="text-border/40">
-            get counts for this asset
+          <DialogTitle>
+            <Typography as="h3">Errors summary</Typography>
+          </DialogTitle>
+          <DialogDescription className="text-border/50">
+            {getErrorCountMessage(validations)}
           </DialogDescription>
         </DialogHeader>
-        <Separator className="bg-border/50" />
+        <Separator className="bg-border/20" />
         <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value="item-1">
-            <AccordionTrigger>Is it accessible?</AccordionTrigger>
-            <AccordionContent>
-              Yes. It adheres to the WAI-ARIA design pattern.
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-2">
-            <AccordionTrigger>Is it styled?</AccordionTrigger>
-            <AccordionContent>
-              Yes. It comes with default styles that matches the other
-              components&apos; aesthetic.
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-3">
-            <AccordionTrigger>Is it animated?</AccordionTrigger>
-            <AccordionContent>
-              Yes. It&apos;s animated by default, but you can disable it if you
-              prefer.
-            </AccordionContent>
-          </AccordionItem>
+          {validations.errors.map((error) => {
+            return (
+              <AccordionItem
+                value={`${assetName}-${error.validatorId}`}
+                key={`${assetName}-${error.validatorId}`}
+                className="border-border/20 pb-2 pt-1"
+              >
+                <AccordionTrigger>
+                  <div className="flex flex-row items-center gap-4">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-destructive/10">
+                      <ExclamationIcon className="text-destructive" />
+                    </div>
+                    <Typography>
+                      {hyphenToTitleCase(error.validatorId)}
+                    </Typography>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="flex flex-col gap-2 rounded-xl border border-destructive bg-destructive/10 p-4">
+                  <Typography>
+                    <code>{(error.message as TempValidation).message}</code>
+                  </Typography>
+                  <div className="rounded-xl border border-border/20 bg-background p-4">
+                    <code>{`[`}</code>
+                    {error.message &&
+                      typeof error.message === "object" &&
+                      (error.message as TempValidation).errors?.map((data) => (
+                        <Typography
+                          key={`${data.key}-${data.path}`}
+                          className="pl-8"
+                        >
+                          <code>{`{ "key": "${data.key}", "path": "${data.path}" }`}</code>
+                        </Typography>
+                      ))}
+                    <code>{`]`}</code>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            );
+          })}
+
+          {validations.warnings.map((warning) => {
+            return (
+              <AccordionItem
+                value={`${assetName}-${warning.validatorId}`}
+                key={`${assetName}-${warning.validatorId}`}
+                className="border-border/20 pb-2 pt-1"
+              >
+                <AccordionTrigger>
+                  <div className="flex flex-row items-center gap-4">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-warning/10">
+                      <ExclamationIcon className="text-warning" />
+                    </div>
+                    <Typography>
+                      {hyphenToTitleCase(warning.validatorId)}
+                    </Typography>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="flex flex-col gap-2 rounded-xl border border-warning bg-warning/10 p-4">
+                  <Typography>
+                    <code>{(warning.message as TempValidation).message}</code>
+                  </Typography>
+                  <div className="rounded-xl border border-border/20 bg-background p-4">
+                    <code>{`[`}</code>
+                    {warning.message &&
+                      typeof warning.message === "object" &&
+                      (warning.message as TempValidation).warnings?.map(
+                        (data) => (
+                          <Typography
+                            key={`${data.key}-${data.path}`}
+                            className="pl-8"
+                          >
+                            <code>{`{ "key": "${data.key}", "path": "${data.path}" }`}</code>
+                          </Typography>
+                        ),
+                      )}
+
+                    <code>{`]`}</code>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            );
+          })}
         </Accordion>
+        <DialogFooter className="flex flex-row items-center justify-end">
+          <DialogClose asChild>
+            <Button variant={"ghost"} className="w-fit">
+              Close
+            </Button>
+          </DialogClose>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
 }
+
+const getErrorCountMessage = (validations: StateOutput) => {
+  let message = "";
+  const errorSize = validations.errors.length;
+  const warningSize = validations.warnings.length;
+
+  if (!!errorSize) message += `${errorSize} error${errorSize > 1 ? "s" : ""}`;
+  if (!!message.length) message += ", ";
+  if (!!warningSize)
+    message += `${warningSize} recommendation${warningSize > 1 ? "s" : ""}`;
+
+  return message;
+};
