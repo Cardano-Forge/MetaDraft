@@ -5,14 +5,14 @@ import useAssetState from "~/lib/hooks/use-asset-state";
 import { type Status } from "~/lib/types";
 
 type ActionsType = {
-  state: Status;
   assetName: string;
 };
 
-export default function Actions({ state, assetName }: ActionsType) {
+export default function Actions({ assetName }: ActionsType) {
+  const { getState, updateState } = useAssetState();
+  const state = getState(assetName);
   const isSuccess = state === "success";
   const isWarning = state === "warning";
-  const { updateState } = useAssetState();
 
   const handleUpdateState = async (state: Status) =>
     await updateState([assetName], state);

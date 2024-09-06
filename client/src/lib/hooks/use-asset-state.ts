@@ -2,8 +2,16 @@ import { useRxCollection, useRxData } from "rxdb-hooks";
 import type { Status } from "~/lib/types";
 import type { MetadataStatus, Project } from "../db/types";
 import { getStatsFromStatus } from "../get-stats";
-import { useSelectedAssets } from "./use-selected-assets";
 
+/**
+ * A custom hook that provides functionality for retrieving and updating the asset state.
+ * It uses RxDB collections for `status` and `project` to fetch and manipulate data.
+ *
+ * @returns {Object} - An object containing:
+ *   - `isFetching`: {boolean} A flag indicating whether the status or project data is currently being fetched.
+ *   - `getState`: {Function} A function that retrieves the status for a given asset name.
+ *   - `updateState`: {Function} A function that updates the state of specified assets and updates related stats.
+ */
 export default function useAssetState() {
   const statusCollection = useRxCollection<MetadataStatus>("status");
   const { result: statusResults, isFetching: isFetchingStatus } =
@@ -47,7 +55,7 @@ export default function useAssetState() {
     }
   };
 
-  const isFetching = isFetchingStatus && isFetchingProject;
+  const isFetching = isFetchingStatus || isFetchingProject;
 
   return { isFetching, getState, updateState };
 }

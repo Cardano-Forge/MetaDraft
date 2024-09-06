@@ -29,7 +29,6 @@ type Stats = {
  * };
  * const total = 5;
  * const stats = getStatsFromValidations(data, total);
- * console.log(stats);
  * // Output: { nfts: 5, errorsDetected: 1, errorsFlagged: 1, valids: 2 }
  * ```
  */
@@ -74,7 +73,6 @@ export const getStatsFromValidations = (
  *   "4": "success",
  * };
  * const stats = getStatsFromStatus(status);
- * console.log(stats);
  * // Output: { nfts: 4, errorsDetected: 1, errorsFlagged: 1, valids: 2 }
  * ```
  */

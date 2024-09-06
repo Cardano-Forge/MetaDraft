@@ -58,7 +58,10 @@ export default function Footer({ lastPage }: { lastPage: number }) {
           value={page}
           min={1}
           max={lastPage}
-          onChange={(e) => handlePageChange(+e.target.value)}
+          onChange={(e) => {
+            handlePageChange(+e.target.value);
+            clear();
+          }}
         />
         of {lastPage}
       </div>
