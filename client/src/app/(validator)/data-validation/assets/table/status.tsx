@@ -1,9 +1,10 @@
 import React from "react";
+import useAssetState from "~/lib/hooks/use-asset-state";
 import { type Status } from "~/lib/types";
 import { cn } from "~/lib/utils";
 
 type StatusProps = {
-  state: Status;
+  assetName: string;
 };
 
 const variants: Record<Status, string> = {
@@ -18,7 +19,10 @@ const text: Record<Status, string> = {
   error: "Error detected",
 };
 
-export default function Status({ state }: StatusProps) {
+export default function Status({ assetName }: StatusProps) {
+  const { getState } = useAssetState();
+  const state = getState(assetName);
+
   return (
     <div
       className={cn(

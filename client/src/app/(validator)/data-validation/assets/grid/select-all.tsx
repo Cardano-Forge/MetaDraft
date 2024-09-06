@@ -20,7 +20,7 @@ export default function SelectAll({ metadata }: { metadata: MetatdataJSON[] }) {
 
   useEffect(() => {
     setAllSelected(assets.length == metadata[page]?.length);
-  }, [assets]);
+  }, [assets, metadata, page]);
 
   const handleSelectAll = (checked: CheckedState) => {
     if (checked) {
@@ -34,6 +34,7 @@ export default function SelectAll({ metadata }: { metadata: MetatdataJSON[] }) {
   return (
     <div className="mx-2 flex items-center space-x-2">
       <Checkbox
+        disabled
         id="selectAll"
         checked={allSelected}
         onCheckedChange={handleSelectAll}

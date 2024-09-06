@@ -16,13 +16,15 @@ import type {
   ActiveProject,
   Project,
   MetadataValidations,
+  MetadataStatus,
 } from "~/lib/db/types";
 import { validateMetadata } from "~/server/validations";
 
 import UploadAlert from "./upload-alert";
-import { getStats } from "~/lib/get-stats";
+import { getStatsFromValidations } from "~/lib/get-stats";
+import { getStatus } from "~/lib/get-status";
 
-export default function UploadProjectButton() {
+export function UploadProjectButton() {
   const router = useRouter();
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
   const [error, setError] = useState<Error | undefined>(undefined);
@@ -34,6 +36,7 @@ export default function UploadProjectButton() {
     useRxCollection<MetadataValidations>("validations");
   const activeProjectCollection =
     useRxCollection<ActiveProject>("activeProject");
+  const statusCollection = useRxCollection<MetadataStatus>("status");
 
   // Upload
   const onDrop = useCallback(
@@ -66,8 +69,8 @@ export default function UploadProjectButton() {
             validations,
           });
 
-          const stats = getStats(validations, zodValidation.data.length);
-
+          // Get project information
+          const stats = getStatsFromValidations(validations, zodValidation.data.length);
           const project: Project = {
             id: "project",
             name: getFileName(acceptedFiles[0]),
@@ -82,6 +85,13 @@ export default function UploadProjectButton() {
             await activeProjectCollection?.upsert({
               id: "activeProject",
               metadataId: meta.id,
+            });
+            // Get asset status.
+            const status = getStatus(meta.data, validations);
+            // Add status in RXDB
+            await statusCollection?.upsert({
+              id: "assetStatus",
+              status,
             });
 
             router.push("/data-validation");
@@ -130,6 +140,7 @@ export default function UploadProjectButton() {
       validationsCollection,
       projectCollection,
       activeProjectCollection,
+      statusCollection,
       router,
     ],
   );
