@@ -10,7 +10,6 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { Checkbox } from "~/components/ui/checkbox";
 
 import { useSelectedAssets } from "~/lib/hooks/use-selected-assets";
 
