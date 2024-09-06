@@ -14,6 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
+import { Separator } from "~/components/ui/separator";
 import useAssetState from "~/lib/hooks/use-asset-state";
 import { useValidations } from "~/lib/hooks/use-validations";
 import { type Status } from "~/lib/types";
@@ -67,7 +68,7 @@ export default function Status({ assetName }: StatusProps) {
             get counts for this asset
           </DialogDescription>
         </DialogHeader>
-        <hr />
+        <Separator className="bg-border/50" />
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
             <AccordionTrigger>Is it accessible?</AccordionTrigger>
