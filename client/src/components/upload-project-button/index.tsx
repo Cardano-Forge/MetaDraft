@@ -24,7 +24,7 @@ import UploadAlert from "./upload-alert";
 import { getStatsFromValidations } from "~/lib/get-stats";
 import { getStatus } from "~/lib/get-status";
 
-export default function UploadProjectButton() {
+export function UploadProjectButton() {
   const router = useRouter();
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
   const [error, setError] = useState<Error | undefined>(undefined);

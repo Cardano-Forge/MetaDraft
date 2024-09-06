@@ -25,6 +25,7 @@ export const ActiveProjectProvider = ({
   );
 
   useEffect(() => {
+    if (isFetching) return;
     if (pathname === "/") {
       if (!!result[0]?.metadataId) {
         router.push("/data-validation");
@@ -34,7 +35,7 @@ export const ActiveProjectProvider = ({
         router.push("/");
       }
     }
-  }, [pathname, result, router]);
+  }, [pathname, result, router, isFetching]);
 
   if (isFetching)
     return (
