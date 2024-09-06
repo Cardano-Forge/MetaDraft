@@ -1,7 +1,12 @@
 import { useRxData } from "rxdb-hooks";
+
+import useAssetState from "./use-asset-state";
+
+import type { ValidatorResults } from "../types";
 import type { MetadataValidations } from "../db/types";
 
 export const useValidations = () => {
+  const { status } = useAssetState();
   const { result, isFetching } = useRxData<MetadataValidations>(
     "validations",
     (collection) => collection.findByIds(["validations"]),
@@ -9,20 +14,26 @@ export const useValidations = () => {
 
   const validations = result[0]?.validations;
 
-  const getWarnings = (assetName: string) => {
-    if (!validations) return;
-    const assetValidation = validations[assetName];
-    if (!assetValidation) return;
-    if (assetValidation.status !== "warning") return;
-    return validations[assetName]?.warnings;
+  const getWarnings = () => {
+    const warnings: ValidatorResults[] = [];
+    if (!validations || !status) return [];
+    Object.keys(status).map((key) => {
+      if (status[key] !== "success" && !!validations[key]?.warnings.length) {
+        warnings.push({ [key]: validations[key] });
+      }
+    });
+    return warnings;
   };
 
-  const getErrors = (assetName: string) => {
-    if (!validations) return;
-    const assetValidation = validations[assetName];
-    if (!assetValidation) return;
-    if (assetValidation.status !== "error") return;
-    return validations[assetName]?.errors;
+  const getErrors = () => {
+    const errors: ValidatorResults[] = [];
+    if (!validations || !status) return [];
+    Object.keys(status).map((key) => {
+      if (status[key] !== "success" && !!validations[key]?.errors.length) {
+        errors.push({ [key]: validations[key] });
+      }
+    });
+    return errors;
   };
 
   const getKeyCount = () => {
@@ -30,24 +41,26 @@ export const useValidations = () => {
       warnings: {},
       errors: {},
     };
-    if (!validations) return keys;
-    Object.keys(validations).map((key) => {
-      // WARNINGS
-      validations[key]?.warnings.forEach(({ validatorId }) => {
-        if (keys.warnings[validatorId]) {
-          keys.warnings[validatorId]++;
-        } else {
-          keys.warnings[validatorId] = 1;
-        }
-      });
-      // ERRORS
-      validations[key]?.errors.forEach(({ validatorId }) => {
-        if (keys.errors[validatorId]) {
-          keys.errors[validatorId]++;
-        } else {
-          keys.errors[validatorId] = 1;
-        }
-      });
+    if (!validations || !status) return keys;
+    Object.keys(status).map((key) => {
+      if (status[key] !== "success") {
+        // WARNINGS
+        validations[key]?.warnings.forEach(({ validatorId }) => {
+          if (keys.warnings[validatorId]) {
+            keys.warnings[validatorId]++;
+          } else {
+            keys.warnings[validatorId] = 1;
+          }
+        });
+        // ERRORS
+        validations[key]?.errors.forEach(({ validatorId }) => {
+          if (keys.errors[validatorId]) {
+            keys.errors[validatorId]++;
+          } else {
+            keys.errors[validatorId] = 1;
+          }
+        });
+      }
     });
     return keys;
   };
