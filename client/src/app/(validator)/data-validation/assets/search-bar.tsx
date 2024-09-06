@@ -3,9 +3,6 @@ import { Input } from "~/components/ui/input";
 import SearchIcon from "~/icons/search.icon";
 
 export default function SearchBar() {
-  // TODO - Searchparams
-  // TODO - search on keyPress Enter when focus
-
   return (
     <div className="relative">
       <Input

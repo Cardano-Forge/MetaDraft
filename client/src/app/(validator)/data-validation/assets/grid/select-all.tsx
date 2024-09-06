@@ -20,7 +20,7 @@ export default function SelectAll({ metadata }: { metadata: MetatdataJSON[] }) {
 
   useEffect(() => {
     setAllSelected(assets.length == metadata[page]?.length);
-  }, [assets]);
+  }, [assets, metadata, page]);
 
   const handleSelectAll = (checked: CheckedState) => {
     if (checked) {

@@ -18,6 +18,7 @@ export const RxdbProvider = (props: { children: React.ReactNode }) => {
     return () => {
       void db?.remove();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <Provider db={db} {...props} />;

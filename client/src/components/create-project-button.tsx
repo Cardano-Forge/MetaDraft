@@ -4,7 +4,6 @@ import { Typography } from "./typography";
 import { Button } from "./ui/button";
 
 export default function CreateProjectButton() {
-  // TODO - Action of creating a project (milestones 4)
   return (
     <Button
       variant={"secondary"}

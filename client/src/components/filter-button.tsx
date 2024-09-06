@@ -8,7 +8,6 @@ import SliderIcon from "~/icons/slider.icon";
 import { Typography } from "./typography";
 
 export default function FilterButton() {
-  // TODO - When PouchDB is ready (offline DB), get view like { filter_open: false }
   const [active, setActive] = useState<boolean>(false);
   const handleChangeView = () => setActive((prev) => !prev);
 
