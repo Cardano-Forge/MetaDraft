@@ -57,5 +57,5 @@ export default function useAssetState() {
 
   const isFetching = isFetchingStatus || isFetchingProject;
 
-  return { isFetching, getState, updateState };
+  return { status, isFetching, getState, updateState };
 }
