@@ -24,6 +24,7 @@ export type StatProps = {
   stat: number;
   variant?: IconsStatsType;
   children?: React.ReactNode;
+  className?: string;
 };
 
 export default function Stat({
@@ -31,14 +32,15 @@ export default function Stat({
   stat,
   variant = "default",
   children,
+  className,
 }: StatProps) {
   const Icon = icons[icon];
   return (
-    <div className="flex flex-col gap-4">
+    <div className={cn("flex flex-col gap-4", className)}>
       <div className="flex flex-row items-center gap-4">
         <div
           className={cn(
-            "flex h-6 w-6 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-secondary",
+            "flex h-6 w-6 items-center justify-center rounded-full bg-secondary sm:h-8 sm:w-8",
             variant === "error" && "bg-destructive/20 text-destructive",
             variant === "warning" && "bg-warning/20 text-warning",
             variant === "success" && "bg-success/20 text-success",
@@ -46,7 +48,7 @@ export default function Stat({
         >
           <Icon className="h-3 w-3 sm:h-4 sm:w-4" />
         </div>
-        <Typography className="font-inter text-md sm:text-xl font-[700] tracking-wide">
+        <Typography className="text-md font-inter font-[700] tracking-wide sm:text-xl">
           {formatThousands(stat)}
         </Typography>
       </div>
