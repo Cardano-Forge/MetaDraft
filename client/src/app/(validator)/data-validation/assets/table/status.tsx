@@ -1,6 +1,5 @@
 import { type StateOutput } from "@ada-anvil/metadraft-validator";
 
-import React from "react";
 import { Typography } from "~/components/typography";
 import {
   Accordion,
@@ -79,16 +78,17 @@ export default function Status({ assetName }: StatusProps) {
           {text[state]}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-3xl !rounded-2xl border-none px-10">
+      <DialogContent className="max-h-[calc(100vh-2rem)] max-w-3xl overflow-y-hidden !rounded-2xl border-none px-10 md:max-h-[calc(100vh-4rem)]">
         <DialogHeader>
-          <DialogTitle>
-            <Typography as="h3">Errors summary</Typography>
+          <DialogTitle className="text-xl font-bold tracking-tight first:mt-0 sm:text-2xl md:text-3xl">
+            Errors summary
           </DialogTitle>
           <DialogDescription className="text-border/50">
             {getErrorCountMessage(validations)}
           </DialogDescription>
         </DialogHeader>
         <Separator className="bg-border/20" />
+
         <Accordion type="single" collapsible className="w-full">
           {validations.errors.map((error) => {
             return (
