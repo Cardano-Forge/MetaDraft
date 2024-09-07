@@ -9,7 +9,7 @@ export default function ValidatorStats() {
   return (
     <div className="flex flex-col gap-4 rounded-xl bg-background p-6">
       <Typography as="h3">Validator detected</Typography>
-      <div className="grid grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
         {Object.keys(keys.errors).map((key) => (
           <div
             key={key}
