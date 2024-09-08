@@ -43,13 +43,14 @@ export default function TableView({ metadata }: TableViewProps) {
           return (
             <TableRow key={meta.assetName}>
               <TableCell>
-                <Image
-                  width={64}
-                  height={64}
-                  alt="nft"
-                  src={getImageSrc(meta.metadata.image)}
-                  className="rounded-xl"
-                />
+                <div className="relative h-16 w-16">
+                  <Image
+                    fill
+                    alt="nft"
+                    src={getImageSrc(meta.metadata.image)}
+                    className="rounded-xl"
+                  />
+                </div>
               </TableCell>
               <TableCell className="font-bold">{meta.assetName}</TableCell>
               <TableCell>{meta.metadata.name}</TableCell>
