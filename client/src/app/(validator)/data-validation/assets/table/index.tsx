@@ -31,6 +31,7 @@ export default function TableView({ metadata }: TableViewProps) {
       <TableHeader className="h-14 bg-secondary text-white/50 hover:bg-secondary [&>*]:border-white/30">
         <TableRow>
           <TableHead className="w-24 text-white/70">NFT</TableHead>
+          <TableHead className="text-white/70">ID</TableHead>
           <TableHead className="text-white/70">NAME</TableHead>
           <TableHead className="text-white/70">CID</TableHead>
           <TableHead className="w-44 text-white/70">STATUS</TableHead>
@@ -51,6 +52,7 @@ export default function TableView({ metadata }: TableViewProps) {
                 />
               </TableCell>
               <TableCell className="font-bold">{meta.assetName}</TableCell>
+              <TableCell>{meta.metadata.name}</TableCell>
               <TableCell className="text-ellipsis">
                 {getCID(meta.metadata.image)}
               </TableCell>
