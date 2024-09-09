@@ -7,7 +7,6 @@ import { type Metadata } from "next";
 import Header from "~/components/header";
 import { RxdbProvider } from "~/providers/rxdb.provider";
 import { ActiveProjectProvider } from "~/providers/active-project.provider";
-import { TooltipProvider } from "~/components/ui/tooltip";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,10 +27,8 @@ export default function RootLayout({
       <RxdbProvider>
         <body>
           <ActiveProjectProvider>
-            <TooltipProvider>
-              <Header />
-              {children}
-            </TooltipProvider>
+            <Header />
+            {children}
           </ActiveProjectProvider>
         </body>
       </RxdbProvider>
