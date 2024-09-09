@@ -173,13 +173,6 @@ export default function Status({ assetName }: StatusProps) {
             );
           })}
         </Accordion>
-        <DialogFooter className="flex flex-row items-center justify-end">
-          <DialogClose asChild>
-            <Button variant={"ghost"} className="w-fit">
-              Close
-            </Button>
-          </DialogClose>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
