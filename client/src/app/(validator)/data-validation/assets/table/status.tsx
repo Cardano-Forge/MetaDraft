@@ -10,10 +10,8 @@ import {
 import { Button, type ButtonVariants } from "~/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -78,8 +76,8 @@ export default function Status({ assetName }: StatusProps) {
           {text[state]}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[calc(100vh-2rem)] max-w-3xl overflow-y-hidden !rounded-2xl border-none px-10 md:max-h-[calc(100vh-4rem)]">
-        <DialogHeader>
+      <DialogContent className="max-h-[calc(100vh-2rem)] max-w-3xl overflow-y-hidden !rounded-2xl border-none px-0 pb-0 md:max-h-[calc(100vh-4rem)]">
+        <DialogHeader className="px-10">
           <DialogTitle className="text-xl font-bold tracking-tight first:mt-0 sm:text-2xl md:text-3xl">
             Errors summary
           </DialogTitle>
@@ -87,7 +85,7 @@ export default function Status({ assetName }: StatusProps) {
             {getErrorCountMessage(validations)}
           </DialogDescription>
         </DialogHeader>
-        <Separator className="bg-border/20" />
+        <Separator className="mt-3 bg-border/20" />
 
         <Accordion type="single" collapsible className="w-full">
           {validations.errors.map((error) => {
@@ -95,9 +93,9 @@ export default function Status({ assetName }: StatusProps) {
               <AccordionItem
                 value={`${assetName}-${error.validatorId}`}
                 key={`${assetName}-${error.validatorId}`}
-                className="border-border/20 pb-2 pt-1"
+                className="border-b border-border/20 pb-2 pt-1 last:border-none"
               >
-                <AccordionTrigger>
+                <AccordionTrigger className="px-10">
                   <div className="flex flex-row items-center gap-4">
                     <div className="flex h-9 w-9 items-center justify-center rounded-full bg-destructive/10">
                       <ExclamationIcon className="text-destructive" />
@@ -107,7 +105,7 @@ export default function Status({ assetName }: StatusProps) {
                     </Typography>
                   </div>
                 </AccordionTrigger>
-                <AccordionContent className="flex flex-col gap-2 rounded-xl border border-destructive bg-destructive/10 p-4">
+                <AccordionContent className="mx-10 my-2 flex flex-col gap-2 rounded-xl border border-destructive bg-destructive/10 p-4">
                   <Typography>
                     <code>{(error.message as TempValidation).message}</code>
                   </Typography>
@@ -135,9 +133,9 @@ export default function Status({ assetName }: StatusProps) {
               <AccordionItem
                 value={`${assetName}-${warning.validatorId}`}
                 key={`${assetName}-${warning.validatorId}`}
-                className="border-border/20 pb-2 pt-1"
+                className="border-b border-border/20 pb-2 pt-1 last:border-none"
               >
-                <AccordionTrigger>
+                <AccordionTrigger className="px-10">
                   <div className="flex flex-row items-center gap-4">
                     <div className="flex h-9 w-9 items-center justify-center rounded-full bg-warning/10">
                       <ExclamationIcon className="text-warning" />
@@ -147,7 +145,7 @@ export default function Status({ assetName }: StatusProps) {
                     </Typography>
                   </div>
                 </AccordionTrigger>
-                <AccordionContent className="flex flex-col gap-2 rounded-xl border border-warning bg-warning/10 p-4">
+                <AccordionContent className="mx-10 my-2 flex flex-col gap-2 rounded-xl border border-warning bg-warning/10 p-4">
                   <Typography>
                     <code>{(warning.message as TempValidation).message}</code>
                   </Typography>
@@ -173,13 +171,6 @@ export default function Status({ assetName }: StatusProps) {
             );
           })}
         </Accordion>
-        <DialogFooter className="flex flex-row items-center justify-end">
-          <DialogClose asChild>
-            <Button variant={"ghost"} className="w-fit">
-              Close
-            </Button>
-          </DialogClose>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
