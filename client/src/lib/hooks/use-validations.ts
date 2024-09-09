@@ -14,6 +14,11 @@ export const useValidations = () => {
 
   const validations = result[0]?.validations;
 
+  const getValidations = (assetName: string) => {
+    if (!validations) return;
+    return validations[assetName];
+  };
+
   const getWarnings = () => {
     const warnings: ValidatorResults[] = [];
     if (!validations || !status) return [];
@@ -74,7 +79,14 @@ export const useValidations = () => {
     return keys;
   };
 
-  return { validations, isFetching, getKeyCount, getWarnings, getErrors };
+  return {
+    validations,
+    isFetching,
+    getKeyCount,
+    getWarnings,
+    getErrors,
+    getValidations,
+  };
 };
 
 type Temp = { message: string };
