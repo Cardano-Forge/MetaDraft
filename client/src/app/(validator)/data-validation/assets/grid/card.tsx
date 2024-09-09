@@ -37,12 +37,12 @@ export default function Card({ asset }: CardProps) {
                 <CodeIcon />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-fit">
+            <PopoverContent className="w-fit max-w-[100vw]">
               <div className="flex flex-col gap-2 rounded-lg p-2">
                 <Typography as="smallText">
                   <code>NAME : {asset.metadata.name},</code>
                 </Typography>
-                <Typography as="smallText">
+                <Typography as="smallText" className="text-nowrap text-ellipsis">
                   <code>CID : {getCID(asset.metadata.image)}</code>
                 </Typography>
               </div>
