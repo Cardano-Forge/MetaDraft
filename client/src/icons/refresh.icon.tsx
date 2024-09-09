@@ -1,6 +1,6 @@
 import type { IconProps } from ".";
 
-export default function RefereshIcon({ className }: IconProps) {
+export default function RefreshIcon({ className }: IconProps) {
   return (
     <svg
       width="18"

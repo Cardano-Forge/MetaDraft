@@ -69,7 +69,7 @@ export default function Status({ assetName }: StatusProps) {
           disabled={state === "success"}
           variant={button[state]}
           className={cn(
-            "w-fit items-center justify-center rounded-full !border-none px-4 py-2 font-semibold tracking-wide !outline-none",
+            "w-fit items-center justify-center rounded-full !border-none font-semibold tracking-wide !outline-none lg:px-4 lg:py-2 lg:h-10",
             variants[state],
           )}
         >

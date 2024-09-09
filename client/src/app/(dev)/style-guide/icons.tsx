@@ -22,7 +22,7 @@ import NextIcon from "~/icons/next.icon";
 import NoteIcon from "~/icons/note.icon";
 import PencilIcon from "~/icons/pencil.icon";
 import PlusIcon from "~/icons/plus.icon";
-import RefereshIcon from "~/icons/referesh.icon";
+import RefreshIcon from "~/icons/refresh.icon";
 import SearchIcon from "~/icons/search.icon";
 import ShuffleIcon from "~/icons/shuffle.icon";
 import SliderIcon from "~/icons/slider.icon";
@@ -72,7 +72,7 @@ export default function Icons() {
         </div>
         <div className="flex flex-row items-center justify-center gap-4">
           <PlusIcon />
-          <RefereshIcon />
+          <RefreshIcon />
           <SearchIcon />
           <ShuffleIcon />
           <SliderIcon />
