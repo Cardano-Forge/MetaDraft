@@ -1,21 +1,19 @@
-import Image from "next/image";
-import React from "react";
 import { getImageSrc } from "~/lib/get-image-src";
-import Status from "../table/status";
-import { Typography } from "~/components/typography";
-import Actions from "./actions";
+import { getCID } from "~/lib/get-cid";
 import { cn } from "~/lib/utils";
 import type { MetatdataJSON } from "~/lib/types";
-import { AssetCardThumbnail } from "./asset-card";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { Button } from "~/components/ui/button";
-import ArrowExpandIcon from "~/icons/arrow-expand.icon";
+import { Typography } from "~/components/typography";
 import CodeIcon from "~/icons/code.icon";
-import { getCID } from "~/lib/get-cid";
+
+import Status from "../table/status";
+import { AssetCardThumbnail } from "./asset-card";
+import Actions from "./actions";
 
 type CardProps = {
   asset: MetatdataJSON[number];
