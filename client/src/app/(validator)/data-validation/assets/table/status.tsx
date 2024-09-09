@@ -95,7 +95,7 @@ export default function Status({ assetName }: StatusProps) {
               <AccordionItem
                 value={`${assetName}-${error.validatorId}`}
                 key={`${assetName}-${error.validatorId}`}
-                className="border-border/20 pb-2 pt-1"
+                className="border-b border-border/20 pb-2 pt-1"
               >
                 <AccordionTrigger>
                   <div className="flex flex-row items-center gap-4">
@@ -135,7 +135,7 @@ export default function Status({ assetName }: StatusProps) {
               <AccordionItem
                 value={`${assetName}-${warning.validatorId}`}
                 key={`${assetName}-${warning.validatorId}`}
-                className="border-border/20 pb-2 pt-1"
+                className="border-b border-border/20 pb-2 pt-1"
               >
                 <AccordionTrigger>
                   <div className="flex flex-row items-center gap-4">
