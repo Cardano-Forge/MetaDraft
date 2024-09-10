@@ -33,5 +33,6 @@ export { KeyWhiteSpace } from "./rules/key-white-space.ts";
 export { DuplicateImage } from "./rules/duplicate-image.ts";
 export { DuplicateName } from "./rules/duplicate-name.ts";
 export { DuplicateNameAndImage } from "./rules/duplicate-name-and-image.ts";
+export { DuplicateAssetName } from "./rules/duplicate-asset-name.ts";
 
 export { mapping } from "./mapping.ts";
