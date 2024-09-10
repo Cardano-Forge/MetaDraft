@@ -4,7 +4,7 @@ import { Validator } from "../src/core.ts";
 
 import { DuplicateName } from "../src/rules/duplicate-name.ts";
 
-Deno.test("DuplicateName - withWarning", () => {
+Deno.test("DuplicateName - withError", () => {
   const metadata = [
     {
       assetName: "asset_0000",

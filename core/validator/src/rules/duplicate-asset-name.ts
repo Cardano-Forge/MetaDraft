@@ -4,22 +4,22 @@ import type { Metadata, StateOutput } from "../utils/types.ts";
 import { logger } from "../utils/logger.ts";
 
 /**
- * A validator that checks if there are any duplicate names in the provided metadatas.
+ * A validator that checks if there are any duplicate asset names in the provided metadatas.
  *
- * This validator counts the occurrences of each name and identifies duplicates based on the count. It assumes that the asset name is the top-level key in each metadata object.
+ * This validator counts the occurrences of each asset name and identifies duplicates based on the count. It assumes that the asset name is the top-level key in each metadata object.
  *
- * @class DuplicateName
+ * @class DuplicateAssetName
  * @module Rules
  * @extends BaseValidator
  */
-export class DuplicateName extends BaseValidator {
+export class DuplicateAssetName extends BaseValidator {
   /**
-   * Constructs a new instance of the `DuplicateName` validator with an optional configuration object.
+   * Constructs a new instance of the `DuplicateAssetName` validator with an optional configuration object.
    *
    * @param {object} [options] - The options for the validator (not used in this validator).
    */
   constructor(options?: object) {
-    const id = "duplicate-name";
+    const id = "duplicate-asset-name";
     super(id, options, "once");
   }
 
@@ -32,7 +32,7 @@ export class DuplicateName extends BaseValidator {
    */
   ExecuteOnce(
     metadatas: object[],
-    validations: Record<string, StateOutput>,
+    validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
     logger(`Executing ${this.id} with: `, metadatas.length);
     return this.Logic(metadatas as Metadata[], validations);
@@ -47,36 +47,38 @@ export class DuplicateName extends BaseValidator {
    */
   Logic(
     metadatas: Metadata[],
-    validations: Record<string, StateOutput>,
+    validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
-    const seen = {
-      names: new Set<string>(),
-    };
+    const errorsMetadata = new Set<Metadata>();
 
     for (const entry of metadatas) {
-      if (
-        typeof entry === "object" &&
-        entry !== null &&
-        "name" in entry.metadata
-      ) {
-        if (seen.names.has(entry.metadata.name)) {
-          if (!validations[entry.assetName]) {
-            validations[entry.assetName] = {
-              status: "error",
-              warnings: [],
-              errors: [],
-            };
-          }
+      const founds = metadatas.filter(
+        (meta) => meta.assetName === entry.assetName
+      );
 
-          validations[entry.assetName].status = "error";
-          validations[entry.assetName].errors.push({
-            validatorId: this.id,
-            message: `Name: ${entry.metadata.name} has been detected as a duplicate.`,
-          });
-        }
-        seen.names.add(entry.metadata.name);
+      if (founds.length > 1) {
+        founds.forEach((meta) => {
+          errorsMetadata.add(meta);
+        });
       }
     }
+
+    // ERRORS
+    errorsMetadata.forEach(({ assetName, metadata }) => {
+      if (!validations[assetName]) {
+        validations[assetName] = {
+          status: "error",
+          warnings: [],
+          errors: [],
+        };
+      }
+
+      validations[assetName].status = "error";
+      validations[assetName].errors.push({
+        validatorId: this.id,
+        message: `AssetName: ${assetName} has been detected as a duplicate. (metadata.name = ${metadata.name})`,
+      });
+    });
 
     return validations;
   }
