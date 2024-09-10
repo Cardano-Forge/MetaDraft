@@ -4,34 +4,31 @@ import { GetValidationOutput } from "../utils/getState.ts";
 
 import type { KeyWithPath, StateOutput } from "../utils/types.ts";
 
-import {
-  extractKeysWithPaths,
-  extractKeysWithPathsSplitAttributes,
-} from "../utils/keys.ts";
+import { extractKeysWithPathsSplitAttributes } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 import { logger } from "../utils/logger.ts";
 import { isCamelCase, isTitleCase } from "../utils/casing.ts";
 
 /**
- * Enforces that metadata keys are alphanumeric, allowing dashes and underscores.
+ * Enforces that metadata keys are in camel case format and inner keys in attributes are in Title Case format.
  *
- * @class KeyAlphanumeric
+ * @class KeyAnvilCasing
  * @module Rules
  * @extends BaseValidator
  */
-export class KeyAlphanumeric extends BaseValidator {
+export class KeyAnvilCasing extends BaseValidator {
   /**
-   * Creates an instance of KeyAlphanumeric validator.
+   * Creates an instance of KeyAnvilCasing validator.
    *
    * @param {object} [options] - The options for the validator.
    */
   constructor(options?: object) {
-    const id = "key-alphanumeric";
+    const id = "key-anvil-casing";
     super(id, options);
   }
 
   /**
-   * Executes the validation logic for alphanumeric metadata keys.
+   * Executes the validation logic for anvil casing metadata keys.
    *
    * @param {string} assetName - The name of the asset being validated.
    * @param {unknown} metadata - The metadata to validate.
@@ -48,7 +45,7 @@ export class KeyAlphanumeric extends BaseValidator {
   }
 
   /**
-   * The main validation logic for ensuring metadata keys are alphanumeric.
+   * The main validation logic for ensuring metadata keys are anvil casing format.
    *
    * @param {string} assetName - The name of the asset being validated.
    * @param {unknown} metadata - The metadata to validate.
@@ -60,11 +57,12 @@ export class KeyAlphanumeric extends BaseValidator {
     metadata: unknown,
     _metadatas: unknown[]
   ): StateOutput {
-    const alphanumeric = /^[a-zA-Z0-9-_]+$/;
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
-    const warnings: KeyWithPath[] = [];
+    const otherKeysWarnings: KeyWithPath[] = [];
+    const attributesWarnings: KeyWithPath[] = [];
+    let message = "";
 
     const { otherKeys, attributesKeys } = extractKeysWithPathsSplitAttributes(
       metadata as object
@@ -72,22 +70,32 @@ export class KeyAlphanumeric extends BaseValidator {
 
     otherKeys.forEach((key) => {
       if (!isCamelCase(key.key)) {
-        warnings.push(key);
+        otherKeysWarnings.push(key);
       }
     });
 
+    if (!!otherKeysWarnings.length)
+      message = "Some keys do not adhere to Camel Case formatting";
+
     attributesKeys.forEach((key) => {
       if (!isTitleCase(key.key)) {
-        warnings.push(key);
+        attributesWarnings.push(key);
       }
     });
+
+    if (!!attributesWarnings.length) {
+      message += !!message.length
+        ? "and some attribute's keys do not adhere to Title Case formatting"
+        : "Some attribute's keys do not adhere to Title Case formatting";
+    }
+
+    const warnings = [...otherKeysWarnings, ...attributesWarnings];
 
     return GetValidationOutput(
       {
         state: warnings.length === 0 ? "success" : "warning",
         message: {
-          message:
-            "Some keys do not adhere to Camel Case formatting or some attribute's keys do not adhere to Title Case formatting",
+          message,
           warnings,
         },
       },
