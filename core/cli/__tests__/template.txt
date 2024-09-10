@@ -15,6 +15,7 @@ duplicateKeysValidator
 duplicateImage
 duplicateName
 duplicateNameAndImage
+duplicateAssetName
 
 #
 # mandatory
