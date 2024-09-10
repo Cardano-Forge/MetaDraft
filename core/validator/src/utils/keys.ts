@@ -27,6 +27,67 @@ export function extractKeysWithPaths(obj: object, path = ""): KeyWithPaths {
 }
 
 /**
+ * Recursively extracts all keys from an object, keeping track of the path to each key.
+ * Splits keys found under the "attributes" object into a separate array, while storing other keys in a different array.
+ *
+ * @category Utils
+ * @param {object} obj - The input object to extract keys from.
+ * @param {string} [path=""] - The current path for nested objects, defaults to an empty string.
+ * @returns {{ attributesKeys: KeyWithPaths[], otherKeys: KeyWithPaths[] }} An object containing two arrays:
+ * - `attributesKeys`: Keys found under the "attributes" object, along with their paths.
+ * - `otherKeys`: All other keys and their paths.
+ *
+ * @example
+ * const obj = {
+ *   a: 1,
+ *   b: { c: 2 },
+ *   attributes: { d: 3, e: { f: 4 } },
+ * };
+ *
+ * const { attributesKeys, otherKeys } = extractKeysWithPathsSplitAttributes(obj);
+ * console.log(attributesKeys); // [{ key: 'd', path: 'attributes.d' }, { key: 'e', path: 'attributes.e' }, { key: 'f', path: 'attributes.e.f' }]
+ * console.log(otherKeys); // [{ key: 'a', path: 'a' }, { key: 'b', path: 'b' }, { key: 'c', path: 'b.c' }]
+ */
+export function extractKeysWithPathsSplitAttributes(
+  obj: object,
+  path = ""
+): {
+  attributesKeys: KeyWithPaths;
+  otherKeys: KeyWithPaths;
+} {
+  let attributesKeys: KeyWithPaths = [];
+  let otherKeys: KeyWithPaths = [];
+
+  for (const [key, value] of Object.entries(obj)) {
+    const fullPath = path ? `${path}.${key}` : key;
+
+    if (key === "attributes") {
+      if (
+        typeof value === "object" &&
+        value !== null &&
+        !Array.isArray(value)
+      ) {
+        // Recursively extract keys from the "attributes" object
+        attributesKeys = attributesKeys.concat(
+          extractKeysWithPathsSplitAttributes(value, fullPath).otherKeys
+        );
+      }
+      continue; // Skip further processing for "attributes" in the otherKeys array
+    }
+
+    otherKeys.push({ key, path: fullPath });
+
+    if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+      const nestedResult = extractKeysWithPathsSplitAttributes(value, fullPath);
+      attributesKeys = attributesKeys.concat(nestedResult.attributesKeys);
+      otherKeys = otherKeys.concat(nestedResult.otherKeys);
+    }
+  }
+
+  return { attributesKeys, otherKeys };
+}
+
+/**
  * Count the occurrences of each key in an array of objects with paths.
  * @category Utils
  * @param keysWithPaths - An array of objects containing keys and their respective paths.
@@ -38,14 +99,14 @@ export function extractKeysWithPaths(obj: object, path = ""): KeyWithPaths {
  * console.log(countKeys(keysWithPaths)); // { a: 2, b: 1 }
  */
 export const countKeys = (
-  keysWithPaths: KeyWithPaths,
+  keysWithPaths: KeyWithPaths
 ): Record<string, number> =>
   keysWithPaths.reduce(
     (acc, { key }) => ({
       ...acc,
       [key]: (acc[key as keyof typeof acc] || 0) + 1,
     }),
-    {},
+    {}
   );
 
 /**
@@ -65,11 +126,11 @@ export const countKeys = (
 export function getPathsForExceedingKeys(
   keysWithPaths: KeyWithPaths,
   keyCounts: Record<string, number>,
-  threshold: number,
+  threshold: number
 ): Array<{ key: string; path: string }> {
   // Get the keys that exceed the threshold
   const exceedingKeys = Object.keys(keyCounts).filter(
-    (key) => keyCounts[key] && keyCounts[key] > threshold,
+    (key) => keyCounts[key] && keyCounts[key] > threshold
   );
 
   // Find paths for these keys
@@ -95,7 +156,7 @@ export function getPathsForExceedingKeys(
  */
 export function formatPaths(
   paths: KeyWithPaths,
-  keyCounts: Record<string, number>,
+  keyCounts: Record<string, number>
 ): Array<{ field: string; paths: string[]; occurences: number }> {
   // Create a map to group paths by key
   const pathsMap: Record<string, string[]> = paths.reduce(
@@ -106,7 +167,7 @@ export function formatPaths(
       acc[key].push(path);
       return acc;
     },
-    {} as Record<string, string[]>,
+    {} as Record<string, string[]>
   );
 
   // Convert the pathsMap to the desired format

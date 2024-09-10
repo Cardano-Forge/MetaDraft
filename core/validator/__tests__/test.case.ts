@@ -7,6 +7,7 @@ import { KeyCamelCase } from "../src/rules/key-camel-case.ts";
 import { KeyLowerCase } from "../src/rules/key-lower-case.ts";
 import { KeyUpperCase } from "../src/rules/key-upper-case.ts";
 import { KeySnakeCase } from "../src/rules/key-snake-case.ts";
+import { KeyAnvilCasing } from "../src/rules/key-anvil-casing.ts";
 
 const metadata = [
   {
@@ -176,6 +177,34 @@ Deno.test("KeyUpperCase - withWarning", () => {
               { key: "foo", path: "attributes.foo" },
               { key: "traits", path: "traits" },
             ],
+          },
+        },
+      ],
+      errors: [],
+    },
+  });
+});
+
+Deno.test("AnvilCasing - withWarning", () => {
+  const mainValidator = new Validator("Main");
+  mainValidator.Enable(new KeyAnvilCasing());
+
+  for (const asset_metadata of metadata) {
+    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
+  }
+
+  const result = mainValidator.GetResults();
+
+  assertEquals(result, {
+    asset000: {
+      status: "warning",
+      warnings: [
+        {
+          validatorId: "key-anvil-casing",
+          message: {
+            message:
+              "Some attribute's keys do not adhere to Title Case formatting",
+            warnings: [{ key: "foo", path: "attributes.foo" }],
           },
         },
       ],
