@@ -195,8 +195,6 @@ Deno.test("AnvilCasing - withWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  console.log("RESULTS ANVIL CASING", result);
-
   assertEquals(result, {
     asset000: {
       status: "warning",
@@ -204,10 +202,9 @@ Deno.test("AnvilCasing - withWarning", () => {
         {
           validatorId: "key-anvil-casing",
           message: {
-            message: "Some attribute's keys do not adhere to Title Case formatting",
-            warnings: [
-              { key: "foo", path: "attributes.foo" },
-            ],
+            message:
+              "Some attribute's keys do not adhere to Title Case formatting",
+            warnings: [{ key: "foo", path: "attributes.foo" }],
           },
         },
       ],

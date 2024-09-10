@@ -84,9 +84,9 @@ export class KeyAnvilCasing extends BaseValidator {
     });
 
     if (!!attributesWarnings.length) {
-      message += !!message.length
-        ? "and some attribute's keys do not adhere to Title Case formatting"
-        : "Some attribute's keys do not adhere to Title Case formatting";
+      message += !!message.length ? " and some" : "Some";
+
+      message += " attribute's keys do not adhere to Title Case formatting";
     }
 
     const warnings = [...otherKeysWarnings, ...attributesWarnings];
