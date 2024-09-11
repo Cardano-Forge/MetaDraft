@@ -13,7 +13,7 @@ import { DataRead, Metadata } from "./types.ts";
 export async function validate(
   metadataPath: string,
   templatePath: string,
-  outputPath: string,
+  outputPath: string
 ) {
   console.log(`Validating metadata at: ${metadataPath}`);
   console.log(`Using template at: ${templatePath}`);
@@ -27,15 +27,15 @@ export async function validate(
   const main = new Validator("Main");
   for (const validator of rules) {
     main.Enable(
-      new mapping[validator.split(DIVIDER)[0] as keyof typeof mapping](
-        extractOptions(validator),
-      ),
+      new mapping[validator.split(DIVIDER)[0].trim() as keyof typeof mapping](
+        extractOptions(validator)
+      )
     );
   }
 
   // 3. Load metadata (CSV or JSON)
   const reader = ReaderFactory.createReader(
-    metadataPath.substring(metadataPath.lastIndexOf(".") + 1).toLowerCase(),
+    metadataPath.substring(metadataPath.lastIndexOf(".") + 1).toLowerCase()
   );
   reader.Load(metadataPath);
   const metadatas: DataRead[] | null = reader.Read();
@@ -50,7 +50,7 @@ export async function validate(
     main.Execute(
       (metadata as Metadata).assetName, // extract asset_name
       (metadata as Metadata).metadata, // extract payload
-      metadatas,
+      metadatas
     );
   }
   console.timeEnd("timeAll");

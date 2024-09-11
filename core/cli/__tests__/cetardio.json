@@ -3,7 +3,7 @@
     "assetName": "CETARDIOwhitelist4",
     "metadata": {
       "head": "CETARDIO whitelist",
-      "name": "CETARDIO WL",
+      "name": "CETARDIO WL 00",
       "image": "ipfs://QmNZb1qc7dY8m1zRgwfqTEztUxdF9eL9h666tbK95cAwP3",
       "Discord": "https://discord.gg/MyProject",
       "Twitter": "https://twitter.com/MyProject",
@@ -16,7 +16,20 @@
     "assetName": "CETARDIOwhitelist5",
     "metadata": {
       "head": "CETARDIO whitelist",
-      "name": "CETARDIO WL",
+      "name": "CETARDIO WL 01",
+      "image": "ipfs://QmNZb1qc7dY8m1zRgwfqTEztUxdF9eL9h666tbK95cAwP3",
+      "Discord": "https://discord.gg/MyProject",
+      "Twitter": "https://twitter.com/MyProject",
+      "Website": "https://myproject.com",
+      "mediaType": "image/png",
+      "description": "My cool NFT project description"
+    }
+  },
+  {
+    "assetName": "CETARDIOwhitelist4",
+    "metadata": {
+      "head": "CETARDIO whitelist",
+      "name": "CETARDIO WL 02",
       "image": "ipfs://QmNZb1qc7dY8m1zRgwfqTEztUxdF9eL9h666tbK95cAwP3",
       "Discord": "https://discord.gg/MyProject",
       "Twitter": "https://twitter.com/MyProject",

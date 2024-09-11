@@ -53,6 +53,8 @@ export async function validateMetadata(
     mainValidator.Execute(asset.assetName, asset.metadata, metadata);
   }
 
+  mainValidator.ExecuteOnce(metadata);
+
   const result = mainValidator.GetResults();
 
   console.timeEnd(`timeToValidate`);
