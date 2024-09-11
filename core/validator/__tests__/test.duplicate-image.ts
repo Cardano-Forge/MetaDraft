@@ -4,7 +4,7 @@ import { Validator } from "../src/core.ts";
 
 import { DuplicateImage } from "../src/rules/duplicate-image.ts";
 
-Deno.test("DuplicateImage - withError", () => {
+Deno.test("DuplicateImage - withWarning", () => {
   const metadata = [
     {
       assetName: "asset_0000",
