@@ -1,3 +1,5 @@
+"use client";
+
 import Icons from "./icons";
 import Buttons from "./buttons";
 import Loader from "~/components/loader";
@@ -6,6 +8,7 @@ import Typographies from "./typographies";
 import StepsGuide from "./steps-guide";
 import StatsGuide from "./stats-guide";
 import HomeButtons from "./home-buttons";
+import MessagesGuide from "./messages";
 
 export default function StyleGuidePage() {
   return (
@@ -23,6 +26,7 @@ export default function StyleGuidePage() {
         <Icons />
         <StepsGuide />
         <StatsGuide />
+        <MessagesGuide />
       </div>
     </main>
   );

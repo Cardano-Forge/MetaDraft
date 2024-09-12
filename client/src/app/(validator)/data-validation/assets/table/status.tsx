@@ -18,6 +18,7 @@ import {
 } from "~/components/ui/dialog";
 import { Separator } from "~/components/ui/separator";
 import ExclamationIcon from "~/icons/exclamation.icon";
+import InformationCircle from "~/icons/information-circle";
 import useAssetState from "~/lib/hooks/use-asset-state";
 import { useValidations } from "~/lib/hooks/use-validations";
 import { hyphenToTitleCase } from "~/lib/hyphen-to-title-case";
@@ -138,7 +139,7 @@ export default function Status({ assetName }: StatusProps) {
                 <AccordionTrigger className="px-10">
                   <div className="flex flex-row items-center gap-4">
                     <div className="flex h-9 w-9 items-center justify-center rounded-full bg-warning/10">
-                      <ExclamationIcon className="text-warning" />
+                      <InformationCircle className="text-warning" />
                     </div>
                     <Typography>
                       {hyphenToTitleCase(warning.validatorId)}
