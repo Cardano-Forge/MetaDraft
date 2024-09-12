@@ -23,7 +23,7 @@ export default function SearchBar() {
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;
     setSearch(text);
-    debounced(text);
+    debounced(text.trim());
   };
 
   return (
@@ -31,6 +31,7 @@ export default function SearchBar() {
       <Input
         type="text"
         value={search}
+        maxLength={64}
         placeholder="Search by asset name or ID"
         className="h-[50px] w-[320px] rounded-xl border-transparent bg-secondary pl-12 pr-14 focus-visible:ring-1 focus-visible:ring-border/40 focus-visible:ring-offset-1"
         onChange={handleSearch}
