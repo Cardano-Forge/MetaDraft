@@ -18,6 +18,7 @@ import {
   KeyWhiteSpace,
   Validator,
   DuplicateNameAndImage,
+  KeyAnvilCasing,
 } from "@ada-anvil/metadraft-validator";
 import type { MetatdataJSON, ValidatorResults } from "~/lib/types";
 
@@ -30,18 +31,15 @@ export async function validateMetadata(
     new HasRequiredKeysValidator(),
     new CompareRootKeys(),
     new CompareRootValues(),
-    new KeyCamelCase(),
-    new KeyTitleCase(),
-    new KeyWhiteSpace(),
     new KeyNameValidator(),
     new KeyLength(),
     new KeyMediaTypeValidator(),
     new KeyImageValidator(),
     new KeyFilesValidator(),
-    new KeyAlphanumeric(),
     new DuplicateKeysValidator(),
     new CompareAttributesKeys(),
     new DuplicateNameAndImage(),
+    new KeyAnvilCasing(),
   ];
 
   const mainValidator = new Validator("Main");
