@@ -11,11 +11,16 @@ import type { Metadata } from "~/lib/db/types";
 import { chunk } from "~/lib/chunk";
 import { useSearchParams } from "next/navigation";
 import { filter } from "~/lib/filter";
+import { getSortBy } from "~/lib/get-sort-by-from-param";
+import { sort } from "~/lib/sort";
+import useAssetState from "~/lib/hooks/use-asset-state";
 
 export default function Assets() {
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("search");
+  const sortBy = searchParams.get("sort");
   const activeProject = useActiveProject();
+  const { status } = useAssetState();
   const { result, isFetching } = useRxData<Metadata>("metadata", (collection) =>
     collection.findByIds([activeProject?.metadataId ?? ""]),
   );
@@ -32,7 +37,8 @@ export default function Assets() {
   if (!activeProject || !metadata) return <div>No data found.</div>;
 
   const searchedMetadata = filter(metadata, searchTerm);
-  const pagedMetadata = chunk(searchedMetadata, 10);
+  const sortedMetadata = sort(searchedMetadata, getSortBy(sortBy), status);
+  const pagedMetadata = chunk(sortedMetadata, 10);
 
   return (
     <div className="flex flex-col rounded-2xl bg-card">

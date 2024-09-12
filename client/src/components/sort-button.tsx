@@ -7,8 +7,8 @@ import SortIcon from "~/icons/sort.icon";
 import XIcon from "~/icons/x.icon";
 import CheckIcon from "~/icons/check.icon";
 import { useRouter, useSearchParams } from "next/navigation";
-
-export type SortOptionKey = "a_z" | "z_a" | "errors" | "warning" | "success";
+import { getSortBy } from "~/lib/get-sort-by-from-param";
+import type { SortOptionKey } from "~/lib/types";
 
 export const SortOptions: Record<SortOptionKey, string> = {
   a_z: "Name: A to Z",
@@ -74,7 +74,7 @@ export default function SortButton() {
           variant={open ? "default" : "outline"}
           className={cn(
             "!h-[50px] gap-4 rounded-xl p-6 !px-4 text-border/50",
-            open &&
+            (open || !!active) &&
               "border border-white/10 bg-background text-border hover:bg-background/70",
           )}
           onClick={handleChangeView}
@@ -107,14 +107,4 @@ export default function SortButton() {
       </PopoverContent>
     </Popover>
   );
-}
-
-const getSortBy = (sort: string | null): SortOptionKey | null => {
-  if (!sort) return null;
-  if (isSortOptionKey(sort)) return sort;
-  return null;
-};
-
-function isSortOptionKey(key: string): key is SortOptionKey {
-  return ["a_z", "z_a", "errors", "warning", "success"].includes(key);
 }
