@@ -25,12 +25,9 @@ export default function ClearProjectButton({
   const activeProject = useActiveProject();
 
   const handleClick = async () => {
-    const confirms = confirm("You will lose all current progress");
-    if (confirms) {
-      await activeProject?.remove();
-      window.localStorage.clear();
-      router.push("/");
-    }
+    await activeProject?.remove();
+    window.localStorage.clear();
+    router.push("/");
   };
 
   if (!activeProject) return null;
