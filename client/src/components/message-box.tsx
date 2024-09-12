@@ -36,13 +36,17 @@ export default function MessageBox({
 }) {
   const [show, setShow] = useState<boolean>(true);
 
-  if (!show) return null;
-
   const handleClose = () => setShow(false);
 
   return (
     <div
-      className={cn("flex flex-col rounded-xl border p-4", variants[variant])}
+      className={cn(
+        "flex h-full origin-top flex-col rounded-xl border p-4 transition-all",
+        "data-[state='hide']:h-0 data-[state='hide']:p-0 data-[state='hide']:opacity-0",
+        "data-[state='show']:opacity-100",
+        variants[variant],
+      )}
+      data-state={show ? "show" : "hide"}
     >
       <div className="flex flex-row items-center justify-between">
         {titles[variant]}
