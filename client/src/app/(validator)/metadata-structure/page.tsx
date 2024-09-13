@@ -41,11 +41,10 @@ export default function StructurePage() {
           </Typography>
         </div>
         <div className="flex flex-row items-center gap-4">
-          {/* <Button onClick={handleTest}>Test</Button> */}
         </div>
       </div>
       <FormSection structure={structure} />
-      <JSONViewer json={metadata[0]?.metadata} />
+      <JSONViewer json={metadata[0]?.metadata} structure={structure} />
     </div>
   );
 }

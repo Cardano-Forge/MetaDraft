@@ -3,8 +3,8 @@ import { Typography } from "~/components/typography";
 import type { Structure } from "~/lib/types";
 
 export default function FormSection({ structure }: { structure: Structure }) {
-  console.log(structure);
-  if (!structure) return <div>false</div>;
+  return null;
+  if (!structure) return null;
 
   return (
     <div className="flex flex-col rounded-2xl bg-card">
