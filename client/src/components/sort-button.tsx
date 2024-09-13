@@ -13,9 +13,8 @@ import type { SortOptionKey } from "~/lib/types";
 export const SortOptions: Record<SortOptionKey, string> = {
   a_z: "Name: A to Z",
   z_a: "Name: Z to A",
-  errors: "Errors detected",
-  warning: "Errors flag",
-  success: "Marked as valid",
+  errors: "Errors to Valid",
+  success: "Valid to Errors",
 };
 
 const SortItem = ({

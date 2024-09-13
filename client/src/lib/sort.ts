@@ -56,16 +56,6 @@ const sortErrors = (a: MetadataStatus, b: MetadataStatus) =>
   errorsOrder[a.status] - errorsOrder[b.status];
 
 /**
- * Sorts two metadata objects based on their validation status with a priority on warnings.
- *
- * @param {MetadataStatus} a - The first metadata object.
- * @param {MetadataStatus} b - The second metadata object.
- * @returns {number} - A negative number if `a` has a higher priority than `b`, or vice versa.
- */
-const sortWarnings = (a: MetadataStatus, b: MetadataStatus) =>
-  warningOrder[a.status] - warningOrder[b.status];
-
-/**
  * Sorts two metadata objects based on their validation status with a priority on successes.
  *
  * @param {MetadataStatus} a - The first metadata object.
@@ -85,7 +75,6 @@ const sortFunctions: Record<
   a_z: sortAZ,
   z_a: sortZA,
   errors: sortErrors,
-  warning: sortWarnings,
   success: sortSuccess,
 };
 
@@ -99,19 +88,10 @@ const errorsOrder: Record<Status, number> = {
 };
 
 /**
- * A map of validation statuses to sorting priority for warnings.
- */
-const warningOrder: Record<Status, number> = {
-  error: 2,
-  warning: 1,
-  success: 3,
-};
-
-/**
  * A map of validation statuses to sorting priority for successes.
  */
 const successOrder: Record<Status, number> = {
-  error: 3,
-  warning: 2,
   success: 1,
+  warning: 2,
+  error: 3,
 };
