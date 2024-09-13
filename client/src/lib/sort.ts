@@ -13,8 +13,14 @@ export const sort = (
   sortBy: SortOptionKey | null,
   validations: Record<string, Status> | undefined,
 ): MetatdataJSON => {
-  if (!sortBy || !validations) return metadata;
+  if (!sortBy || !validations)
+    return metadata.sort((a, b) => a.assetName.localeCompare(b.assetName)); // Alpha sort on default
 
+  // Alpha sort before status sorting
+  if (sortBy === "errors" || sortBy === "success")
+    metadata.sort((a, b) => a.assetName.localeCompare(b.assetName));
+
+  // Sorting...
   return metadata.sort((a, b) =>
     sortFunctions[sortBy](
       { ...a, status: validations[a.assetName] ?? "success" },

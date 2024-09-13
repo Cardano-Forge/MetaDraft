@@ -47,7 +47,7 @@ export default function SortButton() {
   const searchParams = useSearchParams();
   const sortBy = searchParams.get("sort");
   const [open, setOpen] = useState<boolean>(false);
-  const [active, setActive] = useState<SortOptionKey | null>(getSortBy(sortBy));
+  const active = getSortBy(sortBy);
 
   const handleChangeView = () => setOpen((prev) => !prev);
 
@@ -55,11 +55,9 @@ export default function SortButton() {
     const url = new URL(window.location.href);
     // Null
     if (active === key) {
-      setActive(null);
       url.searchParams.delete("sort");
     } else {
       // New Active
-      setActive(key);
       url.searchParams.set("sort", key);
     }
 
