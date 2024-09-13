@@ -11,18 +11,9 @@ import CloudUploadIcon from "~/icons/cloud-upload.icon";
 import { getFileExtension } from "~/lib/get/get-file-extension";
 import { getFileName, readFile } from "~/lib/read";
 import { JSONSchema } from "~/lib/zod-schemas";
-import type {
-  Metadata,
-  ActiveProject,
-  Project,
-  MetadataValidations,
-  MetadataStatus,
-} from "~/lib/db/types";
-import { validateMetadata } from "~/server/validations";
+import type { Metadata, ActiveProject, Project } from "~/lib/db/types";
 
 import UploadAlert from "./upload-alert";
-import { getStatsFromValidations } from "~/lib/get/get-stats";
-import { getStatus } from "~/lib/get/get-status";
 
 export function UploadProjectButton() {
   const router = useRouter();
@@ -32,11 +23,8 @@ export function UploadProjectButton() {
   // RXBD
   const metadataCollection = useRxCollection<Metadata>("metadata");
   const projectCollection = useRxCollection<Project>("project");
-  const validationsCollection =
-    useRxCollection<MetadataValidations>("validations");
   const activeProjectCollection =
     useRxCollection<ActiveProject>("activeProject");
-  const statusCollection = useRxCollection<MetadataStatus>("status");
 
   // Upload
   const onDrop = useCallback(
@@ -61,24 +49,16 @@ export function UploadProjectButton() {
             data: zodValidation.data,
           });
 
-          // Validate the metadata
-          const validations = await validateMetadata(zodValidation.data);
-          // Add validations in RXDB
-          await validationsCollection?.upsert({
-            id: "validations",
-            validations,
-          });
-
-          // Get project information
-          const stats = getStatsFromValidations(validations, zodValidation.data.length);
-          const project: Project = {
+          // Add project information in RXDB
+          await projectCollection?.upsert({
             id: "project",
             name: getFileName(acceptedFiles[0]),
-            ...stats,
-          };
-
-          // Add project information in RXDB
-          await projectCollection?.upsert(project);
+            nfts: zodValidation.data.length,
+            unchecked: zodValidation.data.length,
+            errorsDetected: 0,
+            errorsFlagged: 0,
+            valids: 0,
+          });
 
           if (meta) {
             // Add active project in RXDB
@@ -86,15 +66,8 @@ export function UploadProjectButton() {
               id: "activeProject",
               metadataId: meta.id,
             });
-            // Get asset status.
-            const status = getStatus(meta.data, validations);
-            // Add status in RXDB
-            await statusCollection?.upsert({
-              id: "assetStatus",
-              status,
-            });
 
-            router.push("/data-validation");
+            router.push("/metadata-structure");
           } else {
             // Falied to save metadata in RXDB
             setError(
@@ -135,14 +108,7 @@ export function UploadProjectButton() {
         }
       }
     },
-    [
-      metadataCollection,
-      validationsCollection,
-      projectCollection,
-      activeProjectCollection,
-      statusCollection,
-      router,
-    ],
+    [metadataCollection, projectCollection, activeProjectCollection, router],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
