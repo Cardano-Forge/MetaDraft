@@ -23,3 +23,8 @@ export type MetatdataJSON = z.infer<typeof JSONSchema>;
  * Validator results for NFTs
  */
 export type ValidatorResults = Record<string, StateOutput>;
+
+/**
+ * Sort Option
+ */
+export type SortOptionKey = "a_z" | "z_a" | "errors" | "success";

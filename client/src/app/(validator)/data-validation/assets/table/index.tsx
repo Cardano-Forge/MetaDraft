@@ -46,6 +46,7 @@ export default function TableView({ metadata }: TableViewProps) {
                 <div className="relative h-16 w-16">
                   <Image
                     fill
+                    sizes="64px"
                     alt="nft"
                     src={getImageSrc(meta.metadata.image)}
                     className="rounded-xl"
