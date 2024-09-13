@@ -1,7 +1,7 @@
 import { useRxCollection, useRxData } from "rxdb-hooks";
 import type { Status } from "~/lib/types";
 import type { MetadataStatus, Project } from "../db/types";
-import { getStatsFromStatus } from "../get-stats";
+import { getStatsFromStatus } from "../get/get-stats";
 
 /**
  * A custom hook that provides functionality for retrieving and updating the asset state.

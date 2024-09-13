@@ -8,7 +8,7 @@ import { useRxCollection } from "rxdb-hooks";
 import { AlertDialog } from "~/components/ui/alert-dialog";
 import { Typography } from "~/components/typography";
 import CloudUploadIcon from "~/icons/cloud-upload.icon";
-import { getFileExtension } from "~/lib/get-file-extension";
+import { getFileExtension } from "~/lib/get/get-file-extension";
 import { getFileName, readFile } from "~/lib/read";
 import { JSONSchema } from "~/lib/zod-schemas";
 import type {
@@ -21,8 +21,8 @@ import type {
 import { validateMetadata } from "~/server/validations";
 
 import UploadAlert from "./upload-alert";
-import { getStatsFromValidations } from "~/lib/get-stats";
-import { getStatus } from "~/lib/get-status";
+import { getStatsFromValidations } from "~/lib/get/get-stats";
+import { getStatus } from "~/lib/get/get-status";
 
 export function UploadProjectButton() {
   const router = useRouter();

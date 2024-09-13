@@ -21,12 +21,15 @@ const variant: Record<StepStatus, string> = {
 };
 
 enum Steps {
-  "/data-validation" = 1,
+  "/metadata-structure" = 1,
+  "/data-validation",
   "/summary",
 }
 export default function Step({ id, status, className, children }: StepProps) {
   const pathname = usePathname();
-  const activeStep = Number(Steps[decodeURIComponent(pathname) as keyof typeof Steps]);
+  const activeStep = Number(
+    Steps[decodeURIComponent(pathname) as keyof typeof Steps],
+  );
   status =
     status ?? (activeStep < id ? "next" : activeStep > id ? "done" : "active");
   const isDone = status === "done";

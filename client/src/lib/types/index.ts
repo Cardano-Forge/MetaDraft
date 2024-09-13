@@ -23,3 +23,25 @@ export type MetatdataJSON = z.infer<typeof JSONSchema>;
  * Validator results for NFTs
  */
 export type ValidatorResults = Record<string, StateOutput>;
+
+/**
+ * Metadata Structure
+ * 
+ * @example
+ * {
+ *  name: string,
+ *  image: string,
+ *  files: array,
+ *  files[0]: {
+ *      src: string,
+ *      mediaType: string,
+ *  },
+ *  attributes: "object",
+ *  attributes.Background: "string",
+ *  attributes.Body Color: "string",
+ *  ...
+ * }
+ */
+export type Structure = {
+  [key: string]: string | Structure;
+};

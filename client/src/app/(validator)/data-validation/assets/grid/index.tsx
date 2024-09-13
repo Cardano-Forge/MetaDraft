@@ -2,7 +2,7 @@ import { type Metadata } from "~/lib/db/types";
 
 import Card from "./card";
 import { useSearchParams } from "next/navigation";
-import { getPageFromParams } from "~/lib/get-page-from-param";
+import { getPageFromParams } from "~/lib/get/get-page-from-param";
 
 type GridViewProps = {
   metadata: Metadata["data"][];

@@ -1,4 +1,4 @@
-import type { Status, ValidatorResults } from "./types";
+import type { Status, ValidatorResults } from "../types";
 
 type Stats = {
   nfts: number;

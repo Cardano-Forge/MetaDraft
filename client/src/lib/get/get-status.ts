@@ -1,4 +1,4 @@
-import type { MetatdataJSON, Status, ValidatorResults } from "./types";
+import type { MetatdataJSON, Status, ValidatorResults } from "../types";
 
 /**
  * Retrieves the validation status for each asset in the metadata.

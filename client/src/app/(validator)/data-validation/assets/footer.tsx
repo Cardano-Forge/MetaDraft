@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { bind } from "~/lib/bind-number";
-import { getPageFromParams } from "~/lib/get-page-from-param";
+import { getPageFromParams } from "~/lib/get/get-page-from-param";
 import { useSelectedAssets } from "~/lib/hooks/use-selected-assets";
 
 export default function Footer({ lastPage }: { lastPage: number }) {

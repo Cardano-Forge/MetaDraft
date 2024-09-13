@@ -1,4 +1,4 @@
-import { bind } from "./bind-number";
+import { bind } from "../bind-number";
 
 /**
  * Retrieves a page number from a parameter, ensuring it is within a specified range.
