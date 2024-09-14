@@ -23,7 +23,7 @@ export default function ViewButton({ view = "table" }: { view?: ViewOptions }) {
       variant={"outline"}
       size={"icon"}
       className={cn(
-        "h-[50px] w-[50px] rounded-lg text-border/50",
+        "h-[50px] w-[50px] rounded-xl text-border/50",
         active && "bg-secondary text-border hover:bg-secondary/70",
       )}
       onClick={handleChangeView}

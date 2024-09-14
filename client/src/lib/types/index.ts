@@ -25,6 +25,11 @@ export type MetatdataJSON = z.infer<typeof JSONSchema>;
 export type ValidatorResults = Record<string, StateOutput>;
 
 /**
+ * Sort Option
+ */
+export type SortOptionKey = "a_z" | "z_a" | "errors" | "success";
+
+/**
  * Metadata Structure
  * 
  * @example
