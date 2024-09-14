@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { type Dispatch, type SetStateAction } from "react";
 import { useRxCollection, useRxData } from "rxdb-hooks";
 import Loader from "~/components/loader";
 import { Button } from "~/components/ui/button";
@@ -57,13 +57,12 @@ export default function Validator({
 
       // Get project information
       const stats = getStatsFromValidations(validations, metadata.length);
-      const newProject: Project = {
-        ...project,
-        ...stats,
-      };
 
       // Add project information in RXDB
-      await projectCollection?.upsert(newProject);
+      await projectCollection?.upsert({
+        ...project,
+        ...stats,
+      });
 
       // Get asset status.
       const status = getStatus(metadata, validations);
