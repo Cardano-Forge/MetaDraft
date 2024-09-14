@@ -4,6 +4,7 @@ import type { Structure } from "~/lib/types";
 
 export default function FormSection({ structure }: { structure: Structure }) {
   return null;
+  // TODO - Create form for later task (Reported MET-32)
   if (!structure) return null;
 
   return (
