@@ -11,8 +11,9 @@ export default function JSONViewer({
   structure: Structure;
 }) {
   if (!json || !structure) return null;
+
   const _JSON = getObjectStructureWithTypes(json);
-  console.log(_JSON);
+
   return (
     <div className="flex flex-col rounded-2xl bg-card p-4">
       <JsonView
