@@ -28,7 +28,7 @@ export const ActiveProjectProvider = ({
     if (isFetching) return;
     if (pathname === "/") {
       if (!!result[0]?.metadataId) {
-        router.push("/data-validation");
+        router.push("/metadata-structure");
       }
     } else {
       if (!result[0]) {

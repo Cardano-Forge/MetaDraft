@@ -19,6 +19,7 @@ export type Project = {
   id: string;
   name: string;
   nfts: number;
+  unchecked: number;
   errorsDetected: number;
   errorsFlagged: number;
   valids: number;

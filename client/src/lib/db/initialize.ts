@@ -95,6 +95,10 @@ const projectSchema = {
         type: "number",
         minimum: 0,
       },
+      unchecked: {
+        type: "number",
+        minimum: 0,
+      },
       errorsDetected: {
         type: "number",
         minimum: 0,
@@ -127,4 +131,4 @@ const statusSchema = {
       },
     },
   },
-}
+};

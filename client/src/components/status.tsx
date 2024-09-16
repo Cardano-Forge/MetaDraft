@@ -28,9 +28,12 @@ export const Status = () => {
   return (
     <header className="container flex flex-wrap justify-between gap-2">
       <Typography as="h1">{project.name}</Typography>
-      <div className="flex flex-wrap gap-8 mt-4">
+      <div className="mt-4 flex flex-wrap gap-8">
         <Stat icon="database" stat={project.nfts}>
           NFTs in this collection
+        </Stat>
+        <Stat icon="clock" stat={project.unchecked}>
+          NFTs unchecked
         </Stat>
         <Stat icon="exclamation" stat={project.errorsDetected} variant="error">
           Errors detected

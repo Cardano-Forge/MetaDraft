@@ -12,10 +12,10 @@ import {
 import Status from "./status";
 import Actions from "./actions";
 import type { MetatdataJSON } from "~/lib/types";
-import { getImageSrc } from "~/lib/get-image-src";
-import { getCID } from "~/lib/get-cid";
+import { getImageSrc } from "~/lib/get/get-image-src";
+import { getCID } from "~/lib/get/get-cid";
 import { useSearchParams } from "next/navigation";
-import { getPageFromParams } from "~/lib/get-page-from-param";
+import { getPageFromParams } from "~/lib/get/get-page-from-param";
 
 type TableViewProps = {
   metadata: MetatdataJSON[];

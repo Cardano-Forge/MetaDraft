@@ -4,9 +4,20 @@ import { Typography } from "~/components/typography";
 import Assets from "./assets";
 import { Button } from "~/components/ui/button";
 import { useRouter } from "next/navigation";
+import Validator from "./validator";
+import { useState } from "react";
+import Loader from "~/components/loader";
 
-export default function DataValidation() {  
+export default function DataValidation() {
   const router = useRouter();
+  const [isValidating, setValidating] = useState<boolean>(false);
+
+  if (isValidating)
+    return (
+      <div className="flex items-center justify-center">
+        <Loader />
+      </div>
+    );
 
   return (
     <div className="flex flex-col gap-4">
@@ -18,6 +29,7 @@ export default function DataValidation() {
           </Typography>
         </div>
         <div className="flex flex-row items-center gap-4">
+          <Validator handleValidating={setValidating} />
           <Button onClick={() => router.push("/summary")}>
             Validate this step
           </Button>

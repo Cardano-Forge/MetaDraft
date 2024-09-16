@@ -1,7 +1,8 @@
-import type { Status, ValidatorResults } from "./types";
+import type { Status, ValidatorResults } from "../types";
 
 type Stats = {
   nfts: number;
+  unchecked: number;
   errorsDetected: number;
   errorsFlagged: number;
   valids: number;
@@ -39,6 +40,7 @@ export const getStatsFromValidations = (
   const size = Object.keys(data).length;
   const stats = {
     nfts: total,
+    unchecked: 0,
     errorsDetected: 0,
     errorsFlagged: 0,
     valids: total - size,

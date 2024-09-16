@@ -1,6 +1,5 @@
 import "~/styles/globals.css";
 
-import { GeistSans } from "geist/font/sans";
 import { Inter } from "next/font/google";
 
 import { type Metadata } from "next";
@@ -23,9 +22,9 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${inter.variable}`}>
+    <html lang="en" className={`${inter.variable}`}>
       <RxdbProvider>
-        <body>
+        <body className="flex min-h-screen flex-col overflow-x-hidden bg-background antialiased">
           <ActiveProjectProvider>
             <Header />
             {children}
