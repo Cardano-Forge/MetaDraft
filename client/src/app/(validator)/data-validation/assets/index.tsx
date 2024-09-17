@@ -47,7 +47,7 @@ export default function Assets() {
   return (
     <div className="flex flex-col rounded-2xl bg-card">
       <Header />
-      <Content metadata={pagedMetadata} />
+      <Content metadatas={pagedMetadata} />
       <Footer lastPage={pagedMetadata.length} />
     </div>
   );

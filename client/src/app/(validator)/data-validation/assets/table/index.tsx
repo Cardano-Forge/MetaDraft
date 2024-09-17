@@ -18,13 +18,13 @@ import { useSearchParams } from "next/navigation";
 import { getPageFromParams } from "~/lib/get/get-page-from-param";
 
 export default function TableView({
-  metadata,
+  metadatas,
 }: {
-  metadata: MetadataCollection[][];
+  metadatas: MetadataCollection[][];
 }) {
   const searchParams = useSearchParams();
   const currentPage = searchParams.get("page");
-  const page = getPageFromParams(currentPage, metadata.length);
+  const page = getPageFromParams(currentPage, metadatas.length);
 
   return (
     <Table>
@@ -39,7 +39,7 @@ export default function TableView({
         </TableRow>
       </TableHeader>
       <TableBody className="[&_tr:last-child]:border-1 [&>*]:border-white/30">
-        {metadata[page - 1]?.map((meta) => {
+        {metadatas[page - 1]?.map((meta) => {
           return (
             <TableRow key={meta.assetName}>
               <TableCell>
