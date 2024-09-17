@@ -41,7 +41,7 @@ export const RxdbProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <DbContext.Provider value={{ db, reinitializeRxDB }}>
-      {db ? <Provider db={db}>{children}</Provider> : <div>Loading...</div>}
+      <Provider db={db}>{children}</Provider>
     </DbContext.Provider>
   );
 };
