@@ -15,6 +15,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
+import { useRxCollection } from "rxdb-hooks";
+import type {
+  MetadataCollection,
+  ProjectCollection,
+  ValidationsCollection,
+} from "~/lib/types";
 
 export default function ClearProjectButton({
   className,
@@ -24,9 +30,17 @@ export default function ClearProjectButton({
   const router = useRouter();
   const activeProject = useActiveProject();
 
+  const metadataCollection = useRxCollection<MetadataCollection>("metadata");
+  const projectCollection = useRxCollection<ProjectCollection>("project");
+  const validationsCollection =
+    useRxCollection<ValidationsCollection>("validations");
+
   const handleClick = async () => {
-    await activeProject?.remove();
+    await metadataCollection?.remove();
+    await projectCollection?.remove();
+    await validationsCollection?.remove();
     window.localStorage.clear();
+
     router.push("/");
   };
 

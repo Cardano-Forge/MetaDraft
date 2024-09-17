@@ -1,17 +1,17 @@
-import type { MetatdataJSON } from "./types";
+import { type MetadataCollection } from "./db/types";
 
 /**
  * Filters the metadata array based on a search term. It searches the `assetName`
  * and the `metadata.name` fields for matches.
  *
- * @param {MetatdataJSON} metadata - The array of metadata objects to be filtered.
+ * @param {MetadataCollection} metadata - The array of metadata objects to be filtered.
  * @param {string | null} searchTerm - The search term used to filter the metadata. If `null`, the entire metadata array is returned.
  * @returns {MetatdataJSON} - The filtered array of metadata that includes the search term.
  */
 export const filter = (
-  metadata: MetatdataJSON,
+  metadata: MetadataCollection[],
   searchTerm: string | null,
-): MetatdataJSON => {
+): MetadataCollection[] => {
   if (!searchTerm) return metadata;
 
   return metadata.filter(

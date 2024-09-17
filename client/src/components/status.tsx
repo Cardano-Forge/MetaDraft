@@ -4,26 +4,17 @@ import React from "react";
 import { Typography } from "./typography";
 import Stat from "./stat";
 import { useActiveProject } from "~/providers/active-project.provider";
-import { useRxData } from "rxdb-hooks";
-import type { Project } from "~/lib/db/types";
-import Loader from "./loader";
 
 export const Status = () => {
   const activeProject = useActiveProject();
-  const { result, isFetching } = useRxData<Project>("project", (collection) =>
-    collection.findByIds(["project"]),
-  );
+  const project = activeProject?._data;
 
-  if (isFetching)
+  if (!activeProject || !project)
     return (
-      <div className="flex items-center justify-center">
-        <Loader />
+      <div className="flex w-full items-center justify-center">
+        No active project
       </div>
     );
-
-  const project = result[0]?._data;
-
-  if (!activeProject || !project) return <div>No data found.</div>;
 
   return (
     <header className="container flex flex-wrap justify-between gap-2">

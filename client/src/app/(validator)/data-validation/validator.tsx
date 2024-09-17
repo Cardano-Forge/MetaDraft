@@ -3,11 +3,10 @@ import { useRxCollection, useRxData } from "rxdb-hooks";
 import Loader from "~/components/loader";
 import { Button } from "~/components/ui/button";
 import type {
-  Metadata,
-  MetadataStatus,
-  MetadataValidations,
-  Project,
-} from "~/lib/db/types";
+  MetadataCollection,
+  ProjectCollection,
+  ValidationsCollection,
+} from "~/lib/types";
 import { getStatsFromValidations } from "~/lib/get/get-stats";
 import { getStatus } from "~/lib/get/get-status";
 import { useActiveProject } from "~/providers/active-project.provider";
@@ -19,28 +18,25 @@ export default function Validator({
   handleValidating: Dispatch<SetStateAction<boolean>>;
 }) {
   const activeProject = useActiveProject();
-  const projectCollection = useRxCollection<Project>("project");
+  const projectCollection = useRxCollection<ProjectCollection>("project");
   const validationsCollection =
-    useRxCollection<MetadataValidations>("validations");
-  const statusCollection = useRxCollection<MetadataStatus>("status");
-
-  const { result, isFetching } = useRxData<Metadata>("metadata", (collection) =>
-    collection.findByIds([activeProject?.metadataId ?? ""]),
+    useRxCollection<ValidationsCollection>("validations");
+  const { result, isFetching } = useRxData<MetadataCollection>(
+    "metadata",
+    (collection) => collection.findByIds([activeProject?.metadataId ?? ""]),
   );
-  const { result: projectResult, isFetching: isFetchingProject } =
-    useRxData<Project>("project", (collection) =>
-      collection.findByIds(["project"]),
-    );
 
-  if (isFetching || isFetchingProject)
+  if (isFetching)
     return (
       <div className="flex items-center justify-center">
         <Loader />
       </div>
     );
 
-  const metadata = result[0]?.data;
-  const project = projectResult[0]?._data;
+  const metadata: MetadataCollection[] = result.map(
+    (doc) => doc.toJSON() as MetadataCollection,
+  );
+  const project = activeProject?._data;
 
   if (!metadata || !project) return null;
 
@@ -49,11 +45,14 @@ export default function Validator({
       handleValidating(true);
       // Validate the metadata
       const validations = await validateMetadata(metadata);
+
+      console.log("validations", validations);
+
       // Add validations in RXDB
-      await validationsCollection?.upsert({
-        id: "validations",
-        validations,
-      });
+      // await validationsCollection?.upsert({
+      //   id: "validations",
+      //   validations,
+      // });
 
       // Get project information
       const stats = getStatsFromValidations(validations, metadata.length);
@@ -66,11 +65,8 @@ export default function Validator({
 
       // Get asset status.
       const status = getStatus(metadata, validations);
-      // Add status in RXDB
-      await statusCollection?.upsert({
-        id: "assetStatus",
-        status,
-      });
+      console.log("status", status);
+      // Update status in RXDB
     } catch (error) {
     } finally {
       handleValidating(false);

@@ -16,10 +16,10 @@ import {
   DuplicateNameAndImage,
   KeyAnvilCasing,
 } from "@ada-anvil/metadraft-validator";
-import type { MetatdataJSON, ValidatorResults } from "~/lib/types";
+import type { MetadataCollection, ValidatorResults } from "~/lib/types";
 
 export async function validateMetadata(
-  metadata: MetatdataJSON,
+  metadata: MetadataCollection[],
 ): Promise<ValidatorResults> {
   console.time(`timeToValidate`);
 

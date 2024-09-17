@@ -1,4 +1,4 @@
-import type { MetatdataJSON, SortOptionKey, Status } from "./types";
+import type { MetadataCollection, SortOptionKey, Status } from "./types";
 
 /**
  * Sorts the metadata based on the selected sort option and validation statuses.
@@ -9,66 +9,56 @@ import type { MetatdataJSON, SortOptionKey, Status } from "./types";
  * @returns {MetatdataJSON} - The sorted metadata array.
  */
 export const sort = (
-  metadata: MetatdataJSON,
+  metadata: MetadataCollection[],
   sortBy: SortOptionKey | null,
-  validations: Record<string, Status> | undefined,
-): MetatdataJSON => {
-  if (!sortBy || !validations)
-    return metadata.sort((a, b) => a.assetName.localeCompare(b.assetName)); // Alpha sort on default
+): MetadataCollection[] => {
+  if (!sortBy) return metadata.sort(sortAZ); // Alpha sort on default
 
   // Alpha sort before status sorting
-  if (sortBy === "errors" || sortBy === "success")
-    metadata.sort((a, b) => a.assetName.localeCompare(b.assetName));
+  if (sortBy === "errors" || sortBy === "success") metadata.sort(sortAZ);
 
   // Sorting...
-  return metadata.sort((a, b) =>
-    sortFunctions[sortBy](
-      { ...a, status: validations[a.assetName] ?? "success" },
-      { ...b, status: validations[b.assetName] ?? "success" },
-    ),
-  );
+  return metadata.sort(sortFunctions[sortBy]);
 };
-
-type MetadataStatus = MetatdataJSON[number] & { status: Status };
 
 /**
  * Sorts two metadata objects alphabetically by asset name in ascending order (A to Z).
  *
- * @param {MetadataStatus} a - The first metadata object.
- * @param {MetadataStatus} b - The second metadata object.
+ * @param {MetadataCollection} a - The first metadata object.
+ * @param {MetadataCollection} b - The second metadata object.
  * @returns {number} - A negative number if `a` comes before `b`, a positive number if `b` comes before `a`, or zero if they are equal.
  */
-const sortAZ = (a: MetadataStatus, b: MetadataStatus) =>
+const sortAZ = (a: MetadataCollection, b: MetadataCollection) =>
   a.assetName.localeCompare(b.assetName);
 
 /**
  * Sorts two metadata objects alphabetically by asset name in descending order (Z to A).
  *
- * @param {MetadataStatus} a - The first metadata object.
- * @param {MetadataStatus} b - The second metadata object.
+ * @param {MetadataCollection} a - The first metadata object.
+ * @param {MetadataCollection} b - The second metadata object.
  * @returns {number} - A negative number if `b` comes before `a`, a positive number if `a` comes before `b`, or zero if they are equal.
  */
-const sortZA = (a: MetadataStatus, b: MetadataStatus) =>
+const sortZA = (a: MetadataCollection, b: MetadataCollection) =>
   b.assetName.localeCompare(a.assetName);
 
 /**
  * Sorts two metadata objects based on their validation status with a priority on errors.
  *
- * @param {MetadataStatus} a - The first metadata object.
- * @param {MetadataStatus} b - The second metadata object.
+ * @param {MetadataCollection} a - The first metadata object.
+ * @param {MetadataCollection} b - The second metadata object.
  * @returns {number} - A negative number if `a` has a higher priority than `b`, or vice versa.
  */
-const sortErrors = (a: MetadataStatus, b: MetadataStatus) =>
+const sortErrors = (a: MetadataCollection, b: MetadataCollection) =>
   errorsOrder[a.status] - errorsOrder[b.status];
 
 /**
  * Sorts two metadata objects based on their validation status with a priority on successes.
  *
- * @param {MetadataStatus} a - The first metadata object.
- * @param {MetadataStatus} b - The second metadata object.
+ * @param {MetadataCollection} a - The first metadata object.
+ * @param {MetadataCollection} b - The second metadata object.
  * @returns {number} - A negative number if `a` has a higher priority than `b`, or vice versa.
  */
-const sortSuccess = (a: MetadataStatus, b: MetadataStatus) =>
+const sortSuccess = (a: MetadataCollection, b: MetadataCollection) =>
   successOrder[a.status] - successOrder[b.status];
 
 /**
@@ -76,7 +66,7 @@ const sortSuccess = (a: MetadataStatus, b: MetadataStatus) =>
  */
 const sortFunctions: Record<
   SortOptionKey,
-  (a: MetadataStatus, b: MetadataStatus) => number
+  (a: MetadataCollection, b: MetadataCollection) => number
 > = {
   a_z: sortAZ,
   z_a: sortZA,
@@ -91,6 +81,7 @@ const errorsOrder: Record<Status, number> = {
   error: 1,
   warning: 2,
   success: 3,
+  unchecked: 4,
 };
 
 /**
@@ -100,4 +91,5 @@ const successOrder: Record<Status, number> = {
   success: 1,
   warning: 2,
   error: 3,
+  unchecked: 4,
 };
