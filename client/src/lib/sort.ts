@@ -4,11 +4,9 @@ import type { MetadataCollection, SortOptionKey, Status } from "./types";
  * Sorts an array of metadata collections based on the specified sorting option.
  *
  * @param {MetadataCollection[]} metadata - The array of metadata collections to be sorted.
- * @param {SortOptionKey | null} sortBy - The key indicating the sorting option. If `null`, sorts alphabetically by default.
- *   - If `sortBy` is "errors" or "success", it first sorts alphabetically before applying the specific sorting function.
+ * @param {SortOptionKey | null} sortBy - The key indicating the sorting option. If `null`, the array is sorted alphabetically by default.
+ *   - If `sortBy` is "errors" or "success", the array is first sorted alphabetically before applying the specific sorting function.
  * @returns {MetadataCollection[]} - The sorted array of metadata collections.
- *
- * @throws {TypeError} - Throws an error if the sorting function for `sortBy` is not defined.
  */
 export const sort = (
   metadata: MetadataCollection[],

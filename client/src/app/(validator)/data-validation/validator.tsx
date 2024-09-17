@@ -10,7 +10,7 @@ import type {
 import { getStats } from "~/lib/get/get-stats";
 import { useActiveProject } from "~/providers/active-project.provider";
 import { validateMetadata } from "~/server/validations";
-import { setMetadataStatus } from "~/lib/set-metadata-status";
+import { setMetadataStatusFromValidations } from "~/lib/set-metadata-status";
 
 export default function Validator({
   handleValidating,
@@ -58,7 +58,7 @@ export default function Validator({
       );
 
       // Set the status in metadata
-      const metadataWithStatus = setMetadataStatus(metadata, validations);
+      const metadataWithStatus = setMetadataStatusFromValidations(metadata, validations);
       // Update Metadata in RxDB
       await metadataCollection?.bulkUpsert(metadataWithStatus);
 
