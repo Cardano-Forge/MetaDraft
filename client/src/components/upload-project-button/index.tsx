@@ -43,7 +43,7 @@ export function UploadProjectButton() {
           // const hash = await stringToHash(JSON.stringify(json)); // This will be the active project id
 
           // Add metadata in RXDB
-          const meta = await metadataCollection?.bulkUpsert(
+          await metadataCollection?.bulkUpsert(
             zodValidation.data.map((m) => ({
               id: self.crypto.randomUUID(),
               ...m,

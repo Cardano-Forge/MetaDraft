@@ -1,12 +1,14 @@
 import type { MetadataCollection, SortOptionKey, Status } from "./types";
 
 /**
- * Sorts the metadata based on the selected sort option and validation statuses.
+ * Sorts an array of metadata collections based on the specified sorting option.
  *
- * @param {MetatdataJSON} metadata - The array of metadata to be sorted.
- * @param {SortOptionKey | null} sortBy - The key to determine the sort order (e.g., "a_z", "z_a", etc.). If `null`, no sorting is applied.
- * @param {Record<string, Status> | undefined} validations - A map of asset names to their validation statuses (e.g., "error", "warning", "success"). If `undefined`, no sorting is applied.
- * @returns {MetatdataJSON} - The sorted metadata array.
+ * @param {MetadataCollection[]} metadata - The array of metadata collections to be sorted.
+ * @param {SortOptionKey | null} sortBy - The key indicating the sorting option. If `null`, sorts alphabetically by default.
+ *   - If `sortBy` is "errors" or "success", it first sorts alphabetically before applying the specific sorting function.
+ * @returns {MetadataCollection[]} - The sorted array of metadata collections.
+ *
+ * @throws {TypeError} - Throws an error if the sorting function for `sortBy` is not defined.
  */
 export const sort = (
   metadata: MetadataCollection[],

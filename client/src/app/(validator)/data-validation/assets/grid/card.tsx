@@ -1,7 +1,7 @@
 import { getImageSrc } from "~/lib/get/get-image-src";
 import { getCID } from "~/lib/get/get-cid";
 import { cn } from "~/lib/utils";
-import type { MetadataCollection, MetatdataJSON } from "~/lib/types";
+import type { MetadataCollection } from "~/lib/types";
 import { Button } from "~/components/ui/button";
 import { Typography } from "~/components/typography";
 import CodeIcon from "~/icons/code.icon";

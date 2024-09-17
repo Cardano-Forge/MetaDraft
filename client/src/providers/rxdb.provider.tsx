@@ -36,6 +36,7 @@ export const RxdbProvider: React.FC<{ children: React.ReactNode }> = ({
       // Clean up database on component unmount
       void db?.remove();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
