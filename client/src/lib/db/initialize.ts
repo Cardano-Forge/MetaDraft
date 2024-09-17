@@ -1,12 +1,17 @@
-import { createRxDatabase } from "rxdb";
+import { createRxDatabase, addRxPlugin } from "rxdb";
 import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
-import { type MyDatabase } from "./types";
+import { type MyDatabase } from "~/lib/types";
+
+import { observeNewCollections } from "rxdb-hooks";
+
+addRxPlugin(observeNewCollections);
 
 export const initialize = async () => {
   // create RxDB
   const db = await createRxDatabase<MyDatabase>({
     name: "metadraft",
     storage: getRxStorageDexie(),
+    multiInstance: false,
   });
 
   await db.addCollections({

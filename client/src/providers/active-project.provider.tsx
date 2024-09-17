@@ -21,6 +21,7 @@ export const ActiveProjectProvider = ({
 }) => {
   const pathname = usePathname();
   const router = useRouter();
+
   const { result, isFetching } = useRxData<ProjectCollection>(
     "project",
     (collection) => collection.findOne(),

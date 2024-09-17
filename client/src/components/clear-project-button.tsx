@@ -15,12 +15,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
-import { useRxCollection } from "rxdb-hooks";
-import type {
-  MetadataCollection,
-  ProjectCollection,
-  ValidationsCollection,
-} from "~/lib/types";
+import { useRxDBContext } from "~/providers/rxdb.provider";
 
 export default function ClearProjectButton({
   className,
@@ -29,16 +24,10 @@ export default function ClearProjectButton({
 }) {
   const router = useRouter();
   const activeProject = useActiveProject();
-
-  const metadataCollection = useRxCollection<MetadataCollection>("metadata");
-  const projectCollection = useRxCollection<ProjectCollection>("project");
-  const validationsCollection =
-    useRxCollection<ValidationsCollection>("validations");
+  const { reinitializeRxDB } = useRxDBContext();
 
   const handleClick = async () => {
-    await metadataCollection?.remove();
-    await projectCollection?.remove();
-    await validationsCollection?.remove();
+    await reinitializeRxDB();
     window.localStorage.clear();
 
     router.push("/");

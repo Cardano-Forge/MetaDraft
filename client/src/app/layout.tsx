@@ -29,7 +29,7 @@ export default function RootLayout({
             <Header />
             {children}
           </ActiveProjectProvider>
-        </RxdbProvider>{" "}
+        </RxdbProvider>
       </body>
     </html>
   );
