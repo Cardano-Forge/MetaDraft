@@ -10,7 +10,7 @@ import {
 } from "~/components/ui/table";
 
 import Status from "./status";
-import Actions from "./actions";
+import Actions from "../actions";
 import type { MetadataCollection } from "~/lib/types";
 import { getImageSrc } from "~/lib/get/get-image-src";
 import { getCID } from "~/lib/get/get-cid";
@@ -62,7 +62,7 @@ export default function TableView({
                 <Status metadata={meta} />
               </TableCell>
               <TableCell>
-                <Actions metadata={meta} />
+                <Actions metadata={meta} className="p-2" />
               </TableCell>
             </TableRow>
           );

@@ -1,19 +1,21 @@
+import CodeIcon from "~/icons/code.icon";
+
 import { getImageSrc } from "~/lib/get/get-image-src";
 import { getCID } from "~/lib/get/get-cid";
 import { cn } from "~/lib/utils";
 import type { MetadataCollection } from "~/lib/types";
+
 import { Button } from "~/components/ui/button";
 import { Typography } from "~/components/typography";
-import CodeIcon from "~/icons/code.icon";
-
-import Status from "../table/status";
-import { AssetCardThumbnail } from "./asset-card";
-import Actions from "./actions";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
+
+import { AssetCardThumbnail } from "./asset-card";
+import Status from "../table/status";
+import Actions from "../actions";
 
 export default function Card({ meta }: { meta: MetadataCollection }) {
   return (

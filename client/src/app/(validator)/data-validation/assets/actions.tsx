@@ -2,13 +2,23 @@ import { useRxCollection, useRxData } from "rxdb-hooks";
 import { Button } from "~/components/ui/button";
 import CheckIcon from "~/icons/check.icon";
 import FlagIcon from "~/icons/flag.icon";
-import type { MetadataCollection, Status } from "~/lib/types";
+import type {
+  MetadataCollection,
+  ProjectCollection,
+  Status,
+} from "~/lib/types";
+import { cn } from "~/lib/utils";
+import { useActiveProject } from "~/providers/active-project.provider";
 
 export default function Actions({
   metadata,
+  className,
 }: {
   metadata: MetadataCollection;
+  className?: string;
 }) {
+  const activeProject = useActiveProject();
+  const projectCollection = useRxCollection<ProjectCollection>("project");
   const metadataCollection = useRxCollection<MetadataCollection>("metadata");
   const { result, isFetching } = useRxData<MetadataCollection>(
     "metadata",
@@ -19,20 +29,34 @@ export default function Actions({
 
   const meta = result.map((doc) => doc.toJSON() as MetadataCollection)[0];
 
-  if (!meta) return <div>No metadata found</div>;
+  const project = activeProject?._data;
+
+  if (!meta || !project) return <div>No metadata found</div>;
 
   const isSuccess = metadata.status === "success";
   const isWarning = metadata.status === "warning";
 
   const handleStatusUpdate = async (state: Status) => {
+    const currentState = meta.status;
     await metadataCollection?.upsert({
       ...meta,
-      status: state === meta.status ? "error" : state,
+      status: state === currentState ? "error" : state,
     });
+
+    const newProject = {
+      ...project,
+    };
+    // Remove stats
+    newProject[keys[currentState]]--;
+    // Add stats
+    newProject[keys[state === currentState ? "error" : state]]++;
+
+    // Add project information in RXDB
+    await projectCollection?.upsert(newProject);
   };
-  
+
   return (
-    <div className="flex flex-row items-center gap-2">
+    <div className={cn("flex flex-row items-center gap-2", className)}>
       <Button
         variant={isWarning ? "warning" : "warningOutilne"}
         size={"icon"}
@@ -54,3 +78,10 @@ export default function Actions({
     </div>
   );
 }
+
+const keys: Record<Status, keyof ProjectCollection> = {
+  unchecked: "unchecked",
+  error: "errorsDetected",
+  warning: "errorsFlagged",
+  success: "valids",
+};
