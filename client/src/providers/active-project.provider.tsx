@@ -24,7 +24,7 @@ export const ActiveProjectProvider = ({
 
   const { result, isFetching } = useRxData<ProjectCollection>(
     "project",
-    (collection) => collection.findOne(),
+    (collection) => collection.findByIds(["activeProject"]),
   );
 
   useEffect(() => {

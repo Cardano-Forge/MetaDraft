@@ -11,17 +11,17 @@ import {
 
 import Status from "./status";
 import Actions from "./actions";
-import type { MetatdataJSON } from "~/lib/types";
+import type { MetadataCollection } from "~/lib/types";
 import { getImageSrc } from "~/lib/get/get-image-src";
 import { getCID } from "~/lib/get/get-cid";
 import { useSearchParams } from "next/navigation";
 import { getPageFromParams } from "~/lib/get/get-page-from-param";
 
-type TableViewProps = {
-  metadata: MetatdataJSON[];
-};
-
-export default function TableView({ metadata }: TableViewProps) {
+export default function TableView({
+  metadata,
+}: {
+  metadata: MetadataCollection[][];
+}) {
   const searchParams = useSearchParams();
   const currentPage = searchParams.get("page");
   const page = getPageFromParams(currentPage, metadata.length);
@@ -59,10 +59,10 @@ export default function TableView({ metadata }: TableViewProps) {
                 {getCID(meta.metadata.image)}
               </TableCell>
               <TableCell>
-                <Status assetName={meta.assetName} />
+                <Status metadata={meta} />
               </TableCell>
               <TableCell>
-                <Actions assetName={meta.assetName} />
+                <Actions metadata={meta} />
               </TableCell>
             </TableRow>
           );

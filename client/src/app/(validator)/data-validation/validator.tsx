@@ -7,10 +7,10 @@ import type {
   ProjectCollection,
   ValidationsCollection,
 } from "~/lib/types";
-import { getStatsFromValidations } from "~/lib/get/get-stats";
-import { getStatus } from "~/lib/get/get-status";
+import { getStats } from "~/lib/get/get-stats";
 import { useActiveProject } from "~/providers/active-project.provider";
 import { validateMetadata } from "~/server/validations";
+import { setMetadataStatus } from "~/lib/set-metadata-status";
 
 export default function Validator({
   handleValidating,
@@ -19,11 +19,13 @@ export default function Validator({
 }) {
   const activeProject = useActiveProject();
   const projectCollection = useRxCollection<ProjectCollection>("project");
+  const metadataCollection = useRxCollection<MetadataCollection>("metadata");
   const validationsCollection =
     useRxCollection<ValidationsCollection>("validations");
+
   const { result, isFetching } = useRxData<MetadataCollection>(
     "metadata",
-    (collection) => collection.findByIds([activeProject?.metadataId ?? ""]),
+    (collection) => collection.find(),
   );
 
   if (isFetching)
@@ -36,6 +38,7 @@ export default function Validator({
   const metadata: MetadataCollection[] = result.map(
     (doc) => doc.toJSON() as MetadataCollection,
   );
+
   const project = activeProject?._data;
 
   if (!metadata || !project) return null;
@@ -45,28 +48,29 @@ export default function Validator({
       handleValidating(true);
       // Validate the metadata
       const validations = await validateMetadata(metadata);
-
-      console.log("validations", validations);
-
       // Add validations in RXDB
-      // await validationsCollection?.upsert({
-      //   id: "validations",
-      //   validations,
-      // });
+      await validationsCollection?.bulkUpsert(
+        Object.keys(validations).map((assetName) => ({
+          id: self.crypto.randomUUID(),
+          assetName,
+          validation: validations[assetName],
+        })),
+      );
+
+      // Set the status in metadata
+      const metadataWithStatus = setMetadataStatus(metadata, validations);
+      // Update Metadata in RxDB
+      await metadataCollection?.bulkUpsert(metadataWithStatus);
 
       // Get project information
-      const stats = getStatsFromValidations(validations, metadata.length);
-
-      // Add project information in RXDB
-      await projectCollection?.upsert({
+      const stats = getStats(metadataWithStatus);
+      const newProject = {
         ...project,
         ...stats,
-      });
+      };
 
-      // Get asset status.
-      const status = getStatus(metadata, validations);
-      console.log("status", status);
-      // Update status in RXDB
+      // Add project information in RXDB
+      await projectCollection?.upsert(newProject);
     } catch (error) {
     } finally {
       handleValidating(false);
@@ -75,7 +79,7 @@ export default function Validator({
 
   return (
     <Button variant={"successOutline"} onClick={handleValidation}>
-      Validate Data
+      Validate Metadata
     </Button>
   );
 }

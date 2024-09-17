@@ -1,14 +1,13 @@
-import { type Metadata } from "~/lib/db/types";
-
 import Card from "./card";
 import { useSearchParams } from "next/navigation";
 import { getPageFromParams } from "~/lib/get/get-page-from-param";
+import type { MetadataCollection } from "~/lib/types";
 
-type GridViewProps = {
-  metadata: Metadata["data"][];
-};
-
-export default function GridView({ metadata }: GridViewProps) {
+export default function GridView({
+  metadata,
+}: {
+  metadata: MetadataCollection[][];
+}) {
   const searchParams = useSearchParams();
   const currentPage = searchParams.get("page");
   const page = getPageFromParams(currentPage, metadata.length);
@@ -21,4 +20,3 @@ export default function GridView({ metadata }: GridViewProps) {
     </div>
   );
 }
- 

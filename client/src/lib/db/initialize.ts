@@ -3,7 +3,9 @@ import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
 import { type MyDatabase } from "~/lib/types";
 
 import { observeNewCollections } from "rxdb-hooks";
+import { RxDBQueryBuilderPlugin } from "rxdb/plugins/query-builder";
 
+addRxPlugin(RxDBQueryBuilderPlugin);
 addRxPlugin(observeNewCollections);
 
 export const initialize = async () => {
@@ -11,7 +13,6 @@ export const initialize = async () => {
   const db = await createRxDatabase<MyDatabase>({
     name: "metadraft",
     storage: getRxStorageDexie(),
-    multiInstance: false,
   });
 
   await db.addCollections({
@@ -74,6 +75,7 @@ const validationsSchema = {
       },
     },
     required: ["id", "assetName"],
+    indexes: ["assetName", ["id", "assetName"]],
   },
 };
 

@@ -1,12 +1,16 @@
 import React from "react";
 import { useSearchParams } from "next/navigation";
 
-import type { MetatdataJSON } from "~/lib/types";
+import type { MetadataCollection } from "~/lib/types";
 
 import TableView from "./table";
 import GridView from "./grid";
 
-export default function Content({ metadata }: { metadata: MetatdataJSON[] }) {
+export default function Content({
+  metadata,
+}: {
+  metadata: MetadataCollection[][];
+}) {
   const searchParams = useSearchParams();
   const view = searchParams.get("view") ?? "table"; // Default to : table
 

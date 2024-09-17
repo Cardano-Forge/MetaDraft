@@ -11,10 +11,9 @@ import CloudUploadIcon from "~/icons/cloud-upload.icon";
 import { getFileExtension } from "~/lib/get/get-file-extension";
 import { getFileName, readFile } from "~/lib/read";
 import { JSONSchema } from "~/lib/zod-schemas";
-import type { MetadataCollection, ProjectCollection } from "~/lib/db/types";
+import type { MetadataCollection, ProjectCollection } from "~/lib/types";
 
 import UploadAlert from "./upload-alert";
-import { randomUUID } from "crypto";
 
 export function UploadProjectButton() {
   const router = useRouter();
@@ -52,26 +51,19 @@ export function UploadProjectButton() {
             })),
           );
 
-          if (meta?.success) {
-            // Add project information in RXDB
-            await activeProjectCollection?.upsert({
-              id: "activeProject",
-              metadataId: meta?.success[0]?.id,
-              name: getFileName(acceptedFiles[0]),
-              nfts: zodValidation.data.length,
-              unchecked: zodValidation.data.length,
-              errorsDetected: 0,
-              errorsFlagged: 0,
-              valids: 0,
-            });
+          // Add project information in RXDB
+          await activeProjectCollection?.upsert({
+            id: "activeProject",
+            metadataId: self.crypto.randomUUID(),
+            name: getFileName(acceptedFiles[0]),
+            nfts: zodValidation.data.length,
+            unchecked: zodValidation.data.length,
+            errorsDetected: 0,
+            errorsFlagged: 0,
+            valids: 0,
+          });
 
-            router.push("/metadata-structure");
-          } else {
-            // Falied to save metadata in RXDB
-            setError(
-              new Error("Something went wrong while save metadata in browser."),
-            );
-          }
+          router.push("/metadata-structure");
         } catch (error) {
           setError(
             new Error((error as Error).message ?? "Something went wrong"),
