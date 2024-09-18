@@ -62,7 +62,7 @@ export default function TableView({
                 <Status metadata={meta} />
               </TableCell>
               <TableCell>
-                <Actions metadata={meta} className="p-2" />
+                <Actions metadata={meta} />
               </TableCell>
             </TableRow>
           );

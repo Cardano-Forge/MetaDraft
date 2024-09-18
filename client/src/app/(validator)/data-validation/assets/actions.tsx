@@ -1,5 +1,7 @@
-import { useRxCollection, useRxData } from "rxdb-hooks";
+import { useRouter } from "next/navigation";
+import { useRxCollection } from "rxdb-hooks";
 import { Button } from "~/components/ui/button";
+import ArrowRightIcon from "~/icons/arrow-right.icon";
 import CheckIcon from "~/icons/check.icon";
 import FlagIcon from "~/icons/flag.icon";
 import type {
@@ -9,6 +11,7 @@ import type {
 } from "~/lib/types";
 import { cn } from "~/lib/utils";
 import { useActiveProject } from "~/providers/active-project.provider";
+import { keys } from "~/lib/constant";
 
 export default function Actions({
   metadata,
@@ -18,28 +21,22 @@ export default function Actions({
   className?: string;
 }) {
   const activeProject = useActiveProject();
+  const router = useRouter();
   const projectCollection = useRxCollection<ProjectCollection>("project");
   const metadataCollection = useRxCollection<MetadataCollection>("metadata");
-  const { result, isFetching } = useRxData<MetadataCollection>(
-    "metadata",
-    (collection) => collection.find().where("id").equals(metadata.id),
-  );
-
-  if (isFetching) return <div>Loading...</div>;
-
-  const meta = result.map((doc) => doc.toJSON() as MetadataCollection)[0];
 
   const project = activeProject?._data;
 
-  if (!meta || !project) return <div>No metadata found</div>;
+  if (!metadata || !project) return <div>No metadata found</div>;
 
+  const isUnchecked = metadata.status === "unchecked";
   const isSuccess = metadata.status === "success";
   const isWarning = metadata.status === "warning";
 
   const handleStatusUpdate = async (state: Status) => {
-    const currentState = meta.status;
+    const currentState = metadata.status;
     await metadataCollection?.upsert({
-      ...meta,
+      ...metadata,
       status: state === currentState ? "error" : state,
     });
 
@@ -58,6 +55,7 @@ export default function Actions({
   return (
     <div className={cn("flex flex-row items-center gap-2", className)}>
       <Button
+        disabled={isUnchecked}
         variant={isWarning ? "warning" : "warningOutilne"}
         size={"icon"}
         onClick={async () => {
@@ -67,6 +65,7 @@ export default function Actions({
         <FlagIcon className="h-4 w-4" />
       </Button>
       <Button
+        disabled={isUnchecked}
         variant={isSuccess ? "success" : "successOutline"}
         size={"icon"}
         onClick={async () => {
@@ -75,13 +74,15 @@ export default function Actions({
       >
         <CheckIcon className="h-4 w-4" />
       </Button>
+      <Button
+        disabled={isUnchecked}
+        size={"icon"}
+        variant={"outline"}
+        className="border-white/50"
+        onClick={() => router.push(`/metadata/${metadata.id}`)}
+      >
+        <ArrowRightIcon className="h-4 w-4" />
+      </Button>
     </div>
   );
 }
-
-const keys: Record<Status, keyof ProjectCollection> = {
-  unchecked: "unchecked",
-  error: "errorsDetected",
-  warning: "errorsFlagged",
-  success: "valids",
-};
