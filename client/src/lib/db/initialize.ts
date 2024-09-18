@@ -13,6 +13,7 @@ export const initialize = async () => {
   const db = await createRxDatabase<MyDatabase>({
     name: "metadraft",
     storage: getRxStorageDexie(),
+    ignoreDuplicate: true,
   });
 
   await db.addCollections({
