@@ -121,7 +121,5 @@ Deno.test("DuplicateKeys - withSuccess", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    asset000: { status: "success", warnings: [], errors: [] },
-  });
+  assertEquals(result, {});
 });

@@ -21,7 +21,7 @@ export class BaseValidator implements IValidator {
   constructor(
     id: string,
     options: unknown | undefined,
-    type: "once" | "all" = "all",
+    type: "once" | "all" = "all"
   ) {
     this.id = id;
     this.options = options || {};
@@ -42,7 +42,7 @@ export class BaseValidator implements IValidator {
   Execute(
     _assetName: string,
     _metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput {
     throw new Error("Method not implemented.");
   }
@@ -59,7 +59,7 @@ export class BaseValidator implements IValidator {
    */
   ExecuteOnce(
     _metadatas: unknown[],
-    _validations: Record<string, StateOutput>,
+    _validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
     throw new Error("Method not implemented.");
   }
@@ -111,11 +111,11 @@ export class Validator implements IMainValidator {
   Execute(
     assetName: string,
     metadata: unknown,
-    metadatas: unknown[],
+    metadatas: unknown[]
   ): Record<string, StateOutput> {
     logger(
       "Execute in Validator",
-      this.validators.filter((v) => v.type === "all"),
+      this.validators.filter((v) => v.type === "all")
     );
     if (this.validators.length === 0) {
       logger("no validators defined.");
@@ -127,15 +127,19 @@ export class Validator implements IMainValidator {
 
       // Build the validations output object.
       if (!this.validations[assetName]) {
-        this.validations[assetName] = { status: "success", warnings: [], errors: [] };
+        this.validations[assetName] = {
+          status: "success",
+          warnings: [],
+          errors: [],
+        };
       }
       if (validations.status !== "success") {
         this.validations[assetName].status = validations.status;
         if (validations.status === "error") {
           this.validations[assetName].errors.push(...validations.warnings);
-        } else if(validations.status === "warning"){
+        } else if (validations.status === "warning") {
           this.validations[assetName].warnings.push(...validations.warnings);
-        }else if (
+        } else if (
           this.validations[assetName].status !== "warning" &&
           this.validations[assetName].status !== "error"
         )
@@ -156,7 +160,7 @@ export class Validator implements IMainValidator {
   ExecuteOnce(metadatas: unknown[]): Record<string, StateOutput> {
     logger(
       "Execute in Validator",
-      this.validators.filter((v) => v.type === "once"),
+      this.validators.filter((v) => v.type === "once")
     );
     if (this.validators.length === 0) {
       logger("no validators defined.");
@@ -176,6 +180,12 @@ export class Validator implements IMainValidator {
    * @returns {Record<string, StateOutput>} An object of validation results.
    */
   GetResults(): Record<string, StateOutput> {
+    //Remove success from object
+    Object.keys(this.validations).map((key) => {
+      if (this.validations[key].status === "success")
+        delete this.validations[key];
+    });
+
     return this.validations;
   }
 }

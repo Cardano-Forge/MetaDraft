@@ -68,7 +68,5 @@ Deno.test("KeyAttributesValidator - withSuccess", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    NO_ASSET_NAME_PROVIDED: { status: "success", warnings: [], errors: [] },
-  });
+  assertEquals(result, {});
 });

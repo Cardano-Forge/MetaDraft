@@ -25,7 +25,7 @@ const mapping = [
 
 Deno.test("fort-gotten.json", () => {
   const metadata = JSON.parse(
-    readFileSync(join("__tests__", "payloads", "fort-gotten.json"), "utf8"),
+    readFileSync(join("__tests__", "payloads", "fort-gotten.json"), "utf8")
   );
 
   const mainValidator = new Validator("Main");
@@ -38,21 +38,20 @@ Deno.test("fort-gotten.json", () => {
       Object.keys(
         asset_metadata["721"][
           "48ef9fb80a0ad2fd9f3d5b981ef3bfac2bae84137523217b387a775b"
-        ],
+        ]
       )[0],
       Object.values(
         asset_metadata["721"][
           "48ef9fb80a0ad2fd9f3d5b981ef3bfac2bae84137523217b387a775b"
-        ],
+        ]
       )[0],
-      metadata,
+      metadata
     );
   }
 
   const result = mainValidator.GetResults();
 
   assertEquals(result, {
-    FortGottenEp02Kid3195: { status: "success", warnings: [], errors: [] },
     FortGottenEp02Kid3963: {
       status: "warning",
       warnings: [
