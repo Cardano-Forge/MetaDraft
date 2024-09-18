@@ -23,14 +23,14 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable}`}>
-      <RxdbProvider>
-        <body className="flex min-h-screen flex-col overflow-x-hidden bg-background antialiased">
+      <body className="flex min-h-screen flex-col overflow-x-hidden bg-background antialiased">
+        <RxdbProvider>
           <ActiveProjectProvider>
             <Header />
             {children}
           </ActiveProjectProvider>
-        </body>
-      </RxdbProvider>
+        </RxdbProvider>
+      </body>
     </html>
   );
 }

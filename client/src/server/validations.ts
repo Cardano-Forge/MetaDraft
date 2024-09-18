@@ -16,10 +16,33 @@ import {
   DuplicateNameAndImage,
   KeyAnvilCasing,
 } from "@ada-anvil/metadraft-validator";
-import type { MetatdataJSON, ValidatorResults } from "~/lib/types";
+import type { MetadataCollection, ValidatorResults } from "~/lib/types";
 
+/**
+ * Validates an array of metadata collections using a series of predefined validators.
+ *
+ * The function executes a set of validators to check the validity of metadata objects.
+ * Each validator is applied to the metadata collections, and the results are collected
+ * and returned after processing all the metadata.
+ *
+ * @param {MetadataCollection[]} metadata - An array of metadata collections to be validated.
+ *   Each item should include properties relevant for validation, such as `assetName` and `metadata`.
+ * @returns {Promise<ValidatorResults>} - A promise that resolves to the validation results.
+ *   The results include information about any validation errors or warnings for each metadata item.
+ *
+ * @example
+ * const metadata = [
+ *   { assetName: "NFT1", metadata: { name: "Token1", type: "image" } },
+ *   { assetName: "NFT2", metadata: { name: "Token2", type: "video" } }
+ * ];
+ *
+ * validateMetadata(metadata).then((results) => {
+ *   console.log(results);
+ *   // Output will include validation results, such as errors or warnings for each metadata item.
+ * });
+ */
 export async function validateMetadata(
-  metadata: MetatdataJSON,
+  metadata: MetadataCollection[],
 ): Promise<ValidatorResults> {
   console.time(`timeToValidate`);
 

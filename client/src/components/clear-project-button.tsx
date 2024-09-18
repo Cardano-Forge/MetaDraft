@@ -1,5 +1,6 @@
 "use client";
 
+import { removeRxDatabase } from "rxdb";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { useActiveProject } from "~/providers/active-project.provider";
@@ -15,6 +16,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
+import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
 
 export default function ClearProjectButton({
   className,
@@ -26,6 +28,7 @@ export default function ClearProjectButton({
 
   const handleClick = async () => {
     await activeProject?.remove();
+    await removeRxDatabase("metadraft", getRxStorageDexie());
     window.localStorage.clear();
     router.push("/");
   };

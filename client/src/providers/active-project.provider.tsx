@@ -4,14 +4,16 @@ import React, { useEffect } from "react";
 import { type RxDocument } from "rxdb";
 import { useRxData } from "rxdb-hooks";
 import Loader from "~/components/loader";
-import { type ActiveProject } from "~/lib/db/types";
+import { type ProjectCollection } from "~/lib/types";
 
 const ActiveProjectContext = React.createContext<
-  RxDocument<ActiveProject> | undefined
+  RxDocument<ProjectCollection> | undefined
 >(undefined);
+
 export const useActiveProject = () => {
   return React.useContext(ActiveProjectContext);
 };
+
 export const ActiveProjectProvider = ({
   children,
 }: {
@@ -19,9 +21,10 @@ export const ActiveProjectProvider = ({
 }) => {
   const pathname = usePathname();
   const router = useRouter();
-  const { result, isFetching } = useRxData<ActiveProject>(
-    "activeProject",
-    (collection) => collection.findOne(),
+
+  const { result, isFetching } = useRxData<ProjectCollection>(
+    "project",
+    (collection) => collection.findByIds(["activeProject"]),
   );
 
   useEffect(() => {

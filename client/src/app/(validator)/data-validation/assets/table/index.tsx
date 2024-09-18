@@ -10,21 +10,21 @@ import {
 } from "~/components/ui/table";
 
 import Status from "./status";
-import Actions from "./actions";
-import type { MetatdataJSON } from "~/lib/types";
+import Actions from "../actions";
+import type { MetadataCollection } from "~/lib/types";
 import { getImageSrc } from "~/lib/get/get-image-src";
 import { getCID } from "~/lib/get/get-cid";
 import { useSearchParams } from "next/navigation";
 import { getPageFromParams } from "~/lib/get/get-page-from-param";
 
-type TableViewProps = {
-  metadata: MetatdataJSON[];
-};
-
-export default function TableView({ metadata }: TableViewProps) {
+export default function TableView({
+  metadatas,
+}: {
+  metadatas: MetadataCollection[][];
+}) {
   const searchParams = useSearchParams();
   const currentPage = searchParams.get("page");
-  const page = getPageFromParams(currentPage, metadata.length);
+  const page = getPageFromParams(currentPage, metadatas.length);
 
   return (
     <Table>
@@ -39,7 +39,7 @@ export default function TableView({ metadata }: TableViewProps) {
         </TableRow>
       </TableHeader>
       <TableBody className="[&_tr:last-child]:border-1 [&>*]:border-white/30">
-        {metadata[page - 1]?.map((meta) => {
+        {metadatas[page - 1]?.map((meta) => {
           return (
             <TableRow key={meta.assetName}>
               <TableCell>
@@ -59,10 +59,10 @@ export default function TableView({ metadata }: TableViewProps) {
                 {getCID(meta.metadata.image)}
               </TableCell>
               <TableCell>
-                <Status assetName={meta.assetName} />
+                <Status metadata={meta} />
               </TableCell>
               <TableCell>
-                <Actions assetName={meta.assetName} />
+                <Actions metadata={meta} className="p-2" />
               </TableCell>
             </TableRow>
           );

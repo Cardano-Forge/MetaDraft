@@ -1,11 +1,24 @@
 import React from "react";
+import { useRxData } from "rxdb-hooks";
 import Stat from "~/components/stat";
 import { Typography } from "~/components/typography";
-import { useValidations } from "~/lib/hooks/use-validations";
+import { getKeyCount } from "~/lib/get/get-key-count";
+import type { ValidationsCollection } from "~/lib/types";
 
 export default function ValidatorStats() {
-  const { getKeyCount } = useValidations();
-  const keys = getKeyCount();
+  const { result, isFetching } = useRxData<ValidationsCollection>(
+    "validations",
+    (collection) => collection.find(),
+  );
+
+  if (isFetching) return <div>Loading...</div>;
+
+  const validations = result.map(
+    (doc) => doc.toJSON() as ValidationsCollection,
+  );
+
+  const keys = getKeyCount(validations);
+
   return (
     <div className="flex flex-col gap-4 rounded-xl bg-background p-6">
       <Typography as="h3">Validator detected</Typography>

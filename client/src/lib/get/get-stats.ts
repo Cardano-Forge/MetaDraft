@@ -1,5 +1,15 @@
-import type { Status, ValidatorResults } from "../types";
+import type { MetadataCollection } from "../types";
 
+/**
+ * Represents statistics for a collection of NFTs.
+ *
+ * @typedef {Object} Stats
+ * @property {number} nfts - The total number of NFTs in the collection.
+ * @property {number} unchecked - The number of NFTs that have not been checked.
+ * @property {number} errorsDetected - The number of NFTs that were detected with errors.
+ * @property {number} errorsFlagged - The number of NFTs that were flagged with warnings.
+ * @property {number} valids - The number of NFTs that are valid (success status).
+ */
 type Stats = {
   nfts: number;
   unchecked: number;
@@ -9,88 +19,26 @@ type Stats = {
 };
 
 /**
- * Calculates statistics based on the results of validations.
+ * Calculates statistics from an array of metadata collections.
  *
- * @param {ValidatorResults} data - An object containing the results of validations for each key.
- *     Each key corresponds to a validation result, which has a status that can be "error" or "warning".
- * @param {number} total - The total number of NFTs (non-fungible tokens).
+ * @param {MetadataCollection[]} data - An array of metadata collections representing NFTs.
+ * @returns {Stats} - An object containing the statistics for the collection of NFTs.
  *
- * @returns {Stats} An object containing statistics including:
- *     - `nfts`: The total number of NFTs.
- *     - `errorsDetected`: The total number of errors detected across all validation results.
- *     - `errorsFlagged`: The total number of warnings flagged across all validation results.
- *     - `valids`: The total number of valid results (calculated as total NFTs minus the number of validations).
- *
- * Example:
- * ```js
- * const data = {
- *   "1": { status: "error" },
- *   "2": { status: "warning" },
- *   "3": { status: "valid" },
- * };
- * const total = 5;
- * const stats = getStatsFromValidations(data, total);
- * // Output: { nfts: 5, errorsDetected: 1, errorsFlagged: 1, valids: 2 }
- * ```
  */
-export const getStatsFromValidations = (
-  data: ValidatorResults,
-  total: number,
-): Stats => {
-  const size = Object.keys(data).length;
-  const stats = {
-    nfts: total,
-    unchecked: 0,
-    errorsDetected: 0,
-    errorsFlagged: 0,
-    valids: total - size,
-  };
-
-  Object.keys(data).forEach((key) => {
-    if (data[key]?.status === "error") stats.errorsDetected++;
-    if (data[key]?.status === "warning") stats.errorsFlagged++;
-  });
-
-  return stats;
-};
-
-/**
- * Calculates statistics based on the status of validations.
- *
- * @param {Record<string, Status>} status - An object where each key corresponds to an entity (e.g., NFT),
- *     and the value is the validation status, which can be "error", "warning", or "success".
- *
- * @returns {Stats} An object containing statistics including:
- *     - `nfts`: The total number of entities (e.g., NFTs).
- *     - `errorsDetected`: The total number of errors across all statuses.
- *     - `errorsFlagged`: The total number of warnings across all statuses.
- *     - `valids`: The total number of successful validations.
- *
- * Example:
- * ```js
- * const status = {
- *   "1": "error",
- *   "2": "warning",
- *   "3": "success",
- *   "4": "success",
- * };
- * const stats = getStatsFromStatus(status);
- * // Output: { nfts: 4, errorsDetected: 1, errorsFlagged: 1, valids: 2 }
- * ```
- */
-export const getStatsFromStatus = (status: Record<string, Status>) => {
-  const size = Object.keys(status).length;
+export const getStats = (data: MetadataCollection[]): Stats => {
+  const size = data.length;
   const stats = {
     nfts: size,
+    unchecked: 0,
     errorsDetected: 0,
     errorsFlagged: 0,
     valids: 0,
   };
 
-  Object.keys(status).forEach((key) => {
-    if (status[key] === "error") stats.errorsDetected++;
-    if (status[key] === "warning") stats.errorsFlagged++;
-    if (status[key] === "success") stats.valids++;
+  data.forEach((metadata) => {
+    if (metadata.status === "error") stats.errorsDetected++;
+    if (metadata.status === "warning") stats.errorsFlagged++;
+    if (metadata.status === "success") stats.valids++;
   });
 
   return stats;

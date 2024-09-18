@@ -1,35 +1,33 @@
+import CodeIcon from "~/icons/code.icon";
+
 import { getImageSrc } from "~/lib/get/get-image-src";
 import { getCID } from "~/lib/get/get-cid";
 import { cn } from "~/lib/utils";
-import type { MetatdataJSON } from "~/lib/types";
+import type { MetadataCollection } from "~/lib/types";
+
 import { Button } from "~/components/ui/button";
 import { Typography } from "~/components/typography";
-import CodeIcon from "~/icons/code.icon";
-
-import Status from "../table/status";
-import { AssetCardThumbnail } from "./asset-card";
-import Actions from "./actions";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
 
-type CardProps = {
-  asset: MetatdataJSON[number];
-};
+import { AssetCardThumbnail } from "./asset-card";
+import Status from "../table/status";
+import Actions from "../actions";
 
-export default function Card({ asset }: CardProps) {
+export default function Card({ metadata }: { metadata: MetadataCollection }) {
   return (
     <div
       className={cn(
         "relative flex flex-col rounded-xl border border-white/20 bg-card",
       )}
     >
-      <AssetCardThumbnail src={getImageSrc(asset.metadata.image)} />
+      <AssetCardThumbnail src={getImageSrc(metadata.metadata.image)} />
       <div className="flex flex-col gap-4 p-4">
-        <Status assetName={asset.assetName} />
-        <Typography as="largeText">{asset.assetName}</Typography>
+        <Status metadata={metadata} />
+        <Typography as="largeText">{metadata.assetName}</Typography>
         <div className="flex flex-row items-end justify-between">
           <Popover>
             <PopoverTrigger asChild>
@@ -40,15 +38,18 @@ export default function Card({ asset }: CardProps) {
             <PopoverContent className="w-fit max-w-[100vw]">
               <div className="flex flex-col gap-2 rounded-lg p-2">
                 <Typography as="smallText">
-                  <code>NAME : {asset.metadata.name},</code>
+                  <code>NAME : {metadata.metadata.name},</code>
                 </Typography>
-                <Typography as="smallText" className="text-nowrap text-ellipsis">
-                  <code>CID : {getCID(asset.metadata.image)}</code>
+                <Typography
+                  as="smallText"
+                  className="text-ellipsis text-nowrap"
+                >
+                  <code>CID : {getCID(metadata.metadata.image)}</code>
                 </Typography>
               </div>
             </PopoverContent>
           </Popover>
-          <Actions assetName={asset.assetName} />
+          <Actions metadata={metadata} />
         </div>
       </div>
     </div>

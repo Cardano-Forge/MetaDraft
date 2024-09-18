@@ -1,28 +1,30 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
+import { useRxData } from "rxdb-hooks";
+
+import Loader from "~/components/loader";
+
+import type { MetadataCollection } from "~/lib/types";
+import { chunk } from "~/lib/chunk";
+import { filter } from "~/lib/filter";
+import { getSortBy } from "~/lib/get-sort-by-from-param";
+import { sort } from "~/lib/sort";
+
 import { useActiveProject } from "~/providers/active-project.provider";
 
 import Header from "./header";
 import Content from "./content";
 import Footer from "./footer";
-import { useRxData } from "rxdb-hooks";
-import Loader from "~/components/loader";
-import type { Metadata } from "~/lib/db/types";
-import { chunk } from "~/lib/chunk";
-import { useSearchParams } from "next/navigation";
-import { filter } from "~/lib/filter";
-import { getSortBy } from "~/lib/get-sort-by-from-param";
-import { sort } from "~/lib/sort";
-import useAssetState from "~/lib/hooks/use-asset-state";
 
 export default function Assets() {
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("search");
   const sortBy = searchParams.get("sort");
   const activeProject = useActiveProject();
-  const { status } = useAssetState();
-  const { result, isFetching } = useRxData<Metadata>("metadata", (collection) =>
-    collection.findByIds([activeProject?.metadataId ?? ""]),
+  const { result, isFetching } = useRxData<MetadataCollection>(
+    "metadata",
+    (collection) => collection.find(),
   );
 
   if (isFetching)
@@ -32,18 +34,20 @@ export default function Assets() {
       </div>
     );
 
-  const metadata = result[0]?.data;
+  const metadata: MetadataCollection[] = result.map(
+    (doc) => doc.toJSON() as MetadataCollection,
+  );
 
   if (!activeProject || !metadata) return <div>No data found.</div>;
 
   const searchedMetadata = filter(metadata, searchTerm);
-  const sortedMetadata = sort(searchedMetadata, getSortBy(sortBy), status);
+  const sortedMetadata = sort(searchedMetadata, getSortBy(sortBy));
   const pagedMetadata = chunk(sortedMetadata, 10);
 
   return (
     <div className="flex flex-col rounded-2xl bg-card">
       <Header />
-      <Content metadata={pagedMetadata} />
+      <Content metadatas={pagedMetadata} />
       <Footer lastPage={pagedMetadata.length} />
     </div>
   );

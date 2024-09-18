@@ -3,10 +3,6 @@ import type { CIP25Schema, FilesSchema, JSONSchema } from "../zod-schemas";
 import { type StateOutput } from "@ada-anvil/metadraft-validator";
 
 /**
- * Asset possible status
- */
-export type Status = "success" | "warning" | "error";
-/**
  * File's CIP25 recommanded type
  */
 export type Files = z.infer<typeof FilesSchema>;
@@ -24,29 +20,5 @@ export type MetatdataJSON = z.infer<typeof JSONSchema>;
  */
 export type ValidatorResults = Record<string, StateOutput>;
 
-/**
- * Sort Option
- */
-export type SortOptionKey = "a_z" | "z_a" | "errors" | "success";
-
-/**
- * Metadata Structure
- * 
- * @example
- * {
- *  name: string,
- *  image: string,
- *  files: array,
- *  files[0]: {
- *      src: string,
- *      mediaType: string,
- *  },
- *  attributes: "object",
- *  attributes.Background: "string",
- *  attributes.Body Color: "string",
- *  ...
- * }
- */
-export type Structure = {
-  [key: string]: string | Structure;
-};
+export * from "./db";
+export * from "./shared";

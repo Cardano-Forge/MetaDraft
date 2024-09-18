@@ -11,7 +11,7 @@ import CloudUploadIcon from "~/icons/cloud-upload.icon";
 import { getFileExtension } from "~/lib/get/get-file-extension";
 import { getFileName, readFile } from "~/lib/read";
 import { JSONSchema } from "~/lib/zod-schemas";
-import type { Metadata, ActiveProject, Project } from "~/lib/db/types";
+import type { MetadataCollection, ProjectCollection } from "~/lib/types";
 
 import UploadAlert from "./upload-alert";
 
@@ -21,10 +21,8 @@ export function UploadProjectButton() {
   const [error, setError] = useState<Error | undefined>(undefined);
   const [alert, setAlert] = useState<boolean>(false);
   // RXBD
-  const metadataCollection = useRxCollection<Metadata>("metadata");
-  const projectCollection = useRxCollection<Project>("project");
-  const activeProjectCollection =
-    useRxCollection<ActiveProject>("activeProject");
+  const metadataCollection = useRxCollection<MetadataCollection>("metadata");
+  const activeProjectCollection = useRxCollection<ProjectCollection>("project");
 
   // Upload
   const onDrop = useCallback(
@@ -36,6 +34,7 @@ export function UploadProjectButton() {
           const json = await readFile(acceptedFiles[0]);
           // Zod Validation
           const zodValidation = JSONSchema.safeParse(json);
+
           if (!zodValidation.success) {
             setAlert(true);
             return;
@@ -44,14 +43,18 @@ export function UploadProjectButton() {
           // const hash = await stringToHash(JSON.stringify(json)); // This will be the active project id
 
           // Add metadata in RXDB
-          const meta = await metadataCollection?.upsert({
-            id: "nonce",
-            data: zodValidation.data,
-          });
+          await metadataCollection?.bulkUpsert(
+            zodValidation.data.map((m) => ({
+              id: self.crypto.randomUUID(),
+              ...m,
+              status: "unchecked",
+            })),
+          );
 
           // Add project information in RXDB
-          await projectCollection?.upsert({
-            id: "project",
+          await activeProjectCollection?.upsert({
+            id: "activeProject",
+            metadataId: self.crypto.randomUUID(),
             name: getFileName(acceptedFiles[0]),
             nfts: zodValidation.data.length,
             unchecked: zodValidation.data.length,
@@ -60,20 +63,7 @@ export function UploadProjectButton() {
             valids: 0,
           });
 
-          if (meta) {
-            // Add active project in RXDB
-            await activeProjectCollection?.upsert({
-              id: "activeProject",
-              metadataId: meta.id,
-            });
-
-            router.push("/metadata-structure");
-          } else {
-            // Falied to save metadata in RXDB
-            setError(
-              new Error("Something went wrong while save metadata in browser."),
-            );
-          }
+          router.push("/metadata-structure");
         } catch (error) {
           setError(
             new Error((error as Error).message ?? "Something went wrong"),
@@ -108,7 +98,7 @@ export function UploadProjectButton() {
         }
       }
     },
-    [metadataCollection, projectCollection, activeProjectCollection, router],
+    [metadataCollection, activeProjectCollection, router],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

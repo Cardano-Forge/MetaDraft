@@ -1,4 +1,5 @@
 import { type StateOutput } from "@ada-anvil/metadraft-validator";
+import { useRxData } from "rxdb-hooks";
 
 import { Typography } from "~/components/typography";
 import {
@@ -19,58 +20,66 @@ import {
 import { Separator } from "~/components/ui/separator";
 import ExclamationIcon from "~/icons/exclamation.icon";
 import InformationCircle from "~/icons/information-circle";
-import useAssetState from "~/lib/hooks/use-asset-state";
-import { useValidations } from "~/lib/hooks/use-validations";
 import { hyphenToTitleCase } from "~/lib/hyphen-to-title-case";
-import { type Status } from "~/lib/types";
+import type {
+  MetadataCollection,
+  Status,
+  ValidationsCollection,
+} from "~/lib/types";
 import { cn } from "~/lib/utils";
 
-type TempValidation = {
+type StateOutputKeyPath = { key: string; path: string };
+type StateOutputValidation = {
   message: string;
-  warnings: Temp[];
-  errors: Temp[];
-};
-type Temp = { key: string; path: string };
-
-type StatusProps = {
-  assetName: string;
+  warnings: StateOutputKeyPath[];
+  errors: StateOutputKeyPath[];
 };
 
 const button: Record<Status, ButtonVariants["variant"]> = {
   success: "success",
   warning: "warning",
   error: "destructive",
+  unchecked: "secondary",
 };
 
 const variants: Record<Status, string> = {
   success: "bg-success/20 text-success disabled:opacity-100",
   warning: "bg-warning/20 text-warning hover:bg-warning/40",
   error: "bg-destructive/20 text-destructive hover:bg-destructive/40",
+  unchecked: "",
 };
 
 const text: Record<Status, string> = {
   success: "Valid",
   warning: "Error flag",
   error: "Error detected",
+  unchecked: "Unchecked",
 };
 
-export default function Status({ assetName }: StatusProps) {
-  const { getState } = useAssetState();
-  const { getValidations } = useValidations();
-  const state = getState(assetName);
+export default function Status({ metadata }: { metadata: MetadataCollection }) {
+  const state = metadata.status;
+  const { result, isFetching } = useRxData<ValidationsCollection>(
+    "validations",
+    (collection) =>
+      collection.find().where("assetName").equals(metadata.assetName),
+  );
 
-  const validations = getValidations(assetName);
+  if (isFetching) return <div>Loading...</div>;
 
-  if (!validations) return null;
+  const validations = result.map(
+    (doc) => doc.toJSON() as ValidationsCollection,
+  );
+
+  const validation = validations[0];
 
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          disabled={state === "success"}
+          disabled={state === "success" || state === "unchecked"}
           variant={button[state]}
           className={cn(
-            "w-fit items-center justify-center rounded-full !border-none font-semibold tracking-wide !outline-none lg:px-4 lg:py-2 lg:h-10",
+            "w-fit items-center justify-center rounded-full !border-none font-semibold tracking-wide !outline-none lg:h-10 lg:px-4 lg:py-2",
             variants[state],
           )}
         >
@@ -83,17 +92,18 @@ export default function Status({ assetName }: StatusProps) {
             Errors summary
           </DialogTitle>
           <DialogDescription className="text-border/50">
-            {getErrorCountMessage(validations)}
+            {getErrorCountMessage(validation?.validation)}
           </DialogDescription>
         </DialogHeader>
         <Separator className="mt-3 bg-border/20" />
 
         <Accordion type="single" collapsible className="w-full">
-          {validations.errors.map((error) => {
+          {validation?.validation.errors.map((error) => {
+            console.log(error);
             return (
               <AccordionItem
-                value={`${assetName}-${error.validatorId}`}
-                key={`${assetName}-${error.validatorId}`}
+                value={`${metadata.assetName}-${error.validatorId}`}
+                key={`${metadata.assetName}-${error.validatorId}`}
                 className="border-b border-border/20 pb-2 pt-1 last:border-none"
               >
                 <AccordionTrigger className="px-10">
@@ -108,20 +118,32 @@ export default function Status({ assetName }: StatusProps) {
                 </AccordionTrigger>
                 <AccordionContent className="mx-10 my-2 flex flex-col gap-2 rounded-xl border border-destructive bg-destructive/10 p-4">
                   <Typography>
-                    <code>{(error.message as TempValidation).message}</code>
+                    <code>
+                      {(error.message as StateOutputValidation).message}
+                    </code>
                   </Typography>
                   <div className="rounded-xl border border-border/20 bg-background p-4">
                     <code>{`[`}</code>
                     {error.message &&
                       typeof error.message === "object" &&
-                      (error.message as TempValidation).errors?.map((data) => (
-                        <Typography
-                          key={`${data.key}-${data.path}`}
-                          className="pl-8"
-                        >
-                          <code>{`{ "key": "${data.key}", "path": "${data.path}" }`}</code>
-                        </Typography>
-                      ))}
+                      (error.message as StateOutputValidation).errors?.map(
+                        (data) => {
+                          return (
+                            <Typography
+                              key={`${data.key}-${data.path}`}
+                              className="pl-8"
+                            >
+                              <code>{`{ "key": "${data.key}", "path": "${data.path}" }`}</code>
+                            </Typography>
+                          );
+                        },
+                      )}
+
+                    {error.message && typeof error.message === "string" && (
+                      <Typography className="pl-8">
+                        <code>{`{ "message": "${error.message}" }`}</code>
+                      </Typography>
+                    )}
                     <code>{`]`}</code>
                   </div>
                 </AccordionContent>
@@ -129,11 +151,11 @@ export default function Status({ assetName }: StatusProps) {
             );
           })}
 
-          {validations.warnings.map((warning) => {
+          {validation?.validation.warnings.map((warning) => {
             return (
               <AccordionItem
-                value={`${assetName}-${warning.validatorId}`}
-                key={`${assetName}-${warning.validatorId}`}
+                value={`${metadata.assetName}-${warning.validatorId}`}
+                key={`${metadata.assetName}-${warning.validatorId}`}
                 className="border-b border-border/20 pb-2 pt-1 last:border-none"
               >
                 <AccordionTrigger className="px-10">
@@ -148,13 +170,15 @@ export default function Status({ assetName }: StatusProps) {
                 </AccordionTrigger>
                 <AccordionContent className="mx-10 my-2 flex flex-col gap-2 rounded-xl border border-warning bg-warning/10 p-4">
                   <Typography>
-                    <code>{(warning.message as TempValidation).message}</code>
+                    <code>
+                      {(warning.message as StateOutputValidation).message}
+                    </code>
                   </Typography>
                   <div className="rounded-xl border border-border/20 bg-background p-4">
                     <code>{`[`}</code>
                     {warning.message &&
                       typeof warning.message === "object" &&
-                      (warning.message as TempValidation).warnings?.map(
+                      (warning.message as StateOutputValidation).warnings?.map(
                         (data) => (
                           <Typography
                             key={`${data.key}-${data.path}`}
@@ -177,13 +201,14 @@ export default function Status({ assetName }: StatusProps) {
   );
 }
 
-const getErrorCountMessage = (validations: StateOutput) => {
+const getErrorCountMessage = (validations: StateOutput | undefined) => {
   let message = "";
+  if (!validations) return message;
   const errorSize = validations.errors.length;
   const warningSize = validations.warnings.length;
 
   if (!!errorSize) message += `${errorSize} error${errorSize > 1 ? "s" : ""}`;
-  if (!!message.length) message += ", ";
+  if (!!message.length && !!warningSize) message += ", ";
   if (!!warningSize)
     message += `${warningSize} recommendation${warningSize > 1 ? "s" : ""}`;
 
