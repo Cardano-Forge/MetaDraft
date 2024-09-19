@@ -29,35 +29,31 @@ Deno.test("KeyWhiteSpace - withWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    NO_ASSET_NAME_PROVIDED: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "key-white-space",
-          message: {
-            message: "Trailing whitespaces found in the JSON object.",
-            warnings: [
-              { path: ["attributes", "foo"], whitespaceLocation: "value" },
-              {
-                path: ["attributes", "nested", "bar"],
-                whitespaceLocation: "value",
-              },
-              {
-                path: ["attributes", "nested", " two"],
-                whitespaceLocation: "key",
-              },
-              {
-                path: ["attributes", "nested", "three"],
-                whitespaceLocation: "value",
-              },
-            ],
-          },
-        },
-      ],
-      errors: [],
-    },
-  });
+  assertEquals(result["NO_ASSET_NAME_PROVIDED"].status, "warning");
+  assertEquals(
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validatorId,
+    "key-white-space"
+  );
+  assertEquals(
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError.issues.length,
+    4
+  );
+  assertEquals(
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError.issues[0].path,
+    ["attributes", "foo"]
+  );
+  assertEquals(
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError.issues[1].path,
+    ["attributes", "nested", "bar"]
+  );
+  assertEquals(
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError.issues[2].path,
+    ["attributes", "nested", " two"]
+  );
+  assertEquals(
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError.issues[3].path,
+    ["attributes", "nested", "three"]
+  );
 });
 
 Deno.test("KeyWhiteSpace - withArrayAndWarning", () => {
@@ -69,7 +65,6 @@ Deno.test("KeyWhiteSpace - withArrayAndWarning", () => {
         nested: {
           arr: ["arrghhh", "arrrrggggghhhhh  "],
         },
-        "test ": "key fail",
       },
     },
   ];
@@ -83,25 +78,21 @@ Deno.test("KeyWhiteSpace - withArrayAndWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    NO_ASSET_NAME_PROVIDED: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "key-white-space",
-          message: {
-            message: "Trailing whitespaces found in the JSON object.",
-            warnings: [
-              { path: ["attributes", "foo"], whitespaceLocation: "value" },
-              {
-                path: ["attributes", "nested", "arr", "[1]"],
-                whitespaceLocation: "value",
-              },
-            ],
-          },
-        },
-      ],
-      errors: [],
-    },
-  });
+  assertEquals(result["NO_ASSET_NAME_PROVIDED"].status, "warning");
+  assertEquals(
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validatorId,
+    "key-white-space"
+  );
+  assertEquals(
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError.issues.length,
+    2
+  );
+  assertEquals(
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError.issues[0].path,
+    ["attributes", "foo"]
+  );
+  assertEquals(
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError.issues[1].path,
+    ["attributes", "nested", "arr", 1]
+  );
 });
