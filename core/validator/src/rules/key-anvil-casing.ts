@@ -2,12 +2,13 @@ import { BaseValidator } from "../core.ts";
 
 import { GetValidationOutput } from "../utils/getState.ts";
 
-import type { KeyWithPath, StateOutput } from "../utils/types.ts";
+import type { KeyWithPath, StateOutput, ZodSafeParse } from "../utils/types.ts";
 
 import { extractKeysWithPathsSplitAttributes } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 import { logger } from "../utils/logger.ts";
 import { isCamelCase, isTitleCase } from "../utils/casing.ts";
+import { ZodError } from "zod";
 
 /**
  * Enforces that metadata keys are in camel case format and inner keys in attributes are in Title Case format.
@@ -60,6 +61,8 @@ export class KeyAnvilCasing extends BaseValidator {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
+    const warnings = new ZodError([]);
+
     const otherKeysWarnings: KeyWithPath[] = [];
     const attributesWarnings: KeyWithPath[] = [];
     let message = "";
@@ -74,7 +77,7 @@ export class KeyAnvilCasing extends BaseValidator {
       }
     });
 
-    if (!!otherKeysWarnings.length)
+    if (otherKeysWarnings.length)
       message = "Some keys do not adhere to Camel Case formatting";
 
     attributesKeys.forEach((key) => {
@@ -83,26 +86,29 @@ export class KeyAnvilCasing extends BaseValidator {
       }
     });
 
-    if (!!attributesWarnings.length) {
-      message += !!message.length ? " and some" : "Some";
+    if (attributesWarnings.length) {
+      message += message.length ? " and some" : "Some";
 
       message += " attribute's keys do not adhere to Title Case formatting";
     }
 
-    const warnings = [...otherKeysWarnings, ...attributesWarnings];
+    const flaggedKeys = [...otherKeysWarnings, ...attributesWarnings];
 
-    return GetValidationOutput(
-      {
-        state: warnings.length === 0 ? "success" : "warning",
-        message: {
-          message,
-          warnings,
-        },
-      },
-      "All checks passed. No issues detected.",
-      assetName,
-      metadata,
-      this.id
+    warnings.addIssues(
+      flaggedKeys.map(({ path }) => ({
+        code: "custom",
+        message,
+        path: path.split("."),
+      }))
     );
+
+    const hasWarning = warnings.issues.length > 0;
+
+    const result: ZodSafeParse = {
+      success: hasWarning,
+      error: hasWarning ? warnings : undefined,
+    };
+
+    return GetValidationOutput(result, assetName, this.id);
   }
 }

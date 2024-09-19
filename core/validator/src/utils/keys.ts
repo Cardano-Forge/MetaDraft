@@ -1,3 +1,4 @@
+import { ZodIssue } from "zod";
 import type { KeyWithPaths } from "./types.ts";
 
 /**
@@ -157,23 +158,25 @@ export function getPathsForExceedingKeys(
 export function formatPaths(
   paths: KeyWithPaths,
   keyCounts: Record<string, number>
-): Array<{ field: string; paths: string[]; occurences: number }> {
-  // Create a map to group paths by key
-  const pathsMap: Record<string, string[]> = paths.reduce(
-    (acc, { key, path }) => {
-      if (!acc[key]) {
-        acc[key] = [];
-      }
-      acc[key].push(path);
-      return acc;
-    },
-    {} as Record<string, string[]>
-  );
+): ZodIssue[] {
+  const issues: ZodIssue[] = [];
 
-  // Convert the pathsMap to the desired format
-  return Object.keys(pathsMap).map((key) => ({
-    field: key,
-    paths: pathsMap[key],
-    occurences: keyCounts[key] || 0,
-  }));
+  paths.map(({ key, path }) => {
+    if (keyCounts[key] > 1)
+      issues.push({
+        code: "custom",
+        message: `Key "${key}" appear multiple times within the provided metadata.`,
+        path: path.split("."),
+        params: {
+          occurences: keyCounts[key],
+          otherPaths: paths
+            .map((p) => {
+              if (p.key === key && p.path !== path) return p.path.split(".");
+            })
+            .filter((no_undef) => no_undef),
+        },
+      });
+  });
+
+  return issues;
 }

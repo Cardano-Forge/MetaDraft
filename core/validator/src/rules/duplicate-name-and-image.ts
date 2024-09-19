@@ -2,6 +2,7 @@ import { BaseValidator } from "../core.ts";
 
 import type { Metadata, StateOutput } from "../utils/types.ts";
 import { logger } from "../utils/logger.ts";
+import { ZodError } from "zod";
 
 /**
  * A validator that checks if there are any duplicate asset names or image in the provided metadatas.
@@ -32,7 +33,7 @@ export class DuplicateNameAndImage extends BaseValidator {
    */
   ExecuteOnce(
     metadatas: object[],
-    validations: Record<string, StateOutput>,
+    validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
     logger(`Executing ${this.id} with: `, metadatas.length);
     return this.Logic(metadatas as Metadata[], validations);
@@ -47,7 +48,7 @@ export class DuplicateNameAndImage extends BaseValidator {
    */
   Logic(
     metadatas: Metadata[],
-    validations: Record<string, StateOutput>,
+    validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
     const seen = {
       images: new Set<string>(),
@@ -96,22 +97,30 @@ export class DuplicateNameAndImage extends BaseValidator {
           };
         }
 
-        const message = `Name: ${entry.metadata.name} has been detected as a duplicate.`;
         if (nameDuplicated) {
           validations[entry.assetName].status = "error";
           validations[entry.assetName].errors.push({
             validatorId: this.id,
-            message,
+            validationError: new ZodError([
+              {
+                code: "custom",
+                message: `Name: ${entry.metadata.name} has been detected as a duplicate.`,
+                path: ["name"],
+              },
+            ]),
           });
         } else {
+          validations[entry.assetName].status = "warning";
           validations[entry.assetName].warnings.push({
             validatorId: this.id,
-            message,
+            validationError: new ZodError([
+              {
+                code: "custom",
+                message: `Image: ${entry.metadata.image} has been detected as a duplicate.`,
+                path: ["image"],
+              },
+            ]),
           });
-        }
-
-        if (validations[entry.assetName].status !== "error") {
-          validations[entry.assetName].status = "warning";
         }
       }
     }

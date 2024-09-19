@@ -37,7 +37,7 @@ export class KeyDescriptionValidator extends BaseValidator {
   Execute(
     assetName: string,
     metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput {
     logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
@@ -54,7 +54,7 @@ export class KeyDescriptionValidator extends BaseValidator {
   Logic(
     assetName: string,
     metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput {
     const result = z
       .object({
@@ -62,12 +62,6 @@ export class KeyDescriptionValidator extends BaseValidator {
       })
       .safeParse(metadata);
 
-    return GetValidationOutput(
-      result,
-      "`description` field is valid.",
-      assetName,
-      metadata,
-      this.id,
-    );
+    return GetValidationOutput(result, assetName, this.id);
   }
 }

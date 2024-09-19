@@ -63,9 +63,7 @@ export class KeyAttributesValidator extends BaseValidator {
 
     return GetValidationOutput(
       result,
-      "`attributes` field is valid.",
       assetName,
-      metadata,
       this.id,
     );
   }

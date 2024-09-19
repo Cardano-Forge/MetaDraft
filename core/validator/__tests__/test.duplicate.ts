@@ -3,6 +3,7 @@ import { assertEquals } from "@std/assert";
 import { Validator } from "../src/core.ts";
 
 import { DuplicateKeysValidator } from "../src/rules/duplicate-keys.ts";
+import { ZodCustomIssue } from "zod";
 
 Deno.test("DuplicateKeys - withWarnings", () => {
   const metadata = [
@@ -45,44 +46,38 @@ Deno.test("DuplicateKeys - withWarnings", () => {
   }
 
   const result = mainValidator.GetResults();
-  assertEquals(result, {
-    asset000: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "duplicate-keys",
-          message: {
-            message:
-              "Some keys appear multiple times within the provided metadata. The following keys were found more than once",
-            warnings: [
-              {
-                field: "name",
-                paths: [
-                  "name",
-                  "attributes.Special1.name",
-                  "attributes.Special2.name",
-                  "attributes.attributes.Special1.name",
-                  "attributes.attributes.Special2.name",
-                ],
-                occurences: 5,
-              },
-              {
-                field: "value",
-                paths: [
-                  "attributes.Special1.value",
-                  "attributes.Special2.value",
-                  "attributes.attributes.Special1.value",
-                  "attributes.attributes.Special2.value",
-                ],
-                occurences: 4,
-              },
-            ],
-          },
-        },
-      ],
-      errors: [],
-    },
-  });
+
+  assertEquals(result["asset000"].status, "warning");
+  assertEquals(result["asset000"].warnings[0].validatorId, "duplicate-keys");
+  
+  assertEquals(
+    result["asset000"].warnings[0].validationError.issues[0].message,
+    'Key "name" appear multiple times within the provided metadata.'
+  );
+  assertEquals(result["asset000"].warnings[0].validationError.issues[0].path, [
+    "name",
+  ]);
+
+  assertEquals(
+    result["asset000"].warnings[0].validationError.issues[1].message,
+    'Key "name" appear multiple times within the provided metadata.'
+  );
+  assertEquals(result["asset000"].warnings[0].validationError.issues[1].path, [
+    "attributes",
+    "Special1",
+    "name",
+  ]);
+
+  assertEquals(
+    result["asset000"].warnings[0].validationError.issues[2].message,
+    'Key "value" appear multiple times within the provided metadata.'
+  );
+  assertEquals(result["asset000"].warnings[0].validationError.issues[2].path, [
+    "attributes",
+    "Special1",
+    "value",
+  ]);
+  
 });
 
 Deno.test("DuplicateKeys - withSuccess", () => {

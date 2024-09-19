@@ -1,9 +1,14 @@
+import { ZodError } from "zod";
 import { BaseValidator } from "../core.ts";
 
 import { GetValidationOutput } from "../utils/getState.ts";
 import { logger } from "../utils/logger.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
-import type { OptionsWithThreshold, StateOutput } from "../utils/types.ts";
+import type {
+  OptionsWithThreshold,
+  StateOutput,
+  ZodSafeParse,
+} from "../utils/types.ts";
 
 import { distance, closest } from "fastest_levenshtein";
 
@@ -37,7 +42,7 @@ export class CompareAttributesKeys extends BaseValidator {
   Execute(
     assetName: string,
     metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput {
     logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
@@ -54,25 +59,23 @@ export class CompareAttributesKeys extends BaseValidator {
   Logic(
     assetName: string,
     metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
-    const warnings: string[] = [];
-
-    let similarKeysDetected = false;
+    const warnings = new ZodError([]);
 
     let keys: string[];
     try {
       keys = Object.keys(
-        (metadata as { attributes: Record<string, unknown> }).attributes,
+        (metadata as { attributes: Record<string, unknown> }).attributes
       );
 
       for (const key of keys) {
         const closestKey = closest(
           key,
-          keys.filter((fKey) => fKey !== key),
+          keys.filter((fKey) => fKey !== key)
         );
 
         if (closestKey) {
@@ -80,29 +83,30 @@ export class CompareAttributesKeys extends BaseValidator {
           if (
             distanceValue < (this.options as OptionsWithThreshold).threshold
           ) {
-            warnings.push(`${key} is similar to ${closestKey}`);
+            warnings.addIssue({
+              code: "custom",
+              message: `${key} is similar to ${closestKey}`,
+              path: [key],
+            });
           }
         }
       }
     } catch {
-      warnings.push(
-        "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set.",
-      );
+      warnings.addIssue({
+        code: "custom",
+        message:
+          "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set.",
+        path: [],
+      });
     }
 
-    if (warnings.length > 0) {
-      similarKeysDetected = true;
-    }
+    const hasWarning = warnings.issues.length > 0;
 
-    return GetValidationOutput(
-      {
-        state: similarKeysDetected ? "warning" : "success",
-        message: warnings,
-      },
-      "No similar keys found.",
-      assetName,
-      metadata,
-      this.id,
-    );
+    const result: ZodSafeParse = {
+      success: hasWarning,
+      error: hasWarning ? warnings : undefined,
+    };
+
+    return GetValidationOutput(result, assetName, this.id);
   }
 }

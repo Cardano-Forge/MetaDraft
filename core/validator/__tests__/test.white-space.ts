@@ -69,6 +69,7 @@ Deno.test("KeyWhiteSpace - withArrayAndWarning", () => {
         nested: {
           arr: ["arrghhh", "arrrrggggghhhhh  "],
         },
+        "test ": "key fail",
       },
     },
   ];

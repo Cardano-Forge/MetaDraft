@@ -23,30 +23,20 @@ Deno.test("KeyAttributesValidator - withWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    NO_ASSET_NAME_PROVIDED: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "key-attributes",
-          message: {
-            formErrors: [],
-            fieldErrors: {
-              attributes: [
-                {
-                  message: "It is recommended to use string instead of number",
-                  errorCode: "custom",
-                  status: "warning",
-                  path: "attributes/number_field",
-                },
-              ],
-            },
-          },
-        },
-      ],
-      errors: [],
-    },
-  });
+  assertEquals(result["NO_ASSET_NAME_PROVIDED"].status, "warning");
+  assertEquals(
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validatorId,
+    "key-attributes"
+  );
+  assertEquals(
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError.issues[0]
+      .message,
+    "It is recommended to use string instead of number"
+  );
+  assertEquals(
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError.issues[0].path,
+    ["attributes", "number_field"]
+  );
 });
 
 Deno.test("KeyAttributesValidator - withSuccess", () => {

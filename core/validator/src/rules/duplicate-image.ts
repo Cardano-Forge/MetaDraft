@@ -2,6 +2,7 @@ import { BaseValidator } from "../core.ts";
 
 import type { Metadata, StateOutput } from "../utils/types.ts";
 import { logger } from "../utils/logger.ts";
+import { ZodError } from "zod";
 
 /**
  * A validator that checks if there are any duplicate image in the provided metadatas.
@@ -32,7 +33,7 @@ export class DuplicateImage extends BaseValidator {
    */
   ExecuteOnce(
     metadatas: object[],
-    validations: Record<string, StateOutput>,
+    validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
     logger(`Executing ${this.id} with: `, metadatas.length);
     return this.Logic(metadatas as Metadata[], validations);
@@ -47,7 +48,7 @@ export class DuplicateImage extends BaseValidator {
    */
   Logic(
     metadatas: Metadata[],
-    validations: Record<string, StateOutput>,
+    validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
     const seen = {
       images: new Set<string>(),
@@ -70,11 +71,18 @@ export class DuplicateImage extends BaseValidator {
               errors: [],
             };
           }
+
+          validations[entry.assetName].status = "warning";
           validations[entry.assetName].warnings.push({
             validatorId: this.id,
-            message: `Image: ${image} has been detected as a duplicate.`,
+            validationError: new ZodError([
+              {
+                code: "custom",
+                message: `Image: ${image} has been detected as a duplicate.`,
+                path: ["image"],
+              },
+            ]),
           });
-          validations[entry.assetName].status = "warning";
         }
         seen.images.add(image);
       }

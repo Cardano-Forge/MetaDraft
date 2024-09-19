@@ -2,6 +2,7 @@ import { BaseValidator } from "../core.ts";
 
 import type { Metadata, StateOutput } from "../utils/types.ts";
 import { logger } from "../utils/logger.ts";
+import { ZodError } from "zod";
 
 /**
  * A validator that checks if there are any duplicate names in the provided metadatas.
@@ -32,7 +33,7 @@ export class DuplicateName extends BaseValidator {
    */
   ExecuteOnce(
     metadatas: object[],
-    validations: Record<string, StateOutput>,
+    validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
     logger(`Executing ${this.id} with: `, metadatas.length);
     return this.Logic(metadatas as Metadata[], validations);
@@ -47,7 +48,7 @@ export class DuplicateName extends BaseValidator {
    */
   Logic(
     metadatas: Metadata[],
-    validations: Record<string, StateOutput>,
+    validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
     const seen = {
       names: new Set<string>(),
@@ -71,7 +72,13 @@ export class DuplicateName extends BaseValidator {
           validations[entry.assetName].status = "error";
           validations[entry.assetName].errors.push({
             validatorId: this.id,
-            message: `Name: ${entry.metadata.name} has been detected as a duplicate.`,
+            validationError: new ZodError([
+              {
+                code: "custom",
+                message: `Name: ${entry.metadata.name} has been detected as a duplicate.`,
+                path: ["name"],
+              },
+            ]),
           });
         }
         seen.names.add(entry.metadata.name);

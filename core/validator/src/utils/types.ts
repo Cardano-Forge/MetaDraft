@@ -1,43 +1,4 @@
 import type { ZodError } from "zod";
-/**
- * Type representing a formatted error object containing message, errorCode, status, and path.
- */
-export interface FormatError {
-  /**
-   * The error message.
-   */
-  message: string;
-
-  /**
-   * The error code associated with the issue.
-   */
-  errorCode: string;
-
-  /**
-   * The current validation state (e.g., success, warning, error). Defaults to `undefined`.
-   */
-  status?: string | undefined;
-
-  /**
-   * The path within the data structure where the error occurred.
-   */
-  path: string;
-}
-
-/**
- * Type representing an object containing form and field errors.
- */
-export interface FormattedError {
-  /**
-   * An empty array for form errors (currently not used).
-   */
-  formErrors: [];
-
-  /**
-   * A record containing field-specific errors keyed by the field name.
-   */
-  fieldErrors: Record<string, Array<FormatError>>;
-}
 
 /**
  * A union type representing validation states: success, warning, or error.
@@ -68,7 +29,7 @@ export interface IValidator {
   Execute(
     _assetName: string,
     _metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput;
 
   /**
@@ -80,7 +41,7 @@ export interface IValidator {
    */
   ExecuteOnce(
     _metadatas: unknown[],
-    _validations: Record<string, StateOutput>,
+    _validations: Record<string, StateOutput>
   ): Record<string, StateOutput>;
 }
 
@@ -108,7 +69,7 @@ export interface IMainValidator {
   Execute(
     _assetName: string,
     _metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): Record<string, StateOutput>;
 
   /**
@@ -216,38 +177,66 @@ export type ZodStateError = {
 };
 
 /**
- * Type representing a general state error object containing state, message, and data.
+ * Represents the state and an optional Zod validation error.
+ *
+ * @typedef {Object} StateError
+ * @property {State} state - The current state object.
+ * @property {ZodError} [error] - An optional error object from Zod validation. If no error occurred, this will be undefined.
+ *
  */
 export type StateError = {
-  /**
-   * The current validation state (e.g., success, warning, error).
-   */
   state: State;
-
-  /**
-   * An optional error message associated with the state.
-   */
-  message?: string | undefined;
-
-  /**
-   * The data associated with the validation attempt.
-   */
-  data: object;
+  error?: ZodError;
 };
 
 export type OptionsWithThreshold = {
   threshold: number;
 };
 
+/**
+ * Type representing the result of a Zod schema's `safeParse()` method.
+ *
+ * @template T - The expected type of the successfully parsed data.
+ *
+ * @property {boolean} success - Indicates whether the parsing was successful.
+ * @property {ZodError} [error] - The validation error if `success` is `false`.
+ */
+export type ZodSafeParse = {
+  success: boolean;
+  error?: ZodError;
+};
+
+/**
+ * Represents the output state, containing status, warnings, and errors.
+ */
 export type StateOutput = {
+  /**
+   * The current state of the validation process.
+   */
   status: State;
+
+  /**
+   * An array of warnings encountered during validation.
+   * Each warning contains a unique validator ID and associated validation error details.
+   *
+   * @property {string} validatorId - The unique ID of the validator that triggered the warning.
+   * @property {ZodError} validationError - Detailed information about the validation warning.
+   */
   warnings: Array<{
     validatorId: string;
-    message: string | object | undefined;
+    validationError: ZodError;
   }>;
+
+  /**
+   * An array of errors encountered during validation.
+   * Each error contains a unique validator ID and associated validation error details.
+   *
+   * @property {string} validatorId - The unique ID of the validator that triggered the error.
+   * @property {ZodError} validationError - Detailed information about the validation error.
+   */
   errors: Array<{
     validatorId: string;
-    message: string | object | undefined;
+    validationError: ZodError;
   }>;
 };
 

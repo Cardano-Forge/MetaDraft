@@ -79,21 +79,17 @@ Deno.test("CompareRootKeys - withWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    asset000: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "compare-root-keys",
-          message: [
-            "attributes is similar to attrybutes",
-            "attrybutes is similar to attributes",
-          ],
-        },
-      ],
-      errors: [],
-    },
-  });
+  assertEquals(result["asset000"].status, "warning");
+  assertEquals(result["asset000"].warnings[0].validatorId, "compare-root-keys");
+  assertEquals(result["asset000"].warnings[0].validationError.issues.length, 2);
+  assertEquals(
+    result["asset000"].warnings[0].validationError.issues[0].message,
+    "attributes is similar to attrybutes"
+  );
+  assertEquals(
+    result["asset000"].warnings[0].validationError.issues[1].message,
+    "attrybutes is similar to attributes"
+  );
 });
 
 Deno.test("CompareRootValues - withSuccess", () => {
@@ -176,20 +172,23 @@ Deno.test("CompareAttributesValues - withSuccess", () => {
   }
 
   const result = mainValidator.GetResults();
-  assertEquals(result, {
-    asset000: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "compare-attributes-keys",
-          message: [
-            "foo is similar to foo1",
-            "foo1 is similar to foo",
-            "foz is similar to foo",
-          ],
-        },
-      ],
-      errors: [],
-    },
-  });
+
+  assertEquals(result["asset000"].status, "warning");
+  assertEquals(
+    result["asset000"].warnings[0].validatorId,
+    "compare-attributes-keys"
+  );
+  assertEquals(result["asset000"].warnings[0].validationError.issues.length, 3);
+  assertEquals(
+    result["asset000"].warnings[0].validationError.issues[0].message,
+    "foo is similar to foo1"
+  );
+  assertEquals(
+    result["asset000"].warnings[0].validationError.issues[1].message,
+    "foo1 is similar to foo"
+  );
+  assertEquals(
+    result["asset000"].warnings[0].validationError.issues[2].message,
+    "foz is similar to foo"
+  );
 });

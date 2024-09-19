@@ -2,6 +2,7 @@ import { BaseValidator } from "../core.ts";
 
 import type { Metadata, StateOutput } from "../utils/types.ts";
 import { logger } from "../utils/logger.ts";
+import { ZodError } from "zod";
 
 /**
  * A validator that checks if there are any duplicate asset names in the provided metadatas.
@@ -76,7 +77,13 @@ export class DuplicateAssetName extends BaseValidator {
       validations[assetName].status = "error";
       validations[assetName].errors.push({
         validatorId: this.id,
-        message: `AssetName: ${assetName} has been detected as a duplicate. (metadata.name = ${metadata.name})`,
+        validationError: new ZodError([
+          {
+            code: "custom",
+            message: `AssetName: ${assetName} has been detected as a duplicate. (metadata.name = ${metadata.name})`,
+            path: ["name"],
+          },
+        ]),
       });
     });
 

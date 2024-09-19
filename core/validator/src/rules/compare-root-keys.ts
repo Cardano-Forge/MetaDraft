@@ -1,4 +1,6 @@
+import { ZodError } from "zod";
 import { BaseValidator } from "../core.ts";
+import type { ZodSafeParse } from "../mod.ts";
 
 import { GetValidationOutput } from "../utils/getState.ts";
 import { logger } from "../utils/logger.ts";
@@ -39,7 +41,7 @@ export class CompareRootKeys extends BaseValidator {
   Execute(
     assetName: string,
     metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput {
     logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
@@ -56,43 +58,39 @@ export class CompareRootKeys extends BaseValidator {
   Logic(
     assetName: string,
     metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
-    const warnings: string[] = [];
-
-    let similarKeysDetected = false;
+    const warnings = new ZodError([]);
 
     const keys = Object.keys(metadata as object);
 
     for (const key of keys) {
       const closestKey = closest(
         key,
-        keys.filter((fKey) => fKey !== key),
+        keys.filter((fKey) => fKey !== key)
       );
 
       const distanceValue = distance(key, closestKey);
 
       if (distanceValue < (this.options as OptionsWithThreshold).threshold) {
-        warnings.push(`${key} is similar to ${closestKey}`);
+        warnings.addIssue({
+          code: "custom",
+          message: `${key} is similar to ${closestKey}`,
+          path: [key],
+        });
       }
     }
 
-    if (warnings.length > 0) {
-      similarKeysDetected = true;
-    }
+    const hasWarning = warnings.issues.length > 0;
 
-    return GetValidationOutput(
-      {
-        state: similarKeysDetected ? "warning" : "success",
-        message: warnings,
-      },
-      "No similar keys found.",
-      assetName,
-      metadata,
-      this.id,
-    );
+    const result: ZodSafeParse = {
+      success: hasWarning,
+      error: hasWarning ? warnings : undefined,
+    };
+
+    return GetValidationOutput(result, assetName, this.id);
   }
 }
