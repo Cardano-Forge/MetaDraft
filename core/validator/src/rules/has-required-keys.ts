@@ -66,8 +66,8 @@ export class HasRequiredKeysValidator extends BaseValidator {
     );
 
     const result: ZodSafeParse = {
-      success: hasAllRequiredKeys,
-      error: hasAllRequiredKeys
+      success: !hasAllRequiredKeys,
+      error: !hasAllRequiredKeys
         ? new ZodError([
             {
               code: "custom",

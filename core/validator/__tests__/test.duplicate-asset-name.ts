@@ -51,27 +51,22 @@ Deno.test("DuplicateAssetName - withError", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    asset_0000: {
-      status: "error",
-      warnings: [],
-      errors: [
-        {
-          validatorId: "duplicate-asset-name",
-          message:
-            "AssetName: asset_0000 has been detected as a duplicate. (metadata.name = asset_0000)",
-        },
-        {
-          validatorId: "duplicate-asset-name",
-          message:
-            "AssetName: asset_0000 has been detected as a duplicate. (metadata.name = asset_0002)",
-        },
-        {
-          validatorId: "duplicate-asset-name",
-          message:
-            "AssetName: asset_0000 has been detected as a duplicate. (metadata.name = asset_0004)",
-        },
-      ],
-    },
-  });
+  assertEquals(result["asset_0000"].status, "error");
+  assertEquals(
+    result["asset_0000"].errors[0].validatorId,
+    "duplicate-asset-name"
+  );
+  assertEquals(result["asset_0000"].errors.length, 3);
+  assertEquals(
+    result["asset_0000"].errors[0].validationError.issues[0].message,
+    "AssetName: asset_0000 has been detected as a duplicate. (metadata.name = asset_0000)"
+  );
+  assertEquals(
+    result["asset_0000"].errors[1].validationError.issues[0].message,
+    "AssetName: asset_0000 has been detected as a duplicate. (metadata.name = asset_0002)"
+  );
+  assertEquals(
+    result["asset_0000"].errors[2].validationError.issues[0].message,
+    "AssetName: asset_0000 has been detected as a duplicate. (metadata.name = asset_0004)"
+  );
 });

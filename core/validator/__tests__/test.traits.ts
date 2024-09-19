@@ -7,24 +7,25 @@ import { KeyTraitsValidator } from "../src/rules/key-traits.ts";
 Deno.test("KeyTraitsValidator - withWarning", () => {
   const metadata = [
     {
-      policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
       assetName: "asset000",
-      name: "asset000",
-      image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
-      mediaType: "image/png",
-      description:
-        "a non empty description using a random length because Im testing", // 64 chars
-      files: [
-        {
-          name: "oops",
-          mediaType: "image/png",
-          src: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
+      metadata: {
+        name: "asset000",
+        image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
+        mediaType: "image/png",
+        description:
+          "a non empty description using a random length because Im testing", // 64 chars
+        files: [
+          {
+            name: "oops",
+            mediaType: "image/png",
+            src: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
+          },
+        ],
+        attributes: {
+          foo: "bar",
         },
-      ],
-      attributes: {
-        foo: "bar",
+        traits: ["trait-1", { name: "trait-2", value: "2" }, 1],
       },
-      traits: ["trait-1", { name: "trait-2", value: "2" }, 1],
     },
   ];
 
@@ -32,40 +33,23 @@ Deno.test("KeyTraitsValidator - withWarning", () => {
   mainValidator.Enable(new KeyTraitsValidator());
 
   for (const asset_metadata of metadata) {
-    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
+    mainValidator.Execute(
+      asset_metadata.assetName,
+      asset_metadata.metadata,
+      metadata
+    );
   }
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    asset000: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "key-traits",
-          message: {
-            formErrors: [],
-            fieldErrors: {
-              traits: [
-                {
-                  message:
-                    "All elements in the array should be of the same type.",
-                  errorCode: "custom",
-                  status: "warning",
-                  path: "traits",
-                },
-                {
-                  message: "It is recommended to use string instead of number",
-                  errorCode: "custom",
-                  status: "warning",
-                  path: "traits/2",
-                },
-              ],
-            },
-          },
-        },
-      ],
-      errors: [],
-    },
-  });
+  assertEquals(result["asset000"].status, "warning");
+  assertEquals(result["asset000"].warnings[0].validatorId, "key-traits");
+  assertEquals(result["asset000"].warnings[0].validationError.issues.length, 2);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[0].path, [
+    "traits",
+  ]);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[1].path, [
+    "traits",
+    2,
+  ]);
 });

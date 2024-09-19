@@ -36,16 +36,21 @@ Deno.test("DuplicateName - withError", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    asset_0002: {
-      status: "error",
-      warnings: [],
-      errors: [
-        {
-          validatorId: "duplicate-name",
-          message: "Name: asset_0000 has been detected as a duplicate.",
-        },
-      ],
-    },
-  });
+  // TODO - REBUILD THE RULE TO ADD THE WARNING ON BOTH DUPLICATE
+  // assertEquals(result["asset_0000"].status, "error");
+  // assertEquals(
+  //   result["asset_0000"].errors[0].validatorId,
+  //   "duplicate-name"
+  // );
+  // assertEquals(
+  //   result["asset_0000"].errors[0].validationError.issues[0].message,
+  //   "Name: asset_0000 has been detected as a duplicate."
+  // );
+
+  assertEquals(result["asset_0002"].status, "error");
+  assertEquals(result["asset_0002"].errors[0].validatorId, "duplicate-name");
+  assertEquals(
+    result["asset_0002"].errors[0].validationError.issues[0].message,
+    "Name: asset_0000 has been detected as a duplicate."
+  );
 });

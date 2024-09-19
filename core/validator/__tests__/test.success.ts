@@ -11,13 +11,13 @@ import {
   DuplicateKeysValidator,
   DuplicateNameAndImage,
   HasRequiredKeysValidator,
-  IValidator,
   KeyAnvilCasing,
   KeyFilesValidator,
   KeyImageValidator,
   KeyLength,
   KeyMediaTypeValidator,
   KeyNameValidator,
+  type IValidator,
 } from "../src/mod.ts";
 
 Deno.test("Metadata - withSuccess", () => {
@@ -50,6 +50,8 @@ Deno.test("Metadata - withSuccess", () => {
   }
 
   const result = mainValidator.GetResults();
+
+  console.log(result)
 
   assertEquals(result, {});
 });

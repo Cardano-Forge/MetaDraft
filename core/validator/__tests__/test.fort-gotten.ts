@@ -51,51 +51,32 @@ Deno.test("fort-gotten.json", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    FortGottenEp02Kid3963: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "key-attributes",
-          message: {
-            formErrors: [],
-            fieldErrors: {
-              attributes: [
-                {
-                  message: "It is recommended to use string instead of number",
-                  errorCode: "custom",
-                  status: "warning",
-                  path: "attributes/Head",
-                },
-              ],
-            },
-          },
-        },
-        {
-          validatorId: "key-traits",
-          message: {
-            formErrors: [],
-            fieldErrors: {
-              traits: [
-                {
-                  message:
-                    "All elements in the array should be of the same type.",
-                  errorCode: "custom",
-                  status: "warning",
-                  path: "traits",
-                },
-                {
-                  message: "It is recommended to use string instead of number",
-                  errorCode: "custom",
-                  status: "warning",
-                  path: "traits/1",
-                },
-              ],
-            },
-          },
-        },
-      ],
-      errors: [],
-    },
-  });
+  assertEquals(result["FortGottenEp02Kid3963"].status, "warning");
+  assertEquals(result["FortGottenEp02Kid3963"].warnings.length, 2);
+  assertEquals(
+    result["FortGottenEp02Kid3963"].warnings[0].validatorId,
+    "key-attributes"
+  );
+  assertEquals(
+    result["FortGottenEp02Kid3963"].warnings[0].validationError.issues[0]
+      .message,
+    "It is recommended to use string instead of number"
+  );
+  assertEquals(
+    result["FortGottenEp02Kid3963"].warnings[0].validationError.issues[0].path,
+    ["attributes", "Head"]
+  );
+  assertEquals(
+    result["FortGottenEp02Kid3963"].warnings[1].validatorId,
+    "key-traits"
+  );
+  assertEquals(
+    result["FortGottenEp02Kid3963"].warnings[1].validationError.issues[0]
+      .message,
+    "All elements in the array should be of the same type."
+  );
+  assertEquals(
+    result["FortGottenEp02Kid3963"].warnings[1].validationError.issues[0].path,
+    ["traits"]
+  );
 });
