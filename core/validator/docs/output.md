@@ -1,8 +1,6 @@
 # Output from errors and warnings
 
-Currently there is 3 formats:
-
-The validation process produces output in one of the following formats.
+The validation process produces output the following formats.
 You can find more examples in the `__tests__/` directory.
 
 Each validator's output is sorted into either the `warnings` or `errors` array within the asset object.
@@ -10,102 +8,64 @@ Each validator's output is sorted into either the `warnings` or `errors` array w
 The top-level status is an `error` if any test returns an error.
 Otherwise, it can be a `warning` or `success` using the same logic as the `error`.
 
-**Message only**:
+**State Output Type**:
 
 ```json
-assetNameXYZ: {
-  status: "warning",
-  warnings: [
-    {
-      validatorId: "...",
-      message: "...",
-    },
-  ],
-  errors: [
-    {
-      validatorId: "...",
-      message: "...",
-    },
-  ],
+{
+  <asset_name>: {
+    status: "success" | "warning" | "error" ,
+    warnings: [
+      {
+        validatorId: <string>,
+        validationError: ZodError;
+      },
+    ],
+    errors: [
+      {
+        validatorId: <string>,
+        validationError: ZodError;
+      },
+    ],
+  }
 }
 ```
 
-**Message as an object for details**:
-*(the structure may vary depending on the context of the rule)*
+**State Output Example**:
 
 ```json
-assetNameXYZ: {
-  status: "warning",
-  warnings: [
-    {
-      validatorId: "...",
-      message: {
-        message:
-          "...",
-        warnings: [
-          {
-            field: "...",
-            paths: [
-              "...",
-              "...",
-
-            ],
-            occurences: 5,
-          },
-        ],
-      },
-    },
-  ],
-  errors: []
-}
-```
-
-**Zod Error**:
-
-```json
-assetNameXYZ: {
-  status: "warning",
-  warnings: [
-    {
-      validatorId: "...",
-      message: {
-        formErrors: [],
-        fieldErrors: {
-          attributes: [
+{
+  assetNameXYZ: {
+    status: "warning",
+    warnings: [
+      {
+        validatorId: "key-lower-case",
+        validationError: {
+          issues: [
             {
-              message: "...",
-              errorCode: "custom",
-              status: "warning",
-              path: "...",
+              code: "custom",
+              message: "Some keys do not adhere to Lower Case formatting.",
+              path: [
+                "media",
+                "Website",
+              ]
             },
-          ],
-        },
+             {
+              code: "custom",
+              message: "Some keys do not adhere to Lower Case formatting.",
+              path: [
+                "mediaType",
+              ]
+            },
+            "..."
+          ]
+        }
       },
-    },
-    {
-      validatorId: "...",
-      message: {
-        formErrors: [],
-        fieldErrors: {
-          traits: [
-            {
-              message:
-                "...",
-              errorCode: "custom",
-              status: "warning",
-              path: "...",
-            },
-            {
-              message: "...",
-              errorCode: "custom",
-              status: "warning",
-              path: "...",
-            },
-          ],
-        },
-      },
-    },
-  ],
-  errors: []
+      {
+        validatorId: "key-title-case",
+        validationErorr: {...}
+      }
+    ],
+    errors: [],
+  }
 }
 ```
