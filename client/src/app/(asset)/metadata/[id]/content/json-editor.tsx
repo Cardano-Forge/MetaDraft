@@ -28,17 +28,21 @@ export default function JSONEditor({
           const zodResults = MetadataCollectionSchema.safeParse(newData);
           if (!zodResults.success) {
             console.log("Errors", zodResults.error);
-            // const errorMessage = validate.errors
-            //   ?.map((error) => `${error.instancePath}${error.instancePath ? ': ' : ''}${error.message}`)
-            //   .join('\n')
-            // // Send detailed error message to an external UI element, such as a "Toast" notification
-            //  displayError({
-            //   title: 'Not compliant with JSON Schema',
+
+            const errorMessage = zodResults.error.issues
+              ?.map(
+                (error) =>
+                  `${error.message}`,
+              )
+              .join("\n");
+            // Send detailed error message to an external UI element, such as a "Toast" notification
+            // displayError({
+            //   title: "Not compliant with JSON Schema",
             //   description: errorMessage,
-            //   status: 'error',
-            // })
+            //   status: "error",
+            // });
             // This string returned to and displayed in json-edit-react UI
-            return "JSON Schema error";
+            return errorMessage;
           }
         }}
       />
