@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+const StatusEnum = z.enum(["success", "warning", "error"]);
+
 /**
  * CIP25 Files recommanded schema
  */
@@ -31,3 +33,10 @@ export const JSONSchema = z.array(
     metadata: CIP25Schema,
   }),
 );
+
+export const MetadataCollectionSchema = z.object({
+  id: z.string(),
+  assetName: z.string(),
+  metadata: CIP25Schema,
+  status: StatusEnum,
+});

@@ -7,7 +7,7 @@ import BackIcon from "~/icons/back.icon";
 import type { MetadataCollection } from "~/lib/types";
 import { getImageSrc } from "~/lib/get/get-image-src";
 import Status from "~/components/default-status";
-import HeaderActions from "./header-actions";
+import HeaderActions from "./actions";
 import { useRouter } from "next/navigation";
 
 export default function Header({ metadata }: { metadata: MetadataCollection }) {

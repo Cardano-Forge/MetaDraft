@@ -3,6 +3,7 @@
 import React from "react";
 import { useRxData } from "rxdb-hooks";
 import type { MetadataCollection } from "~/lib/types";
+import JSONEditor from "./content/json-editor";
 
 export default function SingleAssetPage({
   params,
@@ -23,5 +24,9 @@ export default function SingleAssetPage({
 
   if (!metadata) return <div>No metdata found</div>;
 
-  return <div>{metadata.assetName}</div>;
+  return (
+    <div className="flex flex-col gap-4">
+      <JSONEditor metadata={metadata} />
+    </div>
+  );
 }
