@@ -28,7 +28,7 @@ import {
 Deno.test("TestDeadpxlz", () => {
   const metadata = [
     JSON.parse(
-      readFileSync(join("__tests__", "payloads", "deadpxlz.json"), "utf8"),
+      readFileSync(join("__tests__", "payloads", "deadpxlz.json"), "utf8")
     ),
   ];
 
@@ -63,24 +63,20 @@ Deno.test("TestDeadpxlz", () => {
     mainValidator.Execute(
       Object.keys(asset_metadata)[0],
       Object.values(asset_metadata)[0],
-      metadata,
+      metadata
     );
   }
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    PXL9951: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "compare-attributes-keys",
-          message: [
-            "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set.",
-          ],
-        },
-      ],
-      errors: [],
-    },
-  });
+  assertEquals(result["PXL9951"].status, "warning");
+  assertEquals(result["PXL9951"].warnings.length, 1);
+  assertEquals(
+    result["PXL9951"].warnings[0].validatorId,
+    "compare-attributes-keys"
+  );
+  assertEquals(
+    result["PXL9951"].warnings[0].validationError.issues[0].message,
+    "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set."
+  );
 });
