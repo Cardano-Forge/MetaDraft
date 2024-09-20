@@ -11,8 +11,12 @@
   },
   "tasks": {
     "build": "deno run -A scripts/build_npm.ts",
-    "lint": "deno lint src/",
-    "lint:fix": "deno lint --fix src/",
+    "lint": "deno lint",
+    "lint:fix": "deno lint --fix",
     "test": "deno test -A __tests__/**/*.ts"
+  },
+  "lint": {
+    "include": ["src/"],
+    "exclude": ["npm/"]
   }
 }

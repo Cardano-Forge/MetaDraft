@@ -10,7 +10,7 @@ import { DIVIDER } from "./contstant.ts";
 import { extractOptions } from "./utils.ts";
 import { DataRead, Metadata } from "./types.ts";
 
-export async function validate(
+export function validate(
   metadataPath: string,
   templatePath: string,
   outputPath: string

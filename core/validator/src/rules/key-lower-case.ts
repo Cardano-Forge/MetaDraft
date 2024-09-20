@@ -2,7 +2,7 @@ import { BaseValidator } from "../core.ts";
 
 import { GetValidationOutput } from "../utils/getState.ts";
 
-import type { KeyWithPath, StateOutput, ZodSafeParse } from "../utils/types.ts";
+import type { StateOutput, ZodSafeParse } from "../utils/types.ts";
 import { isLowerCaseWords } from "../utils/casing.ts";
 import { extractKeysWithPaths } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";

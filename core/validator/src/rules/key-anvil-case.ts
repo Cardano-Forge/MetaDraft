@@ -13,13 +13,13 @@ import { ZodError } from "zod";
 /**
  * Enforces that metadata keys are in camel case format and inner keys in attributes are in Title Case format.
  *
- * @class KeyAnvilCasing
+ * @class KeyAnvilCase
  * @module Rules
  * @extends BaseValidator
  */
-export class KeyAnvilCasing extends BaseValidator {
+export class KeyAnvilCase extends BaseValidator {
   /**
-   * Creates an instance of KeyAnvilCasing validator.
+   * Creates an instance of KeyAnvilCase validator.
    *
    * @param {object} [options] - The options for the validator.
    */

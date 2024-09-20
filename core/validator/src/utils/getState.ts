@@ -2,39 +2,46 @@ import type { StateOutput } from "../mod.ts";
 import type { StateError, ZodSafeParse } from "./types.ts";
 
 /**
- * Generates validation output based on the given result and other parameters.
+ * Processes the validation result and returns a structured output for state status, warnings, and errors.
  *
- * @param {unknown} result - The validation result object. Expected to have the following shape:
- *   - error?: ZodError (if validation failed)
- *   - success?: boolean (indicating successful validation)
- *   - state?: 'success' | 'error' (if validation result is StateError)
- *   - message?: string (if validation result is StateError)
- * @param {string} successMessage - The message to display upon successful validation.
- * @param {string} [_assetName] - The name of the asset being validated. Defaults to "UNKNOWN". Kept to keep the same structure that we had
- * @param {unknown} [_metadata] - Any additional metadata related to the validation process. Kept to keep the same structure that we had
- * @param {string} [validatorId="UNKNOWN"] - The ID of the validator performing the check. Defaults to "UNKNOWN".
- * @returns {StateOutput}
- *   - An object containing the validation status and warning messages.
+ * This function evaluates whether the result contains an error and assigns a status of either "success", "warning",
+ * or "error" based on the presence of issues. It then formats the output to include warnings or errors accordingly.
+ *
+ * @param {StateError | ZodSafeParse} result - The validation result object which can either be a `StateError` or a parsed Zod result.
+ * @param {string} _assetName - The name of the asset being validated (currently unused in the logic).
+ * @param {string} [validatorId="UNKNOWN"] - An identifier for the validator that produced the result. Defaults to "UNKNOWN".
+ * @returns {StateOutput} - An object containing the validation status, warnings, and errors.
+ *
+ * @example
+ * const validationOutput = GetValidationOutput(parsedResult, "assetName", "validator-123");
+ * console.log(validationOutput);
+ * // Output:
+ * // {
+ * //   status: "warning",
+ * //   warnings: [{ validatorId: "validator-123", validationError: ZodError }],
+ * //   errors: []
+ * // }
  */
 export function GetValidationOutput(
   result: StateError | ZodSafeParse,
   _assetName: string,
   validatorId: string = "UNKNOWN"
 ): StateOutput {
-  // Success
-  if (!result.error || result.error.issues.length === 0)
-    return { status: "success", warnings: [], errors: [] };
+  const { error } = result;
 
-  // Has warning || has error
+  // If no error or no issues, the status is "success"
+  if (!error || error.issues.length === 0) {
+    return { status: "success", warnings: [], errors: [] };
+  }
+
+  // Determine state: default to "warning" if undefined
   const state = (result as StateError).state ?? "warning";
 
-  return {
-    status: state,
-    warnings:
-      state === "warning"
-        ? [{ validatorId, validationError: result.error }]
-        : [],
-    errors:
-      state === "error" ? [{ validatorId, validationError: result.error }] : [],
-  };
+  // Prepare warnings and errors based on the state
+  const warnings =
+    state === "warning" ? [{ validatorId, validationError: error }] : [];
+  const errors =
+    state === "error" ? [{ validatorId, validationError: error }] : [];
+
+  return { status: state, warnings, errors };
 }

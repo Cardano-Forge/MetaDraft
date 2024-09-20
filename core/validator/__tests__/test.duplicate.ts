@@ -3,7 +3,6 @@ import { assertEquals } from "@std/assert";
 import { Validator } from "../src/core.ts";
 
 import { DuplicateKeysValidator } from "../src/rules/duplicate-keys.ts";
-import { ZodCustomIssue } from "zod";
 
 Deno.test("DuplicateKeys - withWarnings", () => {
   const metadata = [

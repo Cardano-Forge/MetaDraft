@@ -2,7 +2,6 @@ import { assertEquals } from "@std/assert";
 
 import { Validator } from "../src/core.ts";
 
-import { DuplicateName } from "../src/rules/duplicate-name.ts";
 import { DuplicateAssetName } from "../src/rules/duplicate-asset-name.ts";
 
 Deno.test("DuplicateAssetName - withError", () => {

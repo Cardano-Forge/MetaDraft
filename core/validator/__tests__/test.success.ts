@@ -11,7 +11,7 @@ import {
   DuplicateKeysValidator,
   DuplicateNameAndImage,
   HasRequiredKeysValidator,
-  KeyAnvilCasing,
+  KeyAnvilCase,
   KeyFilesValidator,
   KeyImageValidator,
   KeyLength,
@@ -33,7 +33,7 @@ Deno.test("Metadata - withSuccess", () => {
     new DuplicateKeysValidator(),
     new CompareAttributesKeys(),
     new DuplicateNameAndImage(),
-    new KeyAnvilCasing(),
+    new KeyAnvilCase(),
   ];
 
   const mainValidator = new Validator("Main");

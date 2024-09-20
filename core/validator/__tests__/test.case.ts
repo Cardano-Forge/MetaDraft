@@ -7,7 +7,7 @@ import { KeyCamelCase } from "../src/rules/key-camel-case.ts";
 import { KeyLowerCase } from "../src/rules/key-lower-case.ts";
 import { KeyUpperCase } from "../src/rules/key-upper-case.ts";
 import { KeySnakeCase } from "../src/rules/key-snake-case.ts";
-import { KeyAnvilCasing } from "../src/rules/key-anvil-casing.ts";
+import { KeyAnvilCase } from "../src/rules/key-anvil-case.ts";
 
 const metadata = [
   {
@@ -184,7 +184,7 @@ Deno.test("KeyUpperCase - withWarning", () => {
 
 Deno.test("AnvilCasing - withWarning", () => {
   const mainValidator = new Validator("Main");
-  mainValidator.Enable(new KeyAnvilCasing());
+  mainValidator.Enable(new KeyAnvilCase());
 
   for (const asset_metadata of metadata) {
     mainValidator.Execute(
