@@ -1,6 +1,6 @@
 # Output from errors and warnings
 
-The validation process produces output the following formats.
+The validation process produces the following output.
 You can find more examples in the `__tests__/` directory.
 
 Each validator's output is sorted into either the `warnings` or `errors` array within the asset object.
@@ -10,7 +10,7 @@ Otherwise, it can be a `warning` or `success` using the same logic as the `error
 
 **State Output Type**:
 
-```json
+```
 {
   <asset_name>: {
     status: "success" | "warning" | "error" ,
@@ -32,7 +32,7 @@ Otherwise, it can be a `warning` or `success` using the same logic as the `error
 
 **State Output Example**:
 
-```json
+```
 {
   assetNameXYZ: {
     status: "warning",

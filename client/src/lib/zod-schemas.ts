@@ -16,7 +16,7 @@ export const CIP25Schema = z
   .object({
     name: z.string(),
     image: z.union([z.string(), z.array(z.string())]),
-    description: z.union([z.string(), z.array(z.string())]),
+    description: z.union([z.string(), z.array(z.string())]).optional(),
     mediaType: z.string().optional(),
     files: z.array(FilesSchema).optional(),
   })

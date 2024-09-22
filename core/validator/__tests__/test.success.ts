@@ -51,7 +51,5 @@ Deno.test("Metadata - withSuccess", () => {
 
   const result = mainValidator.GetResults();
 
-  console.log(result)
-
   assertEquals(result, {});
 });
