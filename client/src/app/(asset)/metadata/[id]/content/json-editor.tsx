@@ -4,6 +4,7 @@ import { JsonEditor } from "json-edit-react";
 import type { MetadataCollection } from "~/lib/types";
 import { MetadataCollectionSchema } from "~/lib/zod-schemas";
 import { Typography } from "~/components/typography";
+import { toast } from "sonner";
 
 export default function JSONEditor({
   metadata,
@@ -19,6 +20,8 @@ export default function JSONEditor({
         data={meta}
         showErrorMessages
         enableClipboard={false}
+        defaultValue={"undefined"}
+        // Theming
         theme={[
           "monoDark",
           {
@@ -42,27 +45,20 @@ export default function JSONEditor({
         } // Can only add in metadata
         restrictDelete={({ level }) => level === 0 || level === 1} // Cannot delete at root level & id or assetName or metadata or status
         restrictTypeSelection={({ path }) => {
-          if (path.includes("assetName")) return ["string"];
-          return ["string", "number", "array", "object"]; // no "null"
+          if (path.includes("assetName")) return ["string"]; // Only string for asssetName
+          return ["string", "number", "array", "object"]; // Only 4 type accepted
         }}
         // Zod Validation on update
         onUpdate={({ newData }) => {
           const zodResults = MetadataCollectionSchema.safeParse(newData);
           if (!zodResults.success) {
-            console.log("Errors", zodResults.error);
-
             const errorMessage = zodResults.error.issues
               ?.map((error) => `${error.message}`)
               .join("\n");
-            // Send detailed error message to an external UI element, such as a "Toast" notification
-            // displayError({
-            //   title: "Not compliant with JSON Schema",
-            //   description: errorMessage,
-            //   status: "error",
-            // });
             // This string returned to and displayed in json-edit-react UI
             return errorMessage;
           }
+
           if (zodResults.success) {
             setMeta(zodResults.data);
           }
