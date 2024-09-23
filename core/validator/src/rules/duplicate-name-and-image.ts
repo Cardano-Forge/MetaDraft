@@ -50,80 +50,87 @@ export class DuplicateNameAndImage extends BaseValidator {
     metadatas: Metadata[],
     validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
-    const seen = {
-      images: new Set<string>(),
-      names: new Set<string>(),
-    };
+    const nameErrorsMetadata = new Set<Metadata>();
+    const nameCount: Record<string, number> = {};
+    const imageErrorsMetadata = new Set<Metadata>();
+    const imageCount: Record<string, number> = {};
 
-    const success: { name: string; image: string | string[] }[] = [];
-
+    // First pass: Count occurrences
     for (const entry of metadatas) {
-      let errorDetected = false;
-      let nameDuplicated = false;
-      if (
-        typeof entry === "object" &&
-        entry !== null &&
-        "image" in entry.metadata
-      ) {
-        const image: string = Array.isArray(entry.metadata.image)
-          ? entry.metadata.image.join("")
-          : entry.metadata.image;
-        if (seen.images.has(image)) {
-          errorDetected = true;
-        }
-        seen.images.add(image);
+      // Name
+      const name = entry.metadata.name;
+      nameCount[name] = (nameCount[name] || 0) + 1;
+      // Image
+      const image: string = Array.isArray(entry.metadata.image)
+        ? entry.metadata.image.join("")
+        : entry.metadata.image;
+      imageCount[image] = (imageCount[image] || 0) + 1;
+    }
+
+    // Second pass: Identify duplicates based on the count
+    for (const entry of metadatas) {
+      // Name
+      const name = entry.metadata.name;
+      if (nameCount[name] > 1) {
+        nameErrorsMetadata.add(entry);
       }
-
-      if (
-        typeof entry === "object" &&
-        entry !== null &&
-        "name" in entry.metadata
-      ) {
-        if (seen.names.has(entry.metadata.name)) {
-          errorDetected = true;
-          nameDuplicated = true;
-        }
-        seen.names.add(entry.metadata.name);
-      }
-
-      if (!errorDetected) {
-        success.push(entry.metadata);
-      } else {
-        if (!validations[entry.assetName]) {
-          validations[entry.assetName] = {
-            status: "warning",
-            warnings: [],
-            errors: [],
-          };
-        }
-
-        if (nameDuplicated) {
-          validations[entry.assetName].status = "error";
-          validations[entry.assetName].errors.push({
-            validatorId: this.id,
-            validationError: new ZodError([
-              {
-                code: "custom",
-                message: `Name: ${entry.metadata.name} has been detected as a duplicate.`,
-                path: ["name"],
-              },
-            ]),
-          });
-        } else {
-          validations[entry.assetName].status = "warning";
-          validations[entry.assetName].warnings.push({
-            validatorId: this.id,
-            validationError: new ZodError([
-              {
-                code: "custom",
-                message: `Image: ${entry.metadata.image} has been detected as a duplicate.`,
-                path: ["image"],
-              },
-            ]),
-          });
-        }
+      // Image
+      const image: string = Array.isArray(entry.metadata.image)
+        ? entry.metadata.image.join("")
+        : entry.metadata.image;
+      if (imageCount[image] > 1) {
+        imageErrorsMetadata.add(entry);
       }
     }
+
+    // NAME ERRORS
+    nameErrorsMetadata.forEach(({ assetName, metadata }) => {
+      if (!validations[assetName]) {
+        validations[assetName] = {
+          status: "warning",
+          warnings: [],
+          errors: [],
+        };
+      }
+
+      validations[assetName].status = "warning";
+      validations[assetName].warnings.push({
+        validatorId: this.id,
+        validationError: new ZodError([
+          {
+            code: "custom",
+            message: `Name: ${metadata.name} has been detected as a duplicate.`,
+            path: ["name"],
+          },
+        ]),
+      });
+    });
+
+    // IMAGE ERRORS
+    imageErrorsMetadata.forEach(({ assetName, metadata }) => {
+      if (!validations[assetName]) {
+        validations[assetName] = {
+          status: "warning",
+          warnings: [],
+          errors: [],
+        };
+      }
+      const image: string = Array.isArray(metadata.image)
+        ? metadata.image.join("")
+        : metadata.image;
+
+      validations[assetName].status = "warning";
+      validations[assetName].warnings.push({
+        validatorId: this.id,
+        validationError: new ZodError([
+          {
+            code: "custom",
+            message: `Image: ${image} has been detected as a duplicate.`,
+            path: ["image"],
+          },
+        ]),
+      });
+    });
 
     return validations;
   }

@@ -43,14 +43,12 @@ Deno.test("DuplicateAssetName - withError", () => {
     },
   ];
 
-  console.time("timeAll");
   const mainValidator = new Validator("Main");
   mainValidator.Enable(new DuplicateAssetName());
 
   mainValidator.ExecuteOnce(metadata);
 
   const result = mainValidator.GetResults();
-  console.timeEnd("timeAll");
 
   assertEquals(result["asset_0000"].status, "error");
   assertEquals(

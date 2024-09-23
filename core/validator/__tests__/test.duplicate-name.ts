@@ -4,7 +4,7 @@ import { Validator } from "../src/core.ts";
 
 import { DuplicateName } from "../src/rules/duplicate-name.ts";
 
-Deno.test("DuplicateName - withError", () => {
+Deno.test("DuplicateName - withWarning", () => {
   const metadata = [
     {
       assetName: "asset_0000",
@@ -36,21 +36,17 @@ Deno.test("DuplicateName - withError", () => {
 
   const result = mainValidator.GetResults();
 
-  // TODO - REBUILD THE RULE TO ADD THE WARNING ON BOTH DUPLICATE
-  // assertEquals(result["asset_0000"].status, "error");
-  // assertEquals(
-  //   result["asset_0000"].errors[0].validatorId,
-  //   "duplicate-name"
-  // );
-  // assertEquals(
-  //   result["asset_0000"].errors[0].validationError.issues[0].message,
-  //   "Name: asset_0000 has been detected as a duplicate."
-  // );
-
-  assertEquals(result["asset_0002"].status, "error");
-  assertEquals(result["asset_0002"].errors[0].validatorId, "duplicate-name");
+  assertEquals(result["asset_0000"].status, "warning");
+  assertEquals(result["asset_0000"].warnings[0].validatorId, "duplicate-name");
   assertEquals(
-    result["asset_0002"].errors[0].validationError.issues[0].message,
+    result["asset_0000"].warnings[0].validationError.issues[0].message,
+    "Name: asset_0000 has been detected as a duplicate."
+  );
+
+  assertEquals(result["asset_0002"].status, "warning");
+  assertEquals(result["asset_0002"].warnings[0].validatorId, "duplicate-name");
+  assertEquals(
+    result["asset_0002"].warnings[0].validationError.issues[0].message,
     "Name: asset_0000 has been detected as a duplicate."
   );
 });

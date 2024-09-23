@@ -50,40 +50,45 @@ export class DuplicateName extends BaseValidator {
     metadatas: Metadata[],
     validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
-    const seen = {
-      names: new Set<string>(),
-    };
+    const errorsMetadata = new Set<Metadata>();
+    const nameCount: Record<string, number> = {};
 
+    // First pass: Count occurrences of each name
     for (const entry of metadatas) {
-      if (
-        typeof entry === "object" &&
-        entry !== null &&
-        "name" in entry.metadata
-      ) {
-        if (seen.names.has(entry.metadata.name)) {
-          if (!validations[entry.assetName]) {
-            validations[entry.assetName] = {
-              status: "error",
-              warnings: [],
-              errors: [],
-            };
-          }
+      const name = entry.metadata.name;
+      nameCount[name] = (nameCount[name] || 0) + 1;
+    }
 
-          validations[entry.assetName].status = "error";
-          validations[entry.assetName].errors.push({
-            validatorId: this.id,
-            validationError: new ZodError([
-              {
-                code: "custom",
-                message: `Name: ${entry.metadata.name} has been detected as a duplicate.`,
-                path: ["name"],
-              },
-            ]),
-          });
-        }
-        seen.names.add(entry.metadata.name);
+    // Second pass: Identify duplicates based on the count
+    for (const entry of metadatas) {
+      const name = entry.metadata.name;
+      if (nameCount[name] > 1) {
+        errorsMetadata.add(entry);
       }
     }
+
+    // ERRORS
+    errorsMetadata.forEach(({ assetName, metadata }) => {
+      if (!validations[assetName]) {
+        validations[assetName] = {
+          status: "warning",
+          warnings: [],
+          errors: [],
+        };
+      }
+
+      validations[assetName].status = "warning";
+      validations[assetName].warnings.push({
+        validatorId: this.id,
+        validationError: new ZodError([
+          {
+            code: "custom",
+            message: `Name: ${metadata.name} has been detected as a duplicate.`,
+            path: ["name"],
+          },
+        ]),
+      });
+    });
 
     return validations;
   }

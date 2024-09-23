@@ -53,7 +53,7 @@ export class DuplicateImage extends BaseValidator {
     const errorsMetadata = new Set<Metadata>();
     const imageCount: Record<string, number> = {};
 
-    // First pass: Count occurrences of each assetName
+    // First pass: Count occurrences of each image
     for (const entry of metadatas) {
       const image: string = Array.isArray(entry.metadata.image)
         ? entry.metadata.image.join("")
@@ -75,7 +75,7 @@ export class DuplicateImage extends BaseValidator {
     errorsMetadata.forEach(({ assetName, metadata }) => {
       if (!validations[assetName]) {
         validations[assetName] = {
-          status: "error",
+          status: "warning",
           warnings: [],
           errors: [],
         };
@@ -96,40 +96,6 @@ export class DuplicateImage extends BaseValidator {
         ]),
       });
     });
-
-    // for (const entry of metadatas) {
-    //   if (
-    //     typeof entry === "object" &&
-    //     entry !== null &&
-    //     "image" in entry.metadata
-    //   ) {
-    //     const image: string = Array.isArray(entry.metadata.image)
-    //       ? entry.metadata.image.join("")
-    //       : entry.metadata.image;
-    //     if (seen.images.has(image)) {
-    //       if (!validations[entry.assetName]) {
-    //         validations[entry.assetName] = {
-    //           status: "warning",
-    //           warnings: [],
-    //           errors: [],
-    //         };
-    //       }
-
-    //       validations[entry.assetName].status = "warning";
-    //       validations[entry.assetName].warnings.push({
-    //         validatorId: this.id,
-    //         validationError: new ZodError([
-    //           {
-    //             code: "custom",
-    //             message: `Image: ${image} has been detected as a duplicate.`,
-    //             path: ["image"],
-    //           },
-    //         ]),
-    //       });
-    //     }
-    //     seen.images.add(image);
-    //   }
-    // }
 
     return validations;
   }
