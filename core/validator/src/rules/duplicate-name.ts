@@ -50,45 +50,41 @@ export class DuplicateName extends BaseValidator {
     metadatas: Metadata[],
     validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
-    const errorsMetadata: Metadata[] = [];
-    const nameCount: Record<string, number> = {};
+    const seen = new Set<string>();
+    const duplicate = new Set<string>();
 
-    // First pass: Count occurrences of each name
     for (const entry of metadatas) {
       const name = entry.metadata.name;
-      nameCount[name] = (nameCount[name] || 0) + 1;
-    }
-
-    // Second pass: Identify duplicates based on the count
-    for (const entry of metadatas) {
-      const name = entry.metadata.name;
-      if (nameCount[name] > 1) {
-        errorsMetadata.push(entry);
+      if (seen.has(name)) {
+        duplicate.add(name);
+      } else {
+        seen.add(name);
       }
     }
 
-    // ERRORS
-    errorsMetadata.forEach(({ assetName, metadata }) => {
-      if (!validations[assetName]) {
-        validations[assetName] = {
-          status: "warning",
-          warnings: [],
-          errors: [],
-        };
-      }
+    for (const entry of metadatas) {
+      if (duplicate.has(entry.metadata.name)) {
+        if (!validations[entry.assetName]) {
+          validations[entry.assetName] = {
+            status: "warning",
+            warnings: [],
+            errors: [],
+          };
+        }
 
-      validations[assetName].status = "warning";
-      validations[assetName].warnings.push({
-        validatorId: this.id,
-        validationError: new ZodError([
-          {
-            code: "custom",
-            message: `Name: ${metadata.name} has been detected as a duplicate.`,
-            path: ["name"],
-          },
-        ]),
-      });
-    });
+        validations[entry.assetName].status = "warning";
+        validations[entry.assetName].warnings.push({
+          validatorId: this.id,
+          validationError: new ZodError([
+            {
+              code: "custom",
+              message: `Name: ${entry.metadata.name} has been detected as a duplicate.`,
+              path: ["name"],
+            },
+          ]),
+        });
+      }
+    }
 
     return validations;
   }

@@ -50,44 +50,42 @@ export class DuplicateAssetName extends BaseValidator {
     metadatas: Metadata[],
     validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
-    const errorsMetadata: Metadata[] = [];
-    const assetNameCount: Record<string, number> = {};
+    const seen = new Set<string>();
+    const duplicate = new Set<string>();
 
     // First pass: Count occurrences of each assetName
     for (const entry of metadatas) {
-      assetNameCount[entry.assetName] =
-        (assetNameCount[entry.assetName] || 0) + 1;
+      if (seen.has(entry.assetName)) {
+        duplicate.add(entry.assetName);
+      } else {
+        seen.add(entry.assetName);
+      }
     }
 
     // Second pass: Identify duplicates based on the count
     for (const entry of metadatas) {
-      if (assetNameCount[entry.assetName] > 1) {
-        errorsMetadata.push(entry);
+      if (duplicate.has(entry.assetName)) {
+        if (!validations[entry.assetName]) {
+          validations[entry.assetName] = {
+            status: "error",
+            warnings: [],
+            errors: [],
+          };
+        }
+
+        validations[entry.assetName].status = "error";
+        validations[entry.assetName].errors.push({
+          validatorId: this.id,
+          validationError: new ZodError([
+            {
+              code: "custom",
+              message: `AssetName: ${entry.assetName} has been detected as a duplicate. (metadata.name = ${entry.metadata.name})`,
+              path: [],
+            },
+          ]),
+        });
       }
     }
-
-    // ERRORS
-    errorsMetadata.forEach(({ assetName, metadata }) => {
-      if (!validations[assetName]) {
-        validations[assetName] = {
-          status: "error",
-          warnings: [],
-          errors: [],
-        };
-      }
-
-      validations[assetName].status = "error";
-      validations[assetName].errors.push({
-        validatorId: this.id,
-        validationError: new ZodError([
-          {
-            code: "custom",
-            message: `AssetName: ${assetName} has been detected as a duplicate. (metadata.name = ${metadata.name})`,
-            path: [],
-          },
-        ]),
-      });
-    });
 
     return validations;
   }

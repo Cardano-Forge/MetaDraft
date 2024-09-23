@@ -3,7 +3,7 @@ import { assertEquals } from "@std/assert";
 import { Validator } from "../src/core.ts";
 import { DuplicateNameAndImage } from "../src/rules/duplicate-name-and-image.ts";
 
-Deno.test("DuplicateNameAndImage - withError", () => {
+Deno.test("DuplicateNameAndImage - withWarning", () => {
   const metadata = [
     {
       assetName: "asset_0000",
