@@ -51,16 +51,18 @@ export class DuplicateAssetName extends BaseValidator {
     validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
     const errorsMetadata = new Set<Metadata>();
+    const assetNameCount: Record<string, number> = {};
 
+    // First pass: Count occurrences of each assetName
     for (const entry of metadatas) {
-      const founds = metadatas.filter(
-        (meta) => meta.assetName === entry.assetName
-      );
+      assetNameCount[entry.assetName] =
+        (assetNameCount[entry.assetName] || 0) + 1;
+    }
 
-      if (founds.length > 1) {
-        founds.forEach((meta) => {
-          errorsMetadata.add(meta);
-        });
+    // Second pass: Identify duplicates based on the count
+    for (const entry of metadatas) {
+      if (assetNameCount[entry.assetName] > 1) {
+        errorsMetadata.add(entry);
       }
     }
 
