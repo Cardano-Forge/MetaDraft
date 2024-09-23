@@ -50,7 +50,7 @@ export class DuplicateName extends BaseValidator {
     metadatas: Metadata[],
     validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
-    const errorsMetadata = new Set<Metadata>();
+    const errorsMetadata: Metadata[] = [];
     const nameCount: Record<string, number> = {};
 
     // First pass: Count occurrences of each name
@@ -63,7 +63,7 @@ export class DuplicateName extends BaseValidator {
     for (const entry of metadatas) {
       const name = entry.metadata.name;
       if (nameCount[name] > 1) {
-        errorsMetadata.add(entry);
+        errorsMetadata.push(entry);
       }
     }
 

@@ -50,11 +50,11 @@ export class DuplicateNameAndImage extends BaseValidator {
     metadatas: Metadata[],
     validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
-    const nameErrorsMetadata = new Set<Metadata>();
+    const nameErrorsMetadata: Metadata[] = [];
     const nameCount: Record<string, number> = {};
-    const imageErrorsMetadata = new Set<Metadata>();
+    const imageErrorsMetadata: Metadata[] = [];
     const imageCount: Record<string, number> = {};
-
+   
     // First pass: Count occurrences
     for (const entry of metadatas) {
       // Name
@@ -72,14 +72,14 @@ export class DuplicateNameAndImage extends BaseValidator {
       // Name
       const name = entry.metadata.name;
       if (nameCount[name] > 1) {
-        nameErrorsMetadata.add(entry);
+        nameErrorsMetadata.push(entry);
       }
       // Image
       const image: string = Array.isArray(entry.metadata.image)
         ? entry.metadata.image.join("")
         : entry.metadata.image;
       if (imageCount[image] > 1) {
-        imageErrorsMetadata.add(entry);
+        imageErrorsMetadata.push(entry);
       }
     }
 

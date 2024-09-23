@@ -50,7 +50,7 @@ export class DuplicateAssetName extends BaseValidator {
     metadatas: Metadata[],
     validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
-    const errorsMetadata = new Set<Metadata>();
+    const errorsMetadata: Metadata[] = [];
     const assetNameCount: Record<string, number> = {};
 
     // First pass: Count occurrences of each assetName
@@ -62,7 +62,7 @@ export class DuplicateAssetName extends BaseValidator {
     // Second pass: Identify duplicates based on the count
     for (const entry of metadatas) {
       if (assetNameCount[entry.assetName] > 1) {
-        errorsMetadata.add(entry);
+        errorsMetadata.push(entry);
       }
     }
 

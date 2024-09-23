@@ -50,7 +50,7 @@ export class DuplicateImage extends BaseValidator {
     metadatas: Metadata[],
     validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
-    const errorsMetadata = new Set<Metadata>();
+    const errorsMetadata: Metadata[] = [];
     const imageCount: Record<string, number> = {};
 
     // First pass: Count occurrences of each image
@@ -67,7 +67,7 @@ export class DuplicateImage extends BaseValidator {
         ? entry.metadata.image.join("")
         : entry.metadata.image;
       if (imageCount[image] > 1) {
-        errorsMetadata.add(entry);
+        errorsMetadata.push(entry);
       }
     }
 
