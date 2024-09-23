@@ -28,7 +28,7 @@ import {
 Deno.test("TestEarthnode", () => {
   const metadata = [
     JSON.parse(
-      readFileSync(join("__tests__", "payloads", "earthnode.json"), "utf8"),
+      readFileSync(join("__tests__", "payloads", "earthnode.json"), "utf8")
     ),
   ];
 
@@ -63,31 +63,29 @@ Deno.test("TestEarthnode", () => {
     mainValidator.Execute(
       Object.keys(asset_metadata)[0],
       Object.values(asset_metadata)[0],
-      metadata,
+      metadata
     );
   }
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    EarthNode976: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "key-lower-case",
-          message: {
-            message: "Some keys do not adhere to Lower Case formatting.",
-            warnings: [{ key: "mediaType", path: "mediaType" }],
-          },
-        },
-        {
-          validatorId: "compare-attributes-keys",
-          message: [
-            "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set.",
-          ],
-        },
-      ],
-      errors: [],
-    },
-  });
+  assertEquals(result["EarthNode976"].status, "warning");
+  assertEquals(result["EarthNode976"].warnings.length, 2);
+  assertEquals(
+    result["EarthNode976"].warnings[0].validatorId,
+    "key-lower-case"
+  );
+  assertEquals(
+    result["EarthNode976"].warnings[0].validationError.issues[0].path,
+    ["mediaType"]
+  );
+
+  assertEquals(
+    result["EarthNode976"].warnings[1].validatorId,
+    "compare-attributes-keys"
+  );
+  assertEquals(
+    result["EarthNode976"].warnings[1].validationError.issues[0].message,
+    "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set."
+  );
 });

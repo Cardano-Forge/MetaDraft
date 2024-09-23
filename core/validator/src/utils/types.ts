@@ -1,43 +1,4 @@
 import type { ZodError } from "zod";
-/**
- * Type representing a formatted error object containing message, errorCode, status, and path.
- */
-export interface FormatError {
-  /**
-   * The error message.
-   */
-  message: string;
-
-  /**
-   * The error code associated with the issue.
-   */
-  errorCode: string;
-
-  /**
-   * The current validation state (e.g., success, warning, error). Defaults to `undefined`.
-   */
-  status?: string | undefined;
-
-  /**
-   * The path within the data structure where the error occurred.
-   */
-  path: string;
-}
-
-/**
- * Type representing an object containing form and field errors.
- */
-export interface FormattedError {
-  /**
-   * An empty array for form errors (currently not used).
-   */
-  formErrors: [];
-
-  /**
-   * A record containing field-specific errors keyed by the field name.
-   */
-  fieldErrors: Record<string, Array<FormatError>>;
-}
 
 /**
  * A union type representing validation states: success, warning, or error.
@@ -68,7 +29,7 @@ export interface IValidator {
   Execute(
     _assetName: string,
     _metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput;
 
   /**
@@ -80,7 +41,7 @@ export interface IValidator {
    */
   ExecuteOnce(
     _metadatas: unknown[],
-    _validations: Record<string, StateOutput>,
+    _validations: Record<string, StateOutput>
   ): Record<string, StateOutput>;
 }
 
@@ -108,7 +69,7 @@ export interface IMainValidator {
   Execute(
     _assetName: string,
     _metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): Record<string, StateOutput>;
 
   /**
@@ -216,42 +177,153 @@ export type ZodStateError = {
 };
 
 /**
- * Type representing a general state error object containing state, message, and data.
+ * Represents the state and an optional Zod validation error.
+ *
+ * @typedef {Object} StateError
+ * @property {State} state - The current state object.
+ * @property {ZodError} [error] - An optional error object from Zod validation. If no error occurred, this will be undefined.
+ *
  */
 export type StateError = {
-  /**
-   * The current validation state (e.g., success, warning, error).
-   */
   state: State;
-
-  /**
-   * An optional error message associated with the state.
-   */
-  message?: string | undefined;
-
-  /**
-   * The data associated with the validation attempt.
-   */
-  data: object;
+  error?: ZodError;
 };
 
+/**
+ * Represents an options object that includes a threshold value.
+ *
+ * This type is typically used in scenarios where a threshold value is required
+ * to configure or limit certain operations, such as filtering or validation checks.
+ *
+ * @typedef {Object} OptionsWithThreshold
+ * @property {number} threshold - A numeric value representing the threshold limit.
+ *                                It could be used to define a maximum or minimum value
+ *                                for a specific operation.
+ *
+ * @example
+ * // Example usage of OptionsWithThreshold:
+ * const options: OptionsWithThreshold = { threshold: 10 };
+ */
 export type OptionsWithThreshold = {
   threshold: number;
 };
 
+/**
+ * Type representing the result of a Zod schema's `safeParse()` method.
+ *
+ * @template T - The expected type of the successfully parsed data.
+ *
+ * @property {boolean} success - Indicates whether the parsing was successful.
+ * @property {ZodError} [error] - The validation error if `success` is `false`.
+ */
+export type ZodSafeParse = {
+  success: boolean;
+  error?: ZodError;
+};
+
+/**
+ * Represents the output state, containing status, warnings, and errors.
+ */
 export type StateOutput = {
+  /**
+   * The current state of the validation process.
+   */
   status: State;
+
+  /**
+   * An array of warnings encountered during validation.
+   * Each warning contains a unique validator ID and associated validation error details.
+   *
+   * @property {string} validatorId - The unique ID of the validator that triggered the warning.
+   * @property {ZodError} validationError - Detailed information about the validation warning.
+   */
   warnings: Array<{
     validatorId: string;
-    message: string | object | undefined;
+    validationError: ZodError;
   }>;
+
+  /**
+   * An array of errors encountered during validation.
+   * Each error contains a unique validator ID and associated validation error details.
+   *
+   * @property {string} validatorId - The unique ID of the validator that triggered the error.
+   * @property {ZodError} validationError - Detailed information about the validation error.
+   */
   errors: Array<{
     validatorId: string;
-    message: string | object | undefined;
+    validationError: ZodError;
   }>;
 };
 
+/**
+ * Represents an optional file object, which includes properties such as
+ * the file source, media type, and file name.
+ *
+ * This type is flexible and allows additional unknown properties.
+ *
+ * @typedef {Object} OptionalFile
+ * @property {string} [src] - The source URL or path of the file (optional).
+ * @property {string} [mediaType] - The media type of the file (e.g., "image/png", "application/pdf") (optional).
+ * @property {string} [name] - The name of the file (optional).
+ * @property {unknown} [key] - Any other additional properties.
+ *
+ * @example
+ * const file: OptionalFile = {
+ *   src: "http://example.com/image.png",
+ *   mediaType: "image/png",
+ *   name: "Example Image",
+ * };
+ */
+export type OptionalFile = {
+  src?: string;
+  mediaType?: string;
+  name?: string;
+  [key: string]: unknown;
+};
+
+/**
+ * Represents the metadata for a CIP-25 asset, including required fields like `name` and `image`,
+ * as well as optional fields such as `description`, `mediaType`, and `files`.
+ *
+ * This type is flexible and allows additional unknown properties.
+ *
+ * @typedef {Object} MetadataCIP25
+ * @property {string} name - The name of the asset.
+ * @property {string|string[]} image - The image or an array of images associated with the asset.
+ * @property {string|string[]} [description] - The description of the asset (optional).
+ * @property {string} [mediaType] - The media type of the asset (optional).
+ * @property {OptionalFile[]} [files] - An array of optional files related to the asset (optional).
+ * @property {unknown} [key] - Any other additional properties.
+ *
+ * @example
+ * const metadata: MetadataCIP25 = {
+ *   name: "NFT #123",
+ *   image: "http://example.com/nft-image.png",
+ *   description: "This is a description of the NFT.",
+ *   mediaType: "image/png",
+ *   files: [{ src: "http://example.com/file.pdf", mediaType: "application/pdf", name: "Document" }]
+ * };
+ */
+export type MetadataCIP25 = {
+  name: string;
+  image: string | string[];
+  description?: string | string[];
+  mediaType?: string;
+  files?: OptionalFile[];
+  [key: string]: unknown;
+};
+
+/**
+ * Represents a simplified metadata structure for an asset, which includes
+ * the asset's name and detailed metadata information based on the CIP-25 standard.
+ *
+ * @typedef {Object} Metadata
+ * @property {string} assetName - The unique name of the asset.
+ * @property {MetadataCIP25} metadata - The detailed metadata object containing
+ *                                        information such as name, image, description,
+ *                                        media type, and files.
+ */
 export type Metadata = {
   assetName: string;
-  metadata: { name: string; image: string | string[] };
+  metadata: MetadataCIP25;
 };

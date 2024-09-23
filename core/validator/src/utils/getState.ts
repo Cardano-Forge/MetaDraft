@@ -1,85 +1,47 @@
 import type { StateOutput } from "../mod.ts";
-import { formatError } from "./formatError.ts";
-import type {
-  FormattedError,
-  State,
-  StateError,
-  ZodStateError,
-} from "./types.ts";
+import type { StateError, ZodSafeParse } from "./types.ts";
 
 /**
- * Evaluates the formatted errors to determine their severity.
- * If all detected issues are warnings, the state is set to "warning".
- * If at least one error is detected, the state is set to "error".
- * Otherwise, it returns "success".
- * @category Utils
- * @param {FormattedError | undefined} error - Error formatted using zod, or undefined (in case of undefined, it means "success").
+ * Processes the validation result and returns a structured output for state status, warnings, and errors.
  *
- * @returns {State} The state, which can be "success", "warning", or "error".
- */
-function getState(error: FormattedError | undefined = undefined): State {
-  let condition: State = "error";
-
-  // It is a success
-  if (!error) {
-    return "success";
-  }
-
-  // there is a potential error (maybe a warning)
-  if (error) {
-    // Extract all errors from fieldErrors
-    const allErrors = Object.values(error.fieldErrors).flat();
-
-    // Check if all errors have a status of "warning"
-    const allWarnings = allErrors.every((err) => err.status === "warning");
-
-    // Update condition based on the check
-    condition = allWarnings ? "warning" : condition;
-  }
-
-  return condition;
-}
-
-/**
- * Generates validation output based on the given result and other parameters.
+ * This function evaluates whether the result contains an error and assigns a status of either "success", "warning",
+ * or "error" based on the presence of issues. It then formats the output to include warnings or errors accordingly.
  *
- * @param {unknown} result - The validation result object. Expected to have the following shape:
- *   - error?: ZodError (if validation failed)
- *   - success?: boolean (indicating successful validation)
- *   - state?: 'success' | 'error' (if validation result is StateError)
- *   - message?: string (if validation result is StateError)
- * @param {string} successMessage - The message to display upon successful validation.
- * @param {string} [_assetName] - The name of the asset being validated. Defaults to "UNKNOWN". Kept to keep the same structure that we had
- * @param {unknown} [_metadata] - Any additional metadata related to the validation process. Kept to keep the same structure that we had
- * @param {string} [validatorId="UNKNOWN"] - The ID of the validator performing the check. Defaults to "UNKNOWN".
- * @returns {StateOutput}
- *   - An object containing the validation status and warning messages.
+ * @param {StateError | ZodSafeParse} result - The validation result object which can either be a `StateError` or a parsed Zod result.
+ * @param {string} _assetName - The name of the asset being validated (currently unused in the logic).
+ * @param {string} [validatorId="UNKNOWN"] - An identifier for the validator that produced the result. Defaults to "UNKNOWN".
+ * @returns {StateOutput} - An object containing the validation status, warnings, and errors.
+ *
+ * @example
+ * const validationOutput = GetValidationOutput(parsedResult, "assetName", "validator-123");
+ * console.log(validationOutput);
+ * // Output:
+ * // {
+ * //   status: "warning",
+ * //   warnings: [{ validatorId: "validator-123", validationError: ZodError }],
+ * //   errors: []
+ * // }
  */
 export function GetValidationOutput(
-  result: unknown,
-  successMessage: string,
+  result: StateError | ZodSafeParse,
   _assetName: string,
-  _metadata: unknown,
-  validatorId: string = "UNKNOWN",
+  validatorId: string = "UNKNOWN"
 ): StateOutput {
-  const isSuccess =
-    (result as ZodStateError).success ||
-    (result as StateError).state === "success";
+  const { error } = result;
 
-  const state = (result as StateError).state
-    ? (result as StateError).state
-    : getState(formatError((result as ZodStateError).error));
+  // If no error or no issues, the status is "success"
+  if (!error || error.issues.length === 0) {
+    return { status: "success", warnings: [], errors: [] };
+  }
 
-  const message = isSuccess
-    ? successMessage
-    : (result as ZodStateError).error
-      ? formatError((result as ZodStateError).error)
-      : (result as StateError).message;
+  // Determine state: default to "warning" if undefined
+  const state = (result as StateError).state ?? "warning";
 
-  return {
-    status: state,
-    warnings:
-      state === "warning" ? [{ validatorId: validatorId, message }] : [],
-    errors: state === "error" ? [{ validatorId: validatorId, message }] : [],
-  };
+  // Prepare warnings and errors based on the state
+  const warnings =
+    state === "warning" ? [{ validatorId, validationError: error }] : [];
+  const errors =
+    state === "error" ? [{ validatorId, validationError: error }] : [];
+
+  return { status: state, warnings, errors };
 }

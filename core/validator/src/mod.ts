@@ -14,7 +14,7 @@ export { CompareRootValues } from "./rules/compare-root-values.ts";
 export { DuplicateKeysValidator } from "./rules/duplicate-keys.ts";
 export { HasRequiredKeysValidator } from "./rules/has-required-keys.ts";
 export { KeyAlphanumeric } from "./rules/key-alphanumeric.ts";
-export { KeyAnvilCasing } from "./rules/key-anvil-casing.ts";
+export { KeyAnvilCase } from "./rules/key-anvil-case.ts";
 export { KeyAttributesValidator } from "./rules/key-attributes.ts";
 export { KeyCamelCase } from "./rules/key-camel-case.ts";
 export { KeyDescriptionValidator } from "./rules/key-description.ts";

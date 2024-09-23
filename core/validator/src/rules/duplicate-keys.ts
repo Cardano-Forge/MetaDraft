@@ -1,3 +1,4 @@
+import { ZodError } from "zod";
 import { BaseValidator } from "../core.ts";
 
 import { GetValidationOutput } from "../utils/getState.ts";
@@ -9,7 +10,11 @@ import {
 } from "../utils/keys.ts";
 import { logger } from "../utils/logger.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
-import type { OptionsWithThreshold, StateOutput } from "../utils/types.ts";
+import type {
+  OptionsWithThreshold,
+  StateOutput,
+  ZodSafeParse,
+} from "../utils/types.ts";
 
 /**
  * A validator that checks metadata for duplicate keys exceeding a specified threshold.
@@ -41,7 +46,7 @@ export class DuplicateKeysValidator extends BaseValidator {
   Execute(
     assetName: string,
     metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput {
     logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
@@ -58,44 +63,31 @@ export class DuplicateKeysValidator extends BaseValidator {
   Logic(
     assetName: string,
     metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
-    let warnings: {
-      field: string;
-      paths: string[] | undefined;
-      occurences: number;
-    }[] = [];
+    const warnings = new ZodError([]);
 
     const keys = extractKeysWithPaths(metadata as object);
-
     const keyCounts = countKeys(keys);
-
     const paths = getPathsForExceedingKeys(
       keys,
       keyCounts,
-      (this.options as OptionsWithThreshold).threshold,
+      (this.options as OptionsWithThreshold).threshold
     );
 
     if (paths.length > 0) {
-      warnings = formatPaths(paths, keyCounts) || [];
+      warnings.addIssues(formatPaths(paths, keyCounts) || []);
     }
 
-    return GetValidationOutput(
-      {
-        state: warnings.length === 0 ? "success" : "warning",
-        message: {
-          message:
-            "Some keys appear multiple times within the provided metadata. The following keys were found more than once",
-          warnings,
-        },
-      },
-      "No significant duplicates detected in the metadata.",
-      assetName,
-      metadata,
-      this.id,
-    );
+    const hasWarning = warnings.issues.length > 0;
+    const result: ZodSafeParse = {
+      success: hasWarning,
+      error: hasWarning ? warnings : undefined,
+    };
+
+    return GetValidationOutput(result, assetName, this.id);
   }
 }

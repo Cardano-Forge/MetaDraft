@@ -2,11 +2,12 @@ import { BaseValidator } from "../core.ts";
 
 import { GetValidationOutput } from "../utils/getState.ts";
 
-import type { KeyWithPath, StateOutput } from "../utils/types.ts";
+import type { StateOutput, ZodSafeParse } from "../utils/types.ts";
 import { isUpperCaseWords } from "../utils/casing.ts";
 import { extractKeysWithPaths } from "../utils/keys.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 import { logger } from "../utils/logger.ts";
+import { ZodError } from "zod";
 
 /**
  * Ensures metadata keys follow Upper Case words format.
@@ -37,7 +38,7 @@ export class KeyUpperCase extends BaseValidator {
   Execute(
     assetName: string,
     metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput {
     logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
@@ -54,33 +55,32 @@ export class KeyUpperCase extends BaseValidator {
   Logic(
     assetName: string,
     metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
-    const warnings: KeyWithPath[] = [];
+    const warnings = new ZodError([]);
 
     const keys = extractKeysWithPaths(metadata as object);
 
     keys.forEach((key) => {
       if (!isUpperCaseWords(key.key)) {
-        warnings.push(key);
+        warnings.addIssue({
+          code: "custom",
+          message: "Some keys do not adhere to Upper Case formatting.",
+          path: key.path.split("."),
+        });
       }
     });
 
-    return GetValidationOutput(
-      {
-        state: warnings.length === 0 ? "success" : "warning",
-        message: {
-          message: "Some keys do not adhere to Upper Case formatting.",
-          warnings,
-        },
-      },
-      "All checks passed. No issues detected.",
-      assetName,
-      metadata,
-      this.id,
-    );
+    const hasWarning = warnings.issues.length > 0;
+
+    const result: ZodSafeParse = {
+      success: hasWarning,
+      error: hasWarning ? warnings : undefined,
+    };
+
+    return GetValidationOutput(result, assetName, this.id);
   }
 }

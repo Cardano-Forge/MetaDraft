@@ -28,7 +28,7 @@ import {
 Deno.test("TestPavia", () => {
   const metadata = [
     JSON.parse(
-      readFileSync(join("__tests__", "payloads", "pavia.json"), "utf8"),
+      readFileSync(join("__tests__", "payloads", "pavia.json"), "utf8")
     ),
   ];
 
@@ -63,47 +63,61 @@ Deno.test("TestPavia", () => {
     mainValidator.Execute(
       Object.keys(asset_metadata)[0],
       Object.values(asset_metadata)[0],
-      metadata,
+      metadata
     );
   }
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    PaviaEstate676: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "key-lower-case",
-          message: {
-            message: "Some keys do not adhere to Lower Case formatting.",
-            warnings: [
-              { key: "mediaType", path: "mediaType" },
-              { key: "estateSize", path: "estateSize" },
-              { key: "productInformation", path: "productInformation" },
-              { key: "Pavia io", path: "productInformation.Pavia io" },
-              { key: "Copyright", path: "productInformation.Copyright" },
-            ],
-          },
-        },
-        {
-          validatorId: "compare-attributes-keys",
-          message: [
-            "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set.",
-          ],
-        },
-        {
-          validatorId: "key-alphanumeric",
-          message: {
-            message:
-              "Only alphanumeric characters, dashes, and underscores are allowed for the key.",
-            warnings: [
-              { key: "Pavia io", path: "productInformation.Pavia io" },
-            ],
-          },
-        },
-      ],
-      errors: [],
-    },
-  });
+  assertEquals(result["PaviaEstate676"].status, "warning");
+  assertEquals(result["PaviaEstate676"].warnings.length, 3);
+  assertEquals(
+    result["PaviaEstate676"].warnings[0].validatorId,
+    "key-lower-case"
+  );
+  assertEquals(
+    result["PaviaEstate676"].warnings[0].validationError.issues.length,
+    5
+  );
+  assertEquals(
+    result["PaviaEstate676"].warnings[0].validationError.issues[0].path,
+    ["mediaType"]
+  );
+  assertEquals(
+    result["PaviaEstate676"].warnings[0].validationError.issues[1].path,
+    ["estateSize"]
+  );
+  assertEquals(
+    result["PaviaEstate676"].warnings[0].validationError.issues[2].path,
+    ["productInformation"]
+  );
+  assertEquals(
+    result["PaviaEstate676"].warnings[0].validationError.issues[3].path,
+    ["productInformation", "Pavia io"]
+  );
+  assertEquals(
+    result["PaviaEstate676"].warnings[0].validationError.issues[4].path,
+    ["productInformation", "Copyright"]
+  );
+
+  assertEquals(
+    result["PaviaEstate676"].warnings[1].validatorId,
+    "compare-attributes-keys"
+  );
+  assertEquals(
+    result["PaviaEstate676"].warnings[1].validationError.issues[0].message,
+    "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set."
+  );
+  assertEquals(
+    result["PaviaEstate676"].warnings[2].validatorId,
+    "key-alphanumeric"
+  );
+  assertEquals(
+    result["PaviaEstate676"].warnings[2].validationError.issues.length,
+    1
+  );
+  assertEquals(
+    result["PaviaEstate676"].warnings[2].validationError.issues[0].path,
+    ["productInformation", "Pavia io"]
+  );
 });
