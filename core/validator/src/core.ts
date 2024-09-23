@@ -125,25 +125,21 @@ export class Validator implements IMainValidator {
     for (const validator of this.validators.filter((v) => v.type === "all")) {
       const validations = validator.Execute(assetName, metadata, metadatas);
 
-      // Build the validations output object.
-      if (!this.validations[assetName]) {
-        this.validations[assetName] = {
-          status: "success",
-          warnings: [],
-          errors: [],
-        };
-      }
       if (validations.status !== "success") {
+        // Build the validations output object.
+        if (!this.validations[assetName]) {
+          this.validations[assetName] = {
+            status: "warning",
+            warnings: [],
+            errors: [],
+          };
+        }
         this.validations[assetName].status = validations.status;
         if (validations.status === "error") {
           this.validations[assetName].errors.push(...validations.warnings);
-        } else if (validations.status === "warning") {
+        } else {
           this.validations[assetName].warnings.push(...validations.warnings);
-        } else if (
-          this.validations[assetName].status !== "warning" &&
-          this.validations[assetName].status !== "error"
-        )
-          this.validations[assetName].status = validations.status;
+        }
       }
     }
 
@@ -180,12 +176,6 @@ export class Validator implements IMainValidator {
    * @returns {Record<string, StateOutput>} An object of validation results.
    */
   GetResults(): Record<string, StateOutput> {
-    //Remove success from object
-    Object.keys(this.validations).map((key) => {
-      if (this.validations[key].status === "success")
-        delete this.validations[key];
-    });
-
     return this.validations;
   }
 }

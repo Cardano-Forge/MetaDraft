@@ -35,7 +35,7 @@ Deno.test("Metadata - withSuccess", () => {
     new DuplicateNameAndImage(),
     new KeyAnvilCase(),
   ];
-
+  console.time("timeAll");
   const mainValidator = new Validator("Main");
   for (const validator of template) {
     mainValidator.Enable(validator);
@@ -50,6 +50,7 @@ Deno.test("Metadata - withSuccess", () => {
   }
 
   const result = mainValidator.GetResults();
+  console.timeEnd("timeAll");
 
   assertEquals(result, {});
 });
