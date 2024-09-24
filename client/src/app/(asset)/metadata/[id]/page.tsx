@@ -5,19 +5,25 @@ import { useRxData } from "rxdb-hooks";
 import type { MetadataCollection } from "~/lib/types";
 import JSONEditor from "./content/json-editor";
 import Attributes from "./content/attributes";
+import { Loader } from "lucide-react";
 
 export default function SingleAssetPage({
   params,
 }: {
   params: { id: string };
 }) {
+  const [isValidating, setValidating] = React.useState<boolean>(false);
   const { result, isFetching } = useRxData<MetadataCollection>(
     "metadata",
     (collection) => collection.findByIds([params.id]),
   );
 
-  if (isFetching) {
-  }
+  if (isFetching || isValidating)
+    return (
+      <div className="flex items-center justify-center">
+        <Loader />
+      </div>
+    );
 
   const metadata: MetadataCollection | undefined = result.map(
     (doc) => doc.toJSON() as MetadataCollection,
@@ -28,7 +34,7 @@ export default function SingleAssetPage({
   return (
     <div className="flex flex-row gap-4">
       <Attributes metadata={metadata} />
-      <JSONEditor metadata={metadata} />
+      <JSONEditor metadata={metadata} handleValidation={setValidating} />
     </div>
   );
 }
