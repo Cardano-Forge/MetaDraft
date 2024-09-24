@@ -4,7 +4,11 @@ import { JsonEditor } from "json-edit-react";
 import type { MetadataCollection } from "~/lib/types";
 import { MetadataCollectionSchema } from "~/lib/zod-schemas";
 import { Typography } from "~/components/typography";
-import { toast } from "sonner";
+import { Button } from "~/components/ui/button";
+
+const attributesRegex = /metadata\.attributes\..*/;
+const imageArrayRegex = /metadata\.image\.\d+/;
+const filesSrcArrayRegex = /metadata\.files\.src\.\d+/;
 
 export default function JSONEditor({
   metadata,
@@ -13,14 +17,23 @@ export default function JSONEditor({
 }) {
   const [meta, setMeta] = React.useState<MetadataCollection>(metadata);
 
+  const handleSaveAndValidate = () => {
+    alert("save and validate");
+  };
+
   return (
-    <div className="flex min-w-[50%] flex-col gap-4 rounded-xl bg-secondary p-4 px-8">
-      <Typography as="h2">JSON Editor</Typography>
+    <div className="flex min-w-[60%] flex-col gap-4 rounded-xl bg-secondary p-4 px-8">
+      <div className="flex flex-row items-center justify-between px-2">
+        <Typography as="h2">JSON Editor</Typography>
+        <Button onClick={handleSaveAndValidate}>Save and Validate</Button>
+      </div>
       <JsonEditor
         data={meta}
         showErrorMessages
         enableClipboard={false}
-        defaultValue={"undefined"}
+        defaultValue={""}
+        rootFontSize={20}
+        minWidth={"100%"}
         // Theming
         theme={[
           "monoDark",
@@ -29,6 +42,7 @@ export default function JSONEditor({
               backgroundColor: "hsl(260 14% 8%)",
               border: "1px solid #ffffff33",
             },
+
             iconAdd: "hsl(140 55% 57%)",
             iconEdit: "hsl(33 100% 74%)",
             iconDelete: "hsl(357 100% 65%)",
@@ -37,16 +51,76 @@ export default function JSONEditor({
           },
         ]}
         // Restrictions
-        restrictEdit={({ level, key }) =>
-          level === 0 || key === "status" || key === "id"
-        } // Can only edit assetName && metadata
+        restrictEdit={({ level, key, size, value }) => {
+          console.log(value);
+          return (
+            level === 0 ||
+            key === "status" ||
+            key === "id" ||
+            typeof value === "object" ||
+            Array.isArray(value)
+          );
+        }} // Can only edit assetName && metadata
         restrictAdd={({ level, key }) =>
           level === 0 || key === "status" || key === "id" || key === "assetName"
         } // Can only add in metadata
         restrictDelete={({ level }) => level === 0 || level === 1} // Cannot delete at root level & id or assetName or metadata or status
         restrictTypeSelection={({ path }) => {
-          if (path.includes("assetName")) return ["string"]; // Only string for asssetName
+          console.log(path);
+          // AssetName
+          if (path.includes("assetName")) return []; // String only
+          // metadata.name
+          if (path.join(".") === "metadata.name") return []; // String only
+          //metadata.image
+          if (path.join(".") === "metadata.image") return ["string", "array"];
+          //metadata.image[*]
+          if (imageArrayRegex.test(path.join("."))) return []; // String only
+          // metadata.website
+          if (path.join(".") === "metadata.website") return []; // String only
+          //metadata.files.src
+          if (
+            path.includes("metadata") &&
+            path.includes("files") &&
+            path.includes("src")
+          )
+            return ["string", "array"];
+            
+          //metadata.files.src[*]
+          if (filesSrcArrayRegex.test(path.join("."))) return []; // String only
+          //metadata.image
+          if (
+            path.includes("metadata") &&
+            path.includes("files") &&
+            path.includes("mediaType")
+          )
+            return []; // String only
+
+          //metadata.image
+          if (attributesRegex.test(path.join("."))) return []; // String only
           return ["string", "number", "array", "object"]; // Only 4 type accepted
+        }}
+        onAdd={({ currentData, path }) => {
+          const data = currentData as MetadataCollection;
+          if (
+            path.length === 3 &&
+            path.includes("metadata") &&
+            path.includes("files")
+          ) {
+            return [
+              "value",
+              {
+                ...data,
+                metadata: {
+                  ...data.metadata,
+                  files: [
+                    ...(data.metadata.files ?? []),
+                    { src: "", mediaType: "" },
+                  ],
+                },
+              },
+            ];
+          }
+          return true;
         }}
         // Zod Validation on update
         onUpdate={({ newData }) => {

@@ -6,7 +6,7 @@ const StatusEnum = z.enum(["success", "warning", "error"]);
  * CIP25 Files recommanded schema
  */
 export const FilesSchema = z.object({
-  src: z.string().optional(),
+  src: z.union([z.string(), z.array(z.string())]).optional(),
   mediaType: z.string().optional(),
   name: z.string().optional(),
 });
