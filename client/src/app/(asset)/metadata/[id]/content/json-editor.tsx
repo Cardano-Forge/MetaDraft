@@ -111,6 +111,9 @@ export default function JSONEditor({
         <Typography as="h2">JSON Editor</Typography>
         <Button onClick={handleSaveAndValidate}>Save and Validate</Button>
       </div>
+      <Typography className="italic text-white/50">
+        To edit a key, double-click it. Press Enter to save, or Esc to cancel.
+      </Typography>
       <JsonEditor
         data={meta}
         showErrorMessages
@@ -118,7 +121,7 @@ export default function JSONEditor({
         defaultValue={""}
         rootFontSize={18}
         minWidth={"100%"}
-        collapse={2}
+        collapse={3}
         className="jer-custom"
         theme={JsonEditorTheme}
         restrictEdit={handleRestrictionEdit}
