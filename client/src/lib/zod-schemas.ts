@@ -1,12 +1,14 @@
 import { z } from "zod";
 
+const StatusEnum = z.enum(["success", "warning", "error"]);
+
 /**
  * CIP25 Files recommanded schema
  */
 export const FilesSchema = z.object({
-  src: z.string().optional(),
-  mediaType: z.string().optional(),
-  name: z.string().optional(),
+  src: z.union([z.string().max(64), z.array(z.string().max(64))]).optional(),
+  mediaType: z.string().max(64).optional(),
+  name: z.string().max(64).optional(),
 });
 
 /**
@@ -14,10 +16,12 @@ export const FilesSchema = z.object({
  */
 export const CIP25Schema = z
   .object({
-    name: z.string(),
-    image: z.union([z.string(), z.array(z.string())]),
-    description: z.union([z.string(), z.array(z.string())]).optional(),
-    mediaType: z.string().optional(),
+    name: z.string().max(64),
+    image: z.union([z.string().max(64), z.array(z.string().max(64))]),
+    description: z
+      .union([z.string().max(64), z.array(z.string().max(64))])
+      .optional(),
+    mediaType: z.string().max(64).optional(),
     files: z.array(FilesSchema).optional(),
   })
   .catchall(z.unknown());
@@ -27,7 +31,19 @@ export const CIP25Schema = z
  */
 export const JSONSchema = z.array(
   z.object({
-    assetName: z.string(),
+    assetName: z.string().max(64),
     metadata: CIP25Schema,
   }),
 );
+
+export const MetadataCollectionSchema = z.object({
+  id: z.string().max(64),
+  assetName: z.string().max(64),
+  metadata: CIP25Schema,
+  status: StatusEnum,
+});
+
+export const MetadataCollectionSchemav2 = z.object({
+  assetName: z.string().max(64),
+  metadata: CIP25Schema,
+});
