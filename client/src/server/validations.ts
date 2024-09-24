@@ -14,7 +14,7 @@ import {
   KeyNameValidator,
   Validator,
   DuplicateNameAndImage,
-  KeyAnvilCasing,
+  KeyAnvilCase,
 } from "@ada-anvil/metadraft-validator";
 import type { MetadataCollection, ValidatorResults } from "~/lib/types";
 
@@ -58,7 +58,7 @@ export async function validateMetadata(
     new DuplicateKeysValidator(),
     new CompareAttributesKeys(),
     new DuplicateNameAndImage(),
-    new KeyAnvilCasing(),
+    new KeyAnvilCase(),
   ];
 
   const mainValidator = new Validator("Main");
@@ -76,5 +76,5 @@ export async function validateMetadata(
 
   console.timeEnd(`timeToValidate`);
 
-  return result;
+  return JSON.parse(JSON.stringify(result)) as Promise<ValidatorResults>;
 }
