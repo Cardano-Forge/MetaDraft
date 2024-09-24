@@ -1,5 +1,6 @@
 import type { StateOutput } from "./types.ts";
 import { GetValidationOutput } from "./getState.ts";
+import { ZodError } from "zod";
 
 /**
  * Validates if the provided metadata is a non-null object. If not, it returns an error state using `getStates`.
@@ -15,18 +16,22 @@ import { GetValidationOutput } from "./getState.ts";
 export function metadataValidator(
   assetName: string,
   metadata: unknown,
-  requester: string,
+  requester: string
 ): StateOutput | undefined {
   if (typeof metadata !== "object" || metadata === null) {
     return GetValidationOutput(
       {
         state: "error",
-        message: `Metadata must be a non-null object.`,
+        error: new ZodError([
+          {
+            code: "custom",
+            message: "Metadata must be a non-null object.",
+            path: [],
+          },
+        ]),
       },
-      "",
       assetName,
-      metadata,
-      requester,
+      requester
     );
   }
   return undefined;

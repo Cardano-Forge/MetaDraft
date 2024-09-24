@@ -29,7 +29,7 @@ import { KeyTitleCase } from "../../src/rules/key-title-case.ts";
 Deno.test("TestMogi", () => {
   const metadata = [
     JSON.parse(
-      readFileSync(join("__tests__", "payloads", "mogi.json"), "utf8"),
+      readFileSync(join("__tests__", "payloads", "mogi.json"), "utf8")
     ),
   ];
 
@@ -65,54 +65,67 @@ Deno.test("TestMogi", () => {
     mainValidator.Execute(
       Object.keys(asset_metadata)[0],
       Object.values(asset_metadata)[0],
-      metadata,
+      metadata
     );
   }
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    Mogi655: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "key-lower-case",
-          message: {
-            message: "Some keys do not adhere to Lower Case formatting.",
-            warnings: [
-              { key: "Bg", path: "Bg" },
-              { key: "Fur", path: "Fur" },
-              { key: "Hat", path: "Hat" },
-              { key: "Eyes", path: "Eyes" },
-              { key: "Mouth", path: "Mouth" },
-              { key: "Clothes", path: "Clothes" },
-              { key: "Discord", path: "Discord" },
-              { key: "Twitter", path: "Twitter" },
-              { key: "Weather", path: "Weather" },
-              { key: "mediaType", path: "mediaType" },
-            ],
-          },
-        },
-        {
-          validatorId: "compare-attributes-keys",
-          message: [
-            "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set.",
-          ],
-        },
-        {
-          validatorId: "key-title-case",
-          message: {
-            message: "Some keys do not adhere to Title Case formatting.",
-            warnings: [
-              { key: "name", path: "name" },
-              { key: "image", path: "image" },
-              { key: "mediaType", path: "mediaType" },
-              { key: "description", path: "description" },
-            ],
-          },
-        },
-      ],
-      errors: [],
-    },
-  });
+  assertEquals(result["Mogi655"].status, "warning");
+  assertEquals(result["Mogi655"].warnings.length, 3);
+  assertEquals(result["Mogi655"].warnings[0].validatorId, "key-lower-case");
+  assertEquals(result["Mogi655"].warnings[0].validationError.issues.length, 10);
+  assertEquals(result["Mogi655"].warnings[0].validationError.issues[0].path, [
+    "Bg",
+  ]);
+  assertEquals(result["Mogi655"].warnings[0].validationError.issues[1].path, [
+    "Fur",
+  ]);
+  assertEquals(result["Mogi655"].warnings[0].validationError.issues[2].path, [
+    "Hat",
+  ]);
+  assertEquals(result["Mogi655"].warnings[0].validationError.issues[3].path, [
+    "Eyes",
+  ]);
+  assertEquals(result["Mogi655"].warnings[0].validationError.issues[4].path, [
+    "Mouth",
+  ]);
+  assertEquals(result["Mogi655"].warnings[0].validationError.issues[5].path, [
+    "Clothes",
+  ]);
+  assertEquals(result["Mogi655"].warnings[0].validationError.issues[6].path, [
+    "Discord",
+  ]);
+  assertEquals(result["Mogi655"].warnings[0].validationError.issues[7].path, [
+    "Twitter",
+  ]);
+  assertEquals(result["Mogi655"].warnings[0].validationError.issues[8].path, [
+    "Weather",
+  ]);
+  assertEquals(result["Mogi655"].warnings[0].validationError.issues[9].path, [
+    "mediaType",
+  ]);
+
+  assertEquals(
+    result["Mogi655"].warnings[1].validatorId,
+    "compare-attributes-keys"
+  );
+  assertEquals(
+    result["Mogi655"].warnings[1].validationError.issues[0].message,
+    "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set."
+  );
+  assertEquals(result["Mogi655"].warnings[2].validatorId, "key-title-case");
+  assertEquals(result["Mogi655"].warnings[2].validationError.issues.length, 4);
+  assertEquals(result["Mogi655"].warnings[2].validationError.issues[0].path, [
+    "name",
+  ]);
+  assertEquals(result["Mogi655"].warnings[2].validationError.issues[1].path, [
+    "image",
+  ]);
+  assertEquals(result["Mogi655"].warnings[2].validationError.issues[2].path, [
+    "mediaType",
+  ]);
+  assertEquals(result["Mogi655"].warnings[2].validationError.issues[3].path, [
+    "description",
+  ]);
 });

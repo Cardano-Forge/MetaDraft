@@ -1,15 +1,36 @@
+import type { ZodIssue } from "zod";
 import type { KeyWithPaths } from "./types.ts";
 
 /**
- * Recursively extract all keys from an object, keeping track of the path to each key.
- * @category Utils
- * @param obj - The input object to extract keys from.
- * @param path - (Optional) The current path used for nested objects. Defaults to an empty string.
- * @returns {KeyWithPaths[]} An array of objects containing the key and its full path.
+ * Recursively extracts all keys from an object along with their full paths.
+ *
+ * This function traverses an object and records each key along with its full path. Nested objects are processed
+ * recursively, and their keys are captured with the appropriate path structure.
+ *
+ * @param {object} obj - The object from which keys and their paths are to be extracted.
+ * @param {string} [path=""] - The base path used to track the full key path. Defaults to an empty string.
+ * @returns {KeyWithPaths} - An array of objects, each containing a key and its corresponding path within the object.
  *
  * @example
- * const obj = { a: 1, b: { c: 2 } };
- * console.log(extractKeysWithPaths(obj)); // [{ key: 'a', path: 'a' }, { key: 'b', path: 'b' }, { key: 'c', path: 'b.c' }]
+ * const metadata = {
+ *   name: "NFT Name",
+ *   attributes: {
+ *     trait_type: "Color",
+ *     value: "Red"
+ *   },
+ *   description: "An example NFT"
+ * };
+ *
+ * const result = extractKeysWithPaths(metadata);
+ * console.log(result);
+ * // Output:
+ * // [
+ * //   { key: "name", path: "name" },
+ * //   { key: "attributes", path: "attributes" },
+ * //   { key: "trait_type", path: "attributes.trait_type" },
+ * //   { key: "value", path: "attributes.value" },
+ * //   { key: "description", path: "description" }
+ * // ]
  */
 export function extractKeysWithPaths(obj: object, path = ""): KeyWithPaths {
   let keys: KeyWithPaths = [];
@@ -27,26 +48,39 @@ export function extractKeysWithPaths(obj: object, path = ""): KeyWithPaths {
 }
 
 /**
- * Recursively extracts all keys from an object, keeping track of the path to each key.
- * Splits keys found under the "attributes" object into a separate array, while storing other keys in a different array.
+ * Recursively extracts keys from an object, splitting them into keys inside the "attributes" field and other keys.
  *
- * @category Utils
- * @param {object} obj - The input object to extract keys from.
- * @param {string} [path=""] - The current path for nested objects, defaults to an empty string.
- * @returns {{ attributesKeys: KeyWithPaths[], otherKeys: KeyWithPaths[] }} An object containing two arrays:
- * - `attributesKeys`: Keys found under the "attributes" object, along with their paths.
- * - `otherKeys`: All other keys and their paths.
+ * This function traverses an object, capturing keys and their full paths. If a key is "attributes", its keys are stored
+ * separately in `attributesKeys`, while all other keys are stored in `otherKeys`. Nested objects are processed recursively.
+ *
+ * @param {object} obj - The object from which keys and their paths are to be extracted.
+ * @param {string} [path=""] - The base path used to track the full key path. Defaults to an empty string.
+ * @returns {{ attributesKeys: KeyWithPaths; otherKeys: KeyWithPaths }} - An object containing two arrays: one for keys within "attributes"
+ * and another for all other keys, each with their associated paths.
  *
  * @example
- * const obj = {
- *   a: 1,
- *   b: { c: 2 },
- *   attributes: { d: 3, e: { f: 4 } },
+ * const metadata = {
+ *   name: "NFT Name",
+ *   attributes: {
+ *     trait_type: "Color",
+ *     value: "Red"
+ *   },
+ *   description: "An example NFT"
  * };
  *
- * const { attributesKeys, otherKeys } = extractKeysWithPathsSplitAttributes(obj);
- * console.log(attributesKeys); // [{ key: 'd', path: 'attributes.d' }, { key: 'e', path: 'attributes.e' }, { key: 'f', path: 'attributes.e.f' }]
- * console.log(otherKeys); // [{ key: 'a', path: 'a' }, { key: 'b', path: 'b' }, { key: 'c', path: 'b.c' }]
+ * const result = extractKeysWithPathsSplitAttributes(metadata);
+ * console.log(result);
+ * // Output:
+ * // {
+ * //   attributesKeys: [
+ * //     { key: "trait_type", path: "attributes.trait_type" },
+ * //     { key: "value", path: "attributes.value" }
+ * //   ],
+ * //   otherKeys: [
+ * //     { key: "name", path: "name" },
+ * //     { key: "description", path: "description" }
+ * //   ]
+ * // }
  */
 export function extractKeysWithPathsSplitAttributes(
   obj: object,
@@ -88,15 +122,25 @@ export function extractKeysWithPathsSplitAttributes(
 }
 
 /**
- * Count the occurrences of each key in an array of objects with paths.
- * @category Utils
- * @param keysWithPaths - An array of objects containing keys and their respective paths.
- * @returns {Record<string, number>} A record where keys are the unique keys from the input array,
- * and values are the corresponding occurrence counts.
+ * Counts the occurrences of each key within an array of objects containing keys and their associated paths.
+ *
+ * This function iterates through an array of key-path pairs and returns a record (object) where each key is associated
+ * with the number of times it appears in the input array.
+ *
+ * @param {KeyWithPaths} keysWithPaths - An array of objects, each containing a key and its associated path.
+ * @returns {Record<string, number>} - A record where each key is associated with the number of times it appears.
  *
  * @example
- * const keysWithPaths = [{ key: 'a', path: 'a' }, { key: 'b', path: 'b' }, { key: 'a', path: 'c.a' }];
- * console.log(countKeys(keysWithPaths)); // { a: 2, b: 1 }
+ * const keysWithPaths = [
+ *   { key: "name", path: "metadata.name" },
+ *   { key: "description", path: "metadata.description" },
+ *   { key: "name", path: "metadata.attributes[0].name" }
+ * ];
+ *
+ * const keyCounts = countKeys(keysWithPaths);
+ * console.log(keyCounts);
+ * // Output:
+ * // { name: 2, description: 1 }
  */
 export const countKeys = (
   keysWithPaths: KeyWithPaths
@@ -110,18 +154,31 @@ export const countKeys = (
   );
 
 /**
- * Get an array of objects containing the keys that exceed the given threshold and their respective paths.
- * @category Utils
- * @param keysWithPaths - An array of objects containing keys and their respective paths.
- * @param keyCounts - A record where keys are unique keys from the input array, and values are occurrence counts.
- * @param threshold - The minimum number of occurrences for a key to be considered excessive.
- * @returns {Array<{ key: string; path: string }>} An array containing objects with keys that exceed the threshold
- * and their respective paths.
+ * Retrieves paths for keys that exceed a specified occurrence threshold within the metadata.
+ *
+ * This function filters keys that appear more than the given threshold and returns their associated paths.
+ *
+ * @param {KeyWithPaths} keysWithPaths - An array of objects, each containing a key and its associated path within the metadata.
+ * @param {Record<string, number>} keyCounts - A record of key counts, where the key is the string and the value is the number of occurrences.
+ * @param {number} threshold - The maximum allowable number of occurrences for a key. Keys exceeding this threshold will be returned.
+ * @returns {Array<{ key: string; path: string }>} - An array of objects, each containing a key and the path(s) where it exceeds the threshold.
  *
  * @example
- * const keysWithPaths = [{ key: 'a', path: 'a' }, { key: 'b', path: 'b' }, { key: 'a', path: 'c.a' }];
- * const keyCounts = countKeys(keysWithPaths); // { a: 2, b: 1 }
- * console.log(getPathsForExceedingKeys(keysWithPaths, keyCounts, 1)); // [{ key: 'a', path: 'a' }, { key: 'a', path: 'c.a' }]
+ * const keysWithPaths = [
+ *   { key: "name", path: "metadata.name" },
+ *   { key: "name", path: "metadata.attributes[0].name" },
+ *   { key: "description", path: "metadata.description" }
+ * ];
+ * const keyCounts = { name: 2, description: 1 };
+ * const threshold = 1;
+ *
+ * const exceedingPaths = getPathsForExceedingKeys(keysWithPaths, keyCounts, threshold);
+ * console.log(exceedingPaths);
+ * // Output:
+ * // [
+ * //   { key: "name", path: "metadata.name" },
+ * //   { key: "name", path: "metadata.attributes[0].name" }
+ * // ]
  */
 export function getPathsForExceedingKeys(
   keysWithPaths: KeyWithPaths,
@@ -142,38 +199,59 @@ export function getPathsForExceedingKeys(
 }
 
 /**
- * Format the output to match the frontend's expected format.
- * @category Utils
- * @param paths - An array of objects containing keys and their respective paths.
- * @param keyCounts - A record where keys are unique keys from the input array, and values are occurrence counts.
- * @returns {Array<{ field: string; paths: string[]; occurences: number }>} An array containing objects with
- * fields, paths arrays, and occurrences.
+ * Formats paths and generates Zod issues for keys that appear multiple times in the metadata.
+ *
+ * This function processes a list of paths associated with metadata keys, checks if any keys appear more than once,
+ * and generates Zod issues for each occurrence, including details about the other locations where the key appears.
+ *
+ * @param {KeyWithPaths} paths - An array of objects containing a key and its associated path within the metadata.
+ * @param {Record<string, number>} keyCounts - A record of key counts where the key is the string and the value is the number of occurrences.
+ * @returns {ZodIssue[]} - An array of Zod issues, each representing a validation problem with keys that appear multiple times.
  *
  * @example
- * const keysWithPaths = [{ key: 'a', path: 'a' }, { key: 'b', path: 'b' }, { key: 'a', path: 'c.a' }];
- * const keyCounts = countKeys(keysWithPaths); // { a: 2, b: 1 }
- * console.log(formatPaths(keysWithPaths, keyCounts)); // [{ field: 'a', paths: ['a', 'c.a'], occurences: 2 }, { field: 'b', paths: ['b'], occurences: 1 }]
+ * const paths = [
+ *   { key: "name", path: "metadata.name" },
+ *   { key: "name", path: "metadata.attributes[0].name" }
+ * ];
+ * const keyCounts = { name: 2 };
+ *
+ * const issues = formatPaths(paths, keyCounts);
+ * console.log(issues);
+ * // Output:
+ * // [
+ * //   {
+ * //     code: "custom",
+ * //     message: 'Key "name" appear multiple times within the provided metadata.',
+ * //     path: ["metadata", "name"],
+ * //     params: {
+ * //       occurences: 2,
+ * //       otherPaths: [["metadata", "attributes", "0", "name"]]
+ * //     }
+ * //   }
+ * // ]
  */
 export function formatPaths(
   paths: KeyWithPaths,
   keyCounts: Record<string, number>
-): Array<{ field: string; paths: string[]; occurences: number }> {
-  // Create a map to group paths by key
-  const pathsMap: Record<string, string[]> = paths.reduce(
-    (acc, { key, path }) => {
-      if (!acc[key]) {
-        acc[key] = [];
-      }
-      acc[key].push(path);
-      return acc;
-    },
-    {} as Record<string, string[]>
-  );
+): ZodIssue[] {
+  const issues: ZodIssue[] = [];
 
-  // Convert the pathsMap to the desired format
-  return Object.keys(pathsMap).map((key) => ({
-    field: key,
-    paths: pathsMap[key],
-    occurences: keyCounts[key] || 0,
-  }));
+  paths.map(({ key, path }) => {
+    if (keyCounts[key] > 1)
+      issues.push({
+        code: "custom",
+        message: `Key "${key}" appear multiple times within the provided metadata.`,
+        path: path.split("."),
+        params: {
+          occurences: keyCounts[key],
+          otherPaths: paths
+            .map((p) => {
+              if (p.key === key && p.path !== path) return p.path.split(".");
+            })
+            .filter((no_undef) => no_undef),
+        },
+      });
+  });
+
+  return issues;
 }

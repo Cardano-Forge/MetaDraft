@@ -28,7 +28,7 @@ import {
 Deno.test("TestKwic", () => {
   const metadata = [
     JSON.parse(
-      readFileSync(join("__tests__", "payloads", "kwic.json"), "utf8"),
+      readFileSync(join("__tests__", "payloads", "kwic.json"), "utf8")
     ),
   ];
 
@@ -63,52 +63,58 @@ Deno.test("TestKwic", () => {
     mainValidator.Execute(
       Object.keys(asset_metadata)[0],
       Object.values(asset_metadata)[0],
-      metadata,
+      metadata
     );
   }
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    KWIC4479: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "key-lower-case",
-          message: {
-            message: "Some keys do not adhere to Lower Case formatting.",
-            warnings: [
-              { key: "Body", path: "Body" },
-              { key: "Head", path: "Head" },
-              { key: "Side", path: "Side" },
-              { key: "Bling", path: "Bling" },
-              { key: "Faction", path: "Faction" },
-              { key: "Background", path: "Background" },
-              { key: "Foreground", path: "Foreground" },
-              { key: "Back Attachment", path: "Back Attachment" },
-              { key: "Head Attachment", path: "Head Attachment" },
-            ],
-          },
-        },
-        {
-          validatorId: "compare-attributes-keys",
-          message: [
-            "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set.",
-          ],
-        },
-        {
-          validatorId: "key-alphanumeric",
-          message: {
-            message:
-              "Only alphanumeric characters, dashes, and underscores are allowed for the key.",
-            warnings: [
-              { key: "Back Attachment", path: "Back Attachment" },
-              { key: "Head Attachment", path: "Head Attachment" },
-            ],
-          },
-        },
-      ],
-      errors: [],
-    },
-  });
+  assertEquals(result["KWIC4479"].status, "warning");
+  assertEquals(result["KWIC4479"].warnings.length, 3);
+  assertEquals(result["KWIC4479"].warnings[0].validatorId, "key-lower-case");
+  assertEquals(result["KWIC4479"].warnings[0].validationError.issues.length, 9);
+  assertEquals(result["KWIC4479"].warnings[0].validationError.issues[0].path, [
+    "Body",
+  ]);
+  assertEquals(result["KWIC4479"].warnings[0].validationError.issues[1].path, [
+    "Head",
+  ]);
+  assertEquals(result["KWIC4479"].warnings[0].validationError.issues[2].path, [
+    "Side",
+  ]);
+  assertEquals(result["KWIC4479"].warnings[0].validationError.issues[3].path, [
+    "Bling",
+  ]);
+  assertEquals(result["KWIC4479"].warnings[0].validationError.issues[4].path, [
+    "Faction",
+  ]);
+  assertEquals(result["KWIC4479"].warnings[0].validationError.issues[5].path, [
+    "Background",
+  ]);
+  assertEquals(result["KWIC4479"].warnings[0].validationError.issues[6].path, [
+    "Foreground",
+  ]);
+  assertEquals(result["KWIC4479"].warnings[0].validationError.issues[7].path, [
+    "Back Attachment",
+  ]);
+  assertEquals(result["KWIC4479"].warnings[0].validationError.issues[8].path, [
+    "Head Attachment",
+  ]);
+
+  assertEquals(
+    result["KWIC4479"].warnings[1].validatorId,
+    "compare-attributes-keys"
+  );
+  assertEquals(
+    result["KWIC4479"].warnings[1].validationError.issues[0].message,
+    "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set."
+  );
+
+  assertEquals(result["KWIC4479"].warnings[2].validatorId, "key-alphanumeric");
+  assertEquals(result["KWIC4479"].warnings[2].validationError.issues[0].path, [
+    "Back Attachment",
+  ]);
+  assertEquals(result["KWIC4479"].warnings[2].validationError.issues[1].path, [
+    "Head Attachment",
+  ]);
 });

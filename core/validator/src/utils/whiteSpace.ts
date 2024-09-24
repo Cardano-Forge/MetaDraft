@@ -1,4 +1,4 @@
-type Path = string[];
+type Path = (string | number)[];
 
 /**
  * Recursively searches an object and its nested properties for whitespace.
@@ -18,14 +18,14 @@ type Path = string[];
  */
 export function findWhitespace(
   obj: object,
-  path: Path = [],
+  path: Path = []
 ): { path: Path; whitespaceLocation: string }[] {
   const results: { path: Path; whitespaceLocation: string }[] = [];
 
   function search(currentObj: object, currentPath: Path) {
     if (Array.isArray(currentObj)) {
       for (let i = 0; i < currentObj.length; i++) {
-        const newPath = [...currentPath, `[${i}]`];
+        const newPath = [...currentPath, i];
 
         if (typeof currentObj[i] === "string") {
           const trimmedValue = currentObj[i].trim().length;

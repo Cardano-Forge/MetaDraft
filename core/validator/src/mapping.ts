@@ -24,7 +24,7 @@ import { KeyWhiteSpace } from "./rules/key-white-space.ts";
 import { DuplicateImage } from "./rules/duplicate-image.ts";
 import { DuplicateName } from "./rules/duplicate-name.ts";
 import { DuplicateNameAndImage } from "./rules/duplicate-name-and-image.ts";
-import { KeyAnvilCasing } from "./rules/key-anvil-casing.ts";
+import { KeyAnvilCase } from "./rules/key-anvil-case.ts";
 import { DuplicateAssetName } from "./rules/duplicate-asset-name.ts";
 export { KeyWhiteSpace } from "./rules/key-white-space.ts";
 export { DuplicateImage } from "./rules/duplicate-image.ts";
@@ -57,6 +57,6 @@ export const mapping = {
   duplicateImage: DuplicateImage,
   duplicateName: DuplicateName,
   duplicateNameAndImage: DuplicateNameAndImage,
-  keyAnvilCasing: KeyAnvilCasing,
+  keyAnvilCasing: KeyAnvilCase,
   duplicateAssetName: DuplicateAssetName,
 };

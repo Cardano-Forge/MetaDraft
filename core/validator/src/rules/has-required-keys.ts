@@ -1,9 +1,10 @@
+import { ZodError } from "zod";
 import { BaseValidator } from "../core.ts";
 
 import { GetValidationOutput } from "../utils/getState.ts";
 import { logger } from "../utils/logger.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
-import type { StateOutput } from "../utils/types.ts";
+import type { StateOutput, ZodSafeParse } from "../utils/types.ts";
 
 /**
  * A validator ensuring that metadata includes essential fields such as "name", "description", and "image".
@@ -34,7 +35,7 @@ export class HasRequiredKeysValidator extends BaseValidator {
   Execute(
     assetName: string,
     metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput {
     logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
@@ -51,7 +52,7 @@ export class HasRequiredKeysValidator extends BaseValidator {
   Logic(
     assetName: string,
     metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
@@ -61,18 +62,24 @@ export class HasRequiredKeysValidator extends BaseValidator {
     const requiredKeys = ["name", "image"];
 
     const hasAllRequiredKeys = requiredKeys.every((requiredKey) =>
-      keys.some((key) => key === requiredKey),
+      keys.some((key) => key === requiredKey)
     );
 
-    return GetValidationOutput(
-      {
-        state: hasAllRequiredKeys ? "success" : "error",
-        message: `Required keys missing: ["name", "image"]. Keys received: ${keys.join(", ")}`,
-      },
-      "All required keys are present.",
-      assetName,
-      metadata,
-      this.id,
-    );
+    const result: ZodSafeParse = {
+      success: !hasAllRequiredKeys,
+      error: !hasAllRequiredKeys
+        ? new ZodError([
+            {
+              code: "custom",
+              message: `Required keys missing: ["name", "image"]. Keys received: ${keys.join(
+                ", "
+              )}`,
+              path: [],
+            },
+          ])
+        : undefined,
+    };
+
+    return GetValidationOutput(result, assetName, this.id);
   }
 }

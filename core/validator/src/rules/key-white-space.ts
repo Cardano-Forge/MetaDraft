@@ -2,10 +2,11 @@ import { BaseValidator } from "../core.ts";
 
 import { GetValidationOutput } from "../utils/getState.ts";
 
-import type { StateOutput } from "../utils/types.ts";
+import type { StateOutput, ZodSafeParse } from "../utils/types.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
 import { findWhitespace } from "../utils/whiteSpace.ts";
 import { logger } from "../utils/logger.ts";
+import { ZodError } from "zod";
 
 /**
  * Validates that metadata keys have no trailing whitespace characters.
@@ -36,7 +37,7 @@ export class KeyWhiteSpace extends BaseValidator {
   Execute(
     assetName: string,
     metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput {
     logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
@@ -53,26 +54,32 @@ export class KeyWhiteSpace extends BaseValidator {
   Logic(
     assetName: string,
     metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
-    const warnings: { path: string[]; whitespaceLocation: string }[] =
-      findWhitespace(metadata as object);
+    const warnings = new ZodError([]);
 
-    return GetValidationOutput(
-      {
-        state: warnings.length === 0 ? "success" : "warning",
-        message: {
-          message: "Trailing whitespaces found in the JSON object.",
-          warnings,
+    findWhitespace(metadata as object).forEach((res) => {
+      warnings.addIssue({
+        code: "custom",
+        message:
+          "Trailing whitespaces detected before or after the JSON object.",
+        path: res.path,
+        params: {
+          whitespaceLocation: res.whitespaceLocation,
         },
-      },
-      "All checks passed. No issues detected.",
-      assetName,
-      metadata,
-      this.id,
-    );
+      });
+    });
+
+    const hasWarning = warnings.issues.length > 0;
+
+    const result: ZodSafeParse = {
+      success: hasWarning,
+      error: hasWarning ? warnings : undefined,
+    };
+
+    return GetValidationOutput(result, assetName, this.id);
   }
 }

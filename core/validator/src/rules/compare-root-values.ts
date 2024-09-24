@@ -1,9 +1,14 @@
+import { ZodError } from "zod";
 import { BaseValidator } from "../core.ts";
 
 import { GetValidationOutput } from "../utils/getState.ts";
 import { logger } from "../utils/logger.ts";
 import { metadataValidator } from "../utils/metadataChecks.ts";
-import type { OptionsWithThreshold, StateOutput } from "../utils/types.ts";
+import type {
+  OptionsWithThreshold,
+  StateOutput,
+  ZodSafeParse,
+} from "../utils/types.ts";
 
 import { distance, closest } from "fastest_levenshtein";
 
@@ -39,7 +44,7 @@ export class CompareRootValues extends BaseValidator {
   Execute(
     assetName: string,
     metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput {
     logger(`Executing ${this.id} with: `, metadata);
     return this.Logic(assetName, metadata, _metadatas);
@@ -56,47 +61,43 @@ export class CompareRootValues extends BaseValidator {
   Logic(
     assetName: string,
     metadata: unknown,
-    _metadatas: unknown[],
+    _metadatas: unknown[]
   ): StateOutput {
     const isInvalid = metadataValidator(assetName, metadata, this.id);
     if (isInvalid) return isInvalid;
 
-    const warnings: string[] = [];
-
-    let similarValuesDetected = false;
+    const warnings = new ZodError([]);
 
     const values = Object.values(metadata as object);
 
     const stringValues = values.filter(
-      (valueToCheck) => typeof valueToCheck === "string",
+      (valueToCheck) => typeof valueToCheck === "string"
     );
 
     for (const value of stringValues) {
       const closestValue = closest(
         value,
-        stringValues.filter((valueToCheck) => valueToCheck !== value),
+        stringValues.filter((valueToCheck) => valueToCheck !== value)
       );
 
       const distanceValue = distance(value, closestValue);
 
       if (distanceValue < (this.options as OptionsWithThreshold).threshold) {
-        warnings.push(`${value} is similar to ${closestValue}`);
+        warnings.addIssue({
+          code: "custom",
+          message: `${value} is similar to ${closestValue}`,
+          path: [value],
+        });
       }
     }
 
-    if (warnings.length > 0) {
-      similarValuesDetected = true;
-    }
+    const hasWarning = warnings.issues.length > 0;
 
-    return GetValidationOutput(
-      {
-        state: similarValuesDetected ? "warning" : "success",
-        message: warnings,
-      },
-      "No similar values found.",
-      assetName,
-      metadata,
-      this.id,
-    );
+    const result: ZodSafeParse = {
+      success: hasWarning,
+      error: hasWarning ? warnings : undefined,
+    };
+
+    return GetValidationOutput(result, assetName, this.id);
   }
 }

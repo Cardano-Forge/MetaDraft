@@ -7,28 +7,29 @@ import { KeyCamelCase } from "../src/rules/key-camel-case.ts";
 import { KeyLowerCase } from "../src/rules/key-lower-case.ts";
 import { KeyUpperCase } from "../src/rules/key-upper-case.ts";
 import { KeySnakeCase } from "../src/rules/key-snake-case.ts";
-import { KeyAnvilCasing } from "../src/rules/key-anvil-casing.ts";
+import { KeyAnvilCase } from "../src/rules/key-anvil-case.ts";
 
 const metadata = [
   {
-    policyId: "94da605878403d07c144fe96cd50fe20c16186dd8d171c78ed6a8768",
     assetName: "asset000",
-    name: "asset000",
-    image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
-    mediaType: "image/png",
-    description:
-      "a non empty description using a random length because Im testing", // 64 chars
-    files: [
-      {
-        name: "oops",
-        mediaType: "image/png",
-        src: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
+    metadata: {
+      name: "asset000",
+      image: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
+      mediaType: "image/png",
+      description:
+        "a non empty description using a random length because Im testing", // 64 chars
+      files: [
+        {
+          name: "oops",
+          mediaType: "image/png",
+          src: "ipfs://QmeJzYpmU6pGCnSxbrtBofYmdeqmX4cQykCL8pZAJfMAVK",
+        },
+      ],
+      attributes: {
+        foo: "bar",
       },
-    ],
-    attributes: {
-      foo: "bar",
+      traits: ["trait-1", { name: "trait-2", value: "2" }, 1],
     },
-    traits: ["trait-1", { name: "trait-2", value: "2" }, 1],
   },
 ];
 
@@ -37,37 +38,43 @@ Deno.test("KeyTitleCase - withWarning", () => {
   mainValidator.Enable(new KeyTitleCase());
 
   for (const asset_metadata of metadata) {
-    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
+    mainValidator.Execute(
+      asset_metadata.assetName,
+      asset_metadata.metadata,
+      metadata
+    );
   }
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    asset000: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "key-title-case",
-          message: {
-            message: "Some keys do not adhere to Title Case formatting.",
-            warnings: [
-              { key: "policyId", path: "policyId" },
-              { key: "assetName", path: "assetName" },
-              { key: "name", path: "name" },
-              { key: "image", path: "image" },
-              { key: "mediaType", path: "mediaType" },
-              { key: "description", path: "description" },
-              { key: "files", path: "files" },
-              { key: "attributes", path: "attributes" },
-              { key: "foo", path: "attributes.foo" },
-              { key: "traits", path: "traits" },
-            ],
-          },
-        },
-      ],
-      errors: [],
-    },
-  });
+  assertEquals(result["asset000"].status, "warning");
+  assertEquals(result["asset000"].warnings[0].validatorId, "key-title-case");
+  assertEquals(result["asset000"].warnings[0].validationError.issues.length, 8);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[0].path, [
+    "name",
+  ]);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[1].path, [
+    "image",
+  ]);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[2].path, [
+    "mediaType",
+  ]);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[3].path, [
+    "description",
+  ]);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[4].path, [
+    "files",
+  ]);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[5].path, [
+    "attributes",
+  ]);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[6].path, [
+    "attributes",
+    "foo",
+  ]);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[7].path, [
+    "traits",
+  ]);
 });
 
 Deno.test("KeyCamelCase - withSuccess", () => {
@@ -75,14 +82,16 @@ Deno.test("KeyCamelCase - withSuccess", () => {
   mainValidator.Enable(new KeyCamelCase());
 
   for (const asset_metadata of metadata) {
-    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
+    mainValidator.Execute(
+      asset_metadata.assetName,
+      asset_metadata.metadata,
+      metadata
+    );
   }
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    asset000: { status: "success", warnings: [], errors: [] },
-  });
+  assertEquals(result, {});
 });
 
 Deno.test("KeySnakeCase - withWarning", () => {
@@ -90,30 +99,21 @@ Deno.test("KeySnakeCase - withWarning", () => {
   mainValidator.Enable(new KeySnakeCase());
 
   for (const asset_metadata of metadata) {
-    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
+    mainValidator.Execute(
+      asset_metadata.assetName,
+      asset_metadata.metadata,
+      metadata
+    );
   }
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    asset000: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "key-snake-case",
-          message: {
-            message: "Some keys do not adhere to Snake Case formatting.",
-            warnings: [
-              { key: "policyId", path: "policyId" },
-              { key: "assetName", path: "assetName" },
-              { key: "mediaType", path: "mediaType" },
-            ],
-          },
-        },
-      ],
-      errors: [],
-    },
-  });
+  assertEquals(result["asset000"].status, "warning");
+  assertEquals(result["asset000"].warnings[0].validatorId, "key-snake-case");
+  assertEquals(result["asset000"].warnings[0].validationError.issues.length, 1);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[0].path, [
+    "mediaType",
+  ]);
 });
 
 Deno.test("KeyLowerCase - withWarning", () => {
@@ -121,30 +121,21 @@ Deno.test("KeyLowerCase - withWarning", () => {
   mainValidator.Enable(new KeyLowerCase());
 
   for (const asset_metadata of metadata) {
-    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
+    mainValidator.Execute(
+      asset_metadata.assetName,
+      asset_metadata.metadata,
+      metadata
+    );
   }
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    asset000: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "key-lower-case",
-          message: {
-            message: "Some keys do not adhere to Lower Case formatting.",
-            warnings: [
-              { key: "policyId", path: "policyId" },
-              { key: "assetName", path: "assetName" },
-              { key: "mediaType", path: "mediaType" },
-            ],
-          },
-        },
-      ],
-      errors: [],
-    },
-  });
+  assertEquals(result["asset000"].status, "warning");
+  assertEquals(result["asset000"].warnings[0].validatorId, "key-lower-case");
+  assertEquals(result["asset000"].warnings[0].validationError.issues.length, 1);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[0].path, [
+    "mediaType",
+  ]);
 });
 
 Deno.test("KeyUpperCase - withWarning", () => {
@@ -152,63 +143,64 @@ Deno.test("KeyUpperCase - withWarning", () => {
   mainValidator.Enable(new KeyUpperCase());
 
   for (const asset_metadata of metadata) {
-    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
+    mainValidator.Execute(
+      asset_metadata.assetName,
+      asset_metadata.metadata,
+      metadata
+    );
   }
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    asset000: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "key-upper-case",
-          message: {
-            message: "Some keys do not adhere to Upper Case formatting.",
-            warnings: [
-              { key: "policyId", path: "policyId" },
-              { key: "assetName", path: "assetName" },
-              { key: "name", path: "name" },
-              { key: "image", path: "image" },
-              { key: "mediaType", path: "mediaType" },
-              { key: "description", path: "description" },
-              { key: "files", path: "files" },
-              { key: "attributes", path: "attributes" },
-              { key: "foo", path: "attributes.foo" },
-              { key: "traits", path: "traits" },
-            ],
-          },
-        },
-      ],
-      errors: [],
-    },
-  });
+  assertEquals(result["asset000"].status, "warning");
+  assertEquals(result["asset000"].warnings[0].validatorId, "key-upper-case");
+  assertEquals(result["asset000"].warnings[0].validationError.issues.length, 8);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[0].path, [
+    "name",
+  ]);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[1].path, [
+    "image",
+  ]);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[2].path, [
+    "mediaType",
+  ]);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[3].path, [
+    "description",
+  ]);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[4].path, [
+    "files",
+  ]);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[5].path, [
+    "attributes",
+  ]);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[6].path, [
+    "attributes",
+    "foo",
+  ]);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[7].path, [
+    "traits",
+  ]);
 });
 
 Deno.test("AnvilCasing - withWarning", () => {
   const mainValidator = new Validator("Main");
-  mainValidator.Enable(new KeyAnvilCasing());
+  mainValidator.Enable(new KeyAnvilCase());
 
   for (const asset_metadata of metadata) {
-    mainValidator.Execute(asset_metadata.assetName, asset_metadata, metadata);
+    mainValidator.Execute(
+      asset_metadata.assetName,
+      asset_metadata.metadata,
+      metadata
+    );
   }
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result, {
-    asset000: {
-      status: "warning",
-      warnings: [
-        {
-          validatorId: "key-anvil-casing",
-          message: {
-            message:
-              "Some attribute's keys do not adhere to Title Case formatting",
-            warnings: [{ key: "foo", path: "attributes.foo" }],
-          },
-        },
-      ],
-      errors: [],
-    },
-  });
+  assertEquals(result["asset000"].status, "warning");
+  assertEquals(result["asset000"].warnings[0].validatorId, "key-anvil-casing");
+  assertEquals(result["asset000"].warnings[0].validationError.issues.length, 1);
+  assertEquals(result["asset000"].warnings[0].validationError.issues[0].path, [
+    "attributes",
+    "foo",
+  ]);
 });

@@ -12,6 +12,7 @@ yargs(Deno.args)
   .command(
     "validate",
     "Validate metadata using a template",
+    // deno-lint-ignore no-explicit-any
     (yargs: any) => {
       return yargs
         .option("m", {

@@ -2,6 +2,7 @@ import { BaseValidator } from "../core.ts";
 
 import type { Metadata, StateOutput } from "../utils/types.ts";
 import { logger } from "../utils/logger.ts";
+import { ZodError } from "zod";
 
 /**
  * A validator that checks if there are any duplicate names in the provided metadatas.
@@ -32,7 +33,7 @@ export class DuplicateName extends BaseValidator {
    */
   ExecuteOnce(
     metadatas: object[],
-    validations: Record<string, StateOutput>,
+    validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
     logger(`Executing ${this.id} with: `, metadatas.length);
     return this.Logic(metadatas as Metadata[], validations);
@@ -47,34 +48,41 @@ export class DuplicateName extends BaseValidator {
    */
   Logic(
     metadatas: Metadata[],
-    validations: Record<string, StateOutput>,
+    validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
-    const seen = {
-      names: new Set<string>(),
-    };
+    const seen = new Set<string>();
+    const duplicate = new Set<string>();
 
     for (const entry of metadatas) {
-      if (
-        typeof entry === "object" &&
-        entry !== null &&
-        "name" in entry.metadata
-      ) {
-        if (seen.names.has(entry.metadata.name)) {
-          if (!validations[entry.assetName]) {
-            validations[entry.assetName] = {
-              status: "error",
-              warnings: [],
-              errors: [],
-            };
-          }
+      const name = entry.metadata.name;
+      if (seen.has(name)) {
+        duplicate.add(name);
+      } else {
+        seen.add(name);
+      }
+    }
 
-          validations[entry.assetName].status = "error";
-          validations[entry.assetName].errors.push({
-            validatorId: this.id,
-            message: `Name: ${entry.metadata.name} has been detected as a duplicate.`,
-          });
+    for (const entry of metadatas) {
+      if (duplicate.has(entry.metadata.name)) {
+        if (!validations[entry.assetName]) {
+          validations[entry.assetName] = {
+            status: "warning",
+            warnings: [],
+            errors: [],
+          };
         }
-        seen.names.add(entry.metadata.name);
+
+        validations[entry.assetName].status = "warning";
+        validations[entry.assetName].warnings.push({
+          validatorId: this.id,
+          validationError: new ZodError([
+            {
+              code: "custom",
+              message: `Name: ${entry.metadata.name} has been detected as a duplicate.`,
+              path: ["name"],
+            },
+          ]),
+        });
       }
     }
 
