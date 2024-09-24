@@ -6,7 +6,10 @@ import type {
   ProjectCollection,
   ValidationsCollection,
 } from "~/lib/types";
-import { MetadataCollectionSchema } from "~/lib/zod-schemas";
+import {
+  MetadataCollectionSchema,
+  MetadataCollectionSchemav2,
+} from "~/lib/zod-schemas";
 import { Typography } from "~/components/typography";
 import { Button } from "~/components/ui/button";
 import {
@@ -31,7 +34,9 @@ export default function JSONEditor({
   metadata: MetadataCollection;
   handleValidation: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const [meta, setMeta] = React.useState<MetadataCollection>(metadata);
+  const [meta, setMeta] = React.useState<
+    Omit<MetadataCollection, "id" | "status">
+  >({ assetName: metadata.assetName, metadata: metadata.metadata });
   const activeProject = useActiveProject();
   const projectCollection = useRxCollection<ProjectCollection>("project");
   const metadataCollection = useRxCollection<MetadataCollection>("metadata");
@@ -61,7 +66,9 @@ export default function JSONEditor({
   const handleSaveAndValidate = async () => {
     try {
       handleValidation(true);
-      const newMetadatas = metadatas.map((m) => (m.id === meta.id ? meta : m));
+      const newMetadatas = metadatas.map((m) =>
+        m.id === metadata.id ? { ...metadata, ...meta } : m,
+      );
 
       // Validate the metadata
       const validations = await validateMetadata(newMetadatas);
@@ -78,7 +85,6 @@ export default function JSONEditor({
         validations,
       );
 
-      console.log(metadataWithStatus);
       // Update Metadata in RxDB
       await metadataCollection?.bulkUpsert(metadataWithStatus);
 
@@ -112,6 +118,8 @@ export default function JSONEditor({
         defaultValue={""}
         rootFontSize={18}
         minWidth={"100%"}
+        collapse={2}
+        className="jer-custom"
         theme={JsonEditorTheme}
         restrictEdit={handleRestrictionEdit}
         restrictAdd={handleRestrictionAdd}
@@ -120,7 +128,7 @@ export default function JSONEditor({
         onAdd={handleOnAdd}
         onUpdate={({ newData }) => {
           // Zod Validation on update
-          const zodResults = MetadataCollectionSchema.safeParse(newData);
+          const zodResults = MetadataCollectionSchemav2.safeParse(newData);
           if (!zodResults.success) {
             const errorMessage = zodResults.error.issues
               ?.map((error) => `${error.message}`)

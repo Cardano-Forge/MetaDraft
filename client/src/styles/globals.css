@@ -145,5 +145,9 @@
   background: #ffffff12;
 }
 .custom-scroll::-webkit-scrollbar-corner {
-  background: rgba(0,0,0,0);
+  background: rgba(0, 0, 0, 0);
+}
+
+.jer-custom .jer-key-edit {
+  color: black;
 }
