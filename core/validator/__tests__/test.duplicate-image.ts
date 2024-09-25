@@ -4,7 +4,7 @@ import { Validator } from "../src/core.ts";
 
 import { DuplicateImage } from "../src/rules/duplicate-image.ts";
 
-Deno.test("DuplicateImage - withWarning", () => {
+Deno.test("DuplicateImage - withError", () => {
   const metadata = [
     {
       assetName: "asset_0000",
@@ -36,38 +36,38 @@ Deno.test("DuplicateImage - withWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result["asset_0000"].status, "warning");
-  assertEquals(result["asset_0000"].warnings[0].validatorId, "duplicate-image");
+  assertEquals(result["asset_0000"].status, "error");
+  assertEquals(result["asset_0000"].errors[0].validatorId, "duplicate-image");
   assertEquals(
-    result["asset_0000"].warnings[0].validationError.issues.length,
+    result["asset_0000"].errors[0].validationError.issues.length,
     1
   );
   assertEquals(
-    result["asset_0000"].warnings[0].validationError.issues[0].message,
+    result["asset_0000"].errors[0].validationError.issues[0].message,
     "Image: adibou.png has been detected as a duplicate."
   );
   assertEquals(
-    result["asset_0000"].warnings[0].validationError.issues[0].path,
+    result["asset_0000"].errors[0].validationError.issues[0].path,
     ["image"]
   );
 
-  assertEquals(result["asset_0001"].status, "warning");
-  assertEquals(result["asset_0001"].warnings[0].validatorId, "duplicate-image");
+  assertEquals(result["asset_0001"].status, "error");
+  assertEquals(result["asset_0001"].errors[0].validatorId, "duplicate-image");
   assertEquals(
-    result["asset_0001"].warnings[0].validationError.issues.length,
+    result["asset_0001"].errors[0].validationError.issues.length,
     1
   );
   assertEquals(
-    result["asset_0001"].warnings[0].validationError.issues[0].message,
+    result["asset_0001"].errors[0].validationError.issues[0].message,
     "Image: adibou.png has been detected as a duplicate."
   );
   assertEquals(
-    result["asset_0001"].warnings[0].validationError.issues[0].path,
+    result["asset_0001"].errors[0].validationError.issues[0].path,
     ["image"]
   );
 });
 
-Deno.test("DuplicateImage - withImageArrayWarning", () => {
+Deno.test("DuplicateImage - withImageArrayError", () => {
   const metadata = [
     {
       assetName: "asset_0000",
@@ -99,33 +99,33 @@ Deno.test("DuplicateImage - withImageArrayWarning", () => {
 
   const result = mainValidator.GetResults();
 
-  assertEquals(result["asset_0000"].status, "warning");
-  assertEquals(result["asset_0000"].warnings[0].validatorId, "duplicate-image");
+  assertEquals(result["asset_0000"].status, "error");
+  assertEquals(result["asset_0000"].errors[0].validatorId, "duplicate-image");
   assertEquals(
-    result["asset_0000"].warnings[0].validationError.issues.length,
+    result["asset_0000"].errors[0].validationError.issues.length,
     1
   );
   assertEquals(
-    result["asset_0000"].warnings[0].validationError.issues[0].message,
+    result["asset_0000"].errors[0].validationError.issues[0].message,
     "Image: windows95C:adibou.png has been detected as a duplicate."
   );
   assertEquals(
-    result["asset_0000"].warnings[0].validationError.issues[0].path,
+    result["asset_0000"].errors[0].validationError.issues[0].path,
     ["image"]
   );
 
-  assertEquals(result["asset_0001"].status, "warning");
-  assertEquals(result["asset_0001"].warnings[0].validatorId, "duplicate-image");
+  assertEquals(result["asset_0001"].status, "error");
+  assertEquals(result["asset_0001"].errors[0].validatorId, "duplicate-image");
   assertEquals(
-    result["asset_0001"].warnings[0].validationError.issues.length,
+    result["asset_0001"].errors[0].validationError.issues.length,
     1
   );
   assertEquals(
-    result["asset_0001"].warnings[0].validationError.issues[0].message,
+    result["asset_0001"].errors[0].validationError.issues[0].message,
     "Image: windows95C:adibou.png has been detected as a duplicate."
   );
   assertEquals(
-    result["asset_0001"].warnings[0].validationError.issues[0].path,
+    result["asset_0001"].errors[0].validationError.issues[0].path,
     ["image"]
   );
 });
