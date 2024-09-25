@@ -66,14 +66,14 @@ export class DuplicateName extends BaseValidator {
       if (duplicate.has(entry.metadata.name)) {
         if (!validations[entry.assetName]) {
           validations[entry.assetName] = {
-            status: "warning",
+            status: "error",
             warnings: [],
             errors: [],
           };
         }
 
-        validations[entry.assetName].status = "warning";
-        validations[entry.assetName].warnings.push({
+        validations[entry.assetName].status = "error";
+        validations[entry.assetName].errors.push({
           validatorId: this.id,
           validationError: new ZodError([
             {
