@@ -114,39 +114,3 @@ export class DuplicateImage extends BaseValidator {
     return validations;
   }
 }
-
-// const seen = new Set<string>();
-// const duplicate = new Set<string>();
-
-// for (const entry of metadatas) {
-//   const name = entry.metadata.name;
-//   if (seen.has(name)) {
-//     duplicate.add(name);
-//   } else {
-//     seen.add(name);
-//   }
-// }
-
-// for (const entry of metadatas) {
-//   if (duplicate.has(entry.metadata.name)) {
-//     if (!validations[entry.assetName]) {
-//       validations[entry.assetName] = {
-//         status: "error",
-//         warnings: [],
-//         errors: [],
-//       };
-//     }
-
-//     validations[entry.assetName].status = "error";
-//     validations[entry.assetName].errors.push({
-//       validatorId: this.id,
-//       validationError: new ZodError([
-//         {
-//           code: "custom",
-//           message: `Name: ${entry.metadata.name} has been detected as a duplicate.`,
-//           path: ["name"],
-//         },
-//       ]),
-//     });
-//   }
-//
