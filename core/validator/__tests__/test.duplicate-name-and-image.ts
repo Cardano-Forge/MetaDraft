@@ -3,7 +3,7 @@ import { assertEquals } from "@std/assert";
 import { Validator } from "../src/core.ts";
 import { DuplicateNameAndImage } from "../src/rules/duplicate-name-and-image.ts";
 
-Deno.test("DuplicateNameAndImage - withWarning", () => {
+Deno.test("DuplicateNameAndImage - withError", () => {
   const metadata = [
     {
       assetName: "asset_0000",
@@ -37,45 +37,48 @@ Deno.test("DuplicateNameAndImage - withWarning", () => {
 
   assertEquals(result["asset_0000"].status, "error");
   assertEquals(result["asset_0000"].errors.length, 2);
-  assertEquals(result["asset_0000"].errors[0].validatorId, "duplicate-name-and-image");
+  assertEquals(
+    result["asset_0000"].errors[0].validatorId,
+    "duplicate-name-and-image"
+  );
   assertEquals(
     result["asset_0000"].errors[0].validationError.issues[0].message,
     "Name: asset_0000 has been detected as a duplicate."
   );
-  assertEquals(result["asset_0000"].errors[1].validatorId, "duplicate-name-and-image");
   assertEquals(
-    result["asset_0000"].errors[1].validationError.issues.length,
-    1
+    result["asset_0000"].errors[1].validatorId,
+    "duplicate-name-and-image"
   );
+  assertEquals(result["asset_0000"].errors[1].validationError.issues.length, 1);
   assertEquals(
     result["asset_0000"].errors[1].validationError.issues[0].message,
     "Image: adibou.png has been detected as a duplicate."
   );
-  assertEquals(
-    result["asset_0000"].errors[1].validationError.issues[0].path,
-    ["image"]
-  );
-
+  assertEquals(result["asset_0000"].errors[1].validationError.issues[0].path, [
+    "image",
+  ]);
 
   assertEquals(result["asset_0002"].status, "error");
   assertEquals(result["asset_0002"].errors.length, 2);
-  assertEquals(result["asset_0002"].errors[0].validatorId, "duplicate-name-and-image");
+  assertEquals(
+    result["asset_0002"].errors[0].validatorId,
+    "duplicate-name-and-image"
+  );
   assertEquals(
     result["asset_0002"].errors[0].validationError.issues[0].message,
     "Name: asset_0000 has been detected as a duplicate."
   );
 
-  assertEquals(result["asset_0002"].errors[1].validatorId, "duplicate-name-and-image");
   assertEquals(
-    result["asset_0002"].errors[1].validationError.issues.length,
-    1
+    result["asset_0002"].errors[1].validatorId,
+    "duplicate-name-and-image"
   );
+  assertEquals(result["asset_0002"].errors[1].validationError.issues.length, 1);
   assertEquals(
     result["asset_0002"].errors[1].validationError.issues[0].message,
     "Image: adibou.png has been detected as a duplicate."
   );
-  assertEquals(
-    result["asset_0002"].errors[1].validationError.issues[0].path,
-    ["image"]
-  );
+  assertEquals(result["asset_0002"].errors[1].validationError.issues[0].path, [
+    "image",
+  ]);
 });

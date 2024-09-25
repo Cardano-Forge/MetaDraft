@@ -50,32 +50,23 @@ export class DuplicateImage extends BaseValidator {
     metadatas: Metadata[],
     validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
-    const seen = new Set<string>();
-    const duplicate = new Set<string>();
+    const seen = new Map<string, Metadata>();
 
     for (const entry of metadatas) {
       const image: string = Array.isArray(entry.metadata.image)
         ? entry.metadata.image.join("")
         : entry.metadata.image;
-      if (seen.has(image)) {
-        duplicate.add(image);
-      } else {
-        seen.add(image);
-      }
-    }
-    for (const entry of metadatas) {
-      const image: string = Array.isArray(entry.metadata.image)
-        ? entry.metadata.image.join("")
-        : entry.metadata.image;
-      if (duplicate.has(image)) {
+
+      const past: Metadata | undefined = seen.get(image);
+      if (past) {
+        // Create validation if doesn't exist
         if (!validations[entry.assetName]) {
           validations[entry.assetName] = {
             status: "error",
             warnings: [],
             errors: [],
           };
-        }      
-
+        }
         validations[entry.assetName].status = "error";
         validations[entry.assetName].errors.push({
           validatorId: this.id,
@@ -87,9 +78,75 @@ export class DuplicateImage extends BaseValidator {
             },
           ]),
         });
+
+        // Create validation of past if doesn't exist
+        if (!validations[past.assetName]) {
+          validations[past.assetName] = {
+            status: "error",
+            warnings: [],
+            errors: [],
+          };
+        }
+
+        // Check if error already in the validation
+        const hasErrorAlready = validations[past.assetName].errors.find(
+          (e) => e.validatorId === this.id
+        );
+
+        if (!hasErrorAlready) {
+          validations[past.assetName].status = "error";
+          validations[past.assetName].errors.push({
+            validatorId: this.id,
+            validationError: new ZodError([
+              {
+                code: "custom",
+                message: `Image: ${image} has been detected as a duplicate.`,
+                path: ["image"],
+              },
+            ]),
+          });
+        }
+      } else {
+        seen.set(image, entry);
       }
     }
 
     return validations;
   }
 }
+
+// const seen = new Set<string>();
+// const duplicate = new Set<string>();
+
+// for (const entry of metadatas) {
+//   const name = entry.metadata.name;
+//   if (seen.has(name)) {
+//     duplicate.add(name);
+//   } else {
+//     seen.add(name);
+//   }
+// }
+
+// for (const entry of metadatas) {
+//   if (duplicate.has(entry.metadata.name)) {
+//     if (!validations[entry.assetName]) {
+//       validations[entry.assetName] = {
+//         status: "error",
+//         warnings: [],
+//         errors: [],
+//       };
+//     }
+
+//     validations[entry.assetName].status = "error";
+//     validations[entry.assetName].errors.push({
+//       validatorId: this.id,
+//       validationError: new ZodError([
+//         {
+//           code: "custom",
+//           message: `Name: ${entry.metadata.name} has been detected as a duplicate.`,
+//           path: ["name"],
+//         },
+//       ]),
+//     });
+//   }
+//
