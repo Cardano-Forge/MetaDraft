@@ -23,18 +23,20 @@ Deno.test("KeyAttributesValidator - withWarning", () => {
 
   const result = mainValidator.GetResults();
 
+  console.log(result);
+
   assertEquals(result["NO_ASSET_NAME_PROVIDED"].status, "warning");
   assertEquals(
     result["NO_ASSET_NAME_PROVIDED"].warnings[0].validatorId,
     "key-attributes"
   );
   assertEquals(
-    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError.issues[0]
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError[0]
       .message,
     "It is recommended to use string instead of number"
   );
   assertEquals(
-    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError.issues[0].path,
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError[0].path,
     ["attributes", "number_field"]
   );
 });

@@ -82,7 +82,7 @@ export class DuplicateAssetName extends BaseValidator {
               message: `AssetName: ${entry.assetName} has been detected as a duplicate. (metadata.name = ${entry.metadata.name})`,
               path: [],
             },
-          ]),
+          ]).issues,
         });
       }
     }

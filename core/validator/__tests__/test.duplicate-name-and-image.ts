@@ -42,19 +42,19 @@ Deno.test("DuplicateNameAndImage - withError", () => {
     "duplicate-name-and-image"
   );
   assertEquals(
-    result["asset_0000"].errors[0].validationError.issues[0].message,
+    result["asset_0000"].errors[0].validationError[0].message,
     "Name: asset_0000 has been detected as a duplicate."
   );
   assertEquals(
     result["asset_0000"].errors[1].validatorId,
     "duplicate-name-and-image"
   );
-  assertEquals(result["asset_0000"].errors[1].validationError.issues.length, 1);
+  assertEquals(result["asset_0000"].errors[1].validationError.length, 1);
   assertEquals(
-    result["asset_0000"].errors[1].validationError.issues[0].message,
+    result["asset_0000"].errors[1].validationError[0].message,
     "Image: adibou.png has been detected as a duplicate."
   );
-  assertEquals(result["asset_0000"].errors[1].validationError.issues[0].path, [
+  assertEquals(result["asset_0000"].errors[1].validationError[0].path, [
     "image",
   ]);
 
@@ -65,7 +65,7 @@ Deno.test("DuplicateNameAndImage - withError", () => {
     "duplicate-name-and-image"
   );
   assertEquals(
-    result["asset_0002"].errors[0].validationError.issues[0].message,
+    result["asset_0002"].errors[0].validationError[0].message,
     "Name: asset_0000 has been detected as a duplicate."
   );
 
@@ -73,12 +73,12 @@ Deno.test("DuplicateNameAndImage - withError", () => {
     result["asset_0002"].errors[1].validatorId,
     "duplicate-name-and-image"
   );
-  assertEquals(result["asset_0002"].errors[1].validationError.issues.length, 1);
+  assertEquals(result["asset_0002"].errors[1].validationError.length, 1);
   assertEquals(
-    result["asset_0002"].errors[1].validationError.issues[0].message,
+    result["asset_0002"].errors[1].validationError[0].message,
     "Image: adibou.png has been detected as a duplicate."
   );
-  assertEquals(result["asset_0002"].errors[1].validationError.issues[0].path, [
+  assertEquals(result["asset_0002"].errors[1].validationError[0].path, [
     "image",
   ]);
 });

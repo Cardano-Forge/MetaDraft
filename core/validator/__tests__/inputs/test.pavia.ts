@@ -76,27 +76,27 @@ Deno.test("TestPavia", () => {
     "key-lower-case"
   );
   assertEquals(
-    result["PaviaEstate676"].warnings[0].validationError.issues.length,
+    result["PaviaEstate676"].warnings[0].validationError.length,
     5
   );
   assertEquals(
-    result["PaviaEstate676"].warnings[0].validationError.issues[0].path,
+    result["PaviaEstate676"].warnings[0].validationError[0].path,
     ["mediaType"]
   );
   assertEquals(
-    result["PaviaEstate676"].warnings[0].validationError.issues[1].path,
+    result["PaviaEstate676"].warnings[0].validationError[1].path,
     ["estateSize"]
   );
   assertEquals(
-    result["PaviaEstate676"].warnings[0].validationError.issues[2].path,
+    result["PaviaEstate676"].warnings[0].validationError[2].path,
     ["productInformation"]
   );
   assertEquals(
-    result["PaviaEstate676"].warnings[0].validationError.issues[3].path,
+    result["PaviaEstate676"].warnings[0].validationError[3].path,
     ["productInformation", "Pavia io"]
   );
   assertEquals(
-    result["PaviaEstate676"].warnings[0].validationError.issues[4].path,
+    result["PaviaEstate676"].warnings[0].validationError[4].path,
     ["productInformation", "Copyright"]
   );
 
@@ -105,7 +105,7 @@ Deno.test("TestPavia", () => {
     "compare-attributes-keys"
   );
   assertEquals(
-    result["PaviaEstate676"].warnings[1].validationError.issues[0].message,
+    result["PaviaEstate676"].warnings[1].validationError[0].message,
     "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set."
   );
   assertEquals(
@@ -113,11 +113,11 @@ Deno.test("TestPavia", () => {
     "key-alphanumeric"
   );
   assertEquals(
-    result["PaviaEstate676"].warnings[2].validationError.issues.length,
+    result["PaviaEstate676"].warnings[2].validationError.length,
     1
   );
   assertEquals(
-    result["PaviaEstate676"].warnings[2].validationError.issues[0].path,
+    result["PaviaEstate676"].warnings[2].validationError[0].path,
     ["productInformation", "Pavia io"]
   );
 });

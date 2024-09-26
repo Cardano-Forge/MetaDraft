@@ -44,11 +44,11 @@ Deno.test("KeyTraitsValidator - withWarning", () => {
 
   assertEquals(result["asset000"].status, "warning");
   assertEquals(result["asset000"].warnings[0].validatorId, "key-traits");
-  assertEquals(result["asset000"].warnings[0].validationError.issues.length, 2);
-  assertEquals(result["asset000"].warnings[0].validationError.issues[0].path, [
+  assertEquals(result["asset000"].warnings[0].validationError.length, 2);
+  assertEquals(result["asset000"].warnings[0].validationError[0].path, [
     "traits",
   ]);
-  assertEquals(result["asset000"].warnings[0].validationError.issues[1].path, [
+  assertEquals(result["asset000"].warnings[0].validationError[1].path, [
     "traits",
     2,
   ]);

@@ -76,7 +76,7 @@ export class DuplicateImage extends BaseValidator {
               message: `Image: ${image} has been detected as a duplicate.`,
               path: ["image"],
             },
-          ]),
+          ]).issues,
         });
 
         // Create validation of past if doesn't exist
@@ -103,7 +103,7 @@ export class DuplicateImage extends BaseValidator {
                 message: `Image: ${image} has been detected as a duplicate.`,
                 path: ["image"],
               },
-            ]),
+            ]).issues,
           });
         }
       } else {

@@ -57,15 +57,15 @@ Deno.test("DuplicateAssetName - withError", () => {
   );
   assertEquals(result["asset_0000"].errors.length, 3);
   assertEquals(
-    result["asset_0000"].errors[0].validationError.issues[0].message,
+    result["asset_0000"].errors[0].validationError[0].message,
     "AssetName: asset_0000 has been detected as a duplicate. (metadata.name = asset_0000)"
   );
   assertEquals(
-    result["asset_0000"].errors[1].validationError.issues[0].message,
+    result["asset_0000"].errors[1].validationError[0].message,
     "AssetName: asset_0000 has been detected as a duplicate. (metadata.name = asset_0002)"
   );
   assertEquals(
-    result["asset_0000"].errors[2].validationError.issues[0].message,
+    result["asset_0000"].errors[2].validationError[0].message,
     "AssetName: asset_0000 has been detected as a duplicate. (metadata.name = asset_0004)"
   );
 });

@@ -76,23 +76,23 @@ Deno.test("TestCetardio", () => {
     "key-lower-case"
   );
   assertEquals(
-    result["CETARDIOwhitelist4"].warnings[0].validationError.issues.length,
+    result["CETARDIOwhitelist4"].warnings[0].validationError.length,
     4
   );
   assertEquals(
-    result["CETARDIOwhitelist4"].warnings[0].validationError.issues[0].path,
+    result["CETARDIOwhitelist4"].warnings[0].validationError[0].path,
     ["Discord"]
   );
   assertEquals(
-    result["CETARDIOwhitelist4"].warnings[0].validationError.issues[1].path,
+    result["CETARDIOwhitelist4"].warnings[0].validationError[1].path,
     ["Twitter"]
   );
   assertEquals(
-    result["CETARDIOwhitelist4"].warnings[0].validationError.issues[2].path,
+    result["CETARDIOwhitelist4"].warnings[0].validationError[2].path,
     ["Website"]
   );
   assertEquals(
-    result["CETARDIOwhitelist4"].warnings[0].validationError.issues[3].path,
+    result["CETARDIOwhitelist4"].warnings[0].validationError[3].path,
     ["mediaType"]
   );
   assertEquals(
@@ -100,7 +100,7 @@ Deno.test("TestCetardio", () => {
     "compare-attributes-keys"
   );
   assertEquals(
-    result["CETARDIOwhitelist4"].warnings[1].validationError.issues[0].message,
+    result["CETARDIOwhitelist4"].warnings[1].validationError[0].message,
     "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set."
   );
 });

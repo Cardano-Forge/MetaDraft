@@ -55,28 +55,28 @@ Deno.test("DuplicateKeys - withWarnings", () => {
   assertEquals(result["asset000"].warnings[0].validatorId, "duplicate-keys");
 
   assertEquals(
-    result["asset000"].warnings[0].validationError.issues[0].message,
+    result["asset000"].warnings[0].validationError[0].message,
     'Key "name" appear multiple times within the provided metadata.'
   );
-  assertEquals(result["asset000"].warnings[0].validationError.issues[0].path, [
+  assertEquals(result["asset000"].warnings[0].validationError[0].path, [
     "name",
   ]);
 
   assertEquals(
-    result["asset000"].warnings[0].validationError.issues[1].message,
+    result["asset000"].warnings[0].validationError[1].message,
     'Key "name" appear multiple times within the provided metadata.'
   );
-  assertEquals(result["asset000"].warnings[0].validationError.issues[1].path, [
+  assertEquals(result["asset000"].warnings[0].validationError[1].path, [
     "attributes",
     "Special1",
     "name",
   ]);
 
   assertEquals(
-    result["asset000"].warnings[0].validationError.issues[2].message,
+    result["asset000"].warnings[0].validationError[2].message,
     'Key "value" appear multiple times within the provided metadata.'
   );
-  assertEquals(result["asset000"].warnings[0].validationError.issues[2].path, [
+  assertEquals(result["asset000"].warnings[0].validationError[2].path, [
     "attributes",
     "Special1",
     "value",

@@ -76,7 +76,7 @@ Deno.test("TestEarthnode", () => {
     "key-lower-case"
   );
   assertEquals(
-    result["EarthNode976"].warnings[0].validationError.issues[0].path,
+    result["EarthNode976"].warnings[0].validationError[0].path,
     ["mediaType"]
   );
 
@@ -85,7 +85,7 @@ Deno.test("TestEarthnode", () => {
     "compare-attributes-keys"
   );
   assertEquals(
-    result["EarthNode976"].warnings[1].validationError.issues[0].message,
+    result["EarthNode976"].warnings[1].validationError[0].message,
     "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set."
   );
 });

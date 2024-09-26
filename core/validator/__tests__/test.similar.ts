@@ -81,13 +81,13 @@ Deno.test("CompareRootKeys - withWarning", () => {
 
   assertEquals(result["asset000"].status, "warning");
   assertEquals(result["asset000"].warnings[0].validatorId, "compare-root-keys");
-  assertEquals(result["asset000"].warnings[0].validationError.issues.length, 2);
+  assertEquals(result["asset000"].warnings[0].validationError.length, 2);
   assertEquals(
-    result["asset000"].warnings[0].validationError.issues[0].message,
+    result["asset000"].warnings[0].validationError[0].message,
     "attributes is similar to attrybutes"
   );
   assertEquals(
-    result["asset000"].warnings[0].validationError.issues[1].message,
+    result["asset000"].warnings[0].validationError[1].message,
     "attrybutes is similar to attributes"
   );
 });
@@ -178,17 +178,17 @@ Deno.test("CompareAttributesValues - withSuccess", () => {
     result["asset000"].warnings[0].validatorId,
     "compare-attributes-keys"
   );
-  assertEquals(result["asset000"].warnings[0].validationError.issues.length, 3);
+  assertEquals(result["asset000"].warnings[0].validationError.length, 3);
   assertEquals(
-    result["asset000"].warnings[0].validationError.issues[0].message,
+    result["asset000"].warnings[0].validationError[0].message,
     "foo is similar to foo1"
   );
   assertEquals(
-    result["asset000"].warnings[0].validationError.issues[1].message,
+    result["asset000"].warnings[0].validationError[1].message,
     "foo1 is similar to foo"
   );
   assertEquals(
-    result["asset000"].warnings[0].validationError.issues[2].message,
+    result["asset000"].warnings[0].validationError[2].message,
     "foz is similar to foo"
   );
 });

@@ -98,7 +98,7 @@ export class DuplicateNameAndImage extends BaseValidator {
               message: `Name: ${entry.metadata.name} has been detected as a duplicate.`,
               path: ["name"],
             },
-          ]),
+          ]).issues,
         });
       }
       // Image
@@ -123,7 +123,7 @@ export class DuplicateNameAndImage extends BaseValidator {
               message: `Image: ${image} has been detected as a duplicate.`,
               path: ["image"],
             },
-          ]),
+          ]).issues,
         });
       }
     }
