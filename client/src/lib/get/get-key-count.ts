@@ -1,3 +1,4 @@
+import type { ZodError } from "zod";
 import type { ValidationsCollection } from "../types";
 
 /**
@@ -37,24 +38,24 @@ export const getKeyCount = (validations: ValidationsCollection[]) => {
   validations.forEach(({ validation }) => {
     if (validation.status !== "success") {
       // WARNINGS
-      validation.warnings.forEach(({ validatorId, message }) => {
+      validation.warnings.forEach(({ validatorId, validationError }) => {
         if (keys.warnings[validatorId]) {
           keys.warnings[validatorId].count++;
         } else {
           keys.warnings[validatorId] = {
             count: 1,
-            message: getMessage(message),
+            message: getMessage(validationError),
           };
         }
       });
       // ERRORS
-      validation.errors.forEach(({ validatorId, message }) => {
+      validation.errors.forEach(({ validatorId, validationError }) => {
         if (keys.errors[validatorId]) {
           keys.errors[validatorId].count++;
         } else {
           keys.errors[validatorId] = {
             count: 1,
-            message: getMessage(message),
+            message: getMessage(validationError),
           };
         }
       });
@@ -63,17 +64,6 @@ export const getKeyCount = (validations: ValidationsCollection[]) => {
   return keys;
 };
 
-type MessageObject = { message: string };
-
-/**
- * Extracts a string message from a given input, which could be a string or an object with a `message` property.
- *
- * @param {unknown} message - The input value which could be a string or an object with a `message` property.
- * @returns {string} - The extracted message. Returns an empty string if no valid message is found.
- */
-const getMessage = (message: unknown) => {
-  if (!message) return "";
-  if (typeof message === "string") return message;
-  if ((message as MessageObject).message) return (message as MessageObject).message;
-  return "";
+const getMessage = (error: ZodError): string => {
+  return error.issues[0]?.message ?? "There is an unknown warning or error";
 };
