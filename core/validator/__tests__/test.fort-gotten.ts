@@ -58,12 +58,12 @@ Deno.test("fort-gotten.json", () => {
     "key-attributes"
   );
   assertEquals(
-    result["FortGottenEp02Kid3963"].warnings[0].validationError[0]
+    result["FortGottenEp02Kid3963"].warnings[0].validationErrors[0]
       .message,
     "It is recommended to use string instead of number"
   );
   assertEquals(
-    result["FortGottenEp02Kid3963"].warnings[0].validationError[0].path,
+    result["FortGottenEp02Kid3963"].warnings[0].validationErrors[0].path,
     ["attributes", "Head"]
   );
   assertEquals(
@@ -71,12 +71,12 @@ Deno.test("fort-gotten.json", () => {
     "key-traits"
   );
   assertEquals(
-    result["FortGottenEp02Kid3963"].warnings[1].validationError[0]
+    result["FortGottenEp02Kid3963"].warnings[1].validationErrors[0]
       .message,
     "All elements in the array should be of the same type."
   );
   assertEquals(
-    result["FortGottenEp02Kid3963"].warnings[1].validationError[0].path,
+    result["FortGottenEp02Kid3963"].warnings[1].validationErrors[0].path,
     ["traits"]
   );
 });

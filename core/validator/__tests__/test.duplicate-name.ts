@@ -39,14 +39,14 @@ Deno.test("DuplicateName - withWarning", () => {
   assertEquals(result["asset_0000"].status, "error");
   assertEquals(result["asset_0000"].errors[0].validatorId, "duplicate-name");
   assertEquals(
-    result["asset_0000"].errors[0].validationError[0].message,
+    result["asset_0000"].errors[0].validationErrors[0].message,
     "Name: asset_0000 has been detected as a duplicate."
   );
 
   assertEquals(result["asset_0002"].status, "error");
   assertEquals(result["asset_0002"].errors[0].validatorId, "duplicate-name");
   assertEquals(
-    result["asset_0002"].errors[0].validationError[0].message,
+    result["asset_0002"].errors[0].validationErrors[0].message,
     "Name: asset_0000 has been detected as a duplicate."
   );
 });

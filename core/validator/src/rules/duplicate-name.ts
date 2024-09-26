@@ -66,7 +66,7 @@ export class DuplicateName extends BaseValidator {
         validations[entry.assetName].status = "error";
         validations[entry.assetName].errors.push({
           validatorId: this.id,
-          validationError: new ZodError([
+          validationErrors: new ZodError([
             {
               code: "custom",
               message: `Name: ${entry.metadata.name} has been detected as a duplicate.`,
@@ -93,7 +93,7 @@ export class DuplicateName extends BaseValidator {
           validations[past.assetName].status = "error";
           validations[past.assetName].errors.push({
             validatorId: this.id,
-            validationError: new ZodError([
+            validationErrors: new ZodError([
               {
                 code: "custom",
                 message: `Name: ${past.metadata.name} has been detected as a duplicate.`,

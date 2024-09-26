@@ -35,23 +35,23 @@ Deno.test("KeyWhiteSpace - withWarning", () => {
     "key-white-space"
   );
   assertEquals(
-    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError.length,
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationErrors.length,
     4
   );
   assertEquals(
-    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError[0].path,
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationErrors[0].path,
     ["attributes", "foo"]
   );
   assertEquals(
-    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError[1].path,
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationErrors[1].path,
     ["attributes", "nested", "bar"]
   );
   assertEquals(
-    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError[2].path,
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationErrors[2].path,
     ["attributes", "nested", " two"]
   );
   assertEquals(
-    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError[3].path,
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationErrors[3].path,
     ["attributes", "nested", "three"]
   );
 });
@@ -84,15 +84,15 @@ Deno.test("KeyWhiteSpace - withArrayAndWarning", () => {
     "key-white-space"
   );
   assertEquals(
-    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError.length,
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationErrors.length,
     2
   );
   assertEquals(
-    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError[0].path,
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationErrors[0].path,
     ["attributes", "foo"]
   );
   assertEquals(
-    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError[1].path,
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationErrors[1].path,
     ["attributes", "nested", "arr", 1]
   );
 });

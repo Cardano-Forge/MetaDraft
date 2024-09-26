@@ -49,30 +49,30 @@ Deno.test("KeyTitleCase - withWarning", () => {
 
   assertEquals(result["asset000"].status, "warning");
   assertEquals(result["asset000"].warnings[0].validatorId, "key-title-case");
-  assertEquals(result["asset000"].warnings[0].validationError.length, 8);
-  assertEquals(result["asset000"].warnings[0].validationError[0].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors.length, 8);
+  assertEquals(result["asset000"].warnings[0].validationErrors[0].path, [
     "name",
   ]);
-  assertEquals(result["asset000"].warnings[0].validationError[1].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors[1].path, [
     "image",
   ]);
-  assertEquals(result["asset000"].warnings[0].validationError[2].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors[2].path, [
     "mediaType",
   ]);
-  assertEquals(result["asset000"].warnings[0].validationError[3].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors[3].path, [
     "description",
   ]);
-  assertEquals(result["asset000"].warnings[0].validationError[4].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors[4].path, [
     "files",
   ]);
-  assertEquals(result["asset000"].warnings[0].validationError[5].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors[5].path, [
     "attributes",
   ]);
-  assertEquals(result["asset000"].warnings[0].validationError[6].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors[6].path, [
     "attributes",
     "foo",
   ]);
-  assertEquals(result["asset000"].warnings[0].validationError[7].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors[7].path, [
     "traits",
   ]);
 });
@@ -110,8 +110,8 @@ Deno.test("KeySnakeCase - withWarning", () => {
 
   assertEquals(result["asset000"].status, "warning");
   assertEquals(result["asset000"].warnings[0].validatorId, "key-snake-case");
-  assertEquals(result["asset000"].warnings[0].validationError.length, 1);
-  assertEquals(result["asset000"].warnings[0].validationError[0].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors.length, 1);
+  assertEquals(result["asset000"].warnings[0].validationErrors[0].path, [
     "mediaType",
   ]);
 });
@@ -132,8 +132,8 @@ Deno.test("KeyLowerCase - withWarning", () => {
 
   assertEquals(result["asset000"].status, "warning");
   assertEquals(result["asset000"].warnings[0].validatorId, "key-lower-case");
-  assertEquals(result["asset000"].warnings[0].validationError.length, 1);
-  assertEquals(result["asset000"].warnings[0].validationError[0].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors.length, 1);
+  assertEquals(result["asset000"].warnings[0].validationErrors[0].path, [
     "mediaType",
   ]);
 });
@@ -154,30 +154,30 @@ Deno.test("KeyUpperCase - withWarning", () => {
 
   assertEquals(result["asset000"].status, "warning");
   assertEquals(result["asset000"].warnings[0].validatorId, "key-upper-case");
-  assertEquals(result["asset000"].warnings[0].validationError.length, 8);
-  assertEquals(result["asset000"].warnings[0].validationError[0].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors.length, 8);
+  assertEquals(result["asset000"].warnings[0].validationErrors[0].path, [
     "name",
   ]);
-  assertEquals(result["asset000"].warnings[0].validationError[1].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors[1].path, [
     "image",
   ]);
-  assertEquals(result["asset000"].warnings[0].validationError[2].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors[2].path, [
     "mediaType",
   ]);
-  assertEquals(result["asset000"].warnings[0].validationError[3].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors[3].path, [
     "description",
   ]);
-  assertEquals(result["asset000"].warnings[0].validationError[4].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors[4].path, [
     "files",
   ]);
-  assertEquals(result["asset000"].warnings[0].validationError[5].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors[5].path, [
     "attributes",
   ]);
-  assertEquals(result["asset000"].warnings[0].validationError[6].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors[6].path, [
     "attributes",
     "foo",
   ]);
-  assertEquals(result["asset000"].warnings[0].validationError[7].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors[7].path, [
     "traits",
   ]);
 });
@@ -198,8 +198,8 @@ Deno.test("AnvilCasing - withWarning", () => {
 
   assertEquals(result["asset000"].status, "warning");
   assertEquals(result["asset000"].warnings[0].validatorId, "key-anvil-casing");
-  assertEquals(result["asset000"].warnings[0].validationError.length, 1);
-  assertEquals(result["asset000"].warnings[0].validationError[0].path, [
+  assertEquals(result["asset000"].warnings[0].validationErrors.length, 1);
+  assertEquals(result["asset000"].warnings[0].validationErrors[0].path, [
     "attributes",
     "foo",
   ]);

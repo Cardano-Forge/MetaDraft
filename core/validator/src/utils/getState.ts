@@ -39,9 +39,9 @@ export function GetValidationOutput(
 
   // Prepare warnings and errors based on the state
   const warnings =
-    state === "warning" ? [{ validatorId, validationError: error.issues }] : [];
+    state === "warning" ? [{ validatorId, validationErrors: error.issues }] : [];
   const errors =
-    state === "error" ? [{ validatorId, validationError: error.issues }] : [];
+    state === "error" ? [{ validatorId, validationErrors: error.issues }] : [];
 
   return { status: state, warnings, errors };
 }

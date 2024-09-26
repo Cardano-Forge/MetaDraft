@@ -73,34 +73,34 @@ Deno.test("TestCornucopias", () => {
   assertEquals(result["CFN00538"].warnings.length, 2);
   assertEquals(result["CFN00538"].warnings[0].validatorId, "key-lower-case");
 
-  assertEquals(result["CFN00538"].warnings[0].validationError.length, 7);
-  assertEquals(result["CFN00538"].warnings[0].validationError[0].path, [
+  assertEquals(result["CFN00538"].warnings[0].validationErrors.length, 7);
+  assertEquals(result["CFN00538"].warnings[0].validationErrors[0].path, [
     "media",
     "Website",
   ]);
-  assertEquals(result["CFN00538"].warnings[0].validationError[1].path, [
+  assertEquals(result["CFN00538"].warnings[0].validationErrors[1].path, [
     "media",
     "Link Tree",
   ]);
-  assertEquals(result["CFN00538"].warnings[0].validationError[2].path, [
+  assertEquals(result["CFN00538"].warnings[0].validationErrors[2].path, [
     "fullName",
   ]);
-  assertEquals(result["CFN00538"].warnings[0].validationError[3].path, [
+  assertEquals(result["CFN00538"].warnings[0].validationErrors[3].path, [
     "mediaType",
   ]);
-  assertEquals(result["CFN00538"].warnings[0].validationError[4].path, [
+  assertEquals(result["CFN00538"].warnings[0].validationErrors[4].path, [
     "typeClass",
   ]);
-  assertEquals(result["CFN00538"].warnings[0].validationError[5].path, [
+  assertEquals(result["CFN00538"].warnings[0].validationErrors[5].path, [
     "attributes",
     "NodeType",
   ]);
-  assertEquals(result["CFN00538"].warnings[0].validationError[6].path, [
+  assertEquals(result["CFN00538"].warnings[0].validationErrors[6].path, [
     "projectName",
   ]);
 
   assertEquals(result["CFN00538"].warnings[1].validatorId, "key-alphanumeric");
-  assertEquals(result["CFN00538"].warnings[1].validationError[0].path, [
+  assertEquals(result["CFN00538"].warnings[1].validationErrors[0].path, [
     "media",
     "Link Tree",
   ]);
