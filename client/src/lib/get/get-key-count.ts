@@ -64,6 +64,14 @@ export const getKeyCount = (validations: ValidationsCollection[]) => {
   return keys;
 };
 
+/**
+ * Extracts the first error message from a ZodError object.
+ * If no specific message is found, a default message is returned.
+ *
+ * @param {ZodError} error - The ZodError object containing validation issues.
+ * @returns {string} - The first error message, or a default message if none exists.
+ *
+ */
 const getMessage = (error: ZodError): string => {
   return error.issues[0]?.message ?? "There is an unknown warning or error";
 };
