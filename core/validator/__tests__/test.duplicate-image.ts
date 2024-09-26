@@ -38,33 +38,25 @@ Deno.test("DuplicateImage - withError", () => {
 
   assertEquals(result["asset_0000"].status, "error");
   assertEquals(result["asset_0000"].errors[0].validatorId, "duplicate-image");
+  assertEquals(result["asset_0000"].errors[0].validationErrors.length, 1);
   assertEquals(
-    result["asset_0000"].errors[0].validationError.issues.length,
-    1
-  );
-  assertEquals(
-    result["asset_0000"].errors[0].validationError.issues[0].message,
+    result["asset_0000"].errors[0].validationErrors[0].message,
     "Image: adibou.png has been detected as a duplicate."
   );
-  assertEquals(
-    result["asset_0000"].errors[0].validationError.issues[0].path,
-    ["image"]
-  );
+  assertEquals(result["asset_0000"].errors[0].validationErrors[0].path, [
+    "image",
+  ]);
 
   assertEquals(result["asset_0001"].status, "error");
   assertEquals(result["asset_0001"].errors[0].validatorId, "duplicate-image");
+  assertEquals(result["asset_0001"].errors[0].validationErrors.length, 1);
   assertEquals(
-    result["asset_0001"].errors[0].validationError.issues.length,
-    1
-  );
-  assertEquals(
-    result["asset_0001"].errors[0].validationError.issues[0].message,
+    result["asset_0001"].errors[0].validationErrors[0].message,
     "Image: adibou.png has been detected as a duplicate."
   );
-  assertEquals(
-    result["asset_0001"].errors[0].validationError.issues[0].path,
-    ["image"]
-  );
+  assertEquals(result["asset_0001"].errors[0].validationErrors[0].path, [
+    "image",
+  ]);
 });
 
 Deno.test("DuplicateImage - withImageArrayError", () => {
@@ -101,31 +93,23 @@ Deno.test("DuplicateImage - withImageArrayError", () => {
 
   assertEquals(result["asset_0000"].status, "error");
   assertEquals(result["asset_0000"].errors[0].validatorId, "duplicate-image");
+  assertEquals(result["asset_0000"].errors[0].validationErrors.length, 1);
   assertEquals(
-    result["asset_0000"].errors[0].validationError.issues.length,
-    1
-  );
-  assertEquals(
-    result["asset_0000"].errors[0].validationError.issues[0].message,
+    result["asset_0000"].errors[0].validationErrors[0].message,
     "Image: windows95C:adibou.png has been detected as a duplicate."
   );
-  assertEquals(
-    result["asset_0000"].errors[0].validationError.issues[0].path,
-    ["image"]
-  );
+  assertEquals(result["asset_0000"].errors[0].validationErrors[0].path, [
+    "image",
+  ]);
 
   assertEquals(result["asset_0001"].status, "error");
   assertEquals(result["asset_0001"].errors[0].validatorId, "duplicate-image");
+  assertEquals(result["asset_0001"].errors[0].validationErrors.length, 1);
   assertEquals(
-    result["asset_0001"].errors[0].validationError.issues.length,
-    1
-  );
-  assertEquals(
-    result["asset_0001"].errors[0].validationError.issues[0].message,
+    result["asset_0001"].errors[0].validationErrors[0].message,
     "Image: windows95C:adibou.png has been detected as a duplicate."
   );
-  assertEquals(
-    result["asset_0001"].errors[0].validationError.issues[0].path,
-    ["image"]
-  );
+  assertEquals(result["asset_0001"].errors[0].validationErrors[0].path, [
+    "image",
+  ]);
 });

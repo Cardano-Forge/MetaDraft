@@ -76,13 +76,13 @@ export class DuplicateAssetName extends BaseValidator {
         validations[entry.assetName].status = "error";
         validations[entry.assetName].errors.push({
           validatorId: this.id,
-          validationError: new ZodError([
+          validationErrors: new ZodError([
             {
               code: "custom",
               message: `AssetName: ${entry.assetName} has been detected as a duplicate. (metadata.name = ${entry.metadata.name})`,
               path: [],
             },
-          ]),
+          ]).issues,
         });
       }
     }
