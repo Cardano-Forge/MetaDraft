@@ -235,11 +235,11 @@ export type StateOutput = {
    * Each warning contains a unique validator ID and associated validation error details.
    *
    * @property {string} validatorId - The unique ID of the validator that triggered the warning.
-   * @property {ZodIssue[]} validationError - Detailed information about the validation warning.
+   * @property {Array<ZodIssue>} validationError - Detailed information about the validation warning.
    */
   warnings: Array<{
     validatorId: string;
-    validationError: ZodIssue[];
+    validationError: Array<ZodIssue>;
   }>;
 
   /**
@@ -247,11 +247,11 @@ export type StateOutput = {
    * Each error contains a unique validator ID and associated validation error details.
    *
    * @property {string} validatorId - The unique ID of the validator that triggered the error.
-   * @property {ZodIssue[]} validationError - Detailed information about the validation error.
+   * @property {Array<ZodIssue>} validationError - Detailed information about the validation error.
    */
   errors: Array<{
     validatorId: string;
-    validationError: ZodIssue[];
+    validationError: Array<ZodIssue>;
   }>;
 };
 
