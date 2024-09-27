@@ -74,7 +74,9 @@ export async function validateMetadata(
 
   const result = mainValidator.GetResults();
 
+  console.log("result", result);
+
   console.timeEnd(`timeToValidate`);
 
-  return JSON.parse(JSON.stringify(result)) as Promise<ValidatorResults>;
+  return result;
 }

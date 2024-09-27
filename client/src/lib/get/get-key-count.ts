@@ -1,4 +1,4 @@
-import type { ZodError } from "zod";
+import type { ZodIssue } from "zod";
 import type { ValidationsCollection } from "../types";
 
 /**
@@ -38,24 +38,24 @@ export const getKeyCount = (validations: ValidationsCollection[]) => {
   validations.forEach(({ validation }) => {
     if (validation.status !== "success") {
       // WARNINGS
-      validation.warnings.forEach(({ validatorId, validationError }) => {
+      validation.warnings.forEach(({ validatorId, validationErrors }) => {
         if (keys.warnings[validatorId]) {
           keys.warnings[validatorId].count++;
         } else {
           keys.warnings[validatorId] = {
             count: 1,
-            message: getMessage(validationError),
+            message: getMessage(validationErrors),
           };
         }
       });
       // ERRORS
-      validation.errors.forEach(({ validatorId, validationError }) => {
+      validation.errors.forEach(({ validatorId, validationErrors }) => {
         if (keys.errors[validatorId]) {
           keys.errors[validatorId].count++;
         } else {
           keys.errors[validatorId] = {
             count: 1,
-            message: getMessage(validationError),
+            message: getMessage(validationErrors),
           };
         }
       });
@@ -68,10 +68,10 @@ export const getKeyCount = (validations: ValidationsCollection[]) => {
  * Extracts the first error message from a ZodError object.
  * If no specific message is found, a default message is returned.
  *
- * @param {ZodError} error - The ZodError object containing validation issues.
+ * @param {ZodIssue[]} error - The ZodError object containing validation issues.
  * @returns {string} - The first error message, or a default message if none exists.
  *
  */
-const getMessage = (error: ZodError): string => {
-  return error.issues[0]?.message ?? "There is an unknown warning or error";
+const getMessage = (error: ZodIssue[]): string => {
+  return error[0]?.message ?? "There is an unknown warning or error";
 };

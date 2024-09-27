@@ -97,8 +97,6 @@ export default function JSONEditor({
 
       // Add project information in RXDB
       await projectCollection?.upsert(newProject);
-
-      alert("save and validate");
     } catch (error) {
     } finally {
       handleValidation(false);
