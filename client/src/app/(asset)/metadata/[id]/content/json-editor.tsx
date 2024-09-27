@@ -1,24 +1,21 @@
 import React from "react";
-import { JsonEditor } from "json-edit-react";
+import { JsonEditor, UpdateFunction } from "json-edit-react";
 
 import type {
   MetadataCollection,
   ProjectCollection,
   ValidationsCollection,
 } from "~/lib/types";
-import {
-  MetadataCollectionSchema,
-  MetadataCollectionSchemav2,
-} from "~/lib/zod-schemas";
+import { MetadataCollectionSchemav2 } from "~/lib/zod-schemas";
 import { Typography } from "~/components/typography";
 import { Button } from "~/components/ui/button";
 import {
-  handleOnAdd,
-  handleRestrictionAdd,
-  handleRestrictionDelete,
-  handleRestrictionEdit,
-  handleRestrictTypeSelection,
-  JsonEditorTheme,
+  editOnAdd,
+  editRestrictionAdd,
+  editRestrictionDelete,
+  editRestrictionEdit,
+  jerRestrictTypeSelection,
+  jerTheme,
 } from "~/lib/json-editor";
 import { useActiveProject } from "~/providers/active-project.provider";
 import { useRxCollection, useRxData } from "rxdb-hooks";
@@ -103,6 +100,25 @@ export default function JSONEditor({
     }
   };
 
+  const handleOnUpdate: UpdateFunction = ({ newData }) => {
+    console.log("ON EDIT");
+    // todo check newData === template key:valueType
+
+    // Zod Validation on update
+    const zodResults = MetadataCollectionSchemav2.safeParse(newData);
+    if (!zodResults.success) {
+      const errorMessage = zodResults.error.issues
+        ?.map((error) => `${error.message}`)
+        .join("\n");
+      // This string returned to and displayed in json-edit-react UI
+      return errorMessage;
+    }
+
+    if (zodResults.success) {
+      setMeta(zodResults.data);
+    }
+  };
+
   return (
     <div className="flex min-w-[60%] flex-col gap-4 rounded-xl bg-secondary p-4 px-8">
       <div className="flex flex-row items-center justify-between px-2">
@@ -112,6 +128,9 @@ export default function JSONEditor({
       <Typography className="italic text-white/50">
         To edit a key, double-click it. Press Enter to save, or Esc to cancel.
       </Typography>
+      <Typography className="italic text-white/50">
+        To edit a value, double-click it.
+      </Typography>
       <JsonEditor
         data={meta}
         showErrorMessages
@@ -120,28 +139,14 @@ export default function JSONEditor({
         rootFontSize={18}
         minWidth={"100%"}
         collapse={3}
-        className="jer-custom"
-        theme={JsonEditorTheme}
-        restrictEdit={handleRestrictionEdit}
-        restrictAdd={handleRestrictionAdd}
-        restrictDelete={handleRestrictionDelete}
-        restrictTypeSelection={handleRestrictTypeSelection}
-        onAdd={handleOnAdd}
-        onUpdate={({ newData }) => {
-          // Zod Validation on update
-          const zodResults = MetadataCollectionSchemav2.safeParse(newData);
-          if (!zodResults.success) {
-            const errorMessage = zodResults.error.issues
-              ?.map((error) => `${error.message}`)
-              .join("\n");
-            // This string returned to and displayed in json-edit-react UI
-            return errorMessage;
-          }
-
-          if (zodResults.success) {
-            setMeta(zodResults.data);
-          }
-        }}
+        className="jer-custom jer-custom-edit"
+        theme={jerTheme}
+        restrictEdit={editRestrictionEdit}
+        restrictAdd={editRestrictionAdd}
+        restrictDelete={editRestrictionDelete}
+        restrictTypeSelection={jerRestrictTypeSelection}
+        onAdd={editOnAdd}
+        onUpdate={handleOnUpdate}
       />
     </div>
   );
