@@ -1,4 +1,4 @@
-import type { ZodError } from "zod";
+import type { ZodError, ZodIssue } from "zod";
 
 /**
  * A union type representing validation states: success, warning, or error.
@@ -235,11 +235,11 @@ export type StateOutput = {
    * Each warning contains a unique validator ID and associated validation error details.
    *
    * @property {string} validatorId - The unique ID of the validator that triggered the warning.
-   * @property {ZodError} validationError - Detailed information about the validation warning.
+   * @property {Array<ZodIssue>} validationErrors - Detailed information about the validation warning.
    */
   warnings: Array<{
     validatorId: string;
-    validationError: ZodError;
+    validationErrors: Array<ZodIssue>;
   }>;
 
   /**
@@ -247,11 +247,11 @@ export type StateOutput = {
    * Each error contains a unique validator ID and associated validation error details.
    *
    * @property {string} validatorId - The unique ID of the validator that triggered the error.
-   * @property {ZodError} validationError - Detailed information about the validation error.
+   * @property {Array<ZodIssue>} validationErrors - Detailed information about the validation error.
    */
   errors: Array<{
     validatorId: string;
-    validationError: ZodError;
+    validationErrors: Array<ZodIssue>;
   }>;
 };
 

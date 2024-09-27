@@ -29,12 +29,11 @@ Deno.test("KeyAttributesValidator - withWarning", () => {
     "key-attributes"
   );
   assertEquals(
-    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError.issues[0]
-      .message,
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationErrors[0].message,
     "It is recommended to use string instead of number"
   );
   assertEquals(
-    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationError.issues[0].path,
+    result["NO_ASSET_NAME_PROVIDED"].warnings[0].validationErrors[0].path,
     ["attributes", "number_field"]
   );
 });

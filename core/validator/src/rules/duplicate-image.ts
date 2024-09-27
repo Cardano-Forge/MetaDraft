@@ -70,13 +70,13 @@ export class DuplicateImage extends BaseValidator {
         validations[entry.assetName].status = "error";
         validations[entry.assetName].errors.push({
           validatorId: this.id,
-          validationError: new ZodError([
+          validationErrors: new ZodError([
             {
               code: "custom",
               message: `Image: ${image} has been detected as a duplicate.`,
               path: ["image"],
             },
-          ]),
+          ]).issues,
         });
 
         // Create validation of past if doesn't exist
@@ -97,13 +97,13 @@ export class DuplicateImage extends BaseValidator {
           validations[past.assetName].status = "error";
           validations[past.assetName].errors.push({
             validatorId: this.id,
-            validationError: new ZodError([
+            validationErrors: new ZodError([
               {
                 code: "custom",
                 message: `Image: ${image} has been detected as a duplicate.`,
                 path: ["image"],
               },
-            ]),
+            ]).issues,
           });
         }
       } else {

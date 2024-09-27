@@ -76,7 +76,7 @@ Deno.test("TestDeadpxlz", () => {
     "compare-attributes-keys"
   );
   assertEquals(
-    result["PXL9951"].warnings[0].validationError.issues[0].message,
+    result["PXL9951"].warnings[0].validationErrors[0].message,
     "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set."
   );
 });

@@ -74,35 +74,35 @@ Deno.test("TestMogi", () => {
   assertEquals(result["Mogi655"].status, "warning");
   assertEquals(result["Mogi655"].warnings.length, 3);
   assertEquals(result["Mogi655"].warnings[0].validatorId, "key-lower-case");
-  assertEquals(result["Mogi655"].warnings[0].validationError.issues.length, 10);
-  assertEquals(result["Mogi655"].warnings[0].validationError.issues[0].path, [
+  assertEquals(result["Mogi655"].warnings[0].validationErrors.length, 10);
+  assertEquals(result["Mogi655"].warnings[0].validationErrors[0].path, [
     "Bg",
   ]);
-  assertEquals(result["Mogi655"].warnings[0].validationError.issues[1].path, [
+  assertEquals(result["Mogi655"].warnings[0].validationErrors[1].path, [
     "Fur",
   ]);
-  assertEquals(result["Mogi655"].warnings[0].validationError.issues[2].path, [
+  assertEquals(result["Mogi655"].warnings[0].validationErrors[2].path, [
     "Hat",
   ]);
-  assertEquals(result["Mogi655"].warnings[0].validationError.issues[3].path, [
+  assertEquals(result["Mogi655"].warnings[0].validationErrors[3].path, [
     "Eyes",
   ]);
-  assertEquals(result["Mogi655"].warnings[0].validationError.issues[4].path, [
+  assertEquals(result["Mogi655"].warnings[0].validationErrors[4].path, [
     "Mouth",
   ]);
-  assertEquals(result["Mogi655"].warnings[0].validationError.issues[5].path, [
+  assertEquals(result["Mogi655"].warnings[0].validationErrors[5].path, [
     "Clothes",
   ]);
-  assertEquals(result["Mogi655"].warnings[0].validationError.issues[6].path, [
+  assertEquals(result["Mogi655"].warnings[0].validationErrors[6].path, [
     "Discord",
   ]);
-  assertEquals(result["Mogi655"].warnings[0].validationError.issues[7].path, [
+  assertEquals(result["Mogi655"].warnings[0].validationErrors[7].path, [
     "Twitter",
   ]);
-  assertEquals(result["Mogi655"].warnings[0].validationError.issues[8].path, [
+  assertEquals(result["Mogi655"].warnings[0].validationErrors[8].path, [
     "Weather",
   ]);
-  assertEquals(result["Mogi655"].warnings[0].validationError.issues[9].path, [
+  assertEquals(result["Mogi655"].warnings[0].validationErrors[9].path, [
     "mediaType",
   ]);
 
@@ -111,21 +111,21 @@ Deno.test("TestMogi", () => {
     "compare-attributes-keys"
   );
   assertEquals(
-    result["Mogi655"].warnings[1].validationError.issues[0].message,
+    result["Mogi655"].warnings[1].validationErrors[0].message,
     "The `attributes` key might be missing from the supplied metadata, or an invalid threshold value may have been set."
   );
   assertEquals(result["Mogi655"].warnings[2].validatorId, "key-title-case");
-  assertEquals(result["Mogi655"].warnings[2].validationError.issues.length, 4);
-  assertEquals(result["Mogi655"].warnings[2].validationError.issues[0].path, [
+  assertEquals(result["Mogi655"].warnings[2].validationErrors.length, 4);
+  assertEquals(result["Mogi655"].warnings[2].validationErrors[0].path, [
     "name",
   ]);
-  assertEquals(result["Mogi655"].warnings[2].validationError.issues[1].path, [
+  assertEquals(result["Mogi655"].warnings[2].validationErrors[1].path, [
     "image",
   ]);
-  assertEquals(result["Mogi655"].warnings[2].validationError.issues[2].path, [
+  assertEquals(result["Mogi655"].warnings[2].validationErrors[2].path, [
     "mediaType",
   ]);
-  assertEquals(result["Mogi655"].warnings[2].validationError.issues[3].path, [
+  assertEquals(result["Mogi655"].warnings[2].validationErrors[3].path, [
     "description",
   ]);
 });
