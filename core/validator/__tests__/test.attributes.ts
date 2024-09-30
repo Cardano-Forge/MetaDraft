@@ -2,7 +2,7 @@ import { assertEquals } from "@std/assert";
 
 import { Validator } from "../src/core.ts";
 
-import { KeyAttributesValidator } from "../src/rules/key-attributes.ts";
+import { KeyAttributes } from "../src/rules/key-attributes.ts";
 
 Deno.test("KeyAttributesValidator - withWarning", () => {
   const metadata = [
@@ -15,7 +15,7 @@ Deno.test("KeyAttributesValidator - withWarning", () => {
   ];
 
   const mainValidator = new Validator("Main");
-  mainValidator.Enable(new KeyAttributesValidator());
+  mainValidator.Enable(new KeyAttributes());
 
   for (const asset_metadata of metadata) {
     mainValidator.Execute("NO_ASSET_NAME_PROVIDED", asset_metadata, metadata);
@@ -49,7 +49,7 @@ Deno.test("KeyAttributesValidator - withSuccess", () => {
   ];
 
   const mainValidator = new Validator("Main");
-  mainValidator.Enable(new KeyAttributesValidator());
+  mainValidator.Enable(new KeyAttributes());
 
   for (const asset_metadata of metadata) {
     mainValidator.Execute("NO_ASSET_NAME_PROVIDED", asset_metadata, metadata);

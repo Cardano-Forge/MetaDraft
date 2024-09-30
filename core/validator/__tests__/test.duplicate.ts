@@ -2,7 +2,7 @@ import { assertEquals } from "@std/assert";
 
 import { Validator } from "../src/core.ts";
 
-import { DuplicateKeysValidator } from "../src/rules/duplicate-keys.ts";
+import { DuplicateKeys } from "../src/rules/duplicate-keys.ts";
 
 Deno.test("DuplicateKeys - withWarnings", () => {
   const metadata = [
@@ -39,7 +39,7 @@ Deno.test("DuplicateKeys - withWarnings", () => {
   ];
 
   const mainValidator = new Validator("Main");
-  mainValidator.Enable(new DuplicateKeysValidator());
+  mainValidator.Enable(new DuplicateKeys());
 
   for (const asset_metadata of metadata) {
     mainValidator.Execute(
@@ -112,7 +112,7 @@ Deno.test("DuplicateKeys - withSuccess", () => {
   ];
 
   const mainValidator = new Validator("Main");
-  mainValidator.Enable(new DuplicateKeysValidator());
+  mainValidator.Enable(new DuplicateKeys());
 
   for (const asset_metadata of metadata) {
     mainValidator.Execute(

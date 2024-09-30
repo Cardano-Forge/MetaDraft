@@ -10,13 +10,13 @@ import { logger } from "../utils/logger.ts";
 /**
  * Validates that metadata has a valid optional `mediaType` field matching a predefined regex pattern.
  *
- * @class KeyMediaTypeValidator
+ * @class KeyMediaType
  * @module Rules
  * @extends BaseValidator
  */
-export class KeyMediaTypeValidator extends BaseValidator {
+export class KeyMediaType extends BaseValidator {
   /**
-   * Creates an instance of KeyMediaTypeValidator.
+   * Creates an instance of KeyMediaType.
    *
    * @param options - Optional configuration for the validator. Currently not used.
    */
@@ -43,7 +43,7 @@ export class KeyMediaTypeValidator extends BaseValidator {
   }
 
   /**
-   * The core validation logic for the KeyMediaTypeValidator class.
+   * The core validation logic for the KeyMediaType class.
    *
    * @param assetName - The name of the asset being validated.
    * @param metadata - The metadata object to validate. Should contain a valid `mediaType` field.
