@@ -25,7 +25,7 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
 
   const validationErrors: ValidationsCollection | undefined = result.map(
     (doc) => doc.toJSON() as ValidationsCollection,
-  )[0];
+  )[result.length - 1];
 
   if (metadata.status === "success")
     return (

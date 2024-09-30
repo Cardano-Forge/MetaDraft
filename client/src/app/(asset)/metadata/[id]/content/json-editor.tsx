@@ -69,6 +69,9 @@ export default function JSONEditor({
 
       // Validate the metadata
       const validations = await validateMetadata(newMetadatas);
+
+      // TODO - CLEAR VALIDATION BEFORE UPSERT (DUPLICATE ASSET NAME FUCK THE SHIT UP)
+
       await validationsCollection?.bulkUpsert(
         Object.keys(validations).map((assetName) => ({
           id: self.crypto.randomUUID(),
@@ -139,7 +142,8 @@ export default function JSONEditor({
         To edit a key, double-click it. Press Enter to save, or Esc to cancel.
       </Typography>
       <Typography className="italic text-white/50">
-        To delete an element from string array. Set the value to an empty string.
+        To delete an element from string array. Set the value to an empty
+        string.
       </Typography>
       <JsonEditor
         data={meta}
