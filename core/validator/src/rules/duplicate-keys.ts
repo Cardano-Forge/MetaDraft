@@ -19,13 +19,13 @@ import type {
 /**
  * A validator that checks metadata for duplicate keys exceeding a specified threshold.
  *
- * @class DuplicateKeysValidator
+ * @class DuplicateKeys
  * @module Rules
  * @extends BaseValidator
  */
-export class DuplicateKeysValidator extends BaseValidator {
+export class DuplicateKeys extends BaseValidator {
   /**
-   * Creates an instance of DuplicateKeysValidator.
+   * Creates an instance of DuplicateKeys.
    *
    * @param {object} [options] - The options for the validator.
    * @param {number} [options.threshold=3] - The threshold number of occurrences before considering a key duplicated.

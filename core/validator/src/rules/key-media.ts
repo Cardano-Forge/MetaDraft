@@ -10,13 +10,13 @@ import { logger } from "../utils/logger.ts";
 /**
  * Validates that metadata optionally contains a valid `media` object with valid media-related values.
  *
- * @class KeyMediaValidator
+ * @class KeyMedia
  * @module Rules
  * @extends BaseValidator
  */
-export class KeyMediaValidator extends BaseValidator {
+export class KeyMedia extends BaseValidator {
   /**
-   * Creates an instance of KeyMediaValidator.
+   * Creates an instance of KeyMedia.
    *
    * @param options - Optional configuration for the validator. Currently not used.
    */
@@ -43,7 +43,7 @@ export class KeyMediaValidator extends BaseValidator {
   }
 
   /**
-   * The core validation logic for the KeyMediaValidator class.
+   * The core validation logic for the KeyMedia class.
    *
    * @param assetName - The name of the asset being validated.
    * @param metadata - The metadata object to validate. It should optionally contain a valid `media` object with media-related values.

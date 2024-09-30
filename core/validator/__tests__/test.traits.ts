@@ -2,7 +2,7 @@ import { assertEquals } from "@std/assert";
 
 import { Validator } from "../src/core.ts";
 
-import { KeyTraitsValidator } from "../src/rules/key-traits.ts";
+import { KeyTraits } from "../src/rules/key-traits.ts";
 
 Deno.test("KeyTraitsValidator - withWarning", () => {
   const metadata = [
@@ -30,7 +30,7 @@ Deno.test("KeyTraitsValidator - withWarning", () => {
   ];
 
   const mainValidator = new Validator("Main");
-  mainValidator.Enable(new KeyTraitsValidator());
+  mainValidator.Enable(new KeyTraits());
 
   for (const asset_metadata of metadata) {
     mainValidator.Execute(

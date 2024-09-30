@@ -5,22 +5,22 @@ import { join } from "node:path";
 
 import { Validator } from "../src/core.ts";
 
-import { KeyNameValidator } from "../src/rules/key-name.ts";
-import { KeyImageValidator } from "../src/rules/key-image.ts";
-import { KeyMediaTypeValidator } from "../src/rules/key-media-type.ts";
-import { KeyDescriptionValidator } from "../src/rules/key-description.ts";
-import { KeyFilesValidator } from "../src/rules/key-files.ts";
-import { KeyAttributesValidator } from "../src/rules/key-attributes.ts";
-import { KeyTraitsValidator } from "../src/rules/key-traits.ts";
+import { KeyName } from "../src/rules/key-name.ts";
+import { KeyImage } from "../src/rules/key-image.ts";
+import { KeyMediaType } from "../src/rules/key-media-type.ts";
+import { KeyDescription } from "../src/rules/key-description.ts";
+import { KeyFiles } from "../src/rules/key-files.ts";
+import { KeyAttributes } from "../src/rules/key-attributes.ts";
+import { KeyTraits } from "../src/rules/key-traits.ts";
 
 const mapping = [
-  new KeyNameValidator(),
-  new KeyImageValidator(),
-  new KeyMediaTypeValidator(),
-  new KeyDescriptionValidator(),
-  new KeyFilesValidator(),
-  new KeyAttributesValidator(),
-  new KeyTraitsValidator(),
+  new KeyName(),
+  new KeyImage(),
+  new KeyMediaType(),
+  new KeyDescription(),
+  new KeyFiles(),
+  new KeyAttributes(),
+  new KeyTraits(),
 ];
 
 Deno.test("fort-gotten.json", () => {

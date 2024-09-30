@@ -10,13 +10,13 @@ import { logger } from "../utils/logger.ts";
 /**
  * Validates that metadata has a valid `name` field with a size less than or equal to 64 characters.
  *
- * @class KeyNameValidator
+ * @class KeyName
  * @module Rules
  * @extends BaseValidator
  */
-export class KeyNameValidator extends BaseValidator {
+export class KeyName extends BaseValidator {
   /**
-   * Creates an instance of KeyNameValidator.
+   * Creates an instance of KeyName.
    *
    * @param options - Optional configuration for the validator. Currently not used.
    */
@@ -43,7 +43,7 @@ export class KeyNameValidator extends BaseValidator {
   }
 
   /**
-   * The core validation logic for the KeyNameValidator class.
+   * The core validation logic for the KeyName class.
    *
    * @param assetName - The name of the asset being validated.
    * @param metadata - The metadata object to validate. Must contain a valid `name` field with a size less than or equal to 64 characters.

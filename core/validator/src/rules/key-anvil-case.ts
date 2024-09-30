@@ -24,7 +24,7 @@ export class KeyAnvilCase extends BaseValidator {
    * @param {object} [options] - The options for the validator.
    */
   constructor(options?: object) {
-    const id = "key-anvil-casing";
+    const id = "key-anvil-case";
     super(id, options);
   }
 
