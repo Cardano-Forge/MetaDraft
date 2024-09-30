@@ -1,0 +1,33 @@
+import { type mapping } from "@ada-anvil/metadraft-validator";
+
+export const RULES_INFORMATION: Record<keyof typeof mapping, string> = {
+  cip25Version1Validator: "",
+  cip25Version2Validator: "",
+  compareAttributesKeys:
+    "The CompareAttributesKeys rule checks for attribute names in metadata that are too similar based on a Levenshtein distance, which measures how many character changes are needed to turn one word into another. If two attribute names are too close, it gives a warning.  It runs by looking at all attribute keys, comparing them, and reporting any that are nearly identical. If you have metadata with attributes like color, colour, and clr, this validator would warn you that these attribute names are too similar.",
+  compareRootKeys: "",
+  compareRootValues: "",
+  duplicateAssetName: "",
+  duplicateImage: "",
+  duplicateKeysValidator: "",
+  duplicateName: "",
+  duplicateNameAndImage: "",
+  hasRequiredKeysValidator: "",
+  keyAlphanumeric: "",
+  keyAnvilCasing: "",
+  keyAttributesValidator: "",
+  keyCamelCase: "",
+  keyDescriptionValidator: "",
+  keyFilesValidator: "",
+  keyImageValidator: "",
+  keyLength: "",
+  keyLowerCase: "",
+  keyMediaTypeValidator: "",
+  keyMediaValidator: "",
+  keyNameValidator: "",
+  keySnakeCase: "",
+  keyTitleCase: "",
+  keyTraitsValidator: "",
+  keyUpperCase: "",
+  keyWhiteSpace: "",
+};
