@@ -197,7 +197,7 @@ Deno.test("AnvilCasing - withWarning", () => {
   const result = mainValidator.GetResults();
 
   assertEquals(result["asset000"].status, "warning");
-  assertEquals(result["asset000"].warnings[0].validatorId, "key-anvil-casing");
+  assertEquals(result["asset000"].warnings[0].validatorId, "key-anvil-case");
   assertEquals(result["asset000"].warnings[0].validationErrors.length, 1);
   assertEquals(result["asset000"].warnings[0].validationErrors[0].path, [
     "attributes",

@@ -10,14 +10,14 @@ import { logger } from "../utils/logger.ts";
 /**
  * Validates that metadata for a given asset has an optional "description" field no longer than 64 characters.
  *
- * @class KeyDescriptionValidator
+ * @class KeyDescription
  * @module Rules
  * @extends BaseValidator
  *
  */
-export class KeyDescriptionValidator extends BaseValidator {
+export class KeyDescription extends BaseValidator {
   /**
-   * Creates an instance of KeyDescriptionValidator.
+   * Creates an instance of KeyDescription.
    *
    * @param options - Optional configuration for the validator.
    */
@@ -44,7 +44,7 @@ export class KeyDescriptionValidator extends BaseValidator {
   }
 
   /**
-   * The core validation logic for the KeyDescriptionValidator.
+   * The core validation logic for the KeyDescription.
    *
    * @param assetName - The name of the asset being validated.
    * @param metadata - The metadata object to validate. Expects an optional "description" field.

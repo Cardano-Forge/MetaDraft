@@ -10,13 +10,13 @@ import { logger } from "../utils/logger.ts";
 /**
  * Validates that metadata has an optional "attributes" field with correct formatting using zod.
  *
- * @class KeyAttributesValidator
+ * @class KeyAttributes
  * @module Rules
  * @extends BaseValidator
  */
-export class KeyAttributesValidator extends BaseValidator {
+export class KeyAttributes extends BaseValidator {
   /**
-   * Creates an instance of KeyAttributesValidator validator.
+   * Creates an instance of KeyAttributes validator.
    *
    * @param {object} [options] - The options for the validator.
    */

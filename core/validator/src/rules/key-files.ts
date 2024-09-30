@@ -10,14 +10,14 @@ import { logger } from "../utils/logger.ts";
 /**
  * Validates that metadata for a given asset has an optional "files" field formatted as an array of file objects.
  *
- * @class KeyFilesValidator
+ * @class KeyFiles
  * @module Rules
  * @extends BaseValidator
  *
  */
-export class KeyFilesValidator extends BaseValidator {
+export class KeyFiles extends BaseValidator {
   /**
-   * Creates an instance of KeyFilesValidator.
+   * Creates an instance of KeyFiles.
    *
    * @param options - Optional configuration for the validator.
    */
@@ -44,7 +44,7 @@ export class KeyFilesValidator extends BaseValidator {
   }
 
   /**
-   * The core validation logic for the KeyFilesValidator.
+   * The core validation logic for the KeyFiles.
    *
    * @param assetName - The name of the asset being validated.
    * @param metadata - The metadata object to validate. Expects an optional "files" field formatted as an array of file objects.

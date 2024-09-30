@@ -10,14 +10,14 @@ import { logger } from "../utils/logger.ts";
 /**
  * Validates that metadata contains an "image" field formatted as a string URL or array of strings.
  *
- * @class KeyImageValidator
+ * @class KeyImage
  * @module Rules
  * @extends BaseValidator
  *
  */
-export class KeyImageValidator extends BaseValidator {
+export class KeyImage extends BaseValidator {
   /**
-   * Creates an instance of KeyImageValidator.
+   * Creates an instance of KeyImage.
    *
    * @param options - Optional configuration for the validator.
    */
@@ -44,7 +44,7 @@ export class KeyImageValidator extends BaseValidator {
   }
 
   /**
-   * The core validation logic for the KeyImageValidator.
+   * The core validation logic for the KeyImage.
    *
    * @param assetName - The name of the asset being validated.
    * @param metadata - The metadata object to validate. Expects an "image" field formatted as a string URL or array of strings.

@@ -12,13 +12,13 @@ import { logger } from "../utils/logger.ts";
  *
  * This validator uses Zod schema to validate metadata against policy ID and asset name format.
  *
- * @class Cip25Version2Validator
+ * @class Cip25Version2
  * @module Rules
  * @extends BaseValidator
  */
-export class Cip25Version2Validator extends BaseValidator {
+export class Cip25Version2 extends BaseValidator {
   /**
-   * Creates a new instance of Cip25Version2Validator.
+   * Creates a new instance of Cip25Version2.
    *
    * @param options - Optional configuration options for the validator.
    */

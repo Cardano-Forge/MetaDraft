@@ -9,13 +9,13 @@ import type { StateOutput, ZodSafeParse } from "../utils/types.ts";
 /**
  * A validator ensuring that metadata includes essential fields such as "name", "description", and "image".
  *
- * @class HasRequiredKeysValidator
+ * @class HasRequiredKeys
  * @module Rules
  * @extends BaseValidator
  */
-export class HasRequiredKeysValidator extends BaseValidator {
+export class HasRequiredKeys extends BaseValidator {
   /**
-   * Creates an instance of HasRequiredKeysValidator.
+   * Creates an instance of HasRequiredKeys.
    *
    * @param {object} [options] - The options for the validator.
    */
