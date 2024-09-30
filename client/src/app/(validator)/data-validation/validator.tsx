@@ -51,9 +51,7 @@ export default function Validator({
       // Add validations in RXDB
       await validationsCollection?.bulkUpsert(
         Object.keys(validations).map((assetName) => ({
-          id:
-            metadata.find((m) => m.assetName === assetName)?.id ??
-            self.crypto.randomUUID(),
+          id: self.crypto.randomUUID(),
           assetName,
           validation: validations[assetName],
         })),

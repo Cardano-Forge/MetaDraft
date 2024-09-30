@@ -4,11 +4,16 @@ import Loader from "~/components/loader";
 import MessageBox from "~/components/message-box";
 import { Typography } from "~/components/typography";
 import type { MetadataCollection, ValidationsCollection } from "~/lib/types";
+import { RULES_DESCRIPTION, type RulesId } from "~/lib/rules";
+import { hyphenToCamelCase } from "~/lib/types/hyphen-to-camel-case";
+import { ruleSet } from "~/lib/constant";
+import { hyphenToTitleCase } from "~/lib/hyphen-to-title-case";
 
 export default function Errors({ metadata }: { metadata: MetadataCollection }) {
   const { result, isFetching } = useRxData<ValidationsCollection>(
     "validations",
-    (collection) => collection.findByIds([metadata.id]),
+    (collection) =>
+      collection.find({ selector: { assetName: metadata.assetName } }),
   );
 
   if (isFetching)
@@ -22,11 +27,36 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
     (doc) => doc.toJSON() as ValidationsCollection,
   )[0];
 
+  if (metadata.status === "success")
+    return (
+      <div className="flex w-full flex-col gap-4 rounded-xl border border-white/10 bg-secondary p-4 px-8 shadow-lg">
+        <Typography as="h2">Validated</Typography>
+        <div className="flex flex-col gap-4 rounded-xl bg-background p-4 pt-6">
+          <Typography>
+            All the validation rules have been successfully checked:
+            <br />
+            <ul>
+              {ruleSet.map((rule) => (
+                <li key={rule}>
+                  <Typography className="ml-4 text-success">
+                    • {hyphenToTitleCase(rule)}
+                  </Typography>
+                </li>
+              ))}
+            </ul>
+            We are pleased to report that no warnings or errors were found
+            during the validation process. This ensures that the metadata
+            adheres to the selected rules, promoting consistency and
+            reliability. Your asset metadata is now fully compliant with your
+            rule set and ready for use.
+          </Typography>
+        </div>
+      </div>
+    );
+
   if (!validationErrors) return null;
 
   const { validation } = validationErrors;
-
-  console.log(validation);
 
   return (
     <div className="flex w-full flex-col gap-4 rounded-xl border border-white/10 bg-secondary p-4 px-8 shadow-lg">
@@ -35,7 +65,7 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
         return (
           <Section key={e.validatorId}>
             <Typography>
-              {e.validatorId} : should be description for the validator (TODO)
+              {RULES_DESCRIPTION[hyphenToCamelCase(e.validatorId) as RulesId]}
             </Typography>
             {e.validationErrors.map((error, i) => {
               return (
@@ -62,7 +92,7 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
         return (
           <Section key={w.validatorId}>
             <Typography>
-              {w.validatorId} : should be description for the validator (TODO)
+              {RULES_DESCRIPTION[hyphenToCamelCase(w.validatorId) as RulesId]}
             </Typography>
             <MessageBox>
               <Typography>{w.validationErrors[0]?.message}</Typography>

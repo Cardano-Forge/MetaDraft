@@ -5,17 +5,20 @@ import {
   CompareAttributesKeys,
   CompareRootKeys,
   CompareRootValues,
-  DuplicateKeysValidator,
-  HasRequiredKeysValidator,
-  KeyFilesValidator,
-  KeyImageValidator,
+  DuplicateKeys,
+  HasRequiredKeys,
+  KeyFiles,
+  KeyImage,
   KeyLength,
-  KeyMediaTypeValidator,
-  KeyNameValidator,
+  KeyMediaType,
+  KeyName,
   Validator,
   DuplicateNameAndImage,
   KeyAnvilCase,
+  mapping,
 } from "@ada-anvil/metadraft-validator";
+import { ruleSet } from "~/lib/constant";
+import { RulesId } from "~/lib/rules";
 import type { MetadataCollection, ValidatorResults } from "~/lib/types";
 
 /**
@@ -46,20 +49,26 @@ export async function validateMetadata(
 ): Promise<ValidatorResults> {
   console.time(`timeToValidate`);
 
-  const template: IValidator[] = [
-    new HasRequiredKeysValidator(),
-    new CompareRootKeys(),
-    new CompareRootValues(),
-    new KeyNameValidator(),
-    new KeyLength(),
-    new KeyMediaTypeValidator(),
-    new KeyImageValidator(),
-    new KeyFilesValidator(),
-    new DuplicateKeysValidator(),
-    new CompareAttributesKeys(),
-    new DuplicateNameAndImage(),
-    new KeyAnvilCase(),
-  ];
+  // 2. Build the validator from the validator package (CSV or JSON)
+  const template: IValidator[] = [];
+  for (const validator of ruleSet) {
+    template.push(new mapping[validator]());
+  }
+
+  // const template: IValidator[] = [
+  //   new DuplicateNameAndImage(),
+  //   new DuplicateKeys(),
+  //   new HasRequiredKeys(),
+  //   new CompareRootKeys(),
+  //   new CompareRootValues(),
+  //   new CompareAttributesKeys(),
+  //   new KeyName(),
+  //   new KeyLength(),
+  //   new KeyMediaType(),
+  //   new KeyImage(),
+  //   new KeyFiles(),
+  //   new KeyAnvilCase(),
+  // ];
 
   const mainValidator = new Validator("Main");
   for (const validator of template) {

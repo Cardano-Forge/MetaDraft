@@ -1,3 +1,4 @@
+import { type RulesId } from "./rules";
 import type { ProjectCollection, Status } from "./types";
 
 export const keys: Record<Status, keyof ProjectCollection> = {
@@ -6,3 +7,18 @@ export const keys: Record<Status, keyof ProjectCollection> = {
   warning: "errorsFlagged",
   success: "valids",
 };
+
+export const ruleSet: RulesId[] = [
+  "duplicateNameAndImage",
+  "duplicateKeys",
+  "hasRequiredKeys",
+  "compareRootKeys",
+  "compareRootValues",
+  "compareAttributesKeys",
+  "keyName",
+  "keyLength",
+  "keyMediaType",
+  "keyImage",
+  "keyFiles",
+  "keyAnvilCase",
+];

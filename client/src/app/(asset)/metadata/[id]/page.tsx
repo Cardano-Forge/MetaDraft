@@ -5,7 +5,7 @@ import { useRxData } from "rxdb-hooks";
 import type { MetadataCollection } from "~/lib/types";
 import JSONEditor from "./content/json-editor";
 import Errors from "./content/errors";
-import { Loader } from "lucide-react";
+import Loader from "~/components/loader";
 
 export default function SingleAssetPage({
   params,
