@@ -6,7 +6,7 @@ import type {
   ProjectCollection,
   ValidationsCollection,
 } from "~/lib/types";
-import { MetadataCollectionSchemav2 } from "~/lib/zod-schemas";
+import { MetadataCollectionSchemaV2 } from "~/lib/zod-schemas";
 import { Typography } from "~/components/typography";
 import { Button } from "~/components/ui/button";
 import {
@@ -115,7 +115,7 @@ export default function JSONEditor({
     }
 
     // Zod Validation on update
-    const zodResults = MetadataCollectionSchemav2.safeParse(newData);
+    const zodResults = MetadataCollectionSchemaV2.safeParse(newData);
     if (!zodResults.success) {
       const errorMessage = zodResults.error.issues
         ?.map((error) => `${error.message}`)

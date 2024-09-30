@@ -29,9 +29,9 @@ const titles: Record<"warning" | "error", JSX.Element> = {
 
 export default function MessageBox({
   variant = "warning",
-  text,
+  children,
 }: {
-  text: string;
+  children: React.ReactNode;
   variant?: keyof typeof variants;
 }) {
   const [show, setShow] = useState<boolean>(true);
@@ -55,7 +55,7 @@ export default function MessageBox({
           Clear
         </Button>
       </div>
-      <Typography className="mr-16">{text}</Typography>
+      <div>{children}</div>
     </div>
   );
 }

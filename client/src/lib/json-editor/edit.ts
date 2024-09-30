@@ -1,5 +1,5 @@
-import type { FilterFunction, NodeData, UpdateFunction } from "json-edit-react";
-import type { MetadataCollection } from "../types";
+import type { FilterFunction, UpdateFunction } from "json-edit-react";
+import type { MetadataCollectionEditor } from "../types";
 
 export const editRestrictionEdit: FilterFunction = ({ level, key, value }) =>
   level === 0 ||
@@ -31,7 +31,7 @@ export const editRestrictionDelete: FilterFunction = ({
 };
 
 export const editOnAdd: UpdateFunction = ({ currentData, path }) => {
-  const data = currentData as MetadataCollection;
+  const data = currentData as MetadataCollectionEditor;
   if (
     path.length === 3 &&
     path.includes("metadata") &&

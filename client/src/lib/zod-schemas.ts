@@ -43,7 +43,7 @@ export const MetadataCollectionSchema = z.object({
   status: StatusEnum,
 });
 
-export const MetadataCollectionSchemav2 = z.object({
+export const MetadataCollectionSchemaV2 = z.object({
   assetName: z.string().max(64),
   metadata: CIP25Schema,
 });
