@@ -25,7 +25,7 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
 
   const validationErrors: ValidationsCollection | undefined = result.map(
     (doc) => doc.toJSON() as ValidationsCollection,
-  )[result.length - 1];
+  )[0];
 
   if (metadata.status === "success")
     return (
@@ -74,13 +74,15 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
                   variant="error"
                 >
                   <Typography>{error.message}</Typography>
-                  <div className="mt-2 rounded-xl border border-border/20 bg-background p-4">
-                    <code>{`[`}</code>
-                    <Typography key={error.path.join(".")} className="pl-8">
-                      <code>{`{ "path": "${error.path.join(".")}" }`}</code>
-                    </Typography>
-                    <code>{`]`}</code>
-                  </div>
+                  {!!error.path.length && (
+                    <div className="mt-2 rounded-xl border border-border/20 bg-background p-4">
+                      <code>{`[`}</code>
+                      <Typography key={error.path.join(".")} className="pl-8">
+                        <code>{`{ "path": "${error.path.join(".")}" }`}</code>
+                      </Typography>
+                      <code>{`]`}</code>
+                    </div>
+                  )}
                 </MessageBox>
               );
             })}

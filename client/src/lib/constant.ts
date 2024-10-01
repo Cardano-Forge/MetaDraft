@@ -10,6 +10,7 @@ export const keys: Record<Status, keyof ProjectCollection> = {
 
 export const ruleSet: RulesId[] = [
   "duplicateNameAndImage",
+  "duplicateAssetName",
   "duplicateKeys",
   "hasRequiredKeys",
   "compareRootKeys",

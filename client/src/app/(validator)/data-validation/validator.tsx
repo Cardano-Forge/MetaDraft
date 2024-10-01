@@ -46,6 +46,7 @@ export default function Validator({
   const handleValidation = async () => {
     try {
       handleValidating(true);
+
       // Validate the metadata
       const validations = await validateMetadata(metadata);
 
@@ -54,7 +55,7 @@ export default function Validator({
       // Add validations in RXDB
       await validationsCollection?.bulkUpsert(
         Object.keys(validations).map((assetName) => ({
-          id: self.crypto.randomUUID(),
+          id: assetName,
           assetName,
           validation: validations[assetName],
         })),

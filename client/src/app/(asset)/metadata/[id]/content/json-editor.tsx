@@ -74,7 +74,7 @@ export default function JSONEditor({
 
       await validationsCollection?.bulkUpsert(
         Object.keys(validations).map((assetName) => ({
-          id: self.crypto.randomUUID(),
+          id: assetName,
           assetName,
           validation: validations[assetName],
         })),
