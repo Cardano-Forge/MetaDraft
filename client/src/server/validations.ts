@@ -67,8 +67,6 @@ export async function validateMetadata(
 
   const result = mainValidator.GetResults();
 
-  console.log("result", result);
-
   console.timeEnd(`timeToValidate`);
 
   return result;
