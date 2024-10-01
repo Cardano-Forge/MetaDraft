@@ -69,9 +69,6 @@ export default function JSONEditor({
 
       // Validate the metadata
       const validations = await validateMetadata(newMetadatas);
-
-      // TODO - CLEAR VALIDATION BEFORE UPSERT (DUPLICATE ASSET NAME FUCK THE SHIT UP)
-
       await validationsCollection?.bulkUpsert(
         Object.keys(validations).map((assetName) => ({
           id: assetName,

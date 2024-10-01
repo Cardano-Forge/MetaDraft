@@ -49,9 +49,6 @@ export default function Validator({
 
       // Validate the metadata
       const validations = await validateMetadata(metadata);
-
-      // TODO - CLEAR VALIDATION BEFORE UPSERT (DUPLICATE ASSET NAME FUCK THE SHIT UP)
-
       // Add validations in RXDB
       await validationsCollection?.bulkUpsert(
         Object.keys(validations).map((assetName) => ({
