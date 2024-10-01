@@ -1,5 +1,5 @@
 import React from "react";
-import { JsonEditor, UpdateFunction } from "json-edit-react";
+import { JsonEditor, type UpdateFunction } from "json-edit-react";
 
 import type {
   MetadataCollection,

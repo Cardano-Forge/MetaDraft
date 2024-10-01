@@ -2,23 +2,10 @@
 
 import {
   type IValidator,
-  CompareAttributesKeys,
-  CompareRootKeys,
-  CompareRootValues,
-  DuplicateKeys,
-  HasRequiredKeys,
-  KeyFiles,
-  KeyImage,
-  KeyLength,
-  KeyMediaType,
-  KeyName,
   Validator,
-  DuplicateNameAndImage,
-  KeyAnvilCase,
   mapping,
 } from "@ada-anvil/metadraft-validator";
 import { ruleSet } from "~/lib/constant";
-import { RulesId } from "~/lib/rules";
 import type { MetadataCollection, ValidatorResults } from "~/lib/types";
 
 /**
