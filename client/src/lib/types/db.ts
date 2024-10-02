@@ -1,5 +1,7 @@
 import { type StateOutput } from "@ada-anvil/metadraft-validator";
 import type { CIP25, Status } from "../types";
+import { type MetadataCollectionSchemaV2 } from "../zod-schemas";
+import { type z } from "zod";
 
 export type MyDatabase = {
   metadata: MetadataCollection;
@@ -30,3 +32,7 @@ export type ProjectCollection = {
   errorsFlagged: number;
   valids: number;
 };
+
+export type MetadataCollectionEditor = z.infer<
+  typeof MetadataCollectionSchemaV2
+>;

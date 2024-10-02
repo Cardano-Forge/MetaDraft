@@ -151,3 +151,10 @@
 .jer-custom .jer-key-edit {
   color: black;
 }
+/* Hide buttons section on edit mode to force editable only in double-click */
+.jer-custom-edit .jer-edit-buttons > div {
+  display: none;
+}
+.jer-custom-edit .jer-edit-buttons > div:first-child{
+  display: block;
+}

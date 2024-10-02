@@ -1,24 +1,21 @@
 import React from "react";
-import { JsonEditor } from "json-edit-react";
+import { JsonEditor, type UpdateFunction } from "json-edit-react";
 
 import type {
   MetadataCollection,
   ProjectCollection,
   ValidationsCollection,
 } from "~/lib/types";
-import {
-  MetadataCollectionSchema,
-  MetadataCollectionSchemav2,
-} from "~/lib/zod-schemas";
+import { MetadataCollectionSchemaV2 } from "~/lib/zod-schemas";
 import { Typography } from "~/components/typography";
 import { Button } from "~/components/ui/button";
 import {
-  handleOnAdd,
-  handleRestrictionAdd,
-  handleRestrictionDelete,
-  handleRestrictionEdit,
-  handleRestrictTypeSelection,
-  JsonEditorTheme,
+  editOnAdd,
+  editRestrictionAdd,
+  editRestrictionDelete,
+  editRestrictionEdit,
+  jerRestrictTypeSelection,
+  jerTheme,
 } from "~/lib/json-editor";
 import { useActiveProject } from "~/providers/active-project.provider";
 import { useRxCollection, useRxData } from "rxdb-hooks";
@@ -74,7 +71,7 @@ export default function JSONEditor({
       const validations = await validateMetadata(newMetadatas);
       await validationsCollection?.bulkUpsert(
         Object.keys(validations).map((assetName) => ({
-          id: self.crypto.randomUUID(),
+          id: assetName,
           assetName,
           validation: validations[assetName],
         })),
@@ -97,11 +94,38 @@ export default function JSONEditor({
 
       // Add project information in RXDB
       await projectCollection?.upsert(newProject);
-
-      alert("save and validate");
     } catch (error) {
     } finally {
       handleValidation(false);
+    }
+  };
+
+  const handleOnUpdate: UpdateFunction = ({
+    newData,
+    name,
+    path,
+    newValue,
+  }) => {
+    if (
+      typeof name === "number" &&
+      typeof newValue === "string" &&
+      newValue.length === 0
+    ) {
+      deleteByPath(newData as Omit<MetadataCollection, "id" | "status">, path);
+    }
+
+    // Zod Validation on update
+    const zodResults = MetadataCollectionSchemaV2.safeParse(newData);
+    if (!zodResults.success) {
+      const errorMessage = zodResults.error.issues
+        ?.map((error) => `${error.message}`)
+        .join("\n");
+      // This string returned to and displayed in json-edit-react UI
+      return errorMessage;
+    }
+
+    if (zodResults.success) {
+      setMeta(zodResults.data);
     }
   };
 
@@ -114,37 +138,51 @@ export default function JSONEditor({
       <Typography className="italic text-white/50">
         To edit a key, double-click it. Press Enter to save, or Esc to cancel.
       </Typography>
+      <Typography className="italic text-white/50">
+        To delete an element from string array. Set the value to an empty
+        string.
+      </Typography>
       <JsonEditor
         data={meta}
         showErrorMessages
         enableClipboard={false}
-        defaultValue={""}
+        defaultValue={"null"}
         rootFontSize={18}
         minWidth={"100%"}
         collapse={3}
-        className="jer-custom"
-        theme={JsonEditorTheme}
-        restrictEdit={handleRestrictionEdit}
-        restrictAdd={handleRestrictionAdd}
-        restrictDelete={handleRestrictionDelete}
-        restrictTypeSelection={handleRestrictTypeSelection}
-        onAdd={handleOnAdd}
-        onUpdate={({ newData }) => {
-          // Zod Validation on update
-          const zodResults = MetadataCollectionSchemav2.safeParse(newData);
-          if (!zodResults.success) {
-            const errorMessage = zodResults.error.issues
-              ?.map((error) => `${error.message}`)
-              .join("\n");
-            // This string returned to and displayed in json-edit-react UI
-            return errorMessage;
-          }
-
-          if (zodResults.success) {
-            setMeta(zodResults.data);
-          }
-        }}
+        className="jer-custom jer-custom-edit"
+        theme={jerTheme}
+        restrictEdit={editRestrictionEdit}
+        restrictAdd={editRestrictionAdd}
+        restrictDelete={editRestrictionDelete}
+        restrictTypeSelection={jerRestrictTypeSelection}
+        onAdd={editOnAdd}
+        onUpdate={handleOnUpdate}
       />
     </div>
   );
+}
+
+/**
+ * Function to delete a value by path in a type-safe way
+ */
+function deleteByPath<T extends object>(
+  obj: T,
+  path: (string | number)[],
+): void {
+  const lastKey = path.pop(); // Remove the last key (index 1 in this case)
+
+  // Access the parent of the value we want to delete
+  const parent = path.reduce<unknown>((acc, key) => {
+    if (acc && (typeof acc === "object" || Array.isArray(acc))) {
+      return acc[key as keyof typeof acc];
+    }
+    return undefined;
+  }, obj);
+
+  if (parent && typeof lastKey === "number" && Array.isArray(parent)) {
+    parent.splice(lastKey, 1); // Remove the element at the array index
+  } else if (parent && typeof lastKey === "string") {
+    delete parent[lastKey as keyof typeof parent]; // Delete the key if it's an object
+  }
 }

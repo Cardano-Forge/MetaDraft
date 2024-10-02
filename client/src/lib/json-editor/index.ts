@@ -1,11 +1,7 @@
-import type {
-  FilterFunction,
-  NodeData,
-  ThemeInput,
-  TypeFilterFunction,
-  UpdateFunction,
-} from "json-edit-react";
-import type { MetadataCollection } from "../types";
+import type { NodeData, ThemeInput, TypeFilterFunction } from "json-edit-react";
+
+export * from "./create";
+export * from "./edit";
 
 const attributesRegex = /metadata\.attributes\..*/;
 const imageArrayRegex = /metadata\.image\.\d+/;
@@ -14,13 +10,14 @@ const filesSrcRegex = /metadata\.files\.\d+\.src/;
 const filesMediaTypeRegex = /metadata\.files\.\d+\.mediaType/;
 const srcArrayFilesSrcArrayRegex = /metadata\.files\.\d+\.src\.\d+/;
 
-export const JsonEditorTheme: ThemeInput = [
+export const jerTheme: ThemeInput = [
   "monoDark",
   {
     container: {
       backgroundColor: "hsl(260 14% 8%)",
       border: "1px solid #ffffff33",
     },
+    
     iconAdd: "hsl(140 55% 57%)",
     iconEdit: "hsl(33 100% 74%)",
     iconDelete: "hsl(357 100% 65%)",
@@ -29,7 +26,7 @@ export const JsonEditorTheme: ThemeInput = [
   },
 ];
 
-export const handleRestrictTypeSelection: TypeFilterFunction = ({
+export const jerRestrictTypeSelection: TypeFilterFunction = ({
   path,
 }: NodeData) => {
   // AssetName
@@ -58,38 +55,4 @@ export const handleRestrictTypeSelection: TypeFilterFunction = ({
   if (attributesRegex.test(path.join("."))) return []; // String only
 
   return ["string", "number", "array", "object"]; // Only 4 type accepted
-};
-
-export const handleRestrictionEdit: FilterFunction = ({ level, key, value }) =>
-  level === 0 ||
-  key === "status" ||
-  key === "id" ||
-  typeof value === "object" ||
-  Array.isArray(value);
-
-export const handleRestrictionAdd: FilterFunction = ({ level, key }) =>
-  level === 0 || key === "status" || key === "id" || key === "assetName";
-
-export const handleRestrictionDelete: FilterFunction = ({ level }) =>
-  level === 0 || level === 1;
-
-export const handleOnAdd: UpdateFunction = ({ currentData, path }) => {
-  const data = currentData as MetadataCollection;
-  if (
-    path.length === 3 &&
-    path.includes("metadata") &&
-    path.includes("files")
-  ) {
-    return [
-      "value",
-      {
-        ...data,
-        metadata: {
-          ...data.metadata,
-          files: [...(data.metadata.files ?? []), { src: "", mediaType: "" }],
-        },
-      },
-    ];
-  }
-  return true;
 };

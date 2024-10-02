@@ -41,7 +41,7 @@ export default function TableView({
       <TableBody className="[&_tr:last-child]:border-1 [&>*]:border-white/30">
         {metadatas[page - 1]?.map((meta) => {
           return (
-            <TableRow key={meta.assetName}>
+            <TableRow key={meta.id}>
               <TableCell>
                 <div className="relative h-16 w-16">
                   <Image

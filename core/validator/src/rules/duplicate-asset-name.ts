@@ -53,7 +53,6 @@ export class DuplicateAssetName extends BaseValidator {
     const seen = new Set<string>();
     const duplicate = new Set<string>();
 
-    // First pass: Count occurrences of each assetName
     for (const entry of metadatas) {
       if (seen.has(entry.assetName)) {
         duplicate.add(entry.assetName);
@@ -62,7 +61,6 @@ export class DuplicateAssetName extends BaseValidator {
       }
     }
 
-    // Second pass: Identify duplicates based on the count
     for (const entry of metadatas) {
       if (duplicate.has(entry.assetName)) {
         if (!validations[entry.assetName]) {

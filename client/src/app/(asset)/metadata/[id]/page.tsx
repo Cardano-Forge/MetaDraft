@@ -4,8 +4,8 @@ import React from "react";
 import { useRxData } from "rxdb-hooks";
 import type { MetadataCollection } from "~/lib/types";
 import JSONEditor from "./content/json-editor";
-import Attributes from "./content/attributes";
-import { Loader } from "lucide-react";
+import Errors from "./content/errors";
+import Loader from "~/components/loader";
 
 export default function SingleAssetPage({
   params,
@@ -33,7 +33,7 @@ export default function SingleAssetPage({
 
   return (
     <div className="flex flex-row gap-4">
-      <Attributes metadata={metadata} />
+      <Errors metadata={metadata} />
       <JSONEditor metadata={metadata} handleValidation={setValidating} />
     </div>
   );

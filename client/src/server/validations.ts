@@ -2,20 +2,10 @@
 
 import {
   type IValidator,
-  CompareAttributesKeys,
-  CompareRootKeys,
-  CompareRootValues,
-  DuplicateKeysValidator,
-  HasRequiredKeysValidator,
-  KeyFilesValidator,
-  KeyImageValidator,
-  KeyLength,
-  KeyMediaTypeValidator,
-  KeyNameValidator,
   Validator,
-  DuplicateNameAndImage,
-  KeyAnvilCasing,
+  mapping,
 } from "@ada-anvil/metadraft-validator";
+import { ruleSet } from "~/lib/constant";
 import type { MetadataCollection, ValidatorResults } from "~/lib/types";
 
 /**
@@ -46,20 +36,10 @@ export async function validateMetadata(
 ): Promise<ValidatorResults> {
   console.time(`timeToValidate`);
 
-  const template: IValidator[] = [
-    new HasRequiredKeysValidator(),
-    new CompareRootKeys(),
-    new CompareRootValues(),
-    new KeyNameValidator(),
-    new KeyLength(),
-    new KeyMediaTypeValidator(),
-    new KeyImageValidator(),
-    new KeyFilesValidator(),
-    new DuplicateKeysValidator(),
-    new CompareAttributesKeys(),
-    new DuplicateNameAndImage(),
-    new KeyAnvilCasing(),
-  ];
+  const template: IValidator[] = [];
+  for (const validator of ruleSet) {
+    template.push(new mapping[validator]());
+  }
 
   const mainValidator = new Validator("Main");
   for (const validator of template) {
