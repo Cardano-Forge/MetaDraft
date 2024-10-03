@@ -67,8 +67,6 @@ export async function validateMetadata(
 
   const result = mainValidator.GetResults();
 
-  console.log(result["Giraffe_3860"]?.warnings[0]?.validationErrors)
-
   console.timeEnd(`timeToValidate`);
 
   return result;

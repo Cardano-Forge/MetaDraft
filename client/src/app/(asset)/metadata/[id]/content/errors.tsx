@@ -3,18 +3,28 @@ import { useRxData } from "rxdb-hooks";
 import Loader from "~/components/loader";
 import MessageBox from "~/components/message-box";
 import { Typography } from "~/components/typography";
-import type { MetadataCollection, ValidationsCollection } from "~/lib/types";
+import type {
+  MetadataCollection,
+  RulesCollection,
+  ValidationsCollection,
+} from "~/lib/types";
 import { RULES_DESCRIPTION, type Rule } from "~/lib/rules";
 import { hyphenToCamelCase } from "~/lib/types/hyphen-to-camel-case";
-import { ruleSet } from "~/lib/constant";
 import { hyphenToTitleCase } from "~/lib/hyphen-to-title-case";
+import { useActiveProject } from "~/providers/active-project.provider";
 
 export default function Errors({ metadata }: { metadata: MetadataCollection }) {
+  const activeProject = useActiveProject();
   const { result, isFetching } = useRxData<ValidationsCollection>(
     "validations",
     (collection) =>
       collection.find({ selector: { assetName: metadata.assetName } }),
   );
+
+  const { result: rulesResults, isFetching: isFetchingRules } =
+    useRxData<RulesCollection>("rules", (collection) =>
+      collection.findByIds([activeProject?.metadataId ?? ""]),
+    );
 
   if (isFetching)
     return (
@@ -27,6 +37,12 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
     (doc) => doc.toJSON() as ValidationsCollection,
   )[0];
 
+  const rules: RulesCollection | undefined = rulesResults.map(
+    (doc) => doc.toJSON() as RulesCollection,
+  )[0];
+
+  if (!rules) return null;
+
   if (metadata.status === "success")
     return (
       <div className="flex w-full flex-col gap-4 rounded-xl border border-white/10 bg-secondary p-4 px-8 shadow-lg">
@@ -36,7 +52,7 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
             All the validation rules have been successfully checked:
             <br />
             <ul>
-              {ruleSet.map((rule) => (
+              {rules.rules.map((rule) => (
                 <li key={rule}>
                   <Typography className="ml-4 text-success">
                     • {hyphenToTitleCase(rule)}
