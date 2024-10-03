@@ -4,7 +4,7 @@ import Loader from "~/components/loader";
 import MessageBox from "~/components/message-box";
 import { Typography } from "~/components/typography";
 import type { MetadataCollection, ValidationsCollection } from "~/lib/types";
-import { RULES_DESCRIPTION, type RulesId } from "~/lib/rules";
+import { RULES_DESCRIPTION, type Rule } from "~/lib/rules";
 import { hyphenToCamelCase } from "~/lib/types/hyphen-to-camel-case";
 import { ruleSet } from "~/lib/constant";
 import { hyphenToTitleCase } from "~/lib/hyphen-to-title-case";
@@ -65,7 +65,7 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
         return (
           <Section key={e.validatorId}>
             <Typography>
-              {RULES_DESCRIPTION[hyphenToCamelCase(e.validatorId) as RulesId]}
+              {RULES_DESCRIPTION[hyphenToCamelCase(e.validatorId) as Rule]}
             </Typography>
             {e.validationErrors.map((error, i) => {
               return (
@@ -94,7 +94,7 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
         return (
           <Section key={w.validatorId}>
             <Typography>
-              {RULES_DESCRIPTION[hyphenToCamelCase(w.validatorId) as RulesId]}
+              {RULES_DESCRIPTION[hyphenToCamelCase(w.validatorId) as Rule]}
             </Typography>
             <MessageBox>
               <Typography>{w.validationErrors[0]?.message}</Typography>

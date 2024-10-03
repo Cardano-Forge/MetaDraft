@@ -20,6 +20,7 @@ export const initialize = async () => {
     metadata: metadataSchema,
     validations: validationsSchema,
     project: projectSchema,
+    rules: rulesSchema,
   });
 
   return db;
@@ -126,5 +127,27 @@ const projectSchema = {
       },
     },
     required: ["id", "metadataId", "name"],
+  },
+};
+
+const rulesSchema = {
+  schema: {
+    title: "rules",
+    version: 0,
+    type: "object",
+    primaryKey: "id",
+    properties: {
+      id: {
+        type: "string",
+        maxLength: 64,
+      },
+      rules: {
+        type: "array",
+        items: {
+          type: "string",
+        },
+      },
+    },
+    required: ["id"],
   },
 };

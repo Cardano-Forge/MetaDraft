@@ -1,7 +1,7 @@
 import { type mapping } from "@ada-anvil/metadraft-validator";
-export type RulesId = keyof typeof mapping;
+export type Rule = keyof typeof mapping;
 
-export const RULES_DESCRIPTION: Record<RulesId, string> = {
+export const RULES_DESCRIPTION: Record<Rule, string> = {
   cip25Version1: `The Cip25Version1 ensures that metadata for CIP-25 version 1 assets follows the correct format. It checks two key things: the asset name must be 64 characters or fewer, and the policy ID must be a 56-character hexadecimal string. If either of these formats is incorrect, it raises an error. For example, if a policy ID is too short or contains invalid characters, this validator will flag it. This helps make sure that the asset's metadata complies with the required CIP-25 standards.`,
   cip25Version2: `The Cip25Version2 validator checks that metadata for CIP-25 version 2 assets follows the correct format. It verifies that both the asset name and the policy ID are valid hexadecimal strings. If either field contains characters that aren't allowed in a hexadecimal format or is too long, the validator will flag an issue. This ensures that the asset metadata meets the requirements of CIP-25 version 2 standards, helping to maintain consistency and validity in the data.`,
   compareAttributesKeys: `The CompareAttributesKeys rule checks for attribute names in metadata that are too similar based on a Levenshtein distance, which measures how many character changes are needed to turn one word into another. If two attribute names are too close, it gives a warning.  It runs by looking at all attribute keys, comparing them, and reporting any that are nearly identical. If you have metadata with attributes like color, colour, and clr, this validator would warn you that these attribute names are too similar.`,
