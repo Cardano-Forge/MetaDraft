@@ -26,7 +26,7 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
       collection.findByIds([activeProject?.metadataId ?? ""]),
     );
 
-  if (isFetching)
+  if (isFetching || isFetchingRules)
     return (
       <div className="flex items-center justify-center">
         <Loader />
