@@ -24,13 +24,13 @@ export const ActiveProjectProvider = ({
 
   const { result, isFetching } = useRxData<ProjectCollection>(
     "project",
-    (collection) => collection.findByIds(["activeProject"]),
+    (collection) => collection.find(),
   );
 
   useEffect(() => {
     if (isFetching) return;
     if (pathname === "/") {
-      if (!!result[0]?.metadataId) {
+      if (!!result[0]?.id) {
         router.push("/metadata-structure");
       }
     } else {
@@ -42,7 +42,7 @@ export const ActiveProjectProvider = ({
 
   if (isFetching)
     return (
-      <main className="container flex flex-wrap place-content-center pt-32">
+      <main className="container flex h-[100vh] flex-wrap place-content-center">
         <Loader />
       </main>
     );

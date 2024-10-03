@@ -5,7 +5,7 @@ import { useRxData } from "rxdb-hooks";
 import type { MetadataCollection } from "~/lib/types";
 import JSONEditor from "./content/json-editor";
 import Errors from "./content/errors";
-import Loader from "~/components/loader";
+import LoaderComponent from "~/components/loader-component";
 
 export default function SingleAssetPage({
   params,
@@ -18,12 +18,7 @@ export default function SingleAssetPage({
     (collection) => collection.findByIds([params.id]),
   );
 
-  if (isFetching || isValidating)
-    return (
-      <div className="flex items-center justify-center">
-        <Loader />
-      </div>
-    );
+  if (isFetching || isValidating) return <LoaderComponent />;
 
   const metadata: MetadataCollection | undefined = result.map(
     (doc) => doc.toJSON() as MetadataCollection,

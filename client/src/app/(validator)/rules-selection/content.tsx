@@ -14,9 +14,9 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import Loader from "~/components/loader";
 import { type RulesCollection } from "~/lib/types";
 import { useRxCollection, useRxData } from "rxdb-hooks";
+import LoaderComponent from "~/components/loader-component";
 
 export default function Content() {
   const [keys, setKeys] = useState<Rule[]>([]);
@@ -44,12 +44,7 @@ export default function Content() {
     void fetchKeys();
   }, []);
 
-  if (loading || isFetching)
-    return (
-      <div className="flex items-center justify-center">
-        <Loader />
-      </div>
-    );
+  if (loading || isFetching) return <LoaderComponent />;
 
   const rules: RulesCollection | undefined = result.map(
     (doc) => doc.toJSON() as RulesCollection,

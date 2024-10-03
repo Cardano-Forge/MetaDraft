@@ -1,23 +1,20 @@
 "use client";
 
+import { useState } from "react";
+
 import { Typography } from "~/components/typography";
 import Assets from "./assets";
 import { Button } from "~/components/ui/button";
 import { useRouter } from "next/navigation";
 import Validator from "./validator";
-import { useState } from "react";
-import Loader from "~/components/loader";
+import LoaderComponent from "~/components/loader-component";
 
 export default function DataValidation() {
   const router = useRouter();
   const [isValidating, setValidating] = useState<boolean>(false);
 
   if (isValidating)
-    return (
-      <div className="flex items-center justify-center">
-        <Loader />
-      </div>
-    );
+    return <LoaderComponent />
 
   return (
     <div className="flex flex-col gap-4">

@@ -17,6 +17,8 @@ import {
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
 import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
+import { useRxCollection } from "rxdb-hooks";
+import { type ProjectCollection } from "~/lib/types";
 
 export default function ClearProjectButton({
   className,
@@ -25,12 +27,27 @@ export default function ClearProjectButton({
 }) {
   const router = useRouter();
   const activeProject = useActiveProject();
+  const activeProjectCollection = useRxCollection<ProjectCollection>("project");
 
   const handleClick = async () => {
-    await activeProject?.remove();
-    await removeRxDatabase("metadraft", getRxStorageDexie());
-    window.localStorage.clear();
-    router.push("/");
+    if (!activeProject) return;
+    try {
+      const latestProject = await activeProjectCollection
+        ?.findOne(activeProject.id)
+        .exec();
+      if (latestProject) {
+        await latestProject.remove();
+      } else {
+        console.warn("Project not found in the database.");
+      }
+
+      await removeRxDatabase("metadraft", getRxStorageDexie());
+      window.localStorage.clear();
+      router.push("/");
+    } catch (e) {
+      console.error("Failed to remove active project:", e);
+    } finally {
+    }
   };
 
   if (!activeProject) return null;

@@ -1,6 +1,5 @@
 import React from "react";
 import { useRxData } from "rxdb-hooks";
-import Loader from "~/components/loader";
 import MessageBox from "~/components/message-box";
 import { Typography } from "~/components/typography";
 import type {
@@ -12,6 +11,7 @@ import { RULES_DESCRIPTION, type Rule } from "~/lib/rules";
 import { hyphenToCamelCase } from "~/lib/types/hyphen-to-camel-case";
 import { hyphenToTitleCase } from "~/lib/hyphen-to-title-case";
 import { useActiveProject } from "~/providers/active-project.provider";
+import LoaderComponent from "~/components/loader-component";
 
 export default function Errors({ metadata }: { metadata: MetadataCollection }) {
   const activeProject = useActiveProject();
@@ -23,15 +23,11 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
 
   const { result: rulesResults, isFetching: isFetchingRules } =
     useRxData<RulesCollection>("rules", (collection) =>
-      collection.findByIds([activeProject?.metadataId ?? ""]),
+      collection.findByIds([activeProject?.id ?? ""]),
     );
 
   if (isFetching || isFetchingRules)
-    return (
-      <div className="flex items-center justify-center">
-        <Loader />
-      </div>
-    );
+    return <LoaderComponent />
 
   const validationErrors: ValidationsCollection | undefined = result.map(
     (doc) => doc.toJSON() as ValidationsCollection,

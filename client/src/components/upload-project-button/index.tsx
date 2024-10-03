@@ -19,10 +19,12 @@ import type {
 
 import UploadAlert from "./upload-alert";
 import { DEFAULT_RULES } from "~/lib/constant";
+import Loader from "../loader";
 
 export function UploadProjectButton() {
   const router = useRouter();
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | undefined>(undefined);
   const [alert, setAlert] = useState<boolean>(false);
   // RXBD
@@ -35,6 +37,7 @@ export function UploadProjectButton() {
     async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       // ** Handle accepted files
       if (acceptedFiles.length === 1) {
+        setLoading(true);
         try {
           // Get JSON object[] format of the file.
           const json = await readFile(acceptedFiles[0]);
@@ -59,8 +62,7 @@ export function UploadProjectButton() {
 
           // Add project information in RXDB
           const project = await activeProjectCollection?.upsert({
-            id: "activeProject",
-            metadataId: self.crypto.randomUUID(),
+            id: self.crypto.randomUUID(),
             name: getFileName(acceptedFiles[0]),
             nfts: zodValidation.data.length,
             unchecked: zodValidation.data.length,
@@ -69,17 +71,20 @@ export function UploadProjectButton() {
             valids: 0,
           });
 
-          // Add Default Rules
-          await rulesCollection?.upsert({
-            id: project?.metadataId ?? self.crypto.randomUUID(),
-            rules: DEFAULT_RULES,
-          });
+          if (project)
+            // Add Default Rules
+            await rulesCollection?.upsert({
+              id: project.id,
+              rules: DEFAULT_RULES,
+            });
 
           router.push("/metadata-structure");
         } catch (error) {
           setError(
             new Error((error as Error).message ?? "Something went wrong"),
           );
+        } finally {
+          setLoading(false);
         }
       }
 
@@ -134,6 +139,13 @@ export function UploadProjectButton() {
       }
     };
   }, [error]);
+
+  if (loading)
+    return (
+      <main className="flex min-h-[450px] w-full min-w-[300px] cursor-pointer flex-col items-center justify-center gap-8 rounded-2xl border border-input/20 bg-card/70">
+        <Loader />
+      </main>
+    );
 
   return (
     <>
