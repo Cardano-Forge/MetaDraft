@@ -5,7 +5,6 @@ import { RULES_DESCRIPTION, type RulesId } from "~/lib/rules";
 import { Switch } from "~/components/ui/switch";
 import { Label } from "~/components/ui/label";
 import { camelCaseToTitleCase } from "~/lib/camel-case-to-title-case";
-import { chunk } from "~/lib/chunk";
 import {
   Table,
   TableBody,
