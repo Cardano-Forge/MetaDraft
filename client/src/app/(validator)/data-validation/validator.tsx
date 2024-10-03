@@ -5,6 +5,7 @@ import { Button } from "~/components/ui/button";
 import type {
   MetadataCollection,
   ProjectCollection,
+  RulesCollection,
   ValidationsCollection,
 } from "~/lib/types";
 import { getStats } from "~/lib/get/get-stats";
@@ -28,7 +29,12 @@ export default function Validator({
     (collection) => collection.find(),
   );
 
-  if (isFetching)
+  const { result: rulesResults, isFetching: isFetchingRules } =
+    useRxData<RulesCollection>("rules", (collection) =>
+      collection.findByIds([activeProject?.metadataId ?? ""]),
+    );
+
+  if (isFetching || isFetchingRules)
     return (
       <div className="flex items-center justify-center">
         <Loader />
@@ -39,16 +45,20 @@ export default function Validator({
     (doc) => doc.toJSON() as MetadataCollection,
   );
 
+  const rules: RulesCollection | undefined = rulesResults.map(
+    (doc) => doc.toJSON() as RulesCollection,
+  )[0];
+
   const project = activeProject?._data;
 
-  if (!metadata || !project) return null;
+  if (!metadata || !project || !rules) return null;
 
   const handleValidation = async () => {
     try {
       handleValidating(true);
 
       // Validate the metadata
-      const validations = await validateMetadata(metadata);
+      const validations = await validateMetadata(metadata, rules);
       // Add validations in RXDB
       await validationsCollection?.bulkUpsert(
         Object.keys(validations).map((assetName) => ({

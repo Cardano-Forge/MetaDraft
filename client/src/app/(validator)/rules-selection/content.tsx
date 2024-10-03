@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 
-import { ruleSet } from "~/lib/constant";
 import { type Rule, RULES_DESCRIPTION } from "~/lib/rules";
 import { Switch } from "~/components/ui/switch";
 import { Label } from "~/components/ui/label";
@@ -16,10 +15,17 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import Loader from "~/components/loader";
+import { type RulesCollection } from "~/lib/types";
+import { useRxCollection, useRxData } from "rxdb-hooks";
 
 export default function Content() {
   const [keys, setKeys] = useState<Rule[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const rulesCollection = useRxCollection<RulesCollection>("rules");
+  const { result, isFetching } = useRxData<RulesCollection>(
+    "rules",
+    (collection) => collection.find(),
+  );
 
   const fetchKeys = async () => {
     setLoading(true); // Start loading
@@ -38,12 +44,32 @@ export default function Content() {
     void fetchKeys();
   }, []);
 
-  if (loading)
+  if (loading || isFetching)
     return (
       <div className="flex items-center justify-center">
         <Loader />
       </div>
     );
+
+  const rules: RulesCollection | undefined = result.map(
+    (doc) => doc.toJSON() as RulesCollection,
+  )[0];
+
+  if (!rules) return null;
+
+  const handleChange = async (checked: boolean, key: Rule) => {
+    try {
+      const newRules = { ...rules };
+      if (checked) {
+        newRules.rules.push(key);
+      } else {
+        newRules.rules = newRules.rules.filter((k) => k !== key);
+      }
+      await rulesCollection?.upsert(newRules);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <Table>
@@ -62,7 +88,10 @@ export default function Content() {
             </TableCell>
             <TableCell>{RULES_DESCRIPTION[key]}</TableCell>
             <TableCell>
-              <Switch checked={ruleSet.includes(key)} />
+              <Switch
+                checked={rules.rules.includes(key)}
+                onCheckedChange={(checked) => handleChange(checked, key)}
+              />
             </TableCell>
           </TableRow>
         ))}

@@ -8,7 +8,7 @@ export const keys: Record<Status, keyof ProjectCollection> = {
   success: "valids",
 };
 
-export const ruleSet: Rule[] = [
+export const DEFAULT_RULES: Rule[] = [
   "duplicateNameAndImage",
   "duplicateAssetName",
   "duplicateKeys",
