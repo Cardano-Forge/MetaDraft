@@ -22,6 +22,7 @@ const variant: Record<StepStatus, string> = {
 
 enum Steps {
   "/metadata-structure" = 1,
+  "/rules-selection",
   "/data-validation",
   "/summary",
 }
