@@ -1,8 +1,9 @@
-import React from "react";
-import { mapping } from "@ada-anvil/metadraft-validator";
+"use client";
+
+import React, { useEffect, useState } from "react";
 
 import { ruleSet } from "~/lib/constant";
-import { RULES_DESCRIPTION, type Rule } from "~/lib/rules";
+import { type Rule, RULES_DESCRIPTION } from "~/lib/rules";
 import { Switch } from "~/components/ui/switch";
 import { Label } from "~/components/ui/label";
 import { camelCaseToTitleCase } from "~/lib/camel-case-to-title-case";
@@ -14,9 +15,35 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
+import Loader from "~/components/loader";
 
 export default function Content() {
-  const keys = Object.keys(mapping) as Rule[];
+  const [keys, setKeys] = useState<Rule[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const fetchKeys = async () => {
+    setLoading(true); // Start loading
+    try {
+      const response = await fetch("/api/keys");
+      const data = (await response.json()) as { keys: Rule[] };
+      setKeys(data.keys);
+    } catch (error) {
+      console.error("Failed to fetch keys:", error);
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
+  useEffect(() => {
+    void fetchKeys();
+  }, []);
+
+  if (loading)
+    return (
+      <div className="flex items-center justify-center">
+        <Loader />
+      </div>
+    );
 
   return (
     <Table>
