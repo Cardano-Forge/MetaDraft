@@ -11,9 +11,14 @@ import CloudUploadIcon from "~/icons/cloud-upload.icon";
 import { getFileExtension } from "~/lib/get/get-file-extension";
 import { getFileName, readFile } from "~/lib/read";
 import { JSONSchema } from "~/lib/zod-schemas";
-import type { MetadataCollection, ProjectCollection } from "~/lib/types";
+import type {
+  MetadataCollection,
+  ProjectCollection,
+  RulesCollection,
+} from "~/lib/types";
 
 import UploadAlert from "./upload-alert";
+import { DEFAULT_RULES } from "~/lib/constant";
 
 export function UploadProjectButton() {
   const router = useRouter();
@@ -23,6 +28,7 @@ export function UploadProjectButton() {
   // RXBD
   const metadataCollection = useRxCollection<MetadataCollection>("metadata");
   const activeProjectCollection = useRxCollection<ProjectCollection>("project");
+  const rulesCollection = useRxCollection<RulesCollection>("rules");
 
   // Upload
   const onDrop = useCallback(
@@ -52,7 +58,7 @@ export function UploadProjectButton() {
           );
 
           // Add project information in RXDB
-          await activeProjectCollection?.upsert({
+          const project = await activeProjectCollection?.upsert({
             id: "activeProject",
             metadataId: self.crypto.randomUUID(),
             name: getFileName(acceptedFiles[0]),
@@ -61,6 +67,12 @@ export function UploadProjectButton() {
             errorsDetected: 0,
             errorsFlagged: 0,
             valids: 0,
+          });
+
+          // Add Default Rules
+          await rulesCollection?.upsert({
+            id: project?.metadataId ?? self.crypto.randomUUID(),
+            rules: DEFAULT_RULES,
           });
 
           router.push("/metadata-structure");
@@ -98,7 +110,7 @@ export function UploadProjectButton() {
         }
       }
     },
-    [metadataCollection, activeProjectCollection, router],
+    [metadataCollection, activeProjectCollection, rulesCollection, router],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

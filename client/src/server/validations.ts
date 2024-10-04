@@ -5,9 +5,13 @@ import {
   Validator,
   mapping,
 } from "@ada-anvil/metadraft-validator";
-import { ruleSet } from "~/lib/constant";
-import type { MetadataCollection, ValidatorResults } from "~/lib/types";
-
+import { DEFAULT_RULES } from "~/lib/constant";
+import type {
+  MetadataCollection,
+  RulesCollection,
+  ValidatorResults,
+} from "~/lib/types";
+type Rule = keyof typeof mapping;
 /**
  * Validates an array of metadata collections using a series of predefined validators.
  *
@@ -17,6 +21,8 @@ import type { MetadataCollection, ValidatorResults } from "~/lib/types";
  *
  * @param {MetadataCollection[]} metadata - An array of metadata collections to be validated.
  *   Each item should include properties relevant for validation, such as `assetName` and `metadata`.
+ * @param {RulesCollection} rules - { id: <string>, rules:<string>[] }
+ *  rules is a rule name array to use for validation
  * @returns {Promise<ValidatorResults>} - A promise that resolves to the validation results.
  *   The results include information about any validation errors or warnings for each metadata item.
  *
@@ -33,12 +39,19 @@ import type { MetadataCollection, ValidatorResults } from "~/lib/types";
  */
 export async function validateMetadata(
   metadata: MetadataCollection[],
+  rules: RulesCollection,
 ): Promise<ValidatorResults> {
   console.time(`timeToValidate`);
 
   const template: IValidator[] = [];
-  for (const validator of ruleSet) {
-    template.push(new mapping[validator]());
+  for (const validator of rules.rules) {
+    if (mapping[validator]) {
+      template.push(new mapping[validator]());
+    } else {
+      console.warn(
+        `Warning: Validator ${validator} is not found in the mapping object.`,
+      );
+    }
   }
 
   const mainValidator = new Validator("Main");

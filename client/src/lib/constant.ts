@@ -1,4 +1,4 @@
-import { type RulesId } from "./rules";
+import { type Rule } from "./rules";
 import type { ProjectCollection, Status } from "./types";
 
 export const keys: Record<Status, keyof ProjectCollection> = {
@@ -8,7 +8,7 @@ export const keys: Record<Status, keyof ProjectCollection> = {
   success: "valids",
 };
 
-export const ruleSet: RulesId[] = [
+export const DEFAULT_RULES: Rule[] = [
   "duplicateNameAndImage",
   "duplicateAssetName",
   "duplicateKeys",

@@ -4,6 +4,7 @@ import { JsonEditor, type UpdateFunction } from "json-edit-react";
 import type {
   MetadataCollection,
   ProjectCollection,
+  RulesCollection,
   ValidationsCollection,
 } from "~/lib/types";
 import { MetadataCollectionSchemaV2 } from "~/lib/zod-schemas";
@@ -45,7 +46,12 @@ export default function JSONEditor({
     (collection) => collection.find(),
   );
 
-  if (isFetching)
+  const { result: rulesResults, isFetching: isFetchingRules } =
+    useRxData<RulesCollection>("rules", (collection) =>
+      collection.findByIds([activeProject?.metadataId ?? ""]),
+    );
+
+  if (isFetching || isFetchingRules)
     return (
       <div className="flex items-center justify-center">
         <Loader />
@@ -56,9 +62,13 @@ export default function JSONEditor({
     (doc) => doc.toJSON() as MetadataCollection,
   );
 
+  const rules: RulesCollection | undefined = rulesResults.map(
+    (doc) => doc.toJSON() as RulesCollection,
+  )[0];
+
   const project = activeProject?._data;
 
-  if (!metadatas || !project) return null;
+  if (!metadatas || !project || !rules) return null;
 
   const handleSaveAndValidate = async () => {
     try {
@@ -68,7 +78,7 @@ export default function JSONEditor({
       );
 
       // Validate the metadata
-      const validations = await validateMetadata(newMetadatas);
+      const validations = await validateMetadata(newMetadatas, rules);
       await validationsCollection?.bulkUpsert(
         Object.keys(validations).map((assetName) => ({
           id: assetName,
