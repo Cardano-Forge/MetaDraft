@@ -10,7 +10,13 @@ import Status from "~/components/default-status";
 import HeaderActions from "./actions";
 import { useRouter } from "next/navigation";
 
-export default function Header({ metadata }: { metadata: MetadataCollection }) {
+export default function Header({
+  metadata,
+  isValidating = false,
+}: {
+  metadata: MetadataCollection;
+  isValidating?: boolean;
+}) {
   const router = useRouter();
 
   return (
@@ -36,7 +42,7 @@ export default function Header({ metadata }: { metadata: MetadataCollection }) {
             <Typography as="h1">{metadata.assetName}</Typography>
           </div>
         </div>
-        <HeaderActions metadata={metadata} />
+        <HeaderActions metadata={metadata} isValidating={isValidating} />
       </div>
     </div>
   );

@@ -6,6 +6,8 @@ import type { MetadataCollection } from "~/lib/types";
 import JSONEditor from "./content/json-editor";
 import Errors from "./content/errors";
 import LoaderComponent from "~/components/loader-component";
+import Header from "./header";
+import PageAssetSkeleton from "./page-asset-skeleton";
 
 export default function SingleAssetPage({
   params,
@@ -18,7 +20,7 @@ export default function SingleAssetPage({
     (collection) => collection.findByIds([params.id]),
   );
 
-  if (isFetching || isValidating) return <LoaderComponent />;
+  if (isFetching) return <LoaderComponent />;
 
   const metadata: MetadataCollection | undefined = result.map(
     (doc) => doc.toJSON() as MetadataCollection,
@@ -26,10 +28,24 @@ export default function SingleAssetPage({
 
   if (!metadata) return <div>No metdata found</div>;
 
+  if (isValidating)
+    return (
+      <PageAssetSkeleton metadata={metadata} isValidating={isValidating} />
+    );
+
   return (
-    <div className="flex flex-row gap-4">
-      <Errors metadata={metadata} />
-      <JSONEditor metadata={metadata} handleValidation={setValidating} />
+    <div className="pt-5">
+      <div className="container">
+        <Header metadata={metadata} />
+      </div>
+      <main className="border-t border-white/15 py-8">
+        <div className="container">
+          <div className="flex flex-row gap-4">
+            <Errors metadata={metadata} />
+            <JSONEditor metadata={metadata} handleValidation={setValidating} />
+          </div>
+        </div>
+      </main>
     </div>
   );
 }

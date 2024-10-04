@@ -41,7 +41,7 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
 
   if (metadata.status === "success")
     return (
-      <div className="flex w-full flex-col gap-4 rounded-xl border border-white/10 bg-secondary p-4 px-8 shadow-lg">
+      <div className="flex w-full flex-col gap-4 rounded-xl border border-white/10 bg-card p-4 px-8 shadow-lg">
         <Typography as="h2">Validated</Typography>
         <div className="flex flex-col gap-4 rounded-xl bg-background p-4 pt-6">
           <Typography>
@@ -71,7 +71,7 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
   const { validation } = validationErrors;
 
   return (
-    <div className="flex w-full flex-col gap-4 rounded-xl border border-white/10 bg-secondary p-4 px-8 shadow-lg">
+    <div className="flex w-full flex-col gap-4 rounded-xl bg-card p-4 px-8 shadow-lg">
       <Typography as="h2">Errors</Typography>
       {validation.errors.map((e) => {
         return (

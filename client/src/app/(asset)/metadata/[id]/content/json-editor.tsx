@@ -135,8 +135,8 @@ export default function JSONEditor({
   };
 
   return (
-    <div className="flex min-w-[60%] flex-col gap-4 rounded-xl bg-secondary p-4 px-8">
-      <div className="flex flex-row items-center justify-between px-2">
+    <div className="flex min-w-[60%] flex-col gap-4 rounded-xl bg-card p-4 px-8">
+      <div className="flex flex-row items-center justify-between">
         <Typography as="h2">JSON Editor</Typography>
         <Button onClick={handleSaveAndValidate}>Save and Validate</Button>
       </div>
