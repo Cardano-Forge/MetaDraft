@@ -3,8 +3,6 @@
 import { useSearchParams } from "next/navigation";
 import { useRxData } from "rxdb-hooks";
 
-import Loader from "~/components/loader";
-
 import type { MetadataCollection } from "~/lib/types";
 import { chunk } from "~/lib/chunk";
 import { filter } from "~/lib/filter";
@@ -16,6 +14,7 @@ import { useActiveProject } from "~/providers/active-project.provider";
 import Header from "./header";
 import Content from "./content";
 import Footer from "./footer";
+import LoaderComponent from "~/components/loader-component";
 
 export default function Assets() {
   const searchParams = useSearchParams();
@@ -27,12 +26,7 @@ export default function Assets() {
     (collection) => collection.find(),
   );
 
-  if (isFetching)
-    return (
-      <div className="flex items-center justify-center">
-        <Loader />
-      </div>
-    );
+  if (isFetching) return <LoaderComponent />;
 
   const metadata: MetadataCollection[] = result.map(
     (doc) => doc.toJSON() as MetadataCollection,

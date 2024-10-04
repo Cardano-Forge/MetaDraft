@@ -2,7 +2,6 @@
 
 import { useRxData } from "rxdb-hooks";
 
-import Loader from "~/components/loader";
 import { Typography } from "~/components/typography";
 
 import type { MetadataCollection } from "~/lib/types";
@@ -10,6 +9,7 @@ import { getObjectStructure } from "~/lib/get/get-object-structure";
 import { useActiveProject } from "~/providers/active-project.provider";
 import JSONViewer from "./json-viewer";
 import FormSection from "./form-section";
+import LoaderComponent from "~/components/loader-component";
 
 export default function StructurePage() {
   const activeProject = useActiveProject();
@@ -18,12 +18,7 @@ export default function StructurePage() {
     (collection) => collection.find(),
   );
 
-  if (isFetching)
-    return (
-      <div className="flex items-center justify-center">
-        <Loader />
-      </div>
-    );
+  if (isFetching) return <LoaderComponent />;
 
   const metadata: MetadataCollection[] = result.map(
     (doc) => doc.toJSON() as MetadataCollection,

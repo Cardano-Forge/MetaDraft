@@ -2,7 +2,7 @@ import { type StateOutput } from "@ada-anvil/metadraft-validator";
 import type { CIP25, Status } from "../types";
 import { type MetadataCollectionSchemaV2 } from "../zod-schemas";
 import { type z } from "zod";
-import { Rule } from "../rules";
+import { type Rule } from "../rules";
 
 export type MyDatabase = {
   metadata: MetadataCollection;
@@ -25,7 +25,6 @@ export type ValidationsCollection = {
 
 export type ProjectCollection = {
   id: string;
-  metadataId: string;
   name: string;
   nfts: number;
   unchecked: number;

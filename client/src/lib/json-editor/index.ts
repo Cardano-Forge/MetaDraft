@@ -15,9 +15,8 @@ export const jerTheme: ThemeInput = [
   {
     container: {
       backgroundColor: "hsl(260 14% 8%)",
-      border: "1px solid #ffffff33",
     },
-    
+
     iconAdd: "hsl(140 55% 57%)",
     iconEdit: "hsl(33 100% 74%)",
     iconDelete: "hsl(357 100% 65%)",

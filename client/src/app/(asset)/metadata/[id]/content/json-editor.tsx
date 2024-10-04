@@ -23,7 +23,7 @@ import { useRxCollection, useRxData } from "rxdb-hooks";
 import { validateMetadata } from "~/server/validations";
 import { setMetadataStatusFromValidations } from "~/lib/set-metadata-status-from-validation";
 import { getStats } from "~/lib/get/get-stats";
-import Loader from "~/components/loader";
+import LoaderComponent from "~/components/loader-component";
 
 export default function JSONEditor({
   metadata,
@@ -48,15 +48,10 @@ export default function JSONEditor({
 
   const { result: rulesResults, isFetching: isFetchingRules } =
     useRxData<RulesCollection>("rules", (collection) =>
-      collection.findByIds([activeProject?.metadataId ?? ""]),
+      collection.findByIds([activeProject?.id ?? ""]),
     );
 
-  if (isFetching || isFetchingRules)
-    return (
-      <div className="flex items-center justify-center">
-        <Loader />
-      </div>
-    );
+  if (isFetching || isFetchingRules) return <LoaderComponent />;
 
   const metadatas: MetadataCollection[] = result.map(
     (doc) => doc.toJSON() as MetadataCollection,
@@ -140,8 +135,8 @@ export default function JSONEditor({
   };
 
   return (
-    <div className="flex min-w-[60%] flex-col gap-4 rounded-xl bg-secondary p-4 px-8">
-      <div className="flex flex-row items-center justify-between px-2">
+    <div className="flex min-w-[60%] flex-col gap-4 rounded-xl bg-card p-4 px-8">
+      <div className="flex flex-row items-center justify-between">
         <Typography as="h2">JSON Editor</Typography>
         <Button onClick={handleSaveAndValidate}>Save and Validate</Button>
       </div>

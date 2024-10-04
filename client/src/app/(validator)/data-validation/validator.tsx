@@ -1,6 +1,5 @@
 import React, { type Dispatch, type SetStateAction } from "react";
 import { useRxCollection, useRxData } from "rxdb-hooks";
-import Loader from "~/components/loader";
 import { Button } from "~/components/ui/button";
 import type {
   MetadataCollection,
@@ -12,6 +11,7 @@ import { getStats } from "~/lib/get/get-stats";
 import { useActiveProject } from "~/providers/active-project.provider";
 import { validateMetadata } from "~/server/validations";
 import { setMetadataStatusFromValidations } from "~/lib/set-metadata-status-from-validation";
+import LoaderComponent from "~/components/loader-component";
 
 export default function Validator({
   handleValidating,
@@ -31,15 +31,10 @@ export default function Validator({
 
   const { result: rulesResults, isFetching: isFetchingRules } =
     useRxData<RulesCollection>("rules", (collection) =>
-      collection.findByIds([activeProject?.metadataId ?? ""]),
+      collection.findByIds([activeProject?.id ?? ""]),
     );
 
-  if (isFetching || isFetchingRules)
-    return (
-      <div className="flex items-center justify-center">
-        <Loader />
-      </div>
-    );
+  if (isFetching || isFetchingRules) return <LoaderComponent />;
 
   const metadata: MetadataCollection[] = result.map(
     (doc) => doc.toJSON() as MetadataCollection,

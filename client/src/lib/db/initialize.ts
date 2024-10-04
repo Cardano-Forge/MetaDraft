@@ -92,10 +92,6 @@ const projectSchema = {
         type: "string",
         maxLength: 64,
       },
-      metadataId: {
-        type: "string",
-        maxLength: 64,
-      },
       name: {
         type: "string",
         maxLength: 64,
@@ -126,7 +122,7 @@ const projectSchema = {
         default: 0,
       },
     },
-    required: ["id", "metadataId", "name"],
+    required: ["id", "name"],
   },
 };
 

@@ -5,13 +5,11 @@ import {
   Validator,
   mapping,
 } from "@ada-anvil/metadraft-validator";
-import { DEFAULT_RULES } from "~/lib/constant";
 import type {
   MetadataCollection,
   RulesCollection,
   ValidatorResults,
 } from "~/lib/types";
-type Rule = keyof typeof mapping;
 /**
  * Validates an array of metadata collections using a series of predefined validators.
  *
