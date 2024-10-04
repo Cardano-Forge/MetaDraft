@@ -17,6 +17,7 @@ import {
 import { type RulesCollection } from "~/lib/types";
 import { useRxCollection, useRxData } from "rxdb-hooks";
 import LoaderComponent from "~/components/loader-component";
+import RuleTableSkeleton from "./rule-table-skeleton";
 
 export default function Content() {
   const [keys, setKeys] = useState<Rule[]>([]);
@@ -44,7 +45,7 @@ export default function Content() {
     void fetchKeys();
   }, []);
 
-  if (loading || isFetching) return <LoaderComponent />;
+  if (loading || isFetching) return <RuleTableSkeleton />;
 
   const rules: RulesCollection | undefined = result.map(
     (doc) => doc.toJSON() as RulesCollection,
@@ -72,7 +73,7 @@ export default function Content() {
         <TableRow>
           <TableHead className="w-40">Rule Name</TableHead>
           <TableHead>Definition</TableHead>
-          <TableHead>Active</TableHead>
+          <TableHead className="w-20">Active</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody className="[&_tr:last-child]:border-1 [&>*]:border-white/30">

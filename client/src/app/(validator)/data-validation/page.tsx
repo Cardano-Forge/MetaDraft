@@ -7,14 +7,14 @@ import Assets from "./assets";
 import { Button } from "~/components/ui/button";
 import { useRouter } from "next/navigation";
 import Validator from "./validator";
-import LoaderComponent from "~/components/loader-component";
+
+import PageSkeleton from "./page-skeleton";
 
 export default function DataValidation() {
   const router = useRouter();
   const [isValidating, setValidating] = useState<boolean>(false);
 
-  if (isValidating)
-    return <LoaderComponent />
+  if (isValidating) return <PageSkeleton />;
 
   return (
     <div className="flex flex-col gap-4">
