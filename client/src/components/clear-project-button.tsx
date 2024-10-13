@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { removeRxDatabase } from "rxdb";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
@@ -18,7 +19,7 @@ import {
 } from "./ui/alert-dialog";
 import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
 import { useRxCollection } from "rxdb-hooks";
-import { type ProjectCollection } from "~/lib/types";
+import type { MetadataSchemaCollection, ProjectCollection } from "~/lib/types";
 
 export default function ClearProjectButton({
   className,
@@ -28,6 +29,8 @@ export default function ClearProjectButton({
   const router = useRouter();
   const activeProject = useActiveProject();
   const activeProjectCollection = useRxCollection<ProjectCollection>("project");
+  const metadataSchemaCollection =
+    useRxCollection<MetadataSchemaCollection>("metadataSchema");
 
   const handleClick = async () => {
     if (!activeProject) return;
@@ -41,9 +44,19 @@ export default function ClearProjectButton({
         console.warn("Project not found in the database.");
       }
 
+      const latestSchema = await metadataSchemaCollection
+        ?.findOne("schema")
+        .exec();
+      if (latestSchema) {
+        await latestSchema.remove();
+      } else {
+        console.warn("MetadataSchema not found in the database.");
+      }
+
       await removeRxDatabase("metadraft", getRxStorageDexie());
+
       window.localStorage.clear();
-      router.push("/");
+      location.reload();
     } catch (e) {
       console.error("Failed to remove active project:", e);
     } finally {

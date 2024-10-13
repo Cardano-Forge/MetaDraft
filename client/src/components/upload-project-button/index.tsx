@@ -13,6 +13,7 @@ import { getFileName, readFile } from "~/lib/read";
 import { JSONSchema } from "~/lib/zod-schemas";
 import type {
   MetadataCollection,
+  MetadataSchemaCollection,
   ProjectCollection,
   RulesCollection,
 } from "~/lib/types";
@@ -76,7 +77,7 @@ export function UploadProjectButton() {
             await rulesCollection?.upsert({
               id: project.id,
               rules: DEFAULT_RULES,
-            });
+            });      
 
           router.push("/metadata-structure");
         } catch (error) {

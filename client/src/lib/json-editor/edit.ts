@@ -2,11 +2,7 @@ import type { FilterFunction, UpdateFunction } from "json-edit-react";
 import type { MetadataCollectionEditor } from "../types";
 
 export const editRestrictionEdit: FilterFunction = ({ level, key, value }) =>
-  level === 0 ||
-  key === "status" ||
-  key === "id" ||
-  typeof value === "object" ||
-  Array.isArray(value);
+  level === 0 || typeof value === "object" || Array.isArray(value);
 
 export const editRestrictionAdd: FilterFunction = ({ level, value }) =>
   level === 0 ||

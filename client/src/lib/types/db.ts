@@ -17,6 +17,11 @@ export type MetadataCollection = {
   status: Status;
 };
 
+export type MetadataSchemaCollection = {
+  id: string;
+  schema: MetadataCollectionEditor;
+};
+
 export type ValidationsCollection = {
   id: string;
   assetName: string;

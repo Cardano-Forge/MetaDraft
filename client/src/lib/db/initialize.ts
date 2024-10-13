@@ -1,9 +1,9 @@
-import { createRxDatabase, addRxPlugin } from "rxdb";
-import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
-import { type MyDatabase } from "~/lib/types";
-
+import { createRxDatabase, addRxPlugin, removeRxDatabase } from "rxdb";
 import { observeNewCollections } from "rxdb-hooks";
 import { RxDBQueryBuilderPlugin } from "rxdb/plugins/query-builder";
+import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
+
+import { type MyDatabase } from "~/lib/types";
 
 addRxPlugin(RxDBQueryBuilderPlugin);
 addRxPlugin(observeNewCollections);
@@ -18,6 +18,7 @@ export const initialize = async () => {
 
   await db.addCollections({
     metadata: metadataSchema,
+    metadataSchema: metadataZodSchema,
     validations: validationsSchema,
     project: projectSchema,
     rules: rulesSchema,
@@ -54,6 +55,25 @@ const metadataSchema = {
     },
     required: ["id", "assetName"],
     indexes: ["assetName", ["id", "assetName"]],
+  },
+};
+
+const metadataZodSchema = {
+  schema: {
+    title: "metadataSchema",
+    version: 0,
+    type: "object",
+    primaryKey: "id",
+    properties: {
+      id: {
+        type: "string",
+        maxLength: 64,
+      },
+      schema: {
+        type: "object",
+      },
+    },
+    required: ["id"],
   },
 };
 

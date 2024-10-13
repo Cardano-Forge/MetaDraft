@@ -13,6 +13,7 @@ const TypographyVariants = {
   p: "text-base leading-7",
   blockquote: "mt-6 border-l-2 pl-6 italic",
   ul: "my-6 ml-6 list-disc [&>li]:mt-2",
+  code: "",
   inlineCode:
     "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
   regularText: "text-base",
@@ -33,6 +34,7 @@ const VALID_HTML_TAG = [
   "p",
   "blockquote",
   "ul",
+  "code",
 ];
 
 const getTag = (as: VariantPropType) => {

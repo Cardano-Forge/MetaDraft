@@ -6,7 +6,7 @@ import {
 } from "@ada-anvil/metadraft-validator";
 
 import { loadTemplates } from "./load-rules.ts";
-import { DIVIDER } from "./contstant.ts";
+import { DIVIDER } from "./constant.ts";
 import { extractOptions } from "./utils.ts";
 import { DataRead, Metadata } from "./types.ts";
 
