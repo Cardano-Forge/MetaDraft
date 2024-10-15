@@ -1,13 +1,16 @@
-import { MetadataCollection, Structure } from "../types";
+import { DEFAULT_CIP25_SCHEMA } from "../constant";
+import type { MetadataCollection, Structure } from "../types";
 import { getObjectStructureWithTypes } from "./get-object-structure-with-types";
 
 export const getMetadataSchema = (metadata: MetadataCollection[]) => {
-  let schemaCount: Record<string, number> = {};
-  let selectedSchema: string = "";
+  const schemaCount: Record<string, number> = {};
+  let selectedSchema = "";
+
+  if (!metadata.length) return DEFAULT_CIP25_SCHEMA;
 
   metadata.forEach((m) => {
     // Get Schema Type
-    let meta = { assetName: m.assetName, metadata: m.metadata };
+    const meta = { assetName: m.assetName, metadata: m.metadata };
     const struture = getObjectStructureWithTypes(meta);
     const structureStringify = JSON.stringify(struture);
 

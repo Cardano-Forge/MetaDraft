@@ -38,8 +38,6 @@ export default function JSONCreator({
 
   if (loading) return <LoaderComponent />;
 
-  console.log(metadatas.length);
-
   const handleOnAdd: UpdateFunction = ({ newData, currentData, path }) => {
     const data = currentData as MetadataCollection;
     // When adding in files[] add base element { src: "string", mediaType: "string" }
@@ -133,7 +131,6 @@ export default function JSONCreator({
         onAdd={handleOnAdd}
         onUpdate={handleOnUpdate}
       />
-
       <HowToCreateMetadataSchema />
     </div>
   );
