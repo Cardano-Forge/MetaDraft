@@ -1,5 +1,4 @@
-import type { FilterFunction, UpdateFunction } from "json-edit-react";
-import type { MetadataCollection } from "../types";
+import type { FilterFunction } from "json-edit-react";
 
 export const createRestrictionEdit: FilterFunction = ({ level, key, value }) =>
   level === 0 ||
@@ -13,4 +12,3 @@ export const createRestrictionAdd: FilterFunction = ({ level, key }) =>
 
 export const createRestrictionDelete: FilterFunction = ({ level, key }) =>
   level === 0 || level === 1 || key === "name" || key === "image";
-

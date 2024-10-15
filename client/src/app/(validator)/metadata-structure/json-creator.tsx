@@ -1,6 +1,6 @@
 import React from "react";
-import { useRxCollection, useRxData } from "rxdb-hooks";
-import { JsonEditor, UpdateFunction } from "json-edit-react";
+import { useRxCollection } from "rxdb-hooks";
+import { JsonEditor, type UpdateFunction } from "json-edit-react";
 
 import LoaderComponent from "~/components/loader-component";
 import { Typography } from "~/components/typography";
@@ -13,7 +13,7 @@ import {
   jerRestrictTypeSelection,
   jerTheme,
 } from "~/lib/json-editor";
-import {
+import type {
   MetadataCollection,
   MetadataCollectionEditor,
   MetadataSchemaCollection,
@@ -91,7 +91,13 @@ export default function JSONCreator({
       });
 
       metadatas.map((m) =>
-        console.log({ ...m, ...reconcileWithSchema(metadataSchema, m) }),
+        console.log({
+          ...m,
+          ...(reconcileWithSchema(
+            metadataSchema,
+            m,
+          ) as Partial<MetadataCollection>[]),
+        }),
       );
       console.log(metadatas.length);
 
@@ -99,7 +105,10 @@ export default function JSONCreator({
       await metadataCollection?.bulkUpsert(
         metadatas.map((m) => ({
           ...m,
-          ...reconcileWithSchema(metadataSchema, m),
+          ...(reconcileWithSchema(
+            metadataSchema,
+            m,
+          ) as Partial<MetadataCollection>[]),
         })),
       );
     } catch (e) {

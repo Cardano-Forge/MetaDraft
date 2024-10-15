@@ -1,11 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRxCollection, useRxData } from "rxdb-hooks";
 
-import { type Rule, RULES_DESCRIPTION } from "~/lib/rules";
 import { Switch } from "~/components/ui/switch";
 import { Label } from "~/components/ui/label";
-import { camelCaseToTitleCase } from "~/lib/camel-case-to-title-case";
 import {
   Table,
   TableBody,
@@ -14,9 +13,10 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
+import { type Rule, RULES_DESCRIPTION } from "~/lib/rules";
+import { camelCaseToTitleCase } from "~/lib/camel-case-to-title-case";
 import { type RulesCollection } from "~/lib/types";
-import { useRxCollection, useRxData } from "rxdb-hooks";
-import LoaderComponent from "~/components/loader-component";
+
 import RuleTableSkeleton from "./rule-table-skeleton";
 
 export default function Content() {
