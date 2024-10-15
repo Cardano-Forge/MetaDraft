@@ -1,5 +1,5 @@
 import React from "react";
-import { useRxCollection, useRxData } from "rxdb-hooks";
+import { useRxCollection } from "rxdb-hooks";
 import { Button } from "~/components/ui/button";
 import CheckIcon from "~/icons/check.icon";
 import FlagIcon from "~/icons/flag.icon";
@@ -7,7 +7,6 @@ import type {
   MetadataCollection,
   ProjectCollection,
   Status,
-  ValidationsCollection,
 } from "~/lib/types";
 import { cn } from "~/lib/utils";
 import { useActiveProject } from "~/providers/active-project.provider";
@@ -24,23 +23,9 @@ export default function HeaderActions({
   const projectCollection = useRxCollection<ProjectCollection>("project");
   const metadataCollection = useRxCollection<MetadataCollection>("metadata");
 
-  const { result, isFetching } = useRxData<ValidationsCollection>(
-    "validations",
-    (collection) =>
-      collection.find().where("assetName").equals(metadata.assetName),
-  );
-
-  if (isFetching) return <div>Loading...</div>;
-
-  const validations = result.map(
-    (doc) => doc.toJSON() as ValidationsCollection,
-  );
-
-  const validation = validations[0];
-
   const project = activeProject?._data;
 
-  if (!metadata || !project || !validation) return <div>No metadata found</div>;
+  if (!metadata || !project) return <div>No metadata found</div>;
 
   const isSuccess = metadata.status === "success";
   const isWarning = metadata.status === "warning";

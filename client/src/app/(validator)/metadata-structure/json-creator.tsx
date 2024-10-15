@@ -20,6 +20,7 @@ import {
 } from "~/lib/types";
 import { MetadataCollectionSchemaV2 } from "~/lib/zod-schemas";
 import { reconcileWithSchema } from "~/lib/reconcile-with-schema";
+import HowToCreateMetadataSchema from "./how-to";
 
 export default function JSONCreator({
   metadatas,
@@ -115,7 +116,6 @@ export default function JSONCreator({
         <Typography as="h2">JSON Creator</Typography>
         <Button onClick={handleSaveSchema}>Save Metadata Structure</Button>
       </div>
-
       <JsonEditor
         data={metadataSchema}
         showErrorMessages
@@ -132,6 +132,8 @@ export default function JSONCreator({
         onAdd={handleOnAdd}
         onUpdate={handleOnUpdate}
       />
+
+      <HowToCreateMetadataSchema />
     </div>
   );
 }
