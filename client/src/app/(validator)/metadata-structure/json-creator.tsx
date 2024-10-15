@@ -118,6 +118,7 @@ export default function JSONCreator({
       </div>
       <JsonEditor
         data={metadataSchema}
+        collapse
         showErrorMessages
         enableClipboard={false}
         defaultValue={"string"}
