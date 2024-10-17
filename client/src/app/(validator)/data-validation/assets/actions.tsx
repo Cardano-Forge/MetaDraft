@@ -99,7 +99,6 @@ export default function Actions({
         <TrashIcon className="h-4 w-4" />
       </Button>
       <Button
-        disabled={isUnchecked}
         size={"icon"}
         variant={"outline"}
         className="border-white/50"
