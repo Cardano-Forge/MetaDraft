@@ -14,6 +14,15 @@ import { cn } from "~/lib/utils";
 import { useActiveProject } from "~/providers/active-project.provider";
 import { keys } from "~/lib/constant";
 import TrashIcon from "~/icons/trash.icon";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog";
 
 export default function Actions({
   metadata,
@@ -96,13 +105,32 @@ export default function Actions({
       >
         <CheckIcon className="h-4 w-4" />
       </Button>
-      <Button
-        size={"icon"}
-        variant={"destructiveOutilne"}
-        onClick={handleDelete}
-      >
-        <TrashIcon className="h-4 w-4" />
-      </Button>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button size={"icon"} variant={"destructiveOutilne"}>
+            <TrashIcon className="h-4 w-4" />
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Are you absolutely sure?</DialogTitle>
+            <DialogDescription className="text-red-500">
+              This action will permanently remove the asset from your metadata
+              list. Once deleted, it cannot be undone. Please confirm if you
+              wish to proceed
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant={"secondary"}
+              onClick={handleDelete}
+              className="w-full"
+            >
+              Confirm
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <Button
         size={"icon"}
         variant={"outline"}

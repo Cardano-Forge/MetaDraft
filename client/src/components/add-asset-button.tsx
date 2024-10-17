@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { type Dispatch, type SetStateAction } from "react";
 import { Button } from "./ui/button";
 import PlusIcon from "~/icons/plus.icon";
 import { useRxCollection, useRxData } from "rxdb-hooks";
