@@ -12,11 +12,12 @@ import { useActiveProject } from "~/providers/active-project.provider";
 import { validateMetadata } from "~/server/validations";
 import { setMetadataStatusFromValidations } from "~/lib/set-metadata-status-from-validation";
 import LoaderComponent from "~/components/loader-component";
+import { getMetadataFromAssetName } from "~/lib/get/get-metadata-id-from-asset-name";
 
 export default function Validator({
-  handleValidating,
+  handleLoading,
 }: {
-  handleValidating: Dispatch<SetStateAction<boolean>>;
+  handleLoading: Dispatch<SetStateAction<boolean>>;
 }) {
   const activeProject = useActiveProject();
   const projectCollection = useRxCollection<ProjectCollection>("project");
@@ -50,14 +51,14 @@ export default function Validator({
 
   const handleValidation = async () => {
     try {
-      handleValidating(true);
+      handleLoading(true);
 
       // Validate the metadata
       const validations = await validateMetadata(metadata, rules);
       // Add validations in RXDB
       await validationsCollection?.bulkUpsert(
         Object.keys(validations).map((assetName) => ({
-          id: assetName,
+          id: getMetadataFromAssetName(metadata, assetName),
           assetName,
           validation: validations[assetName],
         })),
@@ -82,7 +83,7 @@ export default function Validator({
       await projectCollection?.upsert(newProject);
     } catch (error) {
     } finally {
-      handleValidating(false);
+      handleLoading(false);
     }
   };
 

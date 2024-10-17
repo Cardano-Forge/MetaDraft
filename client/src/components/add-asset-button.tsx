@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type Dispatch, type SetStateAction } from "react";
 import { Button } from "./ui/button";
 import PlusIcon from "~/icons/plus.icon";
 import { useRxCollection, useRxData } from "rxdb-hooks";
@@ -10,8 +10,14 @@ import type {
 import LoaderComponent from "./loader-component";
 import { DEFAULT_CIP25_SCHEMA } from "~/lib/constant";
 import { useActiveProject } from "~/providers/active-project.provider";
+import { useRouter } from "next/navigation";
 
-export default function AddAssetButton() {
+export default function AddAssetButton({
+  handleLoading,
+}: {
+  handleLoading: Dispatch<SetStateAction<boolean>>;
+}) {
+  const router = useRouter();
   const activeProject = useActiveProject();
   const projectCollection = useRxCollection<ProjectCollection>("project");
   const metadataCollection = useRxCollection<MetadataCollection>("metadata");
@@ -32,17 +38,30 @@ export default function AddAssetButton() {
   const project = activeProject.toJSON() as ProjectCollection;
 
   const handleAdd = async () => {
-    await metadataCollection?.insert({
-      id: self.crypto.randomUUID(),
-      ...(schema?.schema ?? DEFAULT_CIP25_SCHEMA),
-      status: "unchecked",
-    });
+    try {
+      handleLoading(true);
+      const id = self.crypto.randomUUID();
 
-    await projectCollection?.upsert({
-      ...project,
-      nfts: project.nfts + 1,
-      unchecked: project.unchecked + 1,
-    });
+      await metadataCollection?.insert({
+        id,
+        assetName: `${project.nfts + 1}`,
+        metadata: {
+          ...(schema?.schema.metadata ?? DEFAULT_CIP25_SCHEMA.metadata),
+          name: `${project.nfts + 1}`,
+        },
+        status: "unchecked",
+      });
+
+      await projectCollection?.upsert({
+        ...project,
+        nfts: project.nfts + 1,
+        unchecked: project.unchecked + 1,
+      });
+
+      router.push(`/metadata/${id}`);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
