@@ -2,11 +2,13 @@ import { createRxDatabase, addRxPlugin } from "rxdb";
 import { observeNewCollections } from "rxdb-hooks";
 import { RxDBQueryBuilderPlugin } from "rxdb/plugins/query-builder";
 import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
+import { RxDBJsonDumpPlugin } from "rxdb/plugins/json-dump";
 
 import { type MyDatabase } from "~/lib/types";
 
 addRxPlugin(RxDBQueryBuilderPlugin);
 addRxPlugin(observeNewCollections);
+addRxPlugin(RxDBJsonDumpPlugin);
 
 export const initialize = async () => {
   // create RxDB

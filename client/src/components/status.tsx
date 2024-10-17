@@ -4,10 +4,11 @@ import React from "react";
 import { Typography } from "./typography";
 import Stat from "./stat";
 import { useActiveProject } from "~/providers/active-project.provider";
+import { ProjectCollection } from "~/lib/types";
 
 export const Status = () => {
   const activeProject = useActiveProject();
-  const project = activeProject?._data;
+  const project = activeProject?.toJSON() as ProjectCollection;
 
   if (!activeProject || !project)
     return (

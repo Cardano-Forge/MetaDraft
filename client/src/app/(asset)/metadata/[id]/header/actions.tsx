@@ -23,7 +23,7 @@ export default function HeaderActions({
   const projectCollection = useRxCollection<ProjectCollection>("project");
   const metadataCollection = useRxCollection<MetadataCollection>("metadata");
 
-  const project = activeProject?._data;
+  const project = activeProject?.toJSON() as ProjectCollection;
 
   if (!metadata || !project) return <div>No metadata found</div>;
 

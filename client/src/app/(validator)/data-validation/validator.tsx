@@ -44,7 +44,7 @@ export default function Validator({
     (doc) => doc.toJSON() as RulesCollection,
   )[0];
 
-  const project = activeProject?._data;
+  const project = activeProject?.toJSON() as ProjectCollection;
 
   if (!metadata || !project || !rules) return null;
 
