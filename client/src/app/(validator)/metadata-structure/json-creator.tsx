@@ -125,8 +125,8 @@ export default function JSONCreator({
       </div>
       <JsonEditor
         data={metadataSchema}
-        collapse
         showErrorMessages
+        collapse={1}
         enableClipboard={false}
         defaultValue={"string"}
         rootFontSize={18}
