@@ -59,7 +59,6 @@ export async function validateMetadata(
   }
 
   for (const asset of metadata) {
-    // console.log(asset);
     mainValidator.Execute(asset.assetName, asset.metadata, metadata);
   }
 
