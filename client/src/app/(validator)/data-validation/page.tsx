@@ -32,7 +32,7 @@ export default function DataValidation() {
           </Button>
         </div>
       </div>
-      <Assets handleLoading={setLoading} />
+      <Assets />
     </div>
   );
 }

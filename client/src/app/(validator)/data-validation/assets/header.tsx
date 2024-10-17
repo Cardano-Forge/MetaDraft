@@ -4,13 +4,8 @@ import { useActiveProject } from "~/providers/active-project.provider";
 import SearchBar from "./search-bar";
 import SortButton from "~/components/sort-button";
 import AddAssetButton from "~/components/add-asset-button";
-import { type Dispatch, type SetStateAction } from "react";
 
-export default function Header({
-  handleLoading,
-}: {
-  handleLoading: Dispatch<SetStateAction<boolean>>;
-}) {
+export default function Header() {
   const activeProject = useActiveProject();
   if (!activeProject) return <div>No data found.</div>;
 
@@ -22,7 +17,7 @@ export default function Header({
         <SortButton />
       </div>
       <div className="flex flex-row items-center gap-4 p-2">
-        <AddAssetButton handleLoading={handleLoading} />
+        <AddAssetButton />
         <SearchBar />
       </div>
     </div>
