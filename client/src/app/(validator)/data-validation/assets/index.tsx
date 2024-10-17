@@ -1,5 +1,6 @@
 "use client";
 
+import { type Dispatch, type SetStateAction } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRxData } from "rxdb-hooks";
 
@@ -16,7 +17,11 @@ import Content from "./content";
 import Footer from "./footer";
 import LoaderComponent from "~/components/loader-component";
 
-export default function Assets() {
+export default function Assets({
+  handleLoading,
+}: {
+  handleLoading: Dispatch<SetStateAction<boolean>>;
+}) {
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("search");
   const sortBy = searchParams.get("sort");
@@ -40,7 +45,7 @@ export default function Assets() {
 
   return (
     <div className="flex flex-col rounded-2xl bg-card">
-      <Header />
+      <Header handleLoading={handleLoading} />
       <Content metadatas={pagedMetadata} />
       <Footer lastPage={pagedMetadata.length} />
     </div>

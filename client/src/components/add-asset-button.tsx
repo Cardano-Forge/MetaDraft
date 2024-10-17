@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { Button } from "./ui/button";
 import PlusIcon from "~/icons/plus.icon";
 import { useRxCollection, useRxData } from "rxdb-hooks";
@@ -12,10 +12,13 @@ import { DEFAULT_CIP25_SCHEMA } from "~/lib/constant";
 import { useActiveProject } from "~/providers/active-project.provider";
 import { useRouter } from "next/navigation";
 
-export default function AddAssetButton() {
+export default function AddAssetButton({
+  handleLoading,
+}: {
+  handleLoading: Dispatch<SetStateAction<boolean>>;
+}) {
   const router = useRouter();
   const activeProject = useActiveProject();
-  const [adding, setAdding] = React.useState<boolean>(false);
   const projectCollection = useRxCollection<ProjectCollection>("project");
   const metadataCollection = useRxCollection<MetadataCollection>("metadata");
 
@@ -24,7 +27,7 @@ export default function AddAssetButton() {
       collection.find(),
     );
 
-  if (isFetchingSchema || adding) return <LoaderComponent />;
+  if (isFetchingSchema) return <LoaderComponent />;
 
   const schema: MetadataSchemaCollection | undefined = schemaResult.map(
     (doc) => doc.toJSON() as MetadataSchemaCollection,
@@ -36,7 +39,7 @@ export default function AddAssetButton() {
 
   const handleAdd = async () => {
     try {
-      setAdding(true);
+      handleLoading(true);
       const id = self.crypto.randomUUID();
 
       await metadataCollection?.insert({
@@ -57,8 +60,7 @@ export default function AddAssetButton() {
 
       router.push(`/metadata/${id}`);
     } catch (error) {
-    } finally {
-      setAdding(false);
+      console.error(error);
     }
   };
 

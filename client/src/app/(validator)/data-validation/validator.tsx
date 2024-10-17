@@ -15,9 +15,9 @@ import LoaderComponent from "~/components/loader-component";
 import { getMetadataFromAssetName } from "~/lib/get/get-metadata-id-from-asset-name";
 
 export default function Validator({
-  handleValidating,
+  handleLoading,
 }: {
-  handleValidating: Dispatch<SetStateAction<boolean>>;
+  handleLoading: Dispatch<SetStateAction<boolean>>;
 }) {
   const activeProject = useActiveProject();
   const projectCollection = useRxCollection<ProjectCollection>("project");
@@ -51,7 +51,7 @@ export default function Validator({
 
   const handleValidation = async () => {
     try {
-      handleValidating(true);
+      handleLoading(true);
 
       // Validate the metadata
       const validations = await validateMetadata(metadata, rules);
@@ -83,7 +83,7 @@ export default function Validator({
       await projectCollection?.upsert(newProject);
     } catch (error) {
     } finally {
-      handleValidating(false);
+      handleLoading(false);
     }
   };
 
@@ -93,4 +93,3 @@ export default function Validator({
     </Button>
   );
 }
-
