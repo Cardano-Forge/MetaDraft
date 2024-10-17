@@ -78,7 +78,7 @@ export default function JSONEditor({
       const validations = await validateMetadata(newMetadatas, rules);
       await validationsCollection?.bulkUpsert(
         Object.keys(validations).map((assetName) => ({
-          id: assetName,
+          id: metadata.id,
           assetName,
           validation: validations[assetName],
         })),

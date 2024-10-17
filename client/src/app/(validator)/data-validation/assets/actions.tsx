@@ -8,6 +8,7 @@ import type {
   MetadataCollection,
   ProjectCollection,
   Status,
+  ValidationsCollection,
 } from "~/lib/types";
 import { cn } from "~/lib/utils";
 import { useActiveProject } from "~/providers/active-project.provider";
@@ -25,6 +26,8 @@ export default function Actions({
   const router = useRouter();
   const projectCollection = useRxCollection<ProjectCollection>("project");
   const metadataCollection = useRxCollection<MetadataCollection>("metadata");
+  const validationsCollection =
+    useRxCollection<ValidationsCollection>("validations");
 
   const project = activeProject?.toJSON() as ProjectCollection;
 
@@ -67,6 +70,8 @@ export default function Actions({
       errorsFlagged: project.errorsFlagged - (isWarning ? 1 : 0),
       unchecked: project.unchecked - (isUnchecked ? 1 : 0),
     });
+
+    await validationsCollection?.bulkRemove([metadata.id]);
   };
 
   return (

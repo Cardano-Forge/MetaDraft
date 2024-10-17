@@ -17,8 +17,7 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
   const activeProject = useActiveProject();
   const { result, isFetching } = useRxData<ValidationsCollection>(
     "validations",
-    (collection) =>
-      collection.find({ selector: { assetName: metadata.assetName } }),
+    (collection) => collection.findByIds([metadata.id]),
   );
 
   const { result: rulesResults, isFetching: isFetchingRules } =

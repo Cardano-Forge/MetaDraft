@@ -12,6 +12,7 @@ import { useActiveProject } from "~/providers/active-project.provider";
 import { validateMetadata } from "~/server/validations";
 import { setMetadataStatusFromValidations } from "~/lib/set-metadata-status-from-validation";
 import LoaderComponent from "~/components/loader-component";
+import { getMetadataFromAssetName } from "~/lib/get/get-metadata-id-from-asset-name";
 
 export default function Validator({
   handleValidating,
@@ -57,7 +58,7 @@ export default function Validator({
       // Add validations in RXDB
       await validationsCollection?.bulkUpsert(
         Object.keys(validations).map((assetName) => ({
-          id: assetName,
+          id: getMetadataFromAssetName(metadata, assetName),
           assetName,
           validation: validations[assetName],
         })),
@@ -92,3 +93,4 @@ export default function Validator({
     </Button>
   );
 }
+
