@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 
 import { Typography } from "~/components/typography";
 import { Button } from "~/components/ui/button";
