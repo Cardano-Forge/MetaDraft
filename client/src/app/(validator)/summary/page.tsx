@@ -1,6 +1,7 @@
 import { Typography } from "~/components/typography";
-import Summary from "./summary";
+
 import ExportButton from "./export-button";
+import Content from "./content";
 
 export default function SummaryPage() {
   return (
@@ -16,7 +17,7 @@ export default function SummaryPage() {
           <ExportButton />
         </div>
       </div>
-      <Summary />
+      <Content />
     </div>
   );
 }

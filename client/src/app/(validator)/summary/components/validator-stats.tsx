@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useRxData } from "rxdb-hooks";
 import Stat from "~/components/stat";
