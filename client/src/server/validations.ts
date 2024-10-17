@@ -40,7 +40,6 @@ export async function validateMetadata(
   rules: RulesCollection,
 ): Promise<ValidatorResults> {
   console.time(`timeToValidate`);
-  console.log("where am i ?");
 
   const template: IValidator[] = [];
 
@@ -53,28 +52,20 @@ export async function validateMetadata(
       );
     }
   }
-  console.log("after validator template");
 
   const mainValidator = new Validator("Main");
   for (const validator of template) {
     mainValidator.Enable(validator);
   }
-  console.log("after main validator");
 
   for (const asset of metadata) {
     // console.log(asset);
     mainValidator.Execute(asset.assetName, asset.metadata, metadata);
   }
-  // todo - doesnt go here ?
-  console.log("after execute");
 
   mainValidator.ExecuteOnce(metadata);
 
-  console.log("after execute once");
-
   const result = mainValidator.GetResults();
-
-  console.log("result");
 
   console.timeEnd(`timeToValidate`);
 
