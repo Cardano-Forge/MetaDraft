@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import {
   Table,
   TableBody,
@@ -16,6 +14,7 @@ import { getImageSrc } from "~/lib/get/get-image-src";
 import { getCID } from "~/lib/get/get-cid";
 import { useSearchParams } from "next/navigation";
 import { getPageFromParams } from "~/lib/get/get-page-from-param";
+import { ImageWithFallback } from "~/components/image-with-fallback";
 
 export default function TableView({
   metadatas,
@@ -44,10 +43,7 @@ export default function TableView({
             <TableRow key={meta.id}>
               <TableCell>
                 <div className="relative h-16 w-16">
-                  <Image
-                    fill
-                    sizes="64px"
-                    alt="nft"
+                  <ImageWithFallback
                     src={getImageSrc(meta.metadata.image)}
                     className="rounded-xl"
                   />

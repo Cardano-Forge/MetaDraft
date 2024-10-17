@@ -3,6 +3,7 @@ import ViewButton from "~/components/view-button";
 import { useActiveProject } from "~/providers/active-project.provider";
 import SearchBar from "./search-bar";
 import SortButton from "~/components/sort-button";
+import AddAssetButton from "~/components/add-asset-button";
 
 export default function Header() {
   const activeProject = useActiveProject();
@@ -15,7 +16,10 @@ export default function Header() {
         <ViewButton view="grid" />
         <SortButton />
       </div>
-      <SearchBar />
+      <div className="flex flex-row items-center gap-4 p-2">
+        <AddAssetButton />
+        <SearchBar />
+      </div>
     </div>
   );
 }

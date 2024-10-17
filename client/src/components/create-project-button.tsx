@@ -81,7 +81,7 @@ export default function CreateProjectButton() {
             className="border-white/30 placeholder:text-white/20"
             placeholder="Project name..."
           />
-          <div className="flex flex-row justify-end gap-4">
+          <div className="mt-4 flex flex-row justify-end gap-4">
             <Button type="submit">Create</Button>
           </div>
         </form>

@@ -2,13 +2,13 @@ import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { cn } from "~/lib/utils";
 
-type AssetCardImageProps = React.ComponentPropsWithoutRef<typeof Avatar> & {
+type ImageProps = React.ComponentPropsWithoutRef<typeof Avatar> & {
   imageProps?: Omit<React.ComponentPropsWithoutRef<typeof AvatarImage>, "src">;
 };
 
-const AssetCardThumbnail = React.forwardRef<
+const ImageWithFallback = React.forwardRef<
   HTMLDivElement,
-  AssetCardImageProps & {
+  ImageProps & {
     src: string;
     fallbackClassName?: string;
   }
@@ -37,6 +37,6 @@ const AssetCardThumbnail = React.forwardRef<
     );
   },
 );
-AssetCardThumbnail.displayName = "AssetCardThumbnail";
+ImageWithFallback.displayName = "ImageWithFallback";
 
-export { AssetCardThumbnail };
+export { ImageWithFallback };
