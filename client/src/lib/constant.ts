@@ -1,11 +1,32 @@
 import { type Rule } from "./rules";
-import type { ProjectCollection, Status } from "./types";
+import type {
+  MetadataCollectionEditor,
+  ProjectCollection,
+  Status,
+} from "./types";
 
 export const keys: Record<Status, keyof ProjectCollection> = {
   unchecked: "unchecked",
   error: "errorsDetected",
   warning: "errorsFlagged",
   success: "valids",
+};
+
+export const DEFAULT_CIP25_SCHEMA: MetadataCollectionEditor = {
+  assetName: "string",
+  metadata: {
+    name: "string",
+    image: "string",
+    mediaType: "string",
+    description: "string",
+    files: [
+      {
+        src: "string",
+        mediaType: "string",
+      },
+    ],
+    attributes: {},
+  },
 };
 
 export const DEFAULT_RULES: Rule[] = [

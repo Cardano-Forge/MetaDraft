@@ -1,19 +1,25 @@
 {
-  "version": "3",
-  "packages": {
-    "specifiers": {
-      "npm:convert-csv-to-json@2.48.0": "npm:convert-csv-to-json@2.48.0",
-      "npm:zod@3.23.8": "npm:zod@3.23.8"
+  "version": "4",
+  "specifiers": {
+    "npm:@types/node@*": "22.5.0",
+    "npm:convert-csv-to-json@2.48.0": "2.48.0",
+    "npm:zod@3.23.8": "3.23.8"
+  },
+  "npm": {
+    "@types/node@22.5.0": {
+      "integrity": "sha512-DkFrJOe+rfdHTqqMg0bSNlGlQ85hSoh2TPzZyhHsXnMtligRWpxUySiyw8FY14ITt24HVCiQPWxS3KO/QlGmWg==",
+      "dependencies": [
+        "undici-types"
+      ]
     },
-    "npm": {
-      "convert-csv-to-json@2.48.0": {
-        "integrity": "sha512-XkmztvCyY1qbUA1dlait7fmazAS0vDhYOzhMu90NPMvqBVY0/2GmAW1XzTzlKPpW5K/4ZaTKEO2Jb7e4saIQxg==",
-        "dependencies": {}
-      },
-      "zod@3.23.8": {
-        "integrity": "sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==",
-        "dependencies": {}
-      }
+    "convert-csv-to-json@2.48.0": {
+      "integrity": "sha512-XkmztvCyY1qbUA1dlait7fmazAS0vDhYOzhMu90NPMvqBVY0/2GmAW1XzTzlKPpW5K/4ZaTKEO2Jb7e4saIQxg=="
+    },
+    "undici-types@6.19.8": {
+      "integrity": "sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw=="
+    },
+    "zod@3.23.8": {
+      "integrity": "sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g=="
     }
   },
   "redirects": {

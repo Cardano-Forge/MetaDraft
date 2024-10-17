@@ -1,4 +1,4 @@
-import { DIVIDER } from "./contstant.ts";
+import { DIVIDER } from "./constant.ts";
 
 export function extractOptions(validator: string) {
   const options: string | undefined = validator.split(DIVIDER)[1];

@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 
 import { Typography } from "~/components/typography";
 import { Button } from "~/components/ui/button";
@@ -9,6 +8,7 @@ import { getImageSrc } from "~/lib/get/get-image-src";
 import Status from "~/components/default-status";
 import HeaderActions from "./actions";
 import { useRouter } from "next/navigation";
+import { ImageWithFallback } from "~/components/image-with-fallback";
 
 export default function Header({
   metadata,
@@ -30,12 +30,9 @@ export default function Header({
       </Button>
       <div className="flex flex-row items-end justify-between">
         <div className="flex flex-row gap-8">
-          <Image
-            alt="metadata"
-            width={100}
-            height={100}
+          <ImageWithFallback
             src={getImageSrc(metadata.metadata.image)}
-            className="rounded-xl"
+            className="max-h-36 max-w-36"
           />
           <div className="flex flex-col gap-4">
             <Status state={metadata.status} />

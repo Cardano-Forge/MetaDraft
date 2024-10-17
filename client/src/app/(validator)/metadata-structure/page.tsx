@@ -3,13 +3,16 @@
 import { useRxData } from "rxdb-hooks";
 
 import { Typography } from "~/components/typography";
-
-import type { MetadataCollection } from "~/lib/types";
-import { getObjectStructure } from "~/lib/get/get-object-structure";
-import { useActiveProject } from "~/providers/active-project.provider";
-import JSONViewer from "./json-viewer";
-import FormSection from "./form-section";
 import LoaderComponent from "~/components/loader-component";
+import { getMetadataSchema } from "~/lib/get/get-metadata-schema";
+import type {
+  MetadataCollection,
+  MetadataCollectionEditor,
+  MetadataSchemaCollection,
+} from "~/lib/types";
+import { useActiveProject } from "~/providers/active-project.provider";
+
+import JSONCreator from "./json-creator";
 
 export default function StructurePage() {
   const activeProject = useActiveProject();
@@ -18,16 +21,24 @@ export default function StructurePage() {
     (collection) => collection.find(),
   );
 
-  if (isFetching) return <LoaderComponent />;
+  const { result: schemaResult, isFetching: isFetchingSchema } =
+    useRxData<MetadataSchemaCollection>("metadataSchema", (collection) =>
+      collection.find(),
+    );
 
-  const metadata: MetadataCollection[] = result.map(
+  if (isFetching || isFetchingSchema) return <LoaderComponent />;
+
+  const metadatas: MetadataCollection[] = result.map(
     (doc) => doc.toJSON() as MetadataCollection,
   );
 
-  if (!activeProject || !metadata) return <div>No data found.</div>;
+  const schema: MetadataSchemaCollection | undefined = schemaResult.map(
+    (doc) => doc.toJSON() as MetadataSchemaCollection,
+  )[0];
 
-  // TODO - check if they are all the same or get the one that is more use to show :/
-  const structure = getObjectStructure(metadata[0]?.metadata);
+  if (!activeProject || !metadatas) return <div>No data found.</div>;
+
+  const metadataSchema = getMetadataSchema(metadatas);
 
   return (
     <div className="flex flex-col gap-4">
@@ -40,8 +51,12 @@ export default function StructurePage() {
         </div>
         <div className="flex flex-row items-center gap-4"></div>
       </div>
-      <FormSection structure={structure} />
-      <JSONViewer json={metadata[0]?.metadata} structure={structure} />
+      <JSONCreator
+        structure={
+          schema?.schema ?? (metadataSchema as MetadataCollectionEditor)
+        }
+        metadatas={metadatas}
+      />
     </div>
   );
 }

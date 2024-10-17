@@ -42,6 +42,7 @@ export async function validateMetadata(
   console.time(`timeToValidate`);
 
   const template: IValidator[] = [];
+
   for (const validator of rules.rules) {
     if (mapping[validator]) {
       template.push(new mapping[validator]());

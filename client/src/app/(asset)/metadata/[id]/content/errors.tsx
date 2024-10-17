@@ -17,8 +17,7 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
   const activeProject = useActiveProject();
   const { result, isFetching } = useRxData<ValidationsCollection>(
     "validations",
-    (collection) =>
-      collection.find({ selector: { assetName: metadata.assetName } }),
+    (collection) => collection.findByIds([metadata.id]),
   );
 
   const { result: rulesResults, isFetching: isFetchingRules } =
@@ -26,8 +25,7 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
       collection.findByIds([activeProject?.id ?? ""]),
     );
 
-  if (isFetching || isFetchingRules)
-    return <LoaderComponent />
+  if (isFetching || isFetchingRules) return <LoaderComponent />;
 
   const validationErrors: ValidationsCollection | undefined = result.map(
     (doc) => doc.toJSON() as ValidationsCollection,
@@ -66,6 +64,7 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
       </div>
     );
 
+  // TODO - return something when user manualy set status to error and is dotn have any real error. maybe a error form maker ? :thinking:
   if (!validationErrors) return null;
 
   const { validation } = validationErrors;

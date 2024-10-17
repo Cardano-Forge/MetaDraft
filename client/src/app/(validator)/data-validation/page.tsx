@@ -12,9 +12,9 @@ import PageSkeleton from "./page-skeleton";
 
 export default function DataValidation() {
   const router = useRouter();
-  const [isValidating, setValidating] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
-  if (isValidating) return <PageSkeleton />;
+  if (isLoading) return <PageSkeleton />;
 
   return (
     <div className="flex flex-col gap-4">
@@ -26,7 +26,7 @@ export default function DataValidation() {
           </Typography>
         </div>
         <div className="flex flex-row items-center gap-4">
-          <Validator handleValidating={setValidating} />
+          <Validator handleLoading={setLoading} />
           <Button onClick={() => router.push("/summary")}>
             Validate this step
           </Button>

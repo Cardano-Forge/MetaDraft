@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { AssetCardThumbnail } from "./assets/grid/asset-card";
+import { ImageWithFallback } from "~/components/image-with-fallback";
 
 export default function PageSkeleton() {
   const searchParams = useSearchParams();
@@ -69,7 +69,7 @@ export default function PageSkeleton() {
               "relative flex flex-col rounded-xl border border-white/20 bg-card"
             }
           >
-            <AssetCardThumbnail src="" />
+            <ImageWithFallback src="" />
             <div className="flex flex-col gap-4 p-4">
               <Skeleton className="h-10 w-32 rounded-full" />
               <Skeleton className="h-8 w-40 rounded-full" />

@@ -3,6 +3,7 @@ import { JsonEditor, type UpdateFunction } from "json-edit-react";
 
 import type {
   MetadataCollection,
+  MetadataCollectionEditor,
   ProjectCollection,
   RulesCollection,
   ValidationsCollection,
@@ -32,9 +33,10 @@ export default function JSONEditor({
   metadata: MetadataCollection;
   handleValidation: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const [meta, setMeta] = React.useState<
-    Omit<MetadataCollection, "id" | "status">
-  >({ assetName: metadata.assetName, metadata: metadata.metadata });
+  const [meta, setMeta] = React.useState<MetadataCollectionEditor>({
+    assetName: metadata.assetName,
+    metadata: metadata.metadata,
+  });
   const activeProject = useActiveProject();
   const projectCollection = useRxCollection<ProjectCollection>("project");
   const metadataCollection = useRxCollection<MetadataCollection>("metadata");
@@ -76,7 +78,7 @@ export default function JSONEditor({
       const validations = await validateMetadata(newMetadatas, rules);
       await validationsCollection?.bulkUpsert(
         Object.keys(validations).map((assetName) => ({
-          id: assetName,
+          id: metadata.id,
           assetName,
           validation: validations[assetName],
         })),
@@ -116,7 +118,7 @@ export default function JSONEditor({
       typeof newValue === "string" &&
       newValue.length === 0
     ) {
-      deleteByPath(newData as Omit<MetadataCollection, "id" | "status">, path);
+      deleteByPath(newData as MetadataCollectionEditor, path);
     }
 
     // Zod Validation on update

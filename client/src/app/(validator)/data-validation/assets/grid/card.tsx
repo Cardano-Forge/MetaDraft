@@ -13,7 +13,7 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 
-import { AssetCardThumbnail } from "./asset-card";
+import { ImageWithFallback } from "~/components/image-with-fallback";
 import Status from "../table/status";
 import Actions from "../actions";
 
@@ -24,7 +24,7 @@ export default function Card({ metadata }: { metadata: MetadataCollection }) {
         "relative flex flex-col rounded-xl border border-white/20 bg-card",
       )}
     >
-      <AssetCardThumbnail src={getImageSrc(metadata.metadata.image)} />
+      <ImageWithFallback src={getImageSrc(metadata.metadata.image)} />
       <div className="flex flex-col gap-4 p-4">
         <Status metadata={metadata} />
         <Typography as="largeText">{metadata.assetName}</Typography>
