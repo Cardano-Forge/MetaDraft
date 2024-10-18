@@ -36,7 +36,7 @@ export class KeyLength extends BaseValidator {
    * @param _metadatas - An array of metadata objects, ignored in this validator.
    * @returns {StateOutput} An array of validation results.
    */
-  Execute(
+  override Execute(
     assetName: string,
     metadata: unknown,
     _metadatas: unknown[]

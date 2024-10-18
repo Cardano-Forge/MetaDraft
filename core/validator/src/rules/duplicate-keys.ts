@@ -43,7 +43,7 @@ export class DuplicateKeys extends BaseValidator {
    * @param {unknown[]} _metadatas - An array of all metadatas, currently not used.
    * @returns {StateOutput} - An array of validation results.
    */
-  Execute(
+  override Execute(
     assetName: string,
     metadata: unknown,
     _metadatas: unknown[]

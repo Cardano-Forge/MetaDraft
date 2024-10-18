@@ -6,8 +6,6 @@ export { split } from "./format/split.ts";
 
 export * from "./utils/types.ts";
 
-export { Cip25Version1 } from "./rules/cip-25-version-1.ts";
-export { Cip25Version2 } from "./rules/cip-25-version-2.ts";
 export { CompareAttributesKeys } from "./rules/compare-attributes-keys.ts";
 export { CompareRootKeys } from "./rules/compare-root-keys.ts";
 export { CompareRootValues } from "./rules/compare-root-values.ts";

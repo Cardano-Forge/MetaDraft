@@ -23,7 +23,7 @@ export class JsonReader extends BaseReader {
    * @param {string} pathOrData - The file path containing JSON data or the JSON data as a string.
    * @return {DataRead[]} The loaded JSON data as an object.
    */
-  Load(pathOrData: string): DataRead[] {
+  override Load(pathOrData: string): DataRead[] {
     if (isValidPath(pathOrData)) {
       this.data = JSON.parse(readFileSync(pathOrData, "utf8"));
     } else {
@@ -38,7 +38,7 @@ export class JsonReader extends BaseReader {
    *
    * @return {DataRead[] | null} The read JSON data.
    */
-  Read(): DataRead[] | null {
+  override Read(): DataRead[] | null {
     return this.data;
   }
 }

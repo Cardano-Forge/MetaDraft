@@ -1,5 +1,3 @@
-import { Cip25Version1 } from "./rules/cip-25-version-1.ts";
-import { Cip25Version2 } from "./rules/cip-25-version-2.ts";
 import { CompareAttributesKeys } from "./rules/compare-attributes-keys.ts";
 import { CompareRootKeys } from "./rules/compare-root-keys.ts";
 import { CompareRootValues } from "./rules/compare-root-values.ts";
@@ -31,8 +29,6 @@ export { DuplicateImage } from "./rules/duplicate-image.ts";
 export { DuplicateName } from "./rules/duplicate-name.ts";
 
 export const mapping = {
-  cip25Version1: Cip25Version1,
-  cip25Version2: Cip25Version2,
   compareAttributesKeys: CompareAttributesKeys,
   compareRootKeys: CompareRootKeys,
   compareRootValues: CompareRootValues,

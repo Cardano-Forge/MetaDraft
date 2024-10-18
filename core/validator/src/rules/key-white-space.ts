@@ -34,7 +34,7 @@ export class KeyWhiteSpace extends BaseValidator {
    * @param _metadatas - An array of metadata objects, ignored in this validator.
    * @returns {StateOutput} An array of validation results indicating whether the metadata keys have trailing whitespace characters.
    */
-  Execute(
+  override Execute(
     assetName: string,
     metadata: unknown,
     _metadatas: unknown[]

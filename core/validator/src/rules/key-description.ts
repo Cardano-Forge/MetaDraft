@@ -34,7 +34,7 @@ export class KeyDescription extends BaseValidator {
    * @param _metadatas - Ignored; included for compatibility with BaseValidator.
    * @returns {StateOutput} An array of validation results.
    */
-  Execute(
+  override Execute(
     assetName: string,
     metadata: unknown,
     _metadatas: unknown[]

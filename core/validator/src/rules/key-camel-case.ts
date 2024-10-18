@@ -35,7 +35,7 @@ export class KeyCamelCase extends BaseValidator {
    * @param {unknown[]} _metadatas - The list of all metadatas (not used in this validator).
    * @returns {StateOutput} An array containing the validation results.
    */
-  Execute(
+  override Execute(
     assetName: string,
     metadata: unknown,
     _metadatas: unknown[]
