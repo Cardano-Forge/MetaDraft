@@ -45,7 +45,7 @@ export default function Validator({
     (doc) => doc.toJSON() as RulesCollection,
   )[0];
 
-  const project = activeProject?._data;
+  const project = activeProject?.toJSON() as ProjectCollection;
 
   if (!metadata || !project || !rules) return null;
 
@@ -63,6 +63,8 @@ export default function Validator({
           validation: validations[assetName],
         })),
       );
+
+      // TODO - delete validation when they change to success
 
       // Set the status in metadata
       const metadataWithStatus = setMetadataStatusFromValidations(

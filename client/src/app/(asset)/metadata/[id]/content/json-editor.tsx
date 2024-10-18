@@ -63,7 +63,7 @@ export default function JSONEditor({
     (doc) => doc.toJSON() as RulesCollection,
   )[0];
 
-  const project = activeProject?._data;
+  const project = activeProject?.toJSON() as ProjectCollection;
 
   if (!metadatas || !project || !rules) return null;
 

@@ -1,13 +1,14 @@
 "use client";
 
-import React from "react";
-import { Typography } from "./typography";
-import Stat from "./stat";
 import { useActiveProject } from "~/providers/active-project.provider";
+import { type ProjectCollection } from "~/lib/types";
+
+import Stat from "./stat";
+import { Typography } from "./typography";
 
 export const Status = () => {
   const activeProject = useActiveProject();
-  const project = activeProject?._data;
+  const project = activeProject?.toJSON() as ProjectCollection;
 
   if (!activeProject || !project)
     return (
