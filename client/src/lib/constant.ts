@@ -13,16 +13,16 @@ export const keys: Record<Status, keyof ProjectCollection> = {
 };
 
 export const DEFAULT_CIP25_SCHEMA: MetadataCollectionEditor = {
-  assetName: "string",
+  assetName: "text",
   metadata: {
-    name: "string",
-    image: "string",
-    mediaType: "string",
-    description: "string",
+    name: "text",
+    image: "text",
+    mediaType: "text",
+    description: "text",
     files: [
       {
-        src: "string",
-        mediaType: "string",
+        src: "text",
+        mediaType: "text",
       },
     ],
     attributes: {},

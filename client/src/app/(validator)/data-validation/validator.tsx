@@ -64,6 +64,8 @@ export default function Validator({
         })),
       );
 
+      // TODO - delete validation when they change to success
+
       // Set the status in metadata
       const metadataWithStatus = setMetadataStatusFromValidations(
         metadata,

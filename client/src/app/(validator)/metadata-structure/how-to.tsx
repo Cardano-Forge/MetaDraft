@@ -65,7 +65,7 @@ export default function HowToCreateMetadataSchema() {
         >
           <AccordionTrigger>
             <Typography as="code" className="text-lg">
-              How to use string value ?
+              How to use string (text) value ?
             </Typography>
           </AccordionTrigger>
           <AccordionContent>
@@ -73,8 +73,13 @@ export default function HowToCreateMetadataSchema() {
               <Typography as="code">{`Simply enter "string" as the value for any key that you want to be treated as a string.`}</Typography>
               <Typography
                 as="code"
+                className="text-sm text-white/50"
+              >{`A string is represented by double quotes: ""`}</Typography>
+
+              <Typography
+                as="code"
                 className="ml-4 text-white/50"
-              >{`Example: { name: "string" }`}</Typography>
+              >{`Example: { name: "text" }`}</Typography>
             </ColInnerContent>
           </AccordionContent>
         </AccordionItem>
@@ -119,7 +124,7 @@ export default function HowToCreateMetadataSchema() {
               <Typography
                 as="code"
                 className="ml-4 text-white/50"
-              >{`Example: { "name": "string", "age": 0, child: { name: "string", age: 0 }, position: [ [ 0, 1 ] ] }`}</Typography>
+              >{`Example: { "name": "text", "age": 0, child: { name: "text", age: 0 }, position: [ [ 0, 1 ] ] }`}</Typography>
             </ColInnerContent>
           </AccordionContent>
         </AccordionItem>
@@ -152,7 +157,7 @@ export default function HowToCreateMetadataSchema() {
                 <Typography
                   as="code"
                   className="ml-4 text-white/50"
-                >{`Usage: [ "string" ]`}</Typography>
+                >{`Usage: [ "text" ]`}</Typography>
                 <Typography as="code">
                   <strong>number[] –</strong>
                   {` A list of numbers.`}
@@ -172,11 +177,11 @@ export default function HowToCreateMetadataSchema() {
                 <Typography
                   as="code"
                   className="ml-4 text-white/50"
-                >{`Example: [ { src: "string", mediaType: "string" } ]`}</Typography>
+                >{`Example: [ { src: "text", mediaType: "text" } ]`}</Typography>
                 <Typography
                   as="code"
                   className="ml-4 text-white/50"
-                >{`Usage: [ { src: "string", mediaType: "string" } ]`}</Typography>
+                >{`Usage: [ { src: "text", mediaType: "text" } ]`}</Typography>
                 <Typography as="code">
                   <strong>{`<type>`}[][] –</strong>
                   {` A list of arrays of <type> (arrays within arrays)`}

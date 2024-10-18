@@ -19,8 +19,6 @@ export default function ValidatorStats() {
     (doc) => doc.toJSON() as ValidationsCollection,
   );
 
-  console.log(validations);
-
   const keys = getKeyCount(validations);
 
   return (
