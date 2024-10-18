@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
-import { Typography } from "./typography";
-import Stat from "./stat";
 import { useActiveProject } from "~/providers/active-project.provider";
-import { ProjectCollection } from "~/lib/types";
+import { type ProjectCollection } from "~/lib/types";
+
+import Stat from "./stat";
+import { Typography } from "./typography";
 
 export const Status = () => {
   const activeProject = useActiveProject();
