@@ -35,7 +35,7 @@ export class KeySnakeCase extends BaseValidator {
    * @param _metadatas - An array of metadata objects, ignored in this validator.
    * @returns {StateOutput} An array of validation results, including warnings for non-Snake Case keys.
    */
-  Execute(
+  override Execute(
     assetName: string,
     metadata: unknown,
     _metadatas: unknown[]
