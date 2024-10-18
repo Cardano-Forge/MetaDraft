@@ -86,6 +86,7 @@ export default function Actions({
   return (
     <div className={cn("flex flex-row items-center gap-2", className)}>
       <Button
+        title="Mark as flagged"
         disabled={isUnchecked}
         variant={isWarning ? "warning" : "warningOutilne"}
         size={"icon"}
@@ -96,6 +97,7 @@ export default function Actions({
         <FlagIcon className="h-4 w-4" />
       </Button>
       <Button
+        title="Mark as valid"
         disabled={isUnchecked}
         variant={isSuccess ? "success" : "successOutline"}
         size={"icon"}
@@ -107,7 +109,11 @@ export default function Actions({
       </Button>
       <Dialog>
         <DialogTrigger asChild>
-          <Button size={"icon"} variant={"destructiveOutilne"}>
+          <Button
+            title="Delete asset"
+            size={"icon"}
+            variant={"destructiveOutilne"}
+          >
             <TrashIcon className="h-4 w-4" />
           </Button>
         </DialogTrigger>
@@ -132,6 +138,7 @@ export default function Actions({
         </DialogContent>
       </Dialog>
       <Button
+        title="Detail asset"
         size={"icon"}
         variant={"outline"}
         className="border-white/50"

@@ -1,25 +1,73 @@
 import React from "react";
-import StepComponent from "./step-component";
-import { Typography } from "~/components/typography";
-import { useActiveProject } from "~/providers/active-project.provider";
-import { type ProjectCollection } from "~/lib/types";
-import CheckCircleIcon from "~/icons/check-circle.icon";
+import { JsonEditor } from "json-edit-react";
+
+import { StepComponent, StepHeader } from "./step-components";
+import type { MetadataSchemaCollection, MetadataCollection } from "~/lib/types";
+import { useRxData } from "rxdb-hooks";
+import LoaderComponent from "~/components/loader-component";
+import { getAttributesDistributions } from "~/lib/get/get-attributes-distributions";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "~/components/ui/accordion";
+import { jerTheme } from "~/lib/json-editor";
+import ValuesIcon from "~/icons/values.icon";
 
 export default function MetadataStructure() {
-  const activeProject = useActiveProject();
-  const project = activeProject?.toJSON() as ProjectCollection;
+  const { result, isFetching } = useRxData<MetadataCollection>(
+    "metadata",
+    (collection) => collection.find(),
+  );
+
+  const { result: schemaResult, isFetching: isFetchingSchema } =
+    useRxData<MetadataSchemaCollection>("metadataSchema", (collection) =>
+      collection.find(),
+    );
+
+  if (isFetching || isFetchingSchema) return <LoaderComponent />;
+
+  const metadatas: MetadataCollection[] = result.map(
+    (doc) => doc.toJSON() as MetadataCollection,
+  );
+
+  const schema: MetadataSchemaCollection | undefined = schemaResult.map(
+    (doc) => doc.toJSON() as MetadataSchemaCollection,
+  )[0];
+
+  if (!schema || !metadatas) return <div>No data found.</div>;
+
+  const distribution = getAttributesDistributions(metadatas, schema);
 
   return (
     <StepComponent>
-      <div className="flex flex-row items-center justify-between">
-        <div className="flex flex-col">
-          <Typography className="text-white/50">Step 1</Typography>
-          <Typography as="h4">Metadata strucutre</Typography>
-        </div>
-        <Typography className="flex flex-row items-center gap-4 text-success tracking-wide">
-          Validated <CheckCircleIcon className="h-8 w-8" />
-        </Typography>
-      </div>
+      <StepHeader title="Metadata strucutre" />
+      <Accordion type="single" collapsible>
+        <AccordionItem value="distribution">
+          <AccordionTrigger className="hover:no-underline">
+            <div className="ml-2 flex flex-row items-center gap-4 text-white/60">
+              <div className="items-center justify-center rounded-full border border-white/60 p-2">
+                <ValuesIcon className="h-4 w-4" />
+              </div>
+              {`Value's distribution`}
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="rounded-xl bg-card p-1">
+            <JsonEditor
+              data={distribution}
+              theme={jerTheme}
+              rootFontSize={18}
+              minWidth={"100%"}
+              collapse={1}
+              enableClipboard={false} // Disabled copy to clipboard
+              restrictEdit={() => true} // Disabled edit
+              restrictAdd={() => true} // Disabled add
+              restrictDelete={() => true} // Disabled delete
+            />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </StepComponent>
   );
 }
