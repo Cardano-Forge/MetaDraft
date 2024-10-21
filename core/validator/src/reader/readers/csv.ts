@@ -45,7 +45,7 @@ export class CsvReader extends BaseReader {
    * @param {string} pathOrData - The file path containing CSV data or the CSV data as a string.
    * @return {DataRead[]} An array of objects representing the parsed CSV data.
    */
-  Load(pathOrData: string): DataRead[] {
+  override Load(pathOrData: string): DataRead[] {
     const reader = csvToJson
       .formatValueByType(this.options.valueByType)
       .fieldDelimiter(this.options.delimiter)
@@ -66,7 +66,7 @@ export class CsvReader extends BaseReader {
    *
    * @return {DataRead[] | null} The read CSV data.
    */
-  Read(): DataRead[] | null {
+  override Read(): DataRead[] | null {
     return this.data;
   }
 }

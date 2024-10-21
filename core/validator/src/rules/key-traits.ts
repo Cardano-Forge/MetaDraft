@@ -33,7 +33,7 @@ export class KeyTraits extends BaseValidator {
    * @param _metadatas - An array of metadata objects, ignored in this validator.
    * @returns {StateOutput} An array of validation results indicating whether the "traits" field matches the Zod schema.
    */
-  Execute(
+  override Execute(
     assetName: string,
     metadata: unknown,
     _metadatas: unknown[]

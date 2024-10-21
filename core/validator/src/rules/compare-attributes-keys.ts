@@ -39,7 +39,7 @@ export class CompareAttributesKeys extends BaseValidator {
    * @param _metadatas - An array of metadata objects, currently unused but provided for consistency with other validators.
    * @returns An array of results from validation checks.
    */
-  Execute(
+  override Execute(
     assetName: string,
     metadata: unknown,
     _metadatas: unknown[]

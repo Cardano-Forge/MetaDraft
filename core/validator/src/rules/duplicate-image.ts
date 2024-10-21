@@ -31,7 +31,7 @@ export class DuplicateImage extends BaseValidator {
    * @param {Record<string, StateOutput>} validations - An object of all validations made.
    * @returns {Record<string, StateOutput>} An array containing the validation results.
    */
-  ExecuteOnce(
+  override ExecuteOnce(
     metadatas: object[],
     validations: Record<string, StateOutput>
   ): Record<string, StateOutput> {
