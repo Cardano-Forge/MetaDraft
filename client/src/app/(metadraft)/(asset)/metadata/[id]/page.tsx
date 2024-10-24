@@ -8,6 +8,7 @@ import Errors from "./content/errors";
 import LoaderComponent from "~/components/loader-component";
 import Header from "./header";
 import PageAssetSkeleton from "./page-asset-skeleton";
+import { notFound } from "next/navigation";
 
 export default function SingleAssetPage({
   params,
@@ -26,7 +27,7 @@ export default function SingleAssetPage({
     (doc) => doc.toJSON() as MetadataCollection,
   )[0];
 
-  if (!metadata) return <div>No metdata found</div>;
+  if (!metadata) notFound();
 
   if (isValidating)
     return (
