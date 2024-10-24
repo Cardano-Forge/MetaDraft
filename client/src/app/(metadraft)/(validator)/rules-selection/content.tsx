@@ -18,10 +18,15 @@ import { camelCaseToTitleCase } from "~/lib/camel-case-to-title-case";
 import { type RulesCollection } from "~/lib/types";
 
 import RuleTableSkeleton from "./rule-table-skeleton";
+import { useSearchParams } from "next/navigation";
 
 export default function Content() {
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams.get("search");
+
   const [keys, setKeys] = useState<Rule[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
   const rulesCollection = useRxCollection<RulesCollection>("rules");
   const { result, isFetching } = useRxData<RulesCollection>(
     "rules",
@@ -47,9 +52,9 @@ export default function Content() {
 
   if (loading || isFetching) return <RuleTableSkeleton />;
 
-  const rules: RulesCollection | undefined = result.map(
-    (doc) => doc.toJSON() as RulesCollection,
-  )[0];
+  const rules: RulesCollection | undefined = result[0]
+    ? (result[0].toJSON() as RulesCollection)
+    : undefined;
 
   if (!rules) return null;
 
@@ -67,6 +72,10 @@ export default function Content() {
     }
   };
 
+  const searchedKeys = keys.filter((key) =>
+    key.toLocaleLowerCase().includes((searchTerm ?? "").toLocaleLowerCase()),
+  );
+
   return (
     <Table>
       <TableHeader className="h-14 bg-secondary text-white/50 hover:bg-secondary [&>*]:border-white/30">
@@ -77,7 +86,7 @@ export default function Content() {
         </TableRow>
       </TableHeader>
       <TableBody className="[&_tr:last-child]:border-1 [&>*]:border-white/30">
-        {keys.map((key) => (
+        {searchedKeys.map((key) => (
           <TableRow key={key}>
             <TableCell className="font-medium">
               <Label>{camelCaseToTitleCase(key)}</Label>
