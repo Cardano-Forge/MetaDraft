@@ -123,10 +123,14 @@ export default function JSONCreator({
         <Typography as="h2">JSON Creator</Typography>
         <Button onClick={handleSaveSchema}>Save Metadata Structure</Button>
       </div>
+      <Typography as="code" className="text-white/70">
+        {`All metadata should follow the same format. While exceptions like 1:1
+        formats are possible, it's generally not considered a good practice.`}
+      </Typography>
       <JsonEditor
         data={metadataSchema}
         showErrorMessages
-        collapse={1}
+        collapse={2}
         enableClipboard={false}
         defaultValue={"string"}
         rootFontSize={18}
