@@ -3,7 +3,6 @@ import type { FilterFunction } from "json-edit-react";
 export const createRestrictionEdit: FilterFunction = ({ level, key, value }) =>
   level === 0 ||
   level === 1 ||
-  key === "name" ||
   typeof value === "object" ||
   Array.isArray(value);
 

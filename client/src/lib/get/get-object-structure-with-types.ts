@@ -25,11 +25,14 @@ export function getObjectStructureWithTypes(obj: unknown): Structure {
       const value = (obj as Record<string, unknown>)[key];
 
       if (typeof value === "string") {
-        structure[key] = "string";
+        if (key === "description" || key === "mediaType" || key === "website")
+          structure[key] = value;
+        else if (key === "image") structure[key] = "ipfs://...";
+        else structure[key] = key;
       } else if (typeof value === "number") {
-        structure[key] = "number";
+        structure[key] = value;
       } else if (typeof value === "boolean") {
-        structure[key] = "boolean";
+        structure[key] = value;
       } else if (Array.isArray(value)) {
         if (value.length > 0 && typeof value[0] === "object") {
           structure[key] = [getObjectStructureWithTypes(value[0])];
@@ -39,7 +42,7 @@ export function getObjectStructureWithTypes(obj: unknown): Structure {
       } else if (typeof value === "object" && value !== null) {
         structure[key] = getObjectStructureWithTypes(value);
       } else {
-        structure[key] = typeof value;
+        structure[key] = key;
       }
     }
   }
