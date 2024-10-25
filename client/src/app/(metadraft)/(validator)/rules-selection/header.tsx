@@ -6,6 +6,7 @@ import { useDebouncedCallback } from "use-debounce";
 
 import { Input } from "~/components/ui/input";
 import SearchIcon from "~/icons/search.icon";
+import ViewButton from "~/components/view-button";
 
 export default function Header() {
   const router = useRouter();
@@ -29,7 +30,10 @@ export default function Header() {
   };
   return (
     <div className="mb-4 flex flex-row items-center justify-between px-4 pt-4">
-      <div className="flex flex-row items-center gap-2 p-2"></div>
+      <div className="flex flex-row items-center gap-2 p-2">
+        <ViewButton view="table" />
+        <ViewButton view="grid" />
+      </div>
       <div className="relative">
         <Input
           type="text"

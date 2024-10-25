@@ -5,6 +5,7 @@ import type { MetadataCollection } from "~/lib/types";
 
 import TableView from "./table";
 import GridView from "./grid";
+import { getViewFromParams } from "~/lib/get/get-view-from-param";
 
 export default function Content({
   metadatas,
@@ -12,7 +13,7 @@ export default function Content({
   metadatas: MetadataCollection[][];
 }) {
   const searchParams = useSearchParams();
-  const view = searchParams.get("view") ?? "table"; // Default to : table
+  const view = getViewFromParams(searchParams.get("view"));
 
   if (view === "table") return <TableView metadatas={metadatas} />;
 
