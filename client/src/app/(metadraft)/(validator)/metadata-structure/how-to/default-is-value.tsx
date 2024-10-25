@@ -11,7 +11,7 @@ export default function DefaultIsValue() {
     <AccordionItem value="default-value" className="border-b border-border/10">
       <AccordionTrigger>
         <Typography as="code" className="text-lg">
-          How add default value ?
+          How to add default value ?
         </Typography>
       </AccordionTrigger>
       <AccordionContent>
