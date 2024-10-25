@@ -16,7 +16,7 @@ import GridSkeleton from "./grid/grid-skeleton";
 export default function Content() {
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("search");
-  const view = getViewFromParams(searchParams.get("view"));
+  const view = getViewFromParams(searchParams.get("view"), "grid");
 
   const [keys, setKeys] = useState<Rule[]>([]);
   const [loading, setLoading] = useState<boolean>(false);

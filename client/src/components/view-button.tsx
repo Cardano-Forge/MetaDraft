@@ -8,9 +8,15 @@ import { getViewFromParams } from "~/lib/get/get-view-from-param";
 
 export type ViewOptions = "table" | "grid";
 
-export default function ViewButton({ view = "table" }: { view?: ViewOptions }) {
+export default function ViewButton({
+  view = "table",
+  defaultView = "table",
+}: {
+  view?: ViewOptions;
+  defaultView?: ViewOptions;
+}) {
   const searchParams = useSearchParams();
-  const currentView = getViewFromParams(searchParams.get("view"));
+  const currentView = getViewFromParams(searchParams.get("view"), defaultView);
 
   const active = currentView === view;
   const handleChangeView = () => {

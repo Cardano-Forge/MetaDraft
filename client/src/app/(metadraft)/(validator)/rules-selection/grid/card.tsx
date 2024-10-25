@@ -34,8 +34,8 @@ export default function Card({
   return (
     <div
       className={cn(
-        "max-h-500 flex flex-col rounded-xl border-2 border-white/20 bg-card",
-        rules.rules.includes(rule) && "border-success",
+        "max-h-500 flex flex-col rounded-xl border-2 border-white/20 bg-card hover:border-white",
+        rules.rules.includes(rule) && "border-success hover:border-warning",
       )}
       role="button"
       onClick={() => handleChange(!rules.rules.includes(rule), rule)}
