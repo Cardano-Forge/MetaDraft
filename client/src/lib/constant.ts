@@ -13,16 +13,17 @@ export const keys: Record<Status, keyof ProjectCollection> = {
 };
 
 export const DEFAULT_CIP25_SCHEMA: MetadataCollectionEditor = {
-  assetName: "text",
+  assetName: "asset_name",
   metadata: {
-    name: "text",
-    image: "text",
-    mediaType: "text",
-    description: "text",
+    name: "Anvil #",
+    image: "ipfs://...",
+    mediaType: "image/png",
+    description: "We understand blockchain so you don't have to.",
+    website: "https://ada-anvil.io/",
     files: [
       {
-        src: "text",
-        mediaType: "text",
+        src: "ipfs://...",
+        mediaType: "image/png",
       },
     ],
     attributes: {},

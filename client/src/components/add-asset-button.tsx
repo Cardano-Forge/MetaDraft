@@ -52,7 +52,11 @@ export default function AddAssetButton() {
         assetName: `${project.nfts + 1}`,
         metadata: {
           ...(schema?.schema.metadata ?? DEFAULT_CIP25_SCHEMA.metadata),
-          name: `${project.nfts + 1}`,
+          name: (
+            schema?.schema.metadata.name ?? DEFAULT_CIP25_SCHEMA.metadata.name
+          ).endsWith("#")
+            ? `${schema?.schema.metadata.name ?? DEFAULT_CIP25_SCHEMA.metadata.name}${project.nfts + 1}`
+            : `${project.nfts + 1}`,
         },
         status: "unchecked",
       });

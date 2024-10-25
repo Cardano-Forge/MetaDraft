@@ -13,6 +13,7 @@ import type {
 import { useActiveProject } from "~/providers/active-project.provider";
 
 import JSONCreator from "./json-creator";
+import { notFound } from "next/navigation";
 
 export default function StructurePage() {
   const activeProject = useActiveProject();
@@ -32,11 +33,12 @@ export default function StructurePage() {
     (doc) => doc.toJSON() as MetadataCollection,
   );
 
-  const schema: MetadataSchemaCollection | undefined = schemaResult.map(
-    (doc) => doc.toJSON() as MetadataSchemaCollection,
-  )[0];
+  const schema: MetadataSchemaCollection | undefined =
+    schemaResult[0]?.toJSON() as MetadataSchemaCollection;
 
-  if (!activeProject || !metadatas) return <div>No data found.</div>;
+  if (!activeProject) return null;
+
+  if (!metadatas) return notFound();
 
   const metadataSchema = getMetadataSchema(metadatas);
 
