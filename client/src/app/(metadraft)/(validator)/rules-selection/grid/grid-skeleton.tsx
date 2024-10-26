@@ -20,14 +20,9 @@ export default function GridSkeleton() {
                 <Skeleton className="h-4 w-10 rounded-full bg-card text-center" />
                 <Skeleton className="h-4 w-20 rounded-full bg-card text-center" />
               </div>
-            </div>
-            <div className="flex flex-col gap-2 p-4">
-              <Skeleton className="h-4 w-52 rounded-full" />
-              <Skeleton className="h-4 w-48 rounded-full" />
-              <Skeleton className="h-4 w-44 rounded-full" />
-              <Skeleton className="h-4 w-48 rounded-full" />
-              <Skeleton className="h-4 w-52 rounded-full" />
-              <Skeleton className="h-4 w-44 rounded-full" />
+              <div className="absolute right-4 top-4">
+                <Skeleton className="h-6 w-6 rounded-full bg-card" />
+              </div>
             </div>
           </div>
         ))}

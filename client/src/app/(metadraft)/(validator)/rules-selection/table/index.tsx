@@ -14,7 +14,6 @@ import {
 import { camelCaseToTitleCase } from "~/lib/camel-case-to-title-case";
 import { type Rule, RULES_DESCRIPTION } from "~/lib/rules";
 import type { RulesCollection } from "~/lib/types";
-import { cn } from "~/lib/utils";
 
 export default function TableRules({
   keys,
@@ -50,10 +49,7 @@ export default function TableRules({
       </TableHeader>
       <TableBody className="[&_tr:last-child]:border-1 [&>*]:border-white/30">
         {keys.map((key) => (
-          <TableRow
-            key={key}
-            className={cn(rules.rules.includes(key) && "bg-success/10")}
-          >
+          <TableRow key={key}>
             <TableCell className="font-medium">
               <Label>{camelCaseToTitleCase(key)}</Label>
             </TableCell>
