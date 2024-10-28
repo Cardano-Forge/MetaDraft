@@ -17,6 +17,7 @@ import { ImageWithFallback } from "~/components/image-with-fallback";
 import Status from "../status";
 import Actions from "../actions";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Card({ metadata }: { metadata: MetadataCollection }) {
   const router = useRouter();
@@ -26,21 +27,24 @@ export default function Card({ metadata }: { metadata: MetadataCollection }) {
         "relative flex flex-col rounded-xl border border-white/20 bg-card hover:border-white",
       )}
     >
-      <ImageWithFallback
-        src={getImageSrc(metadata.metadata.image)}
-        className={"cursor-pointer"}
-        onClick={() => router.push(`/metadata/${metadata.id}`)}
-      />
+      <Link
+        title="Go to asset page"
+        aria-label="Go to asset page"
+        href={`/metadata/${metadata.id}`}
+        className="cursor-pointer"
+      >
+        <ImageWithFallback src={getImageSrc(metadata.metadata.image)} />
+      </Link>
       <div className="flex flex-col gap-4 p-4">
         <Status metadata={metadata} />
-
-        <Typography
-          as="largeText"
+        <Link
+          title="Go to asset page"
+          aria-label="Go to asset page"
+          href={`/metadata/${metadata.id}`}
           className="cursor-pointer"
-          onClick={() => router.push(`/metadata/${metadata.id}`)}
         >
-          {metadata.assetName}
-        </Typography>
+          <Typography as="largeText">{metadata.assetName}</Typography>
+        </Link>
         <div className="flex flex-row items-end justify-between">
           <Popover>
             <PopoverTrigger asChild>

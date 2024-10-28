@@ -43,6 +43,8 @@ export default function TableView({
           return (
             <TableRow key={meta.id}>
               <TableCell
+                title="Go to asset page"
+                aria-label="Go to asset page"
                 onClick={() => router.push(`/metadata/${meta.id}`)}
                 className="cursor-pointer"
               >
@@ -54,18 +56,24 @@ export default function TableView({
                 </div>
               </TableCell>
               <TableCell
+                title="Go to asset page"
+                aria-label="Go to asset page"
                 className="cursor-pointer font-bold"
                 onClick={() => router.push(`/metadata/${meta.id}`)}
               >
                 {meta.assetName}
               </TableCell>
               <TableCell
+                title="Go to asset page"
+                aria-label="Go to asset page"
                 onClick={() => router.push(`/metadata/${meta.id}`)}
                 className="cursor-pointer"
               >
                 {meta.metadata.name}
               </TableCell>
               <TableCell
+                title="Go to asset page"
+                aria-label="Go to asset page"
                 className="cursor-pointer text-ellipsis"
                 onClick={() => router.push(`/metadata/${meta.id}`)}
               >

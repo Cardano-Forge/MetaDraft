@@ -147,12 +147,15 @@ export default function Actions({
       {!card && (
         <Button
           asChild
-          title="Detail asset"
           size={"icon"}
           variant={"outline"}
           className="border-white/50"
         >
-          <Link href={`/metadata/${metadata.id}`}>
+          <Link
+            href={`/metadata/${metadata.id}`}
+            title="Go to asset page"
+            aria-label="Go to asset page"
+          >
             <ArrowRightIcon className="h-4 w-4" />
           </Link>
         </Button>
