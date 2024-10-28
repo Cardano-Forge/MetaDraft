@@ -1,4 +1,3 @@
-import { useRouter } from "next/navigation";
 import { useRxCollection } from "rxdb-hooks";
 import { Button } from "~/components/ui/button";
 import ArrowRightIcon from "~/icons/arrow-right.icon";
@@ -14,16 +13,18 @@ import { keys } from "~/lib/constant";
 import FlaggedButton from "./flagged-button";
 import ValidButton from "./valid-button";
 import DeleteButton from "./delete-button";
+import Link from "next/link";
 
 export default function Actions({
   metadata,
   className,
+  card = false,
 }: {
   metadata: MetadataCollection;
   className?: string;
+  card?: boolean;
 }) {
   const activeProject = useActiveProject();
-  const router = useRouter();
   const projectCollection = useRxCollection<ProjectCollection>("project");
   const metadataCollection = useRxCollection<MetadataCollection>("metadata");
 
@@ -66,15 +67,22 @@ export default function Actions({
 
       <DeleteButton metadata={metadata} />
 
-      <Button
-        title="Detail asset"
-        size={"icon"}
-        variant={"outline"}
-        className="border-white/50"
-        onClick={() => router.push(`/metadata/${metadata.id}`)}
-      >
-        <ArrowRightIcon className="h-4 w-4" />
-      </Button>
+      {!card && (
+        <Button
+          asChild
+          size={"icon"}
+          variant={"outline"}
+          className="border-white/50"
+        >
+          <Link
+            href={`/metadata/${metadata.id}`}
+            title="Go to asset page"
+            aria-label="Go to asset page"
+          >
+            <ArrowRightIcon className="h-4 w-4" />
+          </Link>
+        </Button>
+      )}
     </div>
   );
 }
