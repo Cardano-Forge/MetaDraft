@@ -27,6 +27,7 @@ export default function ViewButton({
 
   return (
     <Button
+      title="Change view"
       variant={"outline"}
       size={"icon"}
       className={cn(

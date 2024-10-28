@@ -47,6 +47,7 @@ export default function MessageBox({
       <div className="flex flex-row items-center justify-between">
         {titles[variant]}
         <Button
+          title="Clear message"
           onClick={handleClose}
           variant={"ghost"}
           size={"sm"}

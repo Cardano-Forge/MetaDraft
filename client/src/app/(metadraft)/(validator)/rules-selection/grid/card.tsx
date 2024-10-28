@@ -60,7 +60,7 @@ export default function Card({
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button size={"icon"} variant={"ghost"}>
+                <Button title="Rule's description" size={"icon"} variant={"ghost"}>
                   <InformationCircle />
                 </Button>
               </TooltipTrigger>

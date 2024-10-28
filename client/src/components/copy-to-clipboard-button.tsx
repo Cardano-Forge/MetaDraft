@@ -24,7 +24,7 @@ export const CopyButton = ({
       variant="ghost"
       size="icon"
       className={className}
-      title="copy to clipboard"
+      title="Copy to clipboard"
       onClick={handleClick}
     >
       {hasCopied ? (

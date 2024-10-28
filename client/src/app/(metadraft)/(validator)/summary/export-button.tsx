@@ -33,7 +33,7 @@ export default function ExportButton() {
   };
 
   return (
-    <Button className="flex flex-row gap-3" onClick={handleExport}>
+    <Button title="Export the project" className="flex flex-row gap-3" onClick={handleExport}>
       <CodeIcon /> Export the project
     </Button>
   );

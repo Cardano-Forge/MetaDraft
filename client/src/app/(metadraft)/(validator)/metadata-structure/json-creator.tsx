@@ -121,7 +121,7 @@ export default function JSONCreator({
     <div className="flex min-w-[60%] flex-col gap-4 rounded-xl bg-card p-4 px-8">
       <div className="flex flex-row items-center justify-between">
         <Typography as="h2">JSON Creator</Typography>
-        <Button onClick={handleSaveSchema}>Save Metadata Structure</Button>
+        <Button title="Save metadata structure" onClick={handleSaveSchema}>Save Metadata Structure</Button>
       </div>
       <Typography as="code" className="text-white/70">
         {`All metadata should follow the same format. While exceptions like 1:1
