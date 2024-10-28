@@ -1,4 +1,3 @@
-import React from "react";
 import { Skeleton } from "~/components/ui/skeleton";
 import {
   Table,
@@ -9,12 +8,12 @@ import {
   TableRow,
 } from "~/components/ui/table";
 
-export default function RuleTableSkeleton() {
+export default function TableSkeleton() {
   return (
     <Table>
       <TableHeader className="h-14 bg-secondary text-white/50 hover:bg-secondary [&>*]:border-white/30">
         <TableRow>
-          <TableHead className="w-40">Rule Name</TableHead>
+          <TableHead className="w-52">Rule Name</TableHead>
           <TableHead>Definition</TableHead>
           <TableHead className="w-20">Active</TableHead>
         </TableRow>

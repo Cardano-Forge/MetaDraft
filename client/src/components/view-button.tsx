@@ -4,12 +4,19 @@ import UnorderedListIcon from "~/icons/unordered-list.icon";
 import { cn } from "~/lib/utils";
 import ViewGridIcon from "~/icons/view-grid.icon";
 import { useSearchParams } from "next/navigation";
+import { getViewFromParams } from "~/lib/get/get-view-from-param";
 
 export type ViewOptions = "table" | "grid";
 
-export default function ViewButton({ view = "table" }: { view?: ViewOptions }) {
+export default function ViewButton({
+  view = "table",
+  defaultView = "table",
+}: {
+  view?: ViewOptions;
+  defaultView?: ViewOptions;
+}) {
   const searchParams = useSearchParams();
-  const currentView = searchParams.get("view") ?? "table"; // Default to : table
+  const currentView = getViewFromParams(searchParams.get("view"), defaultView);
 
   const active = currentView === view;
   const handleChangeView = () => {
