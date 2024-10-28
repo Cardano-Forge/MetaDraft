@@ -14,20 +14,33 @@ import {
 } from "~/components/ui/popover";
 
 import { ImageWithFallback } from "~/components/image-with-fallback";
-import Status from "../table/status";
+import Status from "../status";
 import Actions from "../actions";
+import { useRouter } from "next/navigation";
 
 export default function Card({ metadata }: { metadata: MetadataCollection }) {
+  const router = useRouter();
   return (
     <div
       className={cn(
-        "relative flex flex-col rounded-xl border border-white/20 bg-card",
+        "relative flex flex-col rounded-xl border border-white/20 bg-card hover:border-white",
       )}
     >
-      <ImageWithFallback src={getImageSrc(metadata.metadata.image)} />
+      <ImageWithFallback
+        src={getImageSrc(metadata.metadata.image)}
+        className={"cursor-pointer"}
+        onClick={() => router.push(`/metadata/${metadata.id}`)}
+      />
       <div className="flex flex-col gap-4 p-4">
         <Status metadata={metadata} />
-        <Typography as="largeText">{metadata.assetName}</Typography>
+
+        <Typography
+          as="largeText"
+          className="cursor-pointer"
+          onClick={() => router.push(`/metadata/${metadata.id}`)}
+        >
+          {metadata.assetName}
+        </Typography>
         <div className="flex flex-row items-end justify-between">
           <Popover>
             <PopoverTrigger asChild>
@@ -49,7 +62,7 @@ export default function Card({ metadata }: { metadata: MetadataCollection }) {
               </div>
             </PopoverContent>
           </Popover>
-          <Actions metadata={metadata} />
+          <Actions metadata={metadata} card />
         </div>
       </div>
     </div>

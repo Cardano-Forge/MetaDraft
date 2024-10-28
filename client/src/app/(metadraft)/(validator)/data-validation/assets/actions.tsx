@@ -1,19 +1,7 @@
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useRxCollection } from "rxdb-hooks";
+
 import { Button } from "~/components/ui/button";
-import ArrowRightIcon from "~/icons/arrow-right.icon";
-import CheckIcon from "~/icons/check.icon";
-import FlagIcon from "~/icons/flag.icon";
-import type {
-  MetadataCollection,
-  ProjectCollection,
-  Status,
-  ValidationsCollection,
-} from "~/lib/types";
-import { cn } from "~/lib/utils";
-import { useActiveProject } from "~/providers/active-project.provider";
-import { keys } from "~/lib/constant";
-import TrashIcon from "~/icons/trash.icon";
 import {
   Dialog,
   DialogContent,
@@ -24,15 +12,31 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 
+import { keys } from "~/lib/constant";
+import type {
+  MetadataCollection,
+  ProjectCollection,
+  Status,
+  ValidationsCollection,
+} from "~/lib/types";
+import { useActiveProject } from "~/providers/active-project.provider";
+import { cn } from "~/lib/utils";
+
+import ArrowRightIcon from "~/icons/arrow-right.icon";
+import CheckIcon from "~/icons/check.icon";
+import FlagIcon from "~/icons/flag.icon";
+import TrashIcon from "~/icons/trash.icon";
+
 export default function Actions({
   metadata,
   className,
+  card = false,
 }: {
   metadata: MetadataCollection;
   className?: string;
+  card?: boolean;
 }) {
   const activeProject = useActiveProject();
-  const router = useRouter();
   const projectCollection = useRxCollection<ProjectCollection>("project");
   const metadataCollection = useRxCollection<MetadataCollection>("metadata");
   const validationsCollection =
@@ -90,7 +94,8 @@ export default function Actions({
         disabled={isUnchecked}
         variant={isWarning ? "warning" : "warningOutilne"}
         size={"icon"}
-        onClick={async () => {
+        onClick={async (event) => {
+          event.stopPropagation();
           await handleStatusUpdate("warning");
         }}
       >
@@ -101,7 +106,8 @@ export default function Actions({
         disabled={isUnchecked}
         variant={isSuccess ? "success" : "successOutline"}
         size={"icon"}
-        onClick={async () => {
+        onClick={async (event) => {
+          event.stopPropagation();
           await handleStatusUpdate("success");
         }}
       >
@@ -113,6 +119,7 @@ export default function Actions({
             title="Delete asset"
             size={"icon"}
             variant={"destructiveOutilne"}
+            onClick={(event) => event.stopPropagation()}
           >
             <TrashIcon className="h-4 w-4" />
           </Button>
@@ -137,15 +144,19 @@ export default function Actions({
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      <Button
-        title="Detail asset"
-        size={"icon"}
-        variant={"outline"}
-        className="border-white/50"
-        onClick={() => router.push(`/metadata/${metadata.id}`)}
-      >
-        <ArrowRightIcon className="h-4 w-4" />
-      </Button>
+      {!card && (
+        <Button
+          asChild
+          title="Detail asset"
+          size={"icon"}
+          variant={"outline"}
+          className="border-white/50"
+        >
+          <Link href={`/metadata/${metadata.id}`}>
+            <ArrowRightIcon className="h-4 w-4" />
+          </Link>
+        </Button>
+      )}
     </div>
   );
 }

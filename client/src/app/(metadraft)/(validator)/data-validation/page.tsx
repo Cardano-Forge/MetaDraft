@@ -13,7 +13,6 @@ import PageSkeleton from "./page-skeleton";
 export default function DataValidation() {
   const router = useRouter();
   const [isLoading, setLoading] = useState<boolean>(false);
-
   if (isLoading) return <PageSkeleton />;
 
   return (
