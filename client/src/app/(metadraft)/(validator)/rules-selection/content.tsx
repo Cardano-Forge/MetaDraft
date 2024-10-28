@@ -1,28 +1,26 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRxCollection, useRxData } from "rxdb-hooks";
+import { useRxData } from "rxdb-hooks";
+import { useSearchParams } from "next/navigation";
 
-import { Switch } from "~/components/ui/switch";
-import { Label } from "~/components/ui/label";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "~/components/ui/table";
-import { type Rule, RULES_DESCRIPTION } from "~/lib/rules";
-import { camelCaseToTitleCase } from "~/lib/camel-case-to-title-case";
+import { type Rule } from "~/lib/rules";
 import { type RulesCollection } from "~/lib/types";
 
-import RuleTableSkeleton from "./rule-table-skeleton";
+import TableSkeleton from "./table/table-skeleton";
+import TableRules from "./table";
+import GridRules from "./grid";
+import { getViewFromParams } from "~/lib/get/get-view-from-param";
+import GridSkeleton from "./grid/grid-skeleton";
 
 export default function Content() {
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams.get("search");
+  const view = getViewFromParams(searchParams.get("view"));
+
   const [keys, setKeys] = useState<Rule[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const rulesCollection = useRxCollection<RulesCollection>("rules");
+
   const { result, isFetching } = useRxData<RulesCollection>(
     "rules",
     (collection) => collection.find(),
@@ -45,53 +43,20 @@ export default function Content() {
     void fetchKeys();
   }, []);
 
-  if (loading || isFetching) return <RuleTableSkeleton />;
+  if (loading || isFetching)
+    return view === "table" ? <TableSkeleton /> : <GridSkeleton />;
 
-  const rules: RulesCollection | undefined = result.map(
-    (doc) => doc.toJSON() as RulesCollection,
-  )[0];
+  const rules: RulesCollection | undefined = result[0]
+    ? (result[0].toJSON() as RulesCollection)
+    : undefined;
 
   if (!rules) return null;
 
-  const handleChange = async (checked: boolean, key: Rule) => {
-    try {
-      const newRules = { ...rules };
-      if (checked) {
-        newRules.rules.push(key);
-      } else {
-        newRules.rules = newRules.rules.filter((k) => k !== key);
-      }
-      await rulesCollection?.upsert(newRules);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  return (
-    <Table>
-      <TableHeader className="h-14 bg-secondary text-white/50 hover:bg-secondary [&>*]:border-white/30">
-        <TableRow>
-          <TableHead className="w-40">Rule Name</TableHead>
-          <TableHead>Definition</TableHead>
-          <TableHead className="w-20">Active</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody className="[&_tr:last-child]:border-1 [&>*]:border-white/30">
-        {keys.map((key) => (
-          <TableRow key={key}>
-            <TableCell className="font-medium">
-              <Label>{camelCaseToTitleCase(key)}</Label>
-            </TableCell>
-            <TableCell>{RULES_DESCRIPTION[key]}</TableCell>
-            <TableCell>
-              <Switch
-                checked={rules.rules.includes(key)}
-                onCheckedChange={(checked) => handleChange(checked, key)}
-              />
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+  const searchedKeys = keys.filter((key) =>
+    key.toLocaleLowerCase().includes((searchTerm ?? "").toLocaleLowerCase()),
   );
+
+  if (view === "table") return <TableRules keys={searchedKeys} rules={rules} />;
+
+  return <GridRules keys={searchedKeys} rules={rules} />;
 }

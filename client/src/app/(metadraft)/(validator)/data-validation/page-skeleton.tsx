@@ -11,10 +11,11 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { ImageWithFallback } from "~/components/image-with-fallback";
+import { getViewFromParams } from "~/lib/get/get-view-from-param";
 
 export default function PageSkeleton() {
   const searchParams = useSearchParams();
-  const view = searchParams.get("view") ?? "table"; // Default to : table
+  const view = getViewFromParams(searchParams.get("view"));
 
   const table = (
     <Table>

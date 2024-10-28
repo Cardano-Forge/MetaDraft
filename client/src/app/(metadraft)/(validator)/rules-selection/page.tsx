@@ -1,10 +1,16 @@
+"use client";
+
 import { Typography } from "~/components/typography";
 
 import Content from "./content";
 import Footer from "./footer";
 import Header from "./header";
+import { Button } from "~/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function RulesPage() {
+  const router = useRouter();
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-row items-center justify-between">
@@ -15,7 +21,9 @@ export default function RulesPage() {
           </Typography>
         </div>
         <div className="flex flex-row items-center gap-4">
-          {/* Add buttons here */}
+          <Button onClick={() => router.push("/data-validation")}>
+            Validate this Step
+          </Button>
         </div>
       </div>
 
