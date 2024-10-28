@@ -1,3 +1,4 @@
+import Link from "next/link";
 import CodeIcon from "~/icons/code.icon";
 
 import { getImageSrc } from "~/lib/get/get-image-src";
@@ -12,15 +13,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-
 import { ImageWithFallback } from "~/components/image-with-fallback";
+
 import Status from "../status";
 import Actions from "../actions";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 export default function Card({ metadata }: { metadata: MetadataCollection }) {
-  const router = useRouter();
   return (
     <div
       className={cn(

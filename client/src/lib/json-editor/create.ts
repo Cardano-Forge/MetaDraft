@@ -1,6 +1,6 @@
 import type { FilterFunction } from "json-edit-react";
 
-export const createRestrictionEdit: FilterFunction = ({ level, key, value }) =>
+export const createRestrictionEdit: FilterFunction = ({ level, value }) =>
   level === 0 ||
   level === 1 ||
   typeof value === "object" ||
