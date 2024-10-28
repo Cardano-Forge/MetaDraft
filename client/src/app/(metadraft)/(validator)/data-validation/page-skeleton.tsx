@@ -111,7 +111,10 @@ export default function PageSkeleton() {
             <Skeleton className="h-12 w-12 rounded-xl" />
             <Skeleton className="h-12 w-24 rounded-xl" />
           </div>
-          <Skeleton className="h-12 w-80 rounded-xl" />
+          <div className="flex flex-row items-center gap-4 p-2">
+            <Skeleton className="h-12 w-[90px] rounded-full" />
+            <Skeleton className="h-12 w-80 rounded-xl" />
+          </div>
         </div>
         {view === "table" ? table : grid}
         <div className="flex flex-row items-center justify-between p-4">

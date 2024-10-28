@@ -47,7 +47,7 @@ export default function Status({ metadata }: { metadata: MetadataCollection }) {
       collection.find().where("assetName").equals(metadata.assetName),
   );
 
-  if (isFetching) return <div>Loading...</div>;
+  if (isFetching) return null;
 
   const validations = result.map(
     (doc) => doc.toJSON() as ValidationsCollection,
@@ -58,7 +58,7 @@ export default function Status({ metadata }: { metadata: MetadataCollection }) {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild onClick={(event) => event.stopPropagation()}>
         <Button
           disabled={
             state === "success" ||
