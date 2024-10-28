@@ -70,7 +70,6 @@ export default function AddAssetButton() {
     <Button
       title="Add new asset"
       disabled={isLoading}
-      variant={"outline"}
       className="flex h-[50px] flex-row gap-2 rounded-full !px-4"
       onClick={handleAdd}
     >
