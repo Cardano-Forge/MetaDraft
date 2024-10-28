@@ -36,8 +36,6 @@ export default function JSONCreator({
     useRxCollection<MetadataSchemaCollection>("metadataSchema");
   const metadataCollection = useRxCollection<MetadataCollection>("metadata");
 
-  if (loading) return <LoaderComponent />;
-
   const handleOnAdd: UpdateFunction = ({ newData, currentData, path }) => {
     const data = currentData as MetadataCollection;
     // When adding in files[] add base element { src: "string", mediaType: "string" }
@@ -52,7 +50,7 @@ export default function JSONCreator({
           ...data.metadata,
           files: [
             ...(data.metadata.files ?? []),
-            { src: "string", mediaType: "string" },
+            { src: "ipfs://...", mediaType: "image/png" },
           ],
         },
       };
@@ -117,11 +115,15 @@ export default function JSONCreator({
     }
   };
 
+  if (loading) return <LoaderComponent />;
+
   return (
     <div className="flex min-w-[60%] flex-col gap-4 rounded-xl bg-card p-4 px-8">
       <div className="flex flex-row items-center justify-between">
         <Typography as="h2">JSON Creator</Typography>
-        <Button title="Save metadata structure" onClick={handleSaveSchema}>Save Metadata Structure</Button>
+        <Button title="Save metadata structure" onClick={handleSaveSchema}>
+          Save Metadata Structure
+        </Button>
       </div>
       <Typography as="code" className="text-white/70">
         {`All metadata should follow the same format. While exceptions like 1:1
@@ -132,7 +134,7 @@ export default function JSONCreator({
         showErrorMessages
         collapse={2}
         enableClipboard={false}
-        defaultValue={"string"}
+        defaultValue={""}
         rootFontSize={18}
         minWidth={"100%"}
         className="jer-custom"

@@ -1,9 +1,10 @@
 "use client";
 
+import React from "react";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect } from "react";
 import { type RxDocument } from "rxdb";
 import { useRxData } from "rxdb-hooks";
+
 import Loader from "~/components/loader";
 import { type ProjectCollection } from "~/lib/types";
 

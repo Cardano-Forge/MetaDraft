@@ -34,12 +34,11 @@ export default function StructurePage() {
   const metadatas: MetadataCollection[] = result.map(
     (doc) => doc.toJSON() as MetadataCollection,
   );
-
+  
   const schema: MetadataSchemaCollection | undefined =
     schemaResult[0]?.toJSON() as MetadataSchemaCollection;
 
-  if (!activeProject) return null;
-
+  if (!activeProject) return null; // Cannot return notFound when clearing project
   if (!metadatas) return notFound();
 
   const metadataSchema = getMetadataSchema(metadatas);
