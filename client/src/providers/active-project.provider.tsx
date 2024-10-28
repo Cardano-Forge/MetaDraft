@@ -36,9 +36,9 @@ export const ActiveProjectProvider = ({
       </main>
     );
 
-  if (pathname === "/" && !!result[0]?.id) router.push("/metadata-structure"); // On "/" and as active project ~> "/metadata-structure"
+  if (pathname === "/" && !!result[0]?.id) router.push("/metadata-structure"); // On "/" and has active project ~> "/metadata-structure"
 
-  if (pathname !== "/" && !result[0]) router.push("/"); // On "/:any" and as no active project ~> "/""
+  if (pathname !== "/" && !result[0]) router.push("/"); // On "/:any" and has no active project ~> "/""
 
   if (result[0])
     return (
