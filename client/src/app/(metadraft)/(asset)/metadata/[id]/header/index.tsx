@@ -22,6 +22,7 @@ export default function Header({
   return (
     <div className="flex flex-col gap-4 pb-8">
       <Button
+        title="Go back"
         variant={"ghost"}
         className="gap-4 !px-4 text-white/50"
         onClick={() => router.back()}

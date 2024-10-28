@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useRxCollection } from "rxdb-hooks";
 import { Button } from "~/components/ui/button";
+import { Typography } from "~/components/typography";
 import ArrowRightIcon from "~/icons/arrow-right.icon";
 import CheckIcon from "~/icons/check.icon";
 import FlagIcon from "~/icons/flag.icon";
@@ -23,6 +24,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
 
 export default function Actions({
   metadata,
@@ -85,28 +92,50 @@ export default function Actions({
 
   return (
     <div className={cn("flex flex-row items-center gap-2", className)}>
-      <Button
-        title="Mark as flagged"
-        disabled={isUnchecked}
-        variant={isWarning ? "warning" : "warningOutilne"}
-        size={"icon"}
-        onClick={async () => {
-          await handleStatusUpdate("warning");
-        }}
-      >
-        <FlagIcon className="h-4 w-4" />
-      </Button>
-      <Button
-        title="Mark as valid"
-        disabled={isUnchecked}
-        variant={isSuccess ? "success" : "successOutline"}
-        size={"icon"}
-        onClick={async () => {
-          await handleStatusUpdate("success");
-        }}
-      >
-        <CheckIcon className="h-4 w-4" />
-      </Button>
+      <TooltipProvider>
+        <Tooltip delayDuration={200}>
+          <TooltipTrigger asChild>
+            <Button
+              title="Mark as flagged"
+              disabled={isUnchecked}
+              variant={isWarning ? "warning" : "warningOutilne"}
+              size={"icon"}
+              onClick={async () => {
+                await handleStatusUpdate("warning");
+              }}
+            >
+              <FlagIcon className="h-4 w-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent className="max-w-97 flex flex-col gap-2 text-balance border-white/20 p-4 text-center">
+            <Typography as="smallText">{`Mark this asset as error-flagged.`}</Typography>
+            <Typography as="smallText">{`If it is already flagged, it will be marked as an error.`}</Typography>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+      <TooltipProvider>
+        <Tooltip delayDuration={200}>
+          <TooltipTrigger asChild>
+            <Button
+              title="Mark as valid"
+              disabled={isUnchecked}
+              variant={isSuccess ? "success" : "successOutline"}
+              size={"icon"}
+              onClick={async () => {
+                await handleStatusUpdate("success");
+              }}
+            >
+              <CheckIcon className="h-4 w-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent className="max-w-97 flex flex-col gap-2 text-balance border-white/20 p-4 text-center">
+            <Typography as="smallText">{`Mark this asset as valid.`}</Typography>
+            <Typography as="smallText">{`If it is already valid, it will be marked as an error.`}</Typography>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
       <Dialog>
         <DialogTrigger asChild>
           <Button

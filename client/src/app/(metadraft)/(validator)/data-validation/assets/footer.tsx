@@ -34,6 +34,7 @@ export default function Footer({ lastPage }: { lastPage: number }) {
     <div className="flex flex-row items-center justify-between px-4 py-2">
       <div className="flex flex-row items-center gap-2">
         <Button
+          title="Go to previous page"
           disabled={page <= 1}
           className="px-6"
           variant={"outline"}
@@ -42,6 +43,7 @@ export default function Footer({ lastPage }: { lastPage: number }) {
           Previous
         </Button>
         <Button
+          title="Go to next page"
           disabled={page >= lastPage}
           className="px-6"
           variant={"secondary"}

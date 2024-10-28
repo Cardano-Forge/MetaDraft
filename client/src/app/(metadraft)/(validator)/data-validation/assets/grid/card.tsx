@@ -31,7 +31,11 @@ export default function Card({ metadata }: { metadata: MetadataCollection }) {
         <div className="flex flex-row items-end justify-between">
           <Popover>
             <PopoverTrigger asChild>
-              <Button size={"icon"} variant="outline">
+              <Button
+                title="Show asset information"
+                size={"icon"}
+                variant="outline"
+              >
                 <CodeIcon />
               </Button>
             </PopoverTrigger>

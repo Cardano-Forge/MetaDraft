@@ -27,7 +27,7 @@ export default function DataValidation() {
         </div>
         <div className="flex flex-row items-center gap-4">
           <Validator handleLoading={setLoading} />
-          <Button onClick={() => router.push("/summary")}>
+          <Button title="Go to summary" onClick={() => router.push("/summary")}>
             Validate this step
           </Button>
         </div>

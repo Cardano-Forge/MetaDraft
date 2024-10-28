@@ -52,6 +52,7 @@ export default function HeaderActions({
   return (
     <div className="pt-auto flex flex-row gap-4">
       <Button
+        title="Mark as flagged"
         disabled={isValidating}
         variant={isWarning ? "warning" : "warningOutilne"}
         className={cn("gap-4", isWarning && "border-background")}
@@ -63,6 +64,7 @@ export default function HeaderActions({
         Flag an error
       </Button>
       <Button
+        title={"Mark as valid"}
         disabled={isValidating}
         variant={isSuccess ? "success" : "successOutline"}
         className={cn("gap-4", isSuccess && "border-background")}
