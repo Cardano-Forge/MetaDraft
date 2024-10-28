@@ -12,7 +12,14 @@ export default function DataValidation() {
 
   const hasError = !!project.errorsDetected;
   const hasWarning = !!project.errorsFlagged;
-  const status = hasError ? "error" : hasWarning ? "warning" : "success";
+  const hasUnchecked = !!project.unchecked;
+  const status = hasError
+    ? "error"
+    : hasWarning
+      ? "warning"
+      : hasUnchecked
+        ? "unchecked"
+        : "success";
 
   return (
     <StepComponent>
