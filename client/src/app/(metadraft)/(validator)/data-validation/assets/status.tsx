@@ -60,6 +60,7 @@ export default function Status({ metadata }: { metadata: MetadataCollection }) {
     <Dialog>
       <DialogTrigger asChild onClick={(event) => event.stopPropagation()}>
         <Button
+          title="Open status summary"
           disabled={
             state === "success" ||
             state === "unchecked" ||

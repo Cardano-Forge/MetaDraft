@@ -1,4 +1,5 @@
 "use client";
+
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { type RxDocument } from "rxdb";
@@ -27,25 +28,16 @@ export const ActiveProjectProvider = ({
     (collection) => collection.find(),
   );
 
-  useEffect(() => {
-    if (isFetching) return;
-    if (pathname === "/") {
-      if (!!result[0]?.id) {
-        router.push("/metadata-structure");
-      }
-    } else {
-      if (!result[0]) {
-        router.push("/");
-      }
-    }
-  }, [pathname, result, router, isFetching]);
-
   if (isFetching)
     return (
       <main className="container flex h-[100vh] flex-wrap place-content-center">
         <Loader />
       </main>
     );
+
+  if (pathname === "/" && !!result[0]?.id) router.push("/metadata-structure"); // On "/" and as active project ~> "/metadata-structure"
+
+  if (pathname !== "/" && !result[0]) router.push("/"); // On "/:any" and as no active project ~> "/""
 
   if (result[0])
     return (
