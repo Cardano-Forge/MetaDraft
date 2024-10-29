@@ -11,6 +11,13 @@ import type {
 import { cn } from "~/lib/utils";
 import { useActiveProject } from "~/providers/active-project.provider";
 import { keys } from "~/lib/constant";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
+import { Typography } from "~/components/typography";
 
 export default function HeaderActions({
   metadata,
@@ -51,28 +58,49 @@ export default function HeaderActions({
 
   return (
     <div className="pt-auto flex flex-row gap-4">
-      <Button
-        disabled={isValidating}
-        variant={isWarning ? "warning" : "warningOutilne"}
-        className={cn("gap-4", isWarning && "border-background")}
-        onClick={async () => {
-          await handleStatusUpdate("warning");
-        }}
-      >
-        <FlagIcon className="h-4 w-4" />
-        Flag an error
-      </Button>
-      <Button
-        disabled={isValidating}
-        variant={isSuccess ? "success" : "successOutline"}
-        className={cn("gap-4", isSuccess && "border-background")}
-        onClick={async () => {
-          await handleStatusUpdate("success");
-        }}
-      >
-        <CheckIcon />
-        Mark as valid
-      </Button>
+      <TooltipProvider>
+        <Tooltip delayDuration={200}>
+          <TooltipTrigger asChild>
+            <Button
+              disabled={isValidating}
+              variant={isWarning ? "warning" : "warningOutilne"}
+              className={cn("gap-4", isWarning && "border-background")}
+              onClick={async () => {
+                await handleStatusUpdate("warning");
+              }}
+            >
+              <FlagIcon className="h-4 w-4" />
+              Flag an error
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent className="max-w-97 flex flex-col gap-2 text-balance border-white/20 p-4 text-center">
+            <Typography as="smallText">{`Mark this asset as error-flagged.`}</Typography>
+            <Typography as="smallText">{`If it is already flagged, it will be marked as an error.`}</Typography>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+      <TooltipProvider>
+        <Tooltip delayDuration={200}>
+          <TooltipTrigger asChild>
+            <Button
+              disabled={isValidating}
+              variant={isSuccess ? "success" : "successOutline"}
+              className={cn("gap-4", isSuccess && "border-background")}
+              onClick={async () => {
+                await handleStatusUpdate("success");
+              }}
+            >
+              <CheckIcon />
+              Mark as valid
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent className="max-w-97 flex flex-col gap-2 text-balance border-white/20 p-4 text-center">
+            <Typography as="smallText">{`Mark this asset as valid.`}</Typography>
+            <Typography as="smallText">{`If it is already valid, it will be marked as an error.`}</Typography>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
   );
 }

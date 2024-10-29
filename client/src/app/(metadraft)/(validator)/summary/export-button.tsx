@@ -35,6 +35,9 @@ export default function ExportButton() {
   return (
     <Button className="flex flex-row gap-3" onClick={handleExport}>
       <CodeIcon /> Export the project
+      <span className="sr-only">
+        Take the current metadata and export it as JSON format.
+      </span>
     </Button>
   );
 }

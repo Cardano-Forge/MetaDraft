@@ -143,9 +143,9 @@ export function UploadProjectButton({ className }: { className?: string }) {
 
   if (loading)
     return (
-      <main className="flex min-h-[450px] w-full min-w-[300px] cursor-pointer flex-col items-center justify-center gap-8 rounded-2xl border border-input/20 bg-card/70">
+      <div className="flex min-h-[450px] w-full min-w-[300px] cursor-pointer flex-col items-center justify-center gap-8 rounded-2xl border border-input/20 bg-card/70">
         <Loader />
-      </main>
+      </div>
     );
 
   return (

@@ -24,7 +24,7 @@ export const CopyButton = ({
       variant="ghost"
       size="icon"
       className={className}
-      title="copy to clipboard"
+      title="Copy to clipboard"
       onClick={handleClick}
     >
       {hasCopied ? (
@@ -32,7 +32,7 @@ export const CopyButton = ({
       ) : (
         <CopyIcon className="h-5 w-5" />
       )}
-      <span className="sr-only">copy to clipboard</span>
+      <span className="sr-only">Copy to clipboard</span>
     </Button>
   );
 };

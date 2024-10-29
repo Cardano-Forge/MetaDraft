@@ -11,10 +11,11 @@ import {
 } from "./ui/dialog";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useRxCollection } from "rxdb-hooks";
 import type { ProjectCollection, RulesCollection } from "~/lib/types";
 import { DEFAULT_RULES } from "~/lib/constant";
+import Loader from "./loader";
 
 export default function CreateProjectButton({
   className,
@@ -22,6 +23,7 @@ export default function CreateProjectButton({
   className?: string;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const activeProjectCollection = useRxCollection<ProjectCollection>("project");
   const rulesCollection = useRxCollection<RulesCollection>("rules");
@@ -29,6 +31,7 @@ export default function CreateProjectButton({
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
+      setLoading(true);
       if (inputRef.current?.value) {
         // Add project information in RXDB
         const project = await activeProjectCollection?.upsert({
@@ -51,8 +54,16 @@ export default function CreateProjectButton({
     } catch (e) {
       console.error(e);
     } finally {
+      setLoading(false);
     }
   };
+
+  if (loading)
+    return (
+      <div className="flex min-h-[450px] w-full min-w-[300px] cursor-pointer flex-col items-center justify-center gap-8 rounded-2xl border border-input/20 bg-card/70">
+        <Loader />
+      </div>
+    );
 
   return (
     <Dialog>
@@ -78,7 +89,6 @@ export default function CreateProjectButton({
             Create new project
           </DialogTitle>
         </DialogHeader>
-
         <form onSubmit={handleSubmit}>
           <Input
             ref={inputRef}
