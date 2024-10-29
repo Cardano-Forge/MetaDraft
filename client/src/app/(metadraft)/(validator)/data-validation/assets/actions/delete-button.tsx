@@ -54,7 +54,6 @@ export default function DeleteButton({
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          title="Delete this asset"
           size={"icon"}
           variant={"destructiveOutilne"}
         >

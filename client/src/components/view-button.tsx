@@ -36,6 +36,7 @@ export default function ViewButton({
       onClick={handleChangeView}
     >
       {view === "table" ? <UnorderedListIcon /> : <ViewGridIcon />}
+      <span className="sr-only">Change the metadata view</span>
     </Button>
   );
 }

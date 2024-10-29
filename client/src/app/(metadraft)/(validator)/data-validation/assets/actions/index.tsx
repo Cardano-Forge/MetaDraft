@@ -81,7 +81,7 @@ export default function Actions({
           >
             <ArrowRightIcon className="h-4 w-4" />
             <span className="sr-only">
-              Navigation to this detailed asset page
+              Navigation to the asset details page
             </span>
           </Link>
         </Button>

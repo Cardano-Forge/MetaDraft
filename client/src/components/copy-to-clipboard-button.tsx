@@ -32,6 +32,7 @@ export const CopyButton = ({
       ) : (
         <CopyIcon className="h-5 w-5" />
       )}
+      <span className="sr-only">Copy to clipboard</span>
     </Button>
   );
 };

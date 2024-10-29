@@ -123,7 +123,6 @@ export default function JSONCreator({
         <Typography as="h2">JSON Creator</Typography>
         <Button onClick={handleSaveSchema}>
           Save Metadata Structure
-          <span className="sr-only">Save current metadata schema to be the default one.</span>
         </Button>
       </div>
       <Typography as="code" className="text-white/70">

@@ -140,10 +140,7 @@ export default function JSONEditor({
     <div className="flex min-w-[60%] flex-col gap-4 rounded-xl bg-card p-4 px-8">
       <div className="flex flex-row items-center justify-between">
         <Typography as="h2">JSON Editor</Typography>
-        <Button onClick={handleSaveAndValidate}>
-          Save and Validate
-          <span className="sr-only">Save the metadata and validate</span>
-        </Button>
+        <Button onClick={handleSaveAndValidate}>Save and Validate</Button>
       </div>
       <Typography className="italic text-white/50">
         To edit a key, double-click it. Press Enter to save, or Esc to cancel.

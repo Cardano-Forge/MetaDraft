@@ -62,7 +62,6 @@ export default function HeaderActions({
         <Tooltip delayDuration={200}>
           <TooltipTrigger asChild>
             <Button
-              title="Mark as flagged"
               disabled={isValidating}
               variant={isWarning ? "warning" : "warningOutilne"}
               className={cn("gap-4", isWarning && "border-background")}
@@ -72,7 +71,6 @@ export default function HeaderActions({
             >
               <FlagIcon className="h-4 w-4" />
               Flag an error
-              <span className="sr-only">Mark this asset has error-flagged</span>
             </Button>
           </TooltipTrigger>
           <TooltipContent className="max-w-97 flex flex-col gap-2 text-balance border-white/20 p-4 text-center">
@@ -86,7 +84,6 @@ export default function HeaderActions({
         <Tooltip delayDuration={200}>
           <TooltipTrigger asChild>
             <Button
-              title={"Mark as valid"}
               disabled={isValidating}
               variant={isSuccess ? "success" : "successOutline"}
               className={cn("gap-4", isSuccess && "border-background")}
@@ -96,7 +93,6 @@ export default function HeaderActions({
             >
               <CheckIcon />
               Mark as valid
-              <span className="sr-only">Mark this asset has valid</span>
             </Button>
           </TooltipTrigger>
           <TooltipContent className="max-w-97 flex flex-col gap-2 text-balance border-white/20 p-4 text-center">
