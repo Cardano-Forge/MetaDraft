@@ -28,7 +28,9 @@ export default function DataValidation() {
           <Button asChild>
             <Link href={"/summary"}>
               Validate this step
-              <span className="sr-only">Go to next step: Summary</span>
+              <span className="sr-only">
+                Complete this step and navigaton to next one: Summary
+              </span>
             </Link>
           </Button>
         </div>
