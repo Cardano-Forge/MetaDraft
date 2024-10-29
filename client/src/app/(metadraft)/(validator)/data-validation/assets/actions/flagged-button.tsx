@@ -23,7 +23,6 @@ export default function FlaggedButton({
       <Tooltip delayDuration={200}>
         <TooltipTrigger asChild>
           <Button
-            title="Mark as flagged"
             disabled={isUnchecked}
             variant={isWarning ? "warning" : "warningOutilne"}
             size={"icon"}
@@ -32,6 +31,7 @@ export default function FlaggedButton({
             }}
           >
             <FlagIcon className="h-4 w-4" />
+            <span className="sr-only">Mark this asset has error-flagged</span>
           </Button>
         </TooltipTrigger>
         <TooltipContent className="max-w-97 flex flex-col gap-2 text-balance border-white/20 p-4 text-center">

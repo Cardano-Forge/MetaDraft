@@ -121,8 +121,9 @@ export default function JSONCreator({
     <div className="flex min-w-[60%] flex-col gap-4 rounded-xl bg-card p-4 px-8">
       <div className="flex flex-row items-center justify-between">
         <Typography as="h2">JSON Creator</Typography>
-        <Button title="Save metadata structure" onClick={handleSaveSchema}>
+        <Button onClick={handleSaveSchema}>
           Save Metadata Structure
+          <span className="sr-only">Save current metadata schema to be the default one.</span>
         </Button>
       </div>
       <Typography as="code" className="text-white/70">

@@ -44,8 +44,11 @@ export default function ClearProjectButton({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button title="Clear current project" className={className}>
+        <Button className={className}>
           <RefreshIcon className="mr-2" /> New Project
+          <span className="sr-only">
+            Clear all current project information to start fresh.
+          </span>
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

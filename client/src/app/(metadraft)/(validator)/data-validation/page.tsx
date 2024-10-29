@@ -26,8 +26,9 @@ export default function DataValidation() {
         <div className="flex flex-row items-center gap-4">
           <Validator handleLoading={setLoading} />
           <Button asChild>
-            <Link title="Go to summary" href={"/summary"}>
+            <Link href={"/summary"}>
               Validate this step
+              <span className="sr-only">Go to next step: Summary</span>
             </Link>
           </Button>
         </div>

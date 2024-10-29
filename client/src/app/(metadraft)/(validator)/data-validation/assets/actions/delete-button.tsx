@@ -59,6 +59,7 @@ export default function DeleteButton({
           variant={"destructiveOutilne"}
         >
           <TrashIcon className="h-4 w-4" />
+          <span className="sr-only">Delete the selected asset</span>
         </Button>
       </DialogTrigger>
       <DialogContent>

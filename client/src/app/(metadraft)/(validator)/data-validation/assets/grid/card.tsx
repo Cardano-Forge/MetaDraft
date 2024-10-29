@@ -52,6 +52,9 @@ export default function Card({ metadata }: { metadata: MetadataCollection }) {
                 variant="outline"
               >
                 <CodeIcon />
+                <span className="sr-only">
+                  Toggle to show asset information
+                </span>
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-fit max-w-[100vw]">

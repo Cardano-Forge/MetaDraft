@@ -90,11 +90,7 @@ export default function Validator({
   };
 
   return (
-    <Button
-      title="Validate metadata"
-      variant={"successOutline"}
-      onClick={handleValidation}
-    >
+    <Button variant={"successOutline"} onClick={handleValidation}>
       Validate Metadata
     </Button>
   );

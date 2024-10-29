@@ -22,12 +22,12 @@ export default function Header({
   return (
     <div className="flex flex-col gap-4 pb-8">
       <Button
-        title="Go back"
         variant={"ghost"}
         className="gap-4 !px-4 text-white/50"
         onClick={() => router.back()}
       >
         <BackIcon className="h-4 w-4 text-white" /> Back to the list
+        <span className="sr-only">Go back to the metadata list</span>
       </Button>
       <div className="flex flex-row items-end justify-between">
         <div className="flex flex-row gap-8">

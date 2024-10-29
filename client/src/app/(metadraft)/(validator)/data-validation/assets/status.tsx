@@ -60,7 +60,6 @@ export default function Status({ metadata }: { metadata: MetadataCollection }) {
     <Dialog>
       <DialogTrigger asChild onClick={(event) => event.stopPropagation()}>
         <Button
-          title="Open status summary"
           disabled={
             state === "success" ||
             state === "unchecked" ||
@@ -72,7 +71,8 @@ export default function Status({ metadata }: { metadata: MetadataCollection }) {
             variants[state],
           )}
         >
-          {text[state]}
+          {text[state]}          
+          <span className="sr-only">Open the status summary of the error flagged and detected</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[calc(100vh-2rem)] max-w-3xl overflow-y-hidden !rounded-2xl border-none px-0 pb-0 md:max-h-[calc(100vh-4rem)]">

@@ -80,6 +80,9 @@ export default function Actions({
             aria-label="Go to asset page"
           >
             <ArrowRightIcon className="h-4 w-4" />
+            <span className="sr-only">
+              Navigation to this detailed asset page
+            </span>
           </Link>
         </Button>
       )}

@@ -28,7 +28,6 @@ const SortItem = ({
 }) => {
   return (
     <Button
-    title="Sort metadata"
       variant={"ghost"}
       size={"sm"}
       className={cn(

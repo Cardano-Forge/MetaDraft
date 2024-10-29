@@ -60,8 +60,11 @@ export default function Card({
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button title="Rule's description" size={"icon"} variant={"ghost"}>
+                <Button size={"icon"} variant={"ghost"}>
                   <InformationCircle />
+                  <span className="sr-only">
+                    Tooltip to show the rule description
+                  </span>
                 </Button>
               </TooltipTrigger>
               <TooltipContent className="max-w-96 text-balance border-white/50 p-4">

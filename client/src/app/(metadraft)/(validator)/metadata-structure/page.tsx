@@ -34,7 +34,7 @@ export default function StructurePage() {
   const metadatas: MetadataCollection[] = result.map(
     (doc) => doc.toJSON() as MetadataCollection,
   );
-  
+
   const schema: MetadataSchemaCollection | undefined =
     schemaResult[0]?.toJSON() as MetadataSchemaCollection;
 
@@ -56,6 +56,9 @@ export default function StructurePage() {
           <Button asChild>
             <Link title="Go to rules selection" href={"/rules-selection"}>
               Validate this step
+              <span className="sr-only">
+                Complete this step and navigaton to next one: rules selection
+              </span>
             </Link>
           </Button>
         </div>

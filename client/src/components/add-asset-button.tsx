@@ -68,7 +68,6 @@ export default function AddAssetButton() {
 
   return (
     <Button
-      title="Add new asset"
       disabled={isLoading}
       className="flex h-[50px] flex-row gap-2 rounded-full !px-4"
       onClick={handleAdd}
@@ -80,6 +79,9 @@ export default function AddAssetButton() {
           <PlusIcon /> Add
         </>
       )}
+      <span className="sr-only">
+        Add a new asset to the metadata list with default values.
+      </span>
     </Button>
   );
 }

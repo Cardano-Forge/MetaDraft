@@ -14,7 +14,7 @@ export default function Footer() {
 
   return (
     <div className="flex flex-row items-center justify-end p-4">
-      <Button title="Back to top" onClick={scrollToTop}>Back to Top</Button>
+      <Button onClick={scrollToTop}>Back to Top</Button>
     </div>
   );
 }
