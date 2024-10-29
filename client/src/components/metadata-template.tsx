@@ -2,6 +2,7 @@ import { ExternalLinkIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { CopyButton } from "./copy-to-clipboard-button";
+import { cn } from "~/lib/utils";
 
 const example = `
   [
@@ -24,9 +25,14 @@ const example = `
     ...
   ]`;
 
-export const MetadataTemplate = () => {
+export const MetadataTemplate = ({ className }: { className?: string }) => {
   return (
-    <div className="relative rounded-2xl border border-input/20 bg-card">
+    <div
+      className={cn(
+        "relative rounded-2xl border border-input/20 bg-card",
+        className,
+      )}
+    >
       <pre className="custom-scroll overflow-scroll p-3">
         <code>
           {`// example of JSON file data

@@ -16,7 +16,11 @@ import { useRxCollection } from "rxdb-hooks";
 import type { ProjectCollection, RulesCollection } from "~/lib/types";
 import { DEFAULT_RULES } from "~/lib/constant";
 
-export default function CreateProjectButton() {
+export default function CreateProjectButton({
+  className,
+}: {
+  className?: string;
+}) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const activeProjectCollection = useRxCollection<ProjectCollection>("project");
@@ -52,7 +56,7 @@ export default function CreateProjectButton() {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild className={className}>
         <div
           className="flex min-h-[450px] w-full min-w-[300px] cursor-pointer flex-col items-center justify-center gap-8 rounded-2xl bg-card hover:bg-card/70"
           role="button"

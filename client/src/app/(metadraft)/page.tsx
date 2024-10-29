@@ -1,3 +1,5 @@
+"use client";
+
 import Joyride from "react-joyride";
 
 import CreateProjectButton from "~/components/create-project-button";
@@ -9,17 +11,22 @@ const steps = [
   {
     target: ".my-first-step",
     content: "This is my awesome feature!",
+    placement: "top",
   },
   {
-    target: ".my-other-step",
-    content: "This another awesome feature!",
+    target: ".my-second-step",
+    content: "This is my awesome feature!",
+  },
+  {
+    target: ".my-third-step",
+    content: "This is my awesome feature!",
   },
 ];
 
 export default function HomePage() {
   return (
     <main className="container flex flex-col gap-8">
-      <Joyride steps={steps} />
+      <Joyride run steps={steps} continuous showSkipButton showProgress />
       <div className="mt-4 flex flex-col items-center justify-center lg:flex-row lg:justify-between">
         <div className="flex flex-row items-center justify-center lg:flex-col lg:items-start">
           <Typography as="h1" className="font-inter font-bold tracking-wide">
@@ -38,9 +45,9 @@ export default function HomePage() {
         </Typography>
       </div>
       <div className="flex w-full flex-col-reverse items-stretch justify-center gap-8 rounded-xl p-4 lg:flex-row">
-        <CreateProjectButton />
-        <UploadProjectButton />
-        <MetadataTemplate />
+        <CreateProjectButton className="my-first-step" />
+        <UploadProjectButton className="my-second-step" />
+        <MetadataTemplate className="my-third-step" />
       </div>
     </main>
   );
