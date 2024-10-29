@@ -39,7 +39,8 @@ export default function Footer({ lastPage }: { lastPage: number }) {
           variant={"outline"}
           onClick={handlePrevious}
         >
-          Previous
+          Previous          
+          <span className="sr-only">Go to previous page of assets</span>
         </Button>
         <Button
           disabled={page >= lastPage}
@@ -48,6 +49,7 @@ export default function Footer({ lastPage }: { lastPage: number }) {
           onClick={handleNext}
         >
           Next
+          <span className="sr-only">Go to next page of assets</span>
         </Button>
       </div>
       <div className="flex flex-row items-center justify-end gap-2 p-4">

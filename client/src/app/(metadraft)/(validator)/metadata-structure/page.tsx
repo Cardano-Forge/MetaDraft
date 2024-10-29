@@ -1,7 +1,10 @@
 "use client";
 
 import { useRxData } from "rxdb-hooks";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
+import { Button } from "~/components/ui/button";
 import { Typography } from "~/components/typography";
 import LoaderComponent from "~/components/loader-component";
 import { getMetadataSchema } from "~/lib/get/get-metadata-schema";
@@ -13,7 +16,6 @@ import type {
 import { useActiveProject } from "~/providers/active-project.provider";
 
 import JSONCreator from "./json-creator";
-import { notFound } from "next/navigation";
 
 export default function StructurePage() {
   const activeProject = useActiveProject();
@@ -36,8 +38,7 @@ export default function StructurePage() {
   const schema: MetadataSchemaCollection | undefined =
     schemaResult[0]?.toJSON() as MetadataSchemaCollection;
 
-  if (!activeProject) return null;
-
+  if (!activeProject) return null; // Cannot return notFound when clearing project
   if (!metadatas) return notFound();
 
   const metadataSchema = getMetadataSchema(metadatas);
@@ -51,7 +52,16 @@ export default function StructurePage() {
             Small description lorem ipsum dolor
           </Typography>
         </div>
-        <div className="flex flex-row items-center gap-4"></div>
+        <div className="flex flex-row items-center gap-4">
+          <Button asChild>
+            <Link title="Go to rules selection" href={"/rules-selection"}>
+              Validate this step
+              <span className="sr-only">
+                Complete this step and navigaton to next one: rules selection
+              </span>
+            </Link>
+          </Button>
+        </div>
       </div>
       <JSONCreator
         structure={

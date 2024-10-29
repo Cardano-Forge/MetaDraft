@@ -1,17 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 import { Typography } from "~/components/typography";
-import Assets from "./assets";
 import { Button } from "~/components/ui/button";
-import { useRouter } from "next/navigation";
+
+import Assets from "./assets";
+import PageSkeleton from "./page-skeleton";
 import Validator from "./validator";
 
-import PageSkeleton from "./page-skeleton";
-
 export default function DataValidation() {
-  const router = useRouter();
   const [isLoading, setLoading] = useState<boolean>(false);
   if (isLoading) return <PageSkeleton />;
 
@@ -26,8 +25,13 @@ export default function DataValidation() {
         </div>
         <div className="flex flex-row items-center gap-4">
           <Validator handleLoading={setLoading} />
-          <Button onClick={() => router.push("/summary")}>
-            Validate this step
+          <Button asChild>
+            <Link href={"/summary"}>
+              Validate this step
+              <span className="sr-only">
+                Complete this step and navigaton to next one: Summary
+              </span>
+            </Link>
           </Button>
         </div>
       </div>

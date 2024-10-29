@@ -12,6 +12,7 @@ import { hyphenToCamelCase } from "~/lib/types/hyphen-to-camel-case";
 import { hyphenToTitleCase } from "~/lib/hyphen-to-title-case";
 import { useActiveProject } from "~/providers/active-project.provider";
 import LoaderComponent from "~/components/loader-component";
+import { notFound } from "next/navigation";
 
 export default function Errors({ metadata }: { metadata: MetadataCollection }) {
   const activeProject = useActiveProject();
@@ -35,7 +36,7 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
     (doc) => doc.toJSON() as RulesCollection,
   )[0];
 
-  if (!rules) return null;
+  if (!rules) return notFound();
 
   if (metadata.status === "success")
     return (
@@ -64,8 +65,15 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
       </div>
     );
 
-  // TODO - return something when user manualy set status to error and is dotn have any real error. maybe a error form maker ? :thinking:
-  if (!validationErrors) return null;
+  if (!validationErrors)
+    return (
+      <div className="flex w-full flex-col gap-4 rounded-xl bg-card p-4 px-8 shadow-lg">
+        <Typography as="code">
+          No validations found, and the asset is marked as invalid. Try
+          validating it, or it may have been manually set as invalid
+        </Typography>
+      </div>
+    );
 
   const { validation } = validationErrors;
 
