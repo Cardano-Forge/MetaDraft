@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, redirect } from "next/navigation";
 import { type RxDocument } from "rxdb";
 import { useRxData } from "rxdb-hooks";
 
@@ -22,7 +22,6 @@ export const ActiveProjectProvider = ({
   children: React.ReactNode;
 }) => {
   const pathname = usePathname();
-  const router = useRouter();
 
   const { result, isFetching } = useRxData<ProjectCollection>(
     "project",
@@ -36,9 +35,8 @@ export const ActiveProjectProvider = ({
       </main>
     );
 
-  if (pathname === "/" && !!result[0]?.id) router.push("/metadata-structure"); // On "/" and has active project ~> "/metadata-structure"
-
-  if (pathname !== "/" && !result[0]) router.push("/"); // On "/:any" and has no active project ~> "/""
+  if (pathname === "/" && !!result[0]?.id) redirect("/metadata-structure"); // On "/" and has active project ~> "/metadata-structure"
+  if (pathname !== "/" && !result[0]) redirect("/"); // On "/:any" and has no active project ~> "/""
 
   if (result[0])
     return (
