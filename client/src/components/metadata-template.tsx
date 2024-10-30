@@ -2,15 +2,14 @@ import { ExternalLinkIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { CopyButton } from "./copy-to-clipboard-button";
-import { cn } from "~/lib/utils";
 
 const example = `
   [
     { 
       "assetName": <string>
       "metadata": {
-        "name": <string>, [required]
-        "image": <uri | array>, [required]
+        "name": <string>, [REQUIRED]
+        "image": <uri | array>, [REQUIRED]
         "mediaType": image/<mime_sub_type>,
         "description": <string | array>,
         "files": [{
@@ -25,14 +24,9 @@ const example = `
     ...
   ]`;
 
-export const MetadataTemplate = ({ className }: { className?: string }) => {
+export const MetadataTemplate = () => {
   return (
-    <div
-      className={cn(
-        "relative rounded-2xl border border-input/20 bg-card",
-        className,
-      )}
-    >
+    <div className={"relative rounded-2xl border border-input/20 bg-card"}>
       <pre className="custom-scroll overflow-scroll p-3">
         <code>
           {`// example of JSON file data

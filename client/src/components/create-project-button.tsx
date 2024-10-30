@@ -17,11 +17,7 @@ import type { ProjectCollection, RulesCollection } from "~/lib/types";
 import { DEFAULT_RULES } from "~/lib/constant";
 import Loader from "./loader";
 
-export default function CreateProjectButton({
-  className,
-}: {
-  className?: string;
-}) {
+export default function CreateProjectButton() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -67,7 +63,7 @@ export default function CreateProjectButton({
 
   return (
     <Dialog>
-      <DialogTrigger asChild className={className}>
+      <DialogTrigger asChild>
         <div
           className="flex min-h-[450px] w-full min-w-[300px] cursor-pointer flex-col items-center justify-center gap-8 rounded-2xl bg-card hover:bg-card/70"
           role="button"
