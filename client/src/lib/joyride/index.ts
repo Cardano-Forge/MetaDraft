@@ -1,24 +1,8 @@
-import { type CSSProperties } from "react";
-import type { Step, StylesOptions } from "react-joyride";
+import { type Step } from "react-joyride";
 
-export const joyrideStyleOptions = {
-  arrowColor: "#2d2c30",
-  backgroundColor: "#2d2c30",
-  beaconSize: 36,
-  overlayColor: "rgba(0, 0, 0, 0.5)",
-  primaryColor: "#55ce7d",
-  spotlightShadow: "0 0 15px rgba(0, 0, 0, 0.5)",
-  textColor: "white",
-  zIndex: 100,
-  width: 380,
-} satisfies StylesOptions;
+export * from "./css";
 
-export const joyrideNextButton = {
-  borderRadius: "1em",
-  padding: "0.5em 1em",
-} satisfies CSSProperties;
-
-export const stepExplaination: Step[] = [
+export const explainationSteps: Step[] = [
   {
     target: ".metadata-schema-step",
     content:
@@ -39,7 +23,8 @@ export const stepExplaination: Step[] = [
   },
   {
     target: ".summary-step",
-    content: "Finally, review the summary of your metadata. Here, you'll see attribute distributions, the selected validation rules, and options to export your metadata.",
+    content:
+      "Finally, review the summary of your metadata. Here, you'll see attribute distributions, the selected validation rules, and options to export your metadata.",
     placement: "bottom",
   },
 ];
