@@ -24,7 +24,7 @@ function getCookie(name: string) {
 }
 
 export const Stepper = () => {
-  const [run, setRun] = React.useState(!!!getCookie(cookieId));
+  const [run, setRun] = React.useState(!getCookie(cookieId));
 
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { action, status } = data;
