@@ -9,9 +9,9 @@ import {
 
 export default function UploadAlert() {
   return (
-    <AlertDialogContent className="border-destructive">
+    <AlertDialogContent className="border-2 border-red-600">
       <AlertDialogHeader>
-        <AlertDialogTitle className="text-center text-2xl font-bold text-red-500">
+        <AlertDialogTitle className="text-center text-2xl font-bold text-red-600">
           Format Error
         </AlertDialogTitle>
         <AlertDialogDescription className="text-center">
@@ -24,7 +24,7 @@ export default function UploadAlert() {
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter className="!justify-center">
-        <AlertDialogCancel className="w-full text-destructive sm:mx-6">
+        <AlertDialogCancel className="w-full sm:mx-6">
           Close
         </AlertDialogCancel>
       </AlertDialogFooter>
