@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname, redirect } from "next/navigation";
 import { type RxDocument } from "rxdb";
 import { useRxData } from "rxdb-hooks";
@@ -27,6 +27,30 @@ export const ActiveProjectProvider = ({
     "project",
     (collection) => collection.find(),
   );
+
+  // State to track if the fetch is taking too long
+  const [fetchTimeout, setFetchTimeout] = useState(false);
+
+  useEffect(() => {
+    // Set a timeout to change the fetchTimeout state after 8 seconds
+    const timeout = setTimeout(() => {
+      setFetchTimeout(true);
+    }, 8000); // 8 seconds
+
+    // Clear the timeout if the fetch is successful
+    if (!isFetching) {
+      clearTimeout(timeout);
+    }
+
+    return () => clearTimeout(timeout); // Cleanup the timeout on unmount
+  }, [isFetching]);
+
+  // Refresh page if stuck on isFetching for more than 8 seconds
+  useEffect(() => {
+    if (fetchTimeout) {
+      window.location.reload(); // Refresh the page
+    }
+  }, [fetchTimeout]);
 
   if (isFetching)
     return (
