@@ -19,8 +19,9 @@ export default function HomePage() {
           </Typography>
         </div>
         <Typography className="max-w-[600px] text-pretty text-center text-white/50 lg:max-w-[350px] lg:text-left">
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque laudantium, totam rem aperiam
+          Welcome to MetaDraft, the all in one metadata solution for your
+          project. Follow the steps closely and you will have completed metadata
+          for your collection.
         </Typography>
       </div>
       <div className="flex w-full flex-col-reverse items-stretch justify-center gap-8 rounded-xl p-4 lg:flex-row">
