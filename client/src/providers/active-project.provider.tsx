@@ -87,7 +87,7 @@ export const ActiveProjectProvider = ({
                   You can refresh the page by pressing F5,
                 </Typography>
                 <Typography as="code">
-                  or it will automatically refresh in 8 seconds.
+                  or it will automatically refresh in 8 seconds
                 </Typography>
                 <Typography as="code">
                   Alternatively, you can clear your local database.
