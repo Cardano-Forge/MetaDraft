@@ -151,7 +151,9 @@ export function UploadProjectButton() {
     <>
       <div
         {...getRootProps()}
-        className="flex min-h-[450px] w-full min-w-[300px] cursor-pointer flex-col items-center justify-center gap-8 rounded-2xl border border-dashed border-input/20 bg-transparent hover:bg-card/70"
+        className={
+          "flex min-h-[450px] w-full min-w-[300px] cursor-pointer flex-col items-center justify-center gap-8 rounded-2xl border border-dashed border-input/20 bg-transparent hover:bg-card/70"
+        }
       >
         <input {...getInputProps()} multiple={false} />
         <CloudUploadIcon />
