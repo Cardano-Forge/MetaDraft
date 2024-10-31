@@ -2,11 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import { usePathname, redirect } from "next/navigation";
-import { type RxDocument } from "rxdb";
+import { removeRxDatabase, type RxDocument } from "rxdb";
 import { useRxData } from "rxdb-hooks";
 
 import Loader from "~/components/loader";
 import { type ProjectCollection } from "~/lib/types";
+import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
 
 const ActiveProjectContext = React.createContext<
   RxDocument<ProjectCollection> | undefined
@@ -48,7 +49,11 @@ export const ActiveProjectProvider = ({
   // Refresh page if stuck on isFetching for more than 8 seconds
   useEffect(() => {
     if (fetchTimeout) {
-      window.location.reload(); // Refresh the page
+      const reset = async () => {
+        await removeRxDatabase("metadraft", getRxStorageDexie());
+        location.reload();
+      };
+      void reset();
     }
   }, [fetchTimeout]);
 
