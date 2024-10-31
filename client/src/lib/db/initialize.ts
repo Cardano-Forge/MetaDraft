@@ -3,12 +3,14 @@ import { observeNewCollections } from "rxdb-hooks";
 import { RxDBQueryBuilderPlugin } from "rxdb/plugins/query-builder";
 import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
 import { RxDBJsonDumpPlugin } from "rxdb/plugins/json-dump";
+import { RxDBMigrationSchemaPlugin } from "rxdb/plugins/migration-schema";
 
-import { type MyDatabase } from "~/lib/types";
+import { MetadataCollection, type MyDatabase } from "~/lib/types";
 
 addRxPlugin(RxDBQueryBuilderPlugin);
 addRxPlugin(observeNewCollections);
 addRxPlugin(RxDBJsonDumpPlugin);
+addRxPlugin(RxDBMigrationSchemaPlugin);
 
 export const initialize = async () => {
   // create RxDB
@@ -57,6 +59,13 @@ const metadataSchema = {
     },
     required: ["id", "assetName"],
     indexes: ["assetName", ["id", "assetName"]],
+  },
+  migrationStrategies: {
+    // [Example, how to migrate when we change the schema]
+    // 1 means, this transforms data from version 0 to version 1
+    // 1: function (oldDoc: MetadataCollection & { bob: string }) {
+    //   oldDoc.bob = "Robert is awesome"; // set default value
+    //   return oldDoc;
   },
 };
 

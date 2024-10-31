@@ -34,7 +34,6 @@ export const ActiveProjectProvider = ({
         <Loader />
       </main>
     );
-
   if (pathname === "/" && !!result[0]?.id) redirect("/metadata-structure"); // On "/" and has active project ~> "/metadata-structure"
   if (pathname !== "/" && !result[0]) redirect("/"); // On "/:any" and has no active project ~> "/""
 

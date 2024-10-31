@@ -28,13 +28,10 @@ export default function ClearProjectButton({
 
   const handleClick = async () => {
     try {
-      // Clear
       await removeRxDatabase("metadraft", getRxStorageDexie());
-      window.localStorage.clear();
-      // Reload DB
       location.reload();
     } catch (e) {
-      console.error("Failed to remove active project:", e);
+      console.error(e);
     } finally {
     }
   };

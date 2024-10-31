@@ -6,8 +6,10 @@ import { type Rule } from "../rules";
 
 export type MyDatabase = {
   metadata: MetadataCollection;
+  metadataSchema: MetadataSchemaCollection;
   validations: ValidationsCollection;
   project: ProjectCollection;
+  rules: RulesCollection;
 };
 
 export type MetadataCollection = {

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { type RxDatabase } from "rxdb";
+import { type RxError, type RxDatabase } from "rxdb";
 import { Provider } from "rxdb-hooks";
 import { initialize } from "~/lib/db/initialize";
 import { type MyDatabase } from "~/lib/types";
@@ -12,7 +12,11 @@ export const RxdbProvider: React.FC<{ children: React.ReactNode }> = ({
   const [db, setDb] = useState<RxDatabase<MyDatabase> | undefined>(undefined);
 
   useEffect(() => {
-    initialize().then(setDb).catch(console.error);
+    initialize()
+      .then(setDb)
+      .catch((e) => {
+        console.error("SOMETHING WENT WRONG WITH THE DATABASE", e as RxError);
+      });
 
     return () => {
       void db?.remove();
