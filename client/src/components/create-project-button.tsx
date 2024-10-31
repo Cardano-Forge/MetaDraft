@@ -74,7 +74,7 @@ export default function CreateProjectButton() {
               Create a new project
             </Typography>
             <Typography as={"mutedText"} className="font-normal">
-              Lorem ipsum dolor site amet
+              Click here to create a project from scratch
             </Typography>
           </div>
         </div>

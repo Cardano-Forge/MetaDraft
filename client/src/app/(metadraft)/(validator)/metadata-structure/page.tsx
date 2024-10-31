@@ -49,7 +49,7 @@ export default function StructurePage() {
         <div className="flex flex-col gap-4">
           <Typography as="h2">Metadata Structure</Typography>
           <Typography as="p" className="text-sm text-white/50">
-            This section will help you craft the structure of your metadata
+            This section will help you craft the structure of your metadata.
           </Typography>
         </div>
         <div className="flex flex-row items-center gap-4">

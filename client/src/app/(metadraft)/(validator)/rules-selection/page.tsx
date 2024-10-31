@@ -16,7 +16,7 @@ export default function RulesPage() {
         <div className="flex flex-col gap-4">
           <Typography as="h2">Rules Selection</Typography>
           <Typography as="p" className="text-sm text-white/50">
-            Small description lorem ipsum dolor
+          Read each rule carefully and select all that apply.
           </Typography>
         </div>
         <div className="flex flex-row items-center gap-4">
