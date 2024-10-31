@@ -11,7 +11,7 @@ export default function WhatHappenWhenAddOrRemove() {
     <AccordionItem value="add-or-remove" className="border-b border-border/10">
       <AccordionTrigger>
         <Typography as="code" className="text-lg">
-          What happen when I add or remove a key ?
+          What happens when I add or remove a key ?
         </Typography>
       </AccordionTrigger>
       <AccordionContent>

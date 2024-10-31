@@ -15,16 +15,8 @@ import {
 
 import Step from "./step";
 
-const cookieId = "guideOff";
-
-function getCookie(name: string) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop()?.split(";").shift();
-}
-
 export const Stepper = () => {
-  const [run, setRun] = React.useState(!getCookie(cookieId));
+  const [run, setRun] = React.useState(!localStorage.getItem("guideOff"));
 
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { action, status } = data;
@@ -32,7 +24,7 @@ export const Stepper = () => {
     if (action === ACTIONS.SKIP || status === STATUS.FINISHED) {
       const today = new Date();
       today.setFullYear(today.getFullYear() + 1);
-      document.cookie = `${cookieId}=true; expires=${today.toUTCString()}; path=/`;
+      localStorage.setItem("guideOff", "true");
       setRun(false);
     }
   };
