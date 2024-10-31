@@ -64,7 +64,7 @@ const metadataSchema = {
     // [Example, how to migrate when we change the schema]
     // 1 means, this transforms data from version 0 to version 1
     // 1: function (oldDoc: MetadataCollection & { bob: string }) {
-    //   oldDoc.bob = "hey bitch"; // set default value
+    //   oldDoc.bob = "Robert is awesome"; // set default value
     //   return oldDoc;
   },
 };
