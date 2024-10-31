@@ -7,7 +7,9 @@ import { useRxData } from "rxdb-hooks";
 
 import Loader from "~/components/loader";
 import { type ProjectCollection } from "~/lib/types";
+import { Button } from "~/components/ui/button";
 import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
+import { Typography } from "~/components/typography";
 
 const ActiveProjectContext = React.createContext<
   RxDocument<ProjectCollection> | undefined
@@ -31,39 +33,79 @@ export const ActiveProjectProvider = ({
 
   // State to track if the fetch is taking too long
   const [fetchTimeout, setFetchTimeout] = useState(false);
+  const [clearDatabase, setClearDatabaseTimmeout] = useState(false);
 
   useEffect(() => {
-    // Set a timeout to change the fetchTimeout state after 8 seconds
+    // Set a timeout to change the fetchTimeout state after 11 seconds
     const timeout = setTimeout(() => {
       setFetchTimeout(true);
-    }, 8000); // 8 seconds
+    }, 11000); // 11 seconds
+
+    // Set a timeout to change the clearDatabase state after 3 seconds
+    const timeoutClear = setTimeout(() => {
+      setClearDatabaseTimmeout(true);
+    }, 3000); // 3 seconds
 
     // Clear the timeout if the fetch is successful
     if (!isFetching) {
       clearTimeout(timeout);
+      clearTimeout(timeoutClear);
     }
 
-    return () => clearTimeout(timeout); // Cleanup the timeout on unmount
+    // Cleanup the timeout on unmount
+    return () => {
+      clearTimeout(timeout);
+      clearTimeout(timeoutClear);
+    };
   }, [isFetching]);
 
-  // Refresh page if stuck on isFetching for more than 8 seconds
+  // Refresh page if stuck on isFetching for more than 11 seconds
   useEffect(() => {
     if (fetchTimeout) {
-      const reset = async () => {
-        await removeRxDatabase("metadraft", getRxStorageDexie());
-        location.reload();
-      };
-      void reset();
+      window.location.reload();
     }
   }, [fetchTimeout]);
+
+  const handleClick = async () => {
+    try {
+      await removeRxDatabase("metadraft", getRxStorageDexie());
+      location.reload();
+    } catch (e) {
+      console.error(e);
+    } finally {
+    }
+  };
 
   if (isFetching)
     return (
       <main className="container flex h-[100vh] flex-wrap place-content-center">
-        <Loader />
+        <div className="flex flex-col items-center justify-center gap-4">
+          {clearDatabase ? (
+            <>
+              <div className="flex flex-col items-center justify-center gap-4 rounded-xl p-4 text-center">
+                <Typography as="code">
+                  You can refresh the page by pressing F5,
+                </Typography>
+                <Typography as="code">
+                  or it will automatically refresh in 8 seconds.
+                </Typography>
+                <Typography as="code">
+                  Alternatively, you can clear your local database.
+                </Typography>
+
+                <Loader className="my-6" />
+
+                <Button variant={"warningOutilne"} onClick={handleClick}>
+                  Reset Database
+                </Button>
+              </div>
+            </>
+          ) : (
+            <Loader />
+          )}
+        </div>
       </main>
     );
-
   if (pathname === "/" && !!result[0]?.id) redirect("/metadata-structure"); // On "/" and has active project ~> "/metadata-structure"
   if (pathname !== "/" && !result[0]) redirect("/"); // On "/:any" and has no active project ~> "/""
 
