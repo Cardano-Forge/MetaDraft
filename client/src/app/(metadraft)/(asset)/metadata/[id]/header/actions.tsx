@@ -1,8 +1,17 @@
 import React from "react";
 import { useRxCollection } from "rxdb-hooks";
+
+import { Typography } from "~/components/typography";
 import { Button } from "~/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
 import CheckIcon from "~/icons/check.icon";
 import FlagIcon from "~/icons/flag.icon";
+import { keys } from "~/lib/constant";
 import type {
   MetadataCollection,
   ProjectCollection,
@@ -10,14 +19,6 @@ import type {
 } from "~/lib/types";
 import { cn } from "~/lib/utils";
 import { useActiveProject } from "~/providers/active-project.provider";
-import { keys } from "~/lib/constant";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "~/components/ui/tooltip";
-import { Typography } from "~/components/typography";
 
 export default function HeaderActions({
   metadata,

@@ -1,7 +1,11 @@
 "use client";
 
-import DocumentAddIcon from "~/icons/document-add.icon";
+import { useRef, useState } from "react";
+import { useRxCollection } from "rxdb-hooks";
+
+import Loader from "./loader";
 import { Typography } from "./typography";
+import { Button } from "./ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,17 +14,20 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { useRef, useState } from "react";
-import { useRxCollection } from "rxdb-hooks";
-import type { ProjectCollection, RulesCollection } from "~/lib/types";
-import { DEFAULT_RULES } from "~/lib/constant";
-import Loader from "./loader";
+import DocumentAddIcon from "~/icons/document-add.icon";
+import { DEFAULT_CIP25_SCHEMA, DEFAULT_RULES } from "~/lib/constant";
+import type {
+  MetadataSchemaCollection,
+  ProjectCollection,
+  RulesCollection,
+} from "~/lib/types";
 
 export default function CreateProjectButton() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const metadataSchemaCollection =
+    useRxCollection<MetadataSchemaCollection>("metadataSchema");
   const activeProjectCollection = useRxCollection<ProjectCollection>("project");
   const rulesCollection = useRxCollection<RulesCollection>("rules");
 
@@ -40,12 +47,18 @@ export default function CreateProjectButton() {
           valids: 0,
         });
 
-        if (project)
+        if (project) {
           // Add Default Rules
           await rulesCollection?.upsert({
             id: project.id,
             rules: DEFAULT_RULES,
           });
+
+          await metadataSchemaCollection?.upsert({
+            id: "schema",
+            schema: DEFAULT_CIP25_SCHEMA,
+          });
+        }
       }
     } catch (e) {
       console.error(e);

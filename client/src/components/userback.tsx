@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
 import Userback from "@userback/widget";
+import { useEffect } from "react";
+
 import { env } from "~/env";
 
 const UserbackAnchor = () => {

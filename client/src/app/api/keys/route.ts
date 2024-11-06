@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { mapping } from "@ada-anvil/metadraft-validator";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {

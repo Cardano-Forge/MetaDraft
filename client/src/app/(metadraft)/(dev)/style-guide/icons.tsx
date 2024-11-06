@@ -1,6 +1,6 @@
 import React from "react";
-import DocumentAddIcon from "~/icons/document-add.icon";
-import UploadIcon from "~/icons/cloud-upload.icon";
+
+import { Typography } from "~/components/typography";
 import ArrowExpandIcon from "~/icons/arrow-expand.icon";
 import ArrowRightIcon from "~/icons/arrow-right.icon";
 import BackIcon from "~/icons/back.icon";
@@ -9,8 +9,10 @@ import CheckIcon from "~/icons/check.icon";
 import ChevronDownIcon from "~/icons/chevron-down.icon";
 import ChevronUpIcon from "~/icons/chevron-up.icon";
 import ClockIcon from "~/icons/clock.icon";
+import UploadIcon from "~/icons/cloud-upload.icon";
 import CodeIcon from "~/icons/code.icon";
 import DatabaseIcon from "~/icons/database.icon";
+import DocumentAddIcon from "~/icons/document-add.icon";
 import ExclamationIcon from "~/icons/exclamation.icon";
 import ExportIcon from "~/icons/export.icon";
 import FlagIcon from "~/icons/flag.icon";
@@ -35,7 +37,6 @@ import ValuesIcon from "~/icons/values.icon";
 import ViewGridIcon from "~/icons/view-grid.icon";
 import XCircleIcon from "~/icons/x-circle.icon";
 import XIcon from "~/icons/x.icon";
-import { Typography } from "~/components/typography";
 
 export default function Icons() {
   return (

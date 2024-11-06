@@ -3,18 +3,16 @@
 import { useSearchParams } from "next/navigation";
 import { useRxData } from "rxdb-hooks";
 
-import type { MetadataCollection } from "~/lib/types";
+import Content from "./content";
+import Footer from "./footer";
+import Header from "./header";
+import LoaderComponent from "~/components/loader-component";
 import { chunk } from "~/lib/chunk";
 import { filter } from "~/lib/filter";
 import { getSortBy } from "~/lib/get-sort-by-from-param";
 import { sort } from "~/lib/sort";
-
+import type { MetadataCollection } from "~/lib/types";
 import { useActiveProject } from "~/providers/active-project.provider";
-
-import Header from "./header";
-import Content from "./content";
-import Footer from "./footer";
-import LoaderComponent from "~/components/loader-component";
 
 export default function Assets() {
   const searchParams = useSearchParams();

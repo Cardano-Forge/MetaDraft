@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 
-import { Button } from "~/components/ui/button";
-import { Typography } from "~/components/typography";
 
 import Content from "./content";
 import Footer from "./footer";
 import Header from "./header";
+import { Typography } from "~/components/typography";
+import { Button } from "~/components/ui/button";
 
 export default function RulesPage() {
   return (

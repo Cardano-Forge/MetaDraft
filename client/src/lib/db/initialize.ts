@@ -1,11 +1,11 @@
 import { createRxDatabase, addRxPlugin } from "rxdb";
-import { observeNewCollections } from "rxdb-hooks";
-import { RxDBQueryBuilderPlugin } from "rxdb/plugins/query-builder";
-import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
 import { RxDBJsonDumpPlugin } from "rxdb/plugins/json-dump";
 import { RxDBMigrationSchemaPlugin } from "rxdb/plugins/migration-schema";
+import { RxDBQueryBuilderPlugin } from "rxdb/plugins/query-builder";
+import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
+import { observeNewCollections } from "rxdb-hooks";
 
-import { MetadataCollection, type MyDatabase } from "~/lib/types";
+import type { MyDatabase } from "~/lib/types";
 
 addRxPlugin(RxDBQueryBuilderPlugin);
 addRxPlugin(observeNewCollections);
@@ -63,6 +63,7 @@ const metadataSchema = {
   migrationStrategies: {
     // [Example, how to migrate when we change the schema]
     // 1 means, this transforms data from version 0 to version 1
+    // (Don't forget to change version ^ )
     // 1: function (oldDoc: MetadataCollection & { bob: string }) {
     //   oldDoc.bob = "Robert is awesome"; // set default value
     //   return oldDoc;

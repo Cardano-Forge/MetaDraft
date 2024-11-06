@@ -3,8 +3,7 @@
 import React from "react";
 import { removeRxDatabase } from "rxdb";
 import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
-import { useActiveProject } from "~/providers/active-project.provider";
-import RefreshIcon from "~/icons/refresh.icon";
+
 
 import {
   AlertDialog,
@@ -18,6 +17,8 @@ import {
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
 import { Button } from "./ui/button";
+import RefreshIcon from "~/icons/refresh.icon";
+import { useActiveProject } from "~/providers/active-project.provider";
 
 export default function ClearProjectButton({
   className,

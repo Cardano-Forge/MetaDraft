@@ -1,10 +1,10 @@
+import { StepComponent, StepHeader } from "./step-components";
+import ValidatorStats from "./validator-stats";
+import MessageBox from "~/components/message-box";
+import Stat from "~/components/stat";
 import type { ProjectCollection } from "~/lib/types";
 import { useActiveProject } from "~/providers/active-project.provider";
 
-import { StepComponent, StepHeader } from "./step-components";
-import Stat from "~/components/stat";
-import MessageBox from "~/components/message-box";
-import ValidatorStats from "./validator-stats";
 
 export default function DataValidation() {
   const activeProject = useActiveProject();

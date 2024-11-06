@@ -1,8 +1,8 @@
 import React from "react";
 
+import Loader from "./loader";
 import { cn } from "~/lib/utils";
 
-import Loader from "./loader";
 
 export default function LoaderComponent({ className }: { className?: string }) {
   return (

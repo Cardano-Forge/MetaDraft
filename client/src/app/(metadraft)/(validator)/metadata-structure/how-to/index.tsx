@@ -1,14 +1,14 @@
-import { Typography } from "~/components/typography";
-import { Accordion } from "~/components/ui/accordion";
 
-import WhatAreType from "./what-are-type";
-import WhatAreString from "./what-are-string";
-import WhatAreNumber from "./what-are-number";
-import WhatAreObject from "./what-are-object";
-import WhatAreArray from "./what-are-array";
 import DefaultIsValue from "./default-is-value";
 import IncrementalName from "./incremental-name";
+import WhatAreArray from "./what-are-array";
+import WhatAreNumber from "./what-are-number";
+import WhatAreObject from "./what-are-object";
+import WhatAreString from "./what-are-string";
+import WhatAreType from "./what-are-type";
 import WhatHappenWhenAddOrRemove from "./what-happen-when-add-or-remove";
+import { Typography } from "~/components/typography";
+import { Accordion } from "~/components/ui/accordion";
 
 export default function HowToCreateMetadataSchema() {
   return (

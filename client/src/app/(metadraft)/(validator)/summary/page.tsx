@@ -1,7 +1,7 @@
+import Content from "./content";
+import ExportButton from "./export-button";
 import { Typography } from "~/components/typography";
 
-import ExportButton from "./export-button";
-import Content from "./content";
 
 export default function SummaryPage() {
   return (

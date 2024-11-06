@@ -1,7 +1,8 @@
 import React from "react";
+
+import ClearProjectButton from "./clear-project-button";
 import Feedback from "./feedback";
 import Logo from "./logo";
-import ClearProjectButton from "./clear-project-button";
 
 export default function Header() {
   return (

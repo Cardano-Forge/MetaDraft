@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRxData } from "rxdb-hooks";
+
 import Stat from "~/components/stat";
 import { Typography } from "~/components/typography";
 import { getKeyCount } from "~/lib/get/get-key-count";

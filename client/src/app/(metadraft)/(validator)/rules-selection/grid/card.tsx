@@ -1,9 +1,9 @@
 import React from "react";
 import { useRxCollection } from "rxdb-hooks";
+
 import { ImageWithFallback } from "~/components/image-with-fallback";
 import { Typography } from "~/components/typography";
 import { Button } from "~/components/ui/button";
-
 import {
   Tooltip,
   TooltipContent,

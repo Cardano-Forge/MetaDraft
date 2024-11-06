@@ -1,16 +1,11 @@
-import React from "react";
 import { JsonEditor, type UpdateFunction } from "json-edit-react";
+import React from "react";
+import { useRxCollection, useRxData } from "rxdb-hooks";
 
-import type {
-  MetadataCollection,
-  MetadataCollectionEditor,
-  ProjectCollection,
-  RulesCollection,
-  ValidationsCollection,
-} from "~/lib/types";
-import { MetadataCollectionSchemaV2 } from "~/lib/zod-schemas";
+import LoaderComponent from "~/components/loader-component";
 import { Typography } from "~/components/typography";
 import { Button } from "~/components/ui/button";
+import { getStats } from "~/lib/get/get-stats";
 import {
   editOnAdd,
   editRestrictionAdd,
@@ -19,12 +14,17 @@ import {
   jerRestrictTypeSelection,
   jerTheme,
 } from "~/lib/json-editor";
-import { useActiveProject } from "~/providers/active-project.provider";
-import { useRxCollection, useRxData } from "rxdb-hooks";
-import { validateMetadata } from "~/server/validations";
 import { setMetadataStatusFromValidations } from "~/lib/set-metadata-status-from-validation";
-import { getStats } from "~/lib/get/get-stats";
-import LoaderComponent from "~/components/loader-component";
+import type {
+  MetadataCollection,
+  MetadataCollectionEditor,
+  ProjectCollection,
+  RulesCollection,
+  ValidationsCollection,
+} from "~/lib/types";
+import { MetadataCollectionSchemaV2 } from "~/lib/zod-schemas";
+import { useActiveProject } from "~/providers/active-project.provider";
+import { validateMetadata } from "~/server/validations";
 
 export default function JSONEditor({
   metadata,

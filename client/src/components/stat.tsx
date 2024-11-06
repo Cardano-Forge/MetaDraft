@@ -1,13 +1,13 @@
 import React from "react";
-import { Typography } from "./typography";
-import { cn } from "~/lib/utils";
-import { formatThousands } from "~/lib/format-thousand";
 
+import { Typography } from "./typography";
 import CheckIcon from "~/icons/check.icon";
 import ClockIcon from "~/icons/clock.icon";
 import DatabaseIcon from "~/icons/database.icon";
 import ExclamationIcon from "~/icons/exclamation.icon";
 import FlagIcon from "~/icons/flag.icon";
+import { formatThousands } from "~/lib/format-thousand";
+import { cn } from "~/lib/utils";
 
 export type IconsStatsType = "default" | "error" | "warning" | "success";
 

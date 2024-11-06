@@ -1,14 +1,15 @@
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+
+import { Typography } from "./typography";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { cn } from "~/lib/utils";
-import { Typography } from "./typography";
+import CheckIcon from "~/icons/check.icon";
 import SortIcon from "~/icons/sort.icon";
 import XIcon from "~/icons/x.icon";
-import CheckIcon from "~/icons/check.icon";
-import { useRouter, useSearchParams } from "next/navigation";
 import { getSortBy } from "~/lib/get-sort-by-from-param";
 import type { SortOptionKey } from "~/lib/types";
+import { cn } from "~/lib/utils";
 
 export const SortOptions: Record<SortOptionKey, string> = {
   a_z: "Name: A to Z",

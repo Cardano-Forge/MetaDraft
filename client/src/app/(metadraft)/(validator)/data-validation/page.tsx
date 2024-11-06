@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
+import { useState } from "react";
 
-import { Typography } from "~/components/typography";
-import { Button } from "~/components/ui/button";
 
 import Assets from "./assets";
 import PageSkeleton from "./page-skeleton";
 import Validator from "./validator";
+import { Typography } from "~/components/typography";
+import { Button } from "~/components/ui/button";
 
 export default function DataValidation() {
   const [isLoading, setLoading] = useState<boolean>(false);

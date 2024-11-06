@@ -1,10 +1,11 @@
+import { useSearchParams } from "next/navigation";
 import React from "react";
+
 import { Button } from "./ui/button";
 import UnorderedListIcon from "~/icons/unordered-list.icon";
-import { cn } from "~/lib/utils";
 import ViewGridIcon from "~/icons/view-grid.icon";
-import { useSearchParams } from "next/navigation";
 import { getViewFromParams } from "~/lib/get/get-view-from-param";
+import { cn } from "~/lib/utils";
 
 export type ViewOptions = "table" | "grid";
 

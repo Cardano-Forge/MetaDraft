@@ -1,17 +1,17 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useRxData } from "rxdb-hooks";
-import { useSearchParams } from "next/navigation";
 
+import GridRules from "./grid";
+import GridSkeleton from "./grid/grid-skeleton";
+import TableRules from "./table";
+import TableSkeleton from "./table/table-skeleton";
+import { getViewFromParams } from "~/lib/get/get-view-from-param";
 import { type Rule } from "~/lib/rules";
 import { type RulesCollection } from "~/lib/types";
 
-import TableSkeleton from "./table/table-skeleton";
-import TableRules from "./table";
-import GridRules from "./grid";
-import { getViewFromParams } from "~/lib/get/get-view-from-param";
-import GridSkeleton from "./grid/grid-skeleton";
 
 export default function Content() {
   const searchParams = useSearchParams();

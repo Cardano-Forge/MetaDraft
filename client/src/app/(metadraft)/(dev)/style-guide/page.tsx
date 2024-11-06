@@ -1,14 +1,14 @@
 "use client";
 
-import Icons from "./icons";
 import Buttons from "./buttons";
+import HomeButtons from "./home-buttons";
+import Icons from "./icons";
+import MessagesGuide from "./messages";
+import StatsGuide from "./stats-guide";
+import StepsGuide from "./steps-guide";
+import Typographies from "./typographies";
 import Loader from "~/components/loader";
 import { Typography } from "~/components/typography";
-import Typographies from "./typographies";
-import StepsGuide from "./steps-guide";
-import StatsGuide from "./stats-guide";
-import HomeButtons from "./home-buttons";
-import MessagesGuide from "./messages";
 
 export default function StyleGuidePage() {
   return (

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect } from "react";
 import Image from "next/image";
+import React, { useEffect } from "react";
 
 import Header from "~/components/header";
 import { Typography } from "~/components/typography";

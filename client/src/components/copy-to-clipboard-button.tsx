@@ -1,9 +1,10 @@
 "use client";
 
+import { CopyIcon } from "lucide-react";
 import React from "react";
+
 import { Button } from "./ui/button";
 import CheckIcon from "~/icons/check.icon";
-import { CopyIcon } from "lucide-react";
 
 export const CopyButton = ({
   data,

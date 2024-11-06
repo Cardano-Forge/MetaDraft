@@ -1,7 +1,7 @@
 import Header from "~/components/header";
-import { RxdbProvider } from "~/providers/rxdb.provider";
-import { ActiveProjectProvider } from "~/providers/active-project.provider";
 import UserbackAnchor from "~/components/userback";
+import { ActiveProjectProvider } from "~/providers/active-project.provider";
+import { RxdbProvider } from "~/providers/rxdb.provider";
 
 export default function RootLayout({
   children,

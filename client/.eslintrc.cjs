@@ -4,11 +4,13 @@ const config = {
     project: true,
   },
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", "import"],
   extends: [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked",
+    "plugin:import/recommended", // add recommended rules for import plugin
+    "plugin:import/typescript", // support for TypeScript imports
   ],
   rules: {
     "@typescript-eslint/array-type": "off",
@@ -35,6 +37,21 @@ const config = {
         },
       },
     ],
+    "import/order": [
+      "warn",
+      {
+        groups: [
+          ["builtin", "external"],
+          ["internal", "parent", "sibling", "index", "object"],
+        ],
+        "newlines-between": "always",
+        alphabetize: {
+          order: "asc",
+          caseInsensitive: true,
+        },
+      },
+    ],
   },
 };
+
 module.exports = config;

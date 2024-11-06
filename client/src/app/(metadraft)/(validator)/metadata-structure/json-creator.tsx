@@ -1,7 +1,8 @@
+import { JsonEditor, type UpdateFunction } from "json-edit-react";
 import React from "react";
 import { useRxCollection } from "rxdb-hooks";
-import { JsonEditor, type UpdateFunction } from "json-edit-react";
 
+import HowToCreateMetadataSchema from "./how-to";
 import LoaderComponent from "~/components/loader-component";
 import { Typography } from "~/components/typography";
 import { Button } from "~/components/ui/button";
@@ -13,14 +14,13 @@ import {
   jerRestrictTypeSelection,
   jerTheme,
 } from "~/lib/json-editor";
+import { reconcileWithSchema } from "~/lib/reconcile-with-schema";
 import type {
   MetadataCollection,
   MetadataCollectionEditor,
   MetadataSchemaCollection,
 } from "~/lib/types";
 import { MetadataCollectionSchemaV2 } from "~/lib/zod-schemas";
-import { reconcileWithSchema } from "~/lib/reconcile-with-schema";
-import HowToCreateMetadataSchema from "./how-to";
 
 export default function JSONCreator({
   metadatas,
@@ -88,17 +88,6 @@ export default function JSONCreator({
         schema: metadataSchema,
       });
 
-      metadatas.map((m) =>
-        console.log({
-          ...m,
-          ...(reconcileWithSchema(
-            metadataSchema,
-            m,
-          ) as Partial<MetadataCollection>[]),
-        }),
-      );
-      console.log(metadatas.length);
-
       // Add metadata in RXDB
       await metadataCollection?.bulkUpsert(
         metadatas.map((m) => ({
@@ -121,9 +110,7 @@ export default function JSONCreator({
     <div className="flex min-w-[60%] flex-col gap-4 rounded-xl bg-card p-4 px-8">
       <div className="flex flex-row items-center justify-between">
         <Typography as="h2">JSON Creator</Typography>
-        <Button onClick={handleSaveSchema}>
-          Save Metadata Structure
-        </Button>
+        <Button onClick={handleSaveSchema}>Save Metadata Structure</Button>
       </div>
       <Typography as="code" className="text-white/70">
         {`All metadata should follow the same format. While exceptions like 1:1

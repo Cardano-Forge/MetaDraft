@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { type RxError, type RxDatabase } from "rxdb";
 import { Provider } from "rxdb-hooks";
+
 import { initialize } from "~/lib/db/initialize";
 import { type MyDatabase } from "~/lib/types";
 
