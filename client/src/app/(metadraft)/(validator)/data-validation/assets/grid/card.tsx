@@ -1,22 +1,21 @@
 import Link from "next/link";
-import CodeIcon from "~/icons/code.icon";
 
-import { getImageSrc } from "~/lib/get/get-image-src";
-import { getCID } from "~/lib/get/get-cid";
-import { cn } from "~/lib/utils";
-import type { MetadataCollection } from "~/lib/types";
-
-import { Button } from "~/components/ui/button";
+import Actions from "../actions";
+import Status from "../status";
+import { ImageWithFallback } from "~/components/image-with-fallback";
 import { Typography } from "~/components/typography";
+import { Button } from "~/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import { ImageWithFallback } from "~/components/image-with-fallback";
+import CodeIcon from "~/icons/code.icon";
+import { getCID } from "~/lib/get/get-cid";
+import { getImageSrc } from "~/lib/get/get-image-src";
+import type { MetadataCollection } from "~/lib/types";
+import { cn } from "~/lib/utils";
 
-import Status from "../status";
-import Actions from "../actions";
 
 export default function Card({ metadata }: { metadata: MetadataCollection }) {
   return (

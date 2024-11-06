@@ -1,6 +1,7 @@
-import type { z } from "zod";
-import type { CIP25Schema, FilesSchema, JSONSchema } from "../zod-schemas";
 import { type StateOutput } from "@ada-anvil/metadraft-validator";
+import type { z } from "zod";
+
+import type { CIP25Schema, FilesSchema, JSONSchema } from "../zod-schemas";
 
 /**
  * File's CIP25 recommanded type

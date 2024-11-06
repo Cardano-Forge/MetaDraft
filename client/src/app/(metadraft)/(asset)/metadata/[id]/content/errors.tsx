@@ -1,18 +1,19 @@
+import { notFound } from "next/navigation";
 import React from "react";
 import { useRxData } from "rxdb-hooks";
+
+import LoaderComponent from "~/components/loader-component";
 import MessageBox from "~/components/message-box";
 import { Typography } from "~/components/typography";
+import { hyphenToTitleCase } from "~/lib/hyphen-to-title-case";
+import { RULES_DESCRIPTION, type Rule } from "~/lib/rules";
 import type {
   MetadataCollection,
   RulesCollection,
   ValidationsCollection,
 } from "~/lib/types";
-import { RULES_DESCRIPTION, type Rule } from "~/lib/rules";
 import { hyphenToCamelCase } from "~/lib/types/hyphen-to-camel-case";
-import { hyphenToTitleCase } from "~/lib/hyphen-to-title-case";
 import { useActiveProject } from "~/providers/active-project.provider";
-import LoaderComponent from "~/components/loader-component";
-import { notFound } from "next/navigation";
 
 export default function Errors({ metadata }: { metadata: MetadataCollection }) {
   const activeProject = useActiveProject();

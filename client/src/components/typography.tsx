@@ -1,7 +1,8 @@
-import { cn } from "~/lib/utils";
 
 import { Slot } from "@radix-ui/react-slot";
 import React from "react";
+
+import { cn } from "~/lib/utils";
 
 const TypographyVariants = {
   h1: "font-extrabold sm:text-[5rem] tracking-tight text-2xl sm:text-3xl md:text-4xl lg:text-5xl",

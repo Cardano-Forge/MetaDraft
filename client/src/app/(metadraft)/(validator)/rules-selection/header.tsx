@@ -1,12 +1,12 @@
 "use client";
 
-import { type ChangeEvent, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { type ChangeEvent, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
 import { Input } from "~/components/ui/input";
-import SearchIcon from "~/icons/search.icon";
 import ViewButton from "~/components/view-button";
+import SearchIcon from "~/icons/search.icon";
 
 export default function Header() {
   const router = useRouter();

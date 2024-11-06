@@ -1,10 +1,10 @@
 "use client";
 
-import { useActiveProject } from "~/providers/active-project.provider";
-import { type ProjectCollection } from "~/lib/types";
 
 import Stat from "./stat";
 import { Typography } from "./typography";
+import { type ProjectCollection } from "~/lib/types";
+import { useActiveProject } from "~/providers/active-project.provider";
 
 export const Status = () => {
   const activeProject = useActiveProject();

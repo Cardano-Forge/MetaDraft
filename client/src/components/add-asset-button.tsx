@@ -1,17 +1,18 @@
+import { useRouter } from "next/navigation";
 import React from "react";
+import { useRxCollection, useRxData } from "rxdb-hooks";
+
+import Loader from "./loader";
+import LoaderComponent from "./loader-component";
 import { Button } from "./ui/button";
 import PlusIcon from "~/icons/plus.icon";
-import { useRxCollection, useRxData } from "rxdb-hooks";
+import { DEFAULT_CIP25_SCHEMA } from "~/lib/constant";
 import type {
   MetadataCollection,
   MetadataSchemaCollection,
   ProjectCollection,
 } from "~/lib/types";
-import LoaderComponent from "./loader-component";
-import { DEFAULT_CIP25_SCHEMA } from "~/lib/constant";
 import { useActiveProject } from "~/providers/active-project.provider";
-import { useRouter } from "next/navigation";
-import Loader from "./loader";
 
 export default function AddAssetButton() {
   const router = useRouter();

@@ -1,4 +1,5 @@
 import type { FilterFunction, UpdateFunction } from "json-edit-react";
+
 import type { MetadataCollectionEditor } from "../types";
 
 export const editRestrictionEdit: FilterFunction = ({ level, value }) =>

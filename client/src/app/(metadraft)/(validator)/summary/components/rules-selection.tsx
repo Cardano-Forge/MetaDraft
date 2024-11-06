@@ -1,19 +1,20 @@
 import React from "react";
-import { StepComponent, StepHeader } from "./step-components";
-import { Typography } from "~/components/typography";
 import { useRxData } from "rxdb-hooks";
-import { type RulesCollection } from "~/lib/types";
-import { useActiveProject } from "~/providers/active-project.provider";
+
+import { StepComponent, StepHeader } from "./step-components";
 import LoaderComponent from "~/components/loader-component";
-import { hyphenToTitleCase } from "~/lib/hyphen-to-title-case";
+import { Typography } from "~/components/typography";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import { chunk } from "~/lib/chunk";
 import CodeIcon from "~/icons/code.icon";
+import { chunk } from "~/lib/chunk";
+import { hyphenToTitleCase } from "~/lib/hyphen-to-title-case";
+import { type RulesCollection } from "~/lib/types";
+import { useActiveProject } from "~/providers/active-project.provider";
 
 export default function RulesSelection() {
   const activeProject = useActiveProject();

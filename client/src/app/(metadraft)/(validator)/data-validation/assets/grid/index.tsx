@@ -1,5 +1,6 @@
-import Card from "./card";
 import { useSearchParams } from "next/navigation";
+
+import Card from "./card";
 import { getPageFromParams } from "~/lib/get/get-page-from-param";
 import type { MetadataCollection } from "~/lib/types";
 

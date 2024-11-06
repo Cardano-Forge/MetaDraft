@@ -1,11 +1,11 @@
-import React from "react";
 import { useSearchParams } from "next/navigation";
+import React from "react";
 
-import type { MetadataCollection } from "~/lib/types";
 
-import TableView from "./table";
 import GridView from "./grid";
+import TableView from "./table";
 import { getViewFromParams } from "~/lib/get/get-view-from-param";
+import type { MetadataCollection } from "~/lib/types";
 
 export default function Content({
   metadatas,

@@ -1,18 +1,19 @@
 import React, { type Dispatch, type SetStateAction } from "react";
 import { useRxCollection, useRxData } from "rxdb-hooks";
+
+import LoaderComponent from "~/components/loader-component";
 import { Button } from "~/components/ui/button";
+import { getMetadataFromAssetName } from "~/lib/get/get-metadata-id-from-asset-name";
+import { getStats } from "~/lib/get/get-stats";
+import { setMetadataStatusFromValidations } from "~/lib/set-metadata-status-from-validation";
 import type {
   MetadataCollection,
   ProjectCollection,
   RulesCollection,
   ValidationsCollection,
 } from "~/lib/types";
-import { getStats } from "~/lib/get/get-stats";
 import { useActiveProject } from "~/providers/active-project.provider";
 import { validateMetadata } from "~/server/validations";
-import { setMetadataStatusFromValidations } from "~/lib/set-metadata-status-from-validation";
-import LoaderComponent from "~/components/loader-component";
-import { getMetadataFromAssetName } from "~/lib/get/get-metadata-id-from-asset-name";
 
 export default function Validator({
   handleLoading,

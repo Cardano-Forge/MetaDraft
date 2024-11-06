@@ -10,7 +10,6 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-
 import { camelCaseToTitleCase } from "~/lib/camel-case-to-title-case";
 import { type Rule, RULES_DESCRIPTION } from "~/lib/rules";
 import type { RulesCollection } from "~/lib/types";

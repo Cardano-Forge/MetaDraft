@@ -1,6 +1,7 @@
 import { ExternalLinkIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+
 import { CopyButton } from "./copy-to-clipboard-button";
 
 const example = `

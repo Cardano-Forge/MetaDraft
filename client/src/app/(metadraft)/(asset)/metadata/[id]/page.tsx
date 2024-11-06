@@ -1,14 +1,15 @@
 "use client";
 
+import { notFound } from "next/navigation";
 import React from "react";
 import { useRxData } from "rxdb-hooks";
-import type { MetadataCollection } from "~/lib/types";
-import JSONEditor from "./content/json-editor";
+
 import Errors from "./content/errors";
-import LoaderComponent from "~/components/loader-component";
+import JSONEditor from "./content/json-editor";
 import Header from "./header";
 import PageAssetSkeleton from "./page-asset-skeleton";
-import { notFound } from "next/navigation";
+import LoaderComponent from "~/components/loader-component";
+import type { MetadataCollection } from "~/lib/types";
 
 export default function SingleAssetPage({
   params,

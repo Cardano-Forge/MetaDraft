@@ -1,10 +1,10 @@
+import ColumnInnerContent from "./column-inner-content";
 import { Typography } from "~/components/typography";
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import ColumnInnerContent from "./column-inner-content";
 
 export default function WhatAreObject() {
   return (

@@ -1,4 +1,5 @@
 import type { ZodIssue } from "zod";
+
 import type { ValidationsCollection } from "../types";
 
 /**

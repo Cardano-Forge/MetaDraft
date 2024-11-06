@@ -1,25 +1,28 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { type FileRejection, useDropzone } from "react-dropzone";
-import { useRouter } from "next/navigation";
 import { useRxCollection } from "rxdb-hooks";
 
-import { AlertDialog } from "~/components/ui/alert-dialog";
+import UploadAlert from "./upload-alert";
+import Loader from "../loader";
 import { Typography } from "~/components/typography";
+import { AlertDialog } from "~/components/ui/alert-dialog";
 import CloudUploadIcon from "~/icons/cloud-upload.icon";
+import { DEFAULT_RULES } from "~/lib/constant";
 import { getFileExtension } from "~/lib/get/get-file-extension";
+import { getMetadataSchema } from "~/lib/get/get-metadata-schema";
 import { getFileName, readFile } from "~/lib/read";
-import { JSONSchema } from "~/lib/zod-schemas";
 import type {
   MetadataCollection,
+  MetadataCollectionEditor,
+  MetadataSchemaCollection,
   ProjectCollection,
   RulesCollection,
 } from "~/lib/types";
+import { JSONSchema } from "~/lib/zod-schemas";
 
-import UploadAlert from "./upload-alert";
-import { DEFAULT_RULES } from "~/lib/constant";
-import Loader from "../loader";
 
 export function UploadProjectButton() {
   const router = useRouter();
@@ -29,6 +32,8 @@ export function UploadProjectButton() {
   const [alert, setAlert] = useState<boolean>(false);
   // RXBD
   const metadataCollection = useRxCollection<MetadataCollection>("metadata");
+  const metadataSchemaCollection =
+    useRxCollection<MetadataSchemaCollection>("metadataSchema");
   const activeProjectCollection = useRxCollection<ProjectCollection>("project");
   const rulesCollection = useRxCollection<RulesCollection>("rules");
 
@@ -52,7 +57,7 @@ export function UploadProjectButton() {
           // const hash = await stringToHash(JSON.stringify(json)); // This will be the active project id
 
           // Add metadata in RXDB
-          await metadataCollection?.bulkUpsert(
+          const upsertMetadatas = await metadataCollection?.bulkUpsert(
             zodValidation.data.map((m) => ({
               id: self.crypto.randomUUID(),
               ...m,
@@ -77,6 +82,22 @@ export function UploadProjectButton() {
               id: project.id,
               rules: DEFAULT_RULES,
             });
+
+          if (upsertMetadatas?.success) {
+            // Get metadatas from RxDocument
+            const metadatas: MetadataCollection[] = upsertMetadatas.success.map(
+              (doc) => doc.toJSON() as MetadataCollection,
+            );
+            // Get schema from metadatas
+            const schema = getMetadataSchema(
+              metadatas,
+            ) as MetadataCollectionEditor;
+            // Save schema in RxDB
+            await metadataSchemaCollection?.upsert({
+              id: "schema",
+              schema,
+            });
+          }
 
           router.push("/metadata-structure");
         } catch (error) {
@@ -115,7 +136,13 @@ export function UploadProjectButton() {
         }
       }
     },
-    [metadataCollection, activeProjectCollection, rulesCollection, router],
+    [
+      metadataCollection,
+      activeProjectCollection,
+      rulesCollection,
+      router,
+      metadataSchemaCollection,
+    ],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

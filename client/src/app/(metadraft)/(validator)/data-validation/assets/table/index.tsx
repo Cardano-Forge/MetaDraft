@@ -1,3 +1,8 @@
+import { useRouter, useSearchParams } from "next/navigation";
+
+import Actions from "../actions";
+import Status from "../status";
+import { ImageWithFallback } from "~/components/image-with-fallback";
 import {
   Table,
   TableBody,
@@ -6,15 +11,12 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-
-import Status from "../status";
-import Actions from "../actions";
-import type { MetadataCollection } from "~/lib/types";
-import { getImageSrc } from "~/lib/get/get-image-src";
 import { getCID } from "~/lib/get/get-cid";
-import { useRouter, useSearchParams } from "next/navigation";
+import { getImageSrc } from "~/lib/get/get-image-src";
 import { getPageFromParams } from "~/lib/get/get-page-from-param";
-import { ImageWithFallback } from "~/components/image-with-fallback";
+import type { MetadataCollection } from "~/lib/types";
+
+
 
 export default function TableView({
   metadatas,

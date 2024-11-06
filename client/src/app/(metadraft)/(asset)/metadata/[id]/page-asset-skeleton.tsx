@@ -1,7 +1,8 @@
 import React from "react";
-import { type MetadataCollection } from "~/lib/types";
+
 import Header from "./header";
 import { Skeleton } from "~/components/ui/skeleton";
+import { type MetadataCollection } from "~/lib/types";
 
 export default function PageAssetSkeleton({
   metadata,

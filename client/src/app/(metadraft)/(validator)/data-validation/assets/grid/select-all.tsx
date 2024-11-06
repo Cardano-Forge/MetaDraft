@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
 import { type CheckedState } from "@radix-ui/react-checkbox";
+import { useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 import { Typography } from "~/components/typography";
 import { Checkbox } from "~/components/ui/checkbox";
-
 import { useSelectedAssets } from "~/lib/hooks/use-selected-assets";
-import { useSearchParams } from "next/navigation";
 import type { MetatdataJSON } from "~/lib/types";
 
 export default function SelectAll({ metadata }: { metadata: MetatdataJSON[] }) {

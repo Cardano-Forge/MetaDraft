@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+
 import { Typography } from "./typography";
-import InformationCircle from "~/icons/information-circle";
-import ExclamationIcon from "~/icons/exclamation.icon";
 import { Button } from "./ui/button";
+import ExclamationIcon from "~/icons/exclamation.icon";
+import InformationCircle from "~/icons/information-circle";
 import { cn } from "~/lib/utils";
 
 const variants: Record<"warning" | "error", string> = {

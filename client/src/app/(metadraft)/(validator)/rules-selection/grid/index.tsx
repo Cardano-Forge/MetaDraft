@@ -1,6 +1,6 @@
+import Card from "./card";
 import { type Rule } from "~/lib/rules";
 import type { RulesCollection } from "~/lib/types";
-import Card from "./card";
 
 export default function GridRules({
   keys,

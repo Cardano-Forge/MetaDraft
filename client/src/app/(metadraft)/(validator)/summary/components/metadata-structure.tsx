@@ -1,19 +1,19 @@
-import React from "react";
 import { JsonEditor } from "json-edit-react";
+import React from "react";
+import { useRxData } from "rxdb-hooks";
 
 import { StepComponent, StepHeader } from "./step-components";
-import type { MetadataSchemaCollection, MetadataCollection } from "~/lib/types";
-import { useRxData } from "rxdb-hooks";
 import LoaderComponent from "~/components/loader-component";
-import { getAttributesDistributions } from "~/lib/get/get-attributes-distributions";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import { jerTheme } from "~/lib/json-editor";
 import ValuesIcon from "~/icons/values.icon";
+import { getAttributesDistributions } from "~/lib/get/get-attributes-distributions";
+import { jerTheme } from "~/lib/json-editor";
+import type { MetadataSchemaCollection, MetadataCollection } from "~/lib/types";
 
 export default function MetadataStructure() {
   const { result, isFetching } = useRxData<MetadataCollection>(

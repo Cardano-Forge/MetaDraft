@@ -1,6 +1,12 @@
+import Link from "next/link";
 import { useRxCollection } from "rxdb-hooks";
+
+import DeleteButton from "./delete-button";
+import FlaggedButton from "./flagged-button";
+import ValidButton from "./valid-button";
 import { Button } from "~/components/ui/button";
 import ArrowRightIcon from "~/icons/arrow-right.icon";
+import { keys } from "~/lib/constant";
 import type {
   MetadataCollection,
   ProjectCollection,
@@ -8,12 +14,7 @@ import type {
 } from "~/lib/types";
 import { cn } from "~/lib/utils";
 import { useActiveProject } from "~/providers/active-project.provider";
-import { keys } from "~/lib/constant";
 
-import FlaggedButton from "./flagged-button";
-import ValidButton from "./valid-button";
-import DeleteButton from "./delete-button";
-import Link from "next/link";
 
 export default function Actions({
   metadata,

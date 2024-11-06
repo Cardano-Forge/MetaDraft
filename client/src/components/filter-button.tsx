@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button } from "./ui/button";
-import { cn } from "~/lib/utils";
-import XIcon from "~/icons/x.icon";
-import SliderIcon from "~/icons/slider.icon";
+
 import { Typography } from "./typography";
+import { Button } from "./ui/button";
+import SliderIcon from "~/icons/slider.icon";
+import XIcon from "~/icons/x.icon";
+import { cn } from "~/lib/utils";
 
 export default function FilterButton() {
   const [active, setActive] = useState<boolean>(false);

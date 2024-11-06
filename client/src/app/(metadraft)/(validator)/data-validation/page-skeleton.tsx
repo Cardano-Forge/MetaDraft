@@ -1,5 +1,7 @@
 import { useSearchParams } from "next/navigation";
 import React from "react";
+
+import { ImageWithFallback } from "~/components/image-with-fallback";
 import { Typography } from "~/components/typography";
 import { Skeleton } from "~/components/ui/skeleton";
 import {
@@ -10,7 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { ImageWithFallback } from "~/components/image-with-fallback";
 import { getViewFromParams } from "~/lib/get/get-view-from-param";
 
 export default function PageSkeleton() {

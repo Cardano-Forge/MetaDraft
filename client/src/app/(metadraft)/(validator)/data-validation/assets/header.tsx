@@ -1,9 +1,8 @@
-import ViewButton from "~/components/view-button";
-
-import { useActiveProject } from "~/providers/active-project.provider";
 import SearchBar from "./search-bar";
-import SortButton from "~/components/sort-button";
 import AddAssetButton from "~/components/add-asset-button";
+import SortButton from "~/components/sort-button";
+import ViewButton from "~/components/view-button";
+import { useActiveProject } from "~/providers/active-project.provider";
 
 export default function Header() {
   const activeProject = useActiveProject();

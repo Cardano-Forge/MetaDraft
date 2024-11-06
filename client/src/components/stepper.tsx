@@ -3,6 +3,7 @@
 import React from "react";
 import Joyride, { type CallBackProps, ACTIONS, STATUS } from "react-joyride";
 
+import Step from "./step";
 import {
   joyrideBackButton,
   joyrideCloseButton,
@@ -13,7 +14,6 @@ import {
   explainationSteps,
 } from "~/lib/joyride";
 
-import Step from "./step";
 
 export const Stepper = () => {
   const [run, setRun] = React.useState(!localStorage.getItem("guideOff"));

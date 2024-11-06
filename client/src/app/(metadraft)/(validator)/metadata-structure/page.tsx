@@ -1,21 +1,18 @@
 "use client";
 
-import { useRxData } from "rxdb-hooks";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { useRxData } from "rxdb-hooks";
 
-import { Button } from "~/components/ui/button";
-import { Typography } from "~/components/typography";
+import JSONCreator from "./json-creator";
 import LoaderComponent from "~/components/loader-component";
-import { getMetadataSchema } from "~/lib/get/get-metadata-schema";
+import { Typography } from "~/components/typography";
+import { Button } from "~/components/ui/button";
 import type {
   MetadataCollection,
-  MetadataCollectionEditor,
   MetadataSchemaCollection,
 } from "~/lib/types";
 import { useActiveProject } from "~/providers/active-project.provider";
-
-import JSONCreator from "./json-creator";
 
 export default function StructurePage() {
   const activeProject = useActiveProject();
@@ -39,9 +36,8 @@ export default function StructurePage() {
     schemaResult[0]?.toJSON() as MetadataSchemaCollection;
 
   if (!activeProject) return null; // Cannot return notFound when clearing project
+  
   if (!metadatas) return notFound();
-
-  const metadataSchema = getMetadataSchema(metadatas);
 
   return (
     <div className="flex flex-col gap-4">
@@ -63,12 +59,7 @@ export default function StructurePage() {
           </Button>
         </div>
       </div>
-      <JSONCreator
-        structure={
-          schema?.schema ?? (metadataSchema as MetadataCollectionEditor)
-        }
-        metadatas={metadatas}
-      />
+      <JSONCreator structure={schema.schema} metadatas={metadatas} />
     </div>
   );
 }
