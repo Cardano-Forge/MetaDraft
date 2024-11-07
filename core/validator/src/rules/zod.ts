@@ -23,7 +23,7 @@ const stringSchema = str
   .max(64, { message: "The string must be at most 64 characters long." });
 
 const stringArraySchema = z
-  .array(str)
+  .array(stringSchema)
   .refine((array: string[]) => array.length > 0, {
     message: "The array must contain at least one string.",
   });
@@ -104,7 +104,7 @@ export const arrayUniqueTypeSchema = z
  * Checks if a string is a valid media type.
  * @param {string} input - The input string to be checked.
  */
-export const checkMediaType = str.refine(
+export const checkMediaType = stringSchema.refine(
   (value: string) => REGEX_MEDIA_TYPE.test(value),
   {
     message:
