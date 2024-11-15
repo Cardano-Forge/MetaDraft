@@ -8,8 +8,8 @@ import z, { type RefinementCtx } from "zod";
 const HEX56_REGEXP = /^[0-9a-fA-F]{56}$/;
 const REGEX_MEDIA_TYPE = /^(image\/|video\/|audio\/|application\/|model\/)/;
 const URI_REGEXP = /^(https?|ftp|ipfs):\/\/[^\s/$.?#].[^\s]*$/i;
-const BASE64_REGEXP =
-  /^data:image\/(?:gif|png|jpeg|bmp|webp|svg\+xml)(?:;charset=utf-8)?;base64,(?:[A-Za-z0-9]|[+/])+={0,2}/; // /^[A-Za-z0-9+/=]+$/;
+const BASE64_DATA_URL_REGEXP =
+  /^data:image\/(?:gif|png|jpeg|bmp|webp|svg\+xml)(?:;charset=utf-8)?;base64,(?:[A-Za-z0-9]|[+/])+={0,2}/;
 const HEX_REGEXP = /^[0-9a-fA-F]+$/;
 
 //
@@ -49,7 +49,8 @@ export const checkBuffer = z.instanceof(Buffer, {
 });
 
 const singleStringSchema = stringSchema.refine(
-  (value: string) => URI_REGEXP.test(value) || BASE64_REGEXP.test(value),
+  (value: string) =>
+    URI_REGEXP.test(value) || BASE64_DATA_URL_REGEXP.test(value),
   {
     message:
       "The string must be a valid URI (including ipfs://) or BASE64 format.",
@@ -66,7 +67,8 @@ const stringImageArraySchema = z
   )
   .refine(
     (array: string[]) =>
-      URI_REGEXP.test(array.join("")) || BASE64_REGEXP.test(array.join("")),
+      URI_REGEXP.test(array.join("")) ||
+      BASE64_DATA_URL_REGEXP.test(array.join("")),
     {
       message: "Must be a valid URI (including ipfs://) or BASE64 format.",
     }
