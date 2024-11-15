@@ -8,7 +8,8 @@ import z, { type RefinementCtx } from "zod";
 const HEX56_REGEXP = /^[0-9a-fA-F]{56}$/;
 const REGEX_MEDIA_TYPE = /^(image\/|video\/|audio\/|application\/|model\/)/;
 const URI_REGEXP = /^(https?|ftp|ipfs):\/\/[^\s/$.?#].[^\s]*$/i;
-const BASE64_REGEXP = /^[A-Za-z0-9+/=]+$/;
+const BASE64_DATA_URL_REGEXP =
+  /^data:image\/(?:gif|png|jpeg|bmp|webp|svg\+xml)(?:;charset=utf-8)?;base64,(?:[A-Za-z0-9]|[+/])+={0,2}/;
 const HEX_REGEXP = /^[0-9a-fA-F]+$/;
 
 //
@@ -20,8 +21,9 @@ export const str = z.string({ message: "The value must be a string." });
 const stringSchema = str
   .min(1, { message: "The string must not be empty." })
   .max(64, { message: "The string must be at most 64 characters long." });
+
 const stringArraySchema = z
-  .array(str)
+  .array(stringSchema)
   .refine((array: string[]) => array.length > 0, {
     message: "The array must contain at least one string.",
   });
@@ -46,38 +48,31 @@ export const checkBuffer = z.instanceof(Buffer, {
   message: "Must be in buffer format.",
 });
 
-const singleStringSchema = str.refine(
-  (value: string) => URI_REGEXP.test(value) || BASE64_REGEXP.test(value),
+const singleStringSchema = stringSchema.refine(
+  (value: string) =>
+    URI_REGEXP.test(value) || BASE64_DATA_URL_REGEXP.test(value),
   {
     message:
       "The string must be a valid URI (including ipfs://) or BASE64 format.",
-  },
+  }
 );
 
 const stringImageArraySchema = z
-  .array(
-    str.refine(
-      (value: string) => URI_REGEXP.test(value) || BASE64_REGEXP.test(value),
-      {
-        message:
-          "Each string in the array must be a valid URI (including ipfs://) or BASE64 format.",
-      },
-    ),
+  .array(z.string())
+  .refine(
+    (array: string[]) => array.every((value: string) => value.length <= 64),
+    {
+      message: "Each string in the array must be 64 length or less.",
+    }
   )
   .refine(
     (array: string[]) =>
-      array.every(
-        (value: string) => URI_REGEXP.test(value) || BASE64_REGEXP.test(value),
-      ),
+      URI_REGEXP.test(array.join("")) ||
+      BASE64_DATA_URL_REGEXP.test(array.join("")),
     {
-      message:
-        "Each string in the array must be a valid URI (including ipfs://) or BASE64 format.",
-    },
-  )
-  .refine((array: string[]) => array.join("").length <= 64, {
-    message:
-      "The combined length of all strings in the array must be at most 64 characters.",
-  });
+      message: "Must be a valid URI (including ipfs://) or BASE64 format.",
+    }
+  );
 
 /**
  * Checks if a string is either a valid URI or BASE64 format.
@@ -111,12 +106,12 @@ export const arrayUniqueTypeSchema = z
  * Checks if a string is a valid media type.
  * @param {string} input - The input string to be checked.
  */
-export const checkMediaType = str.refine(
+export const checkMediaType = stringSchema.refine(
   (value: string) => REGEX_MEDIA_TYPE.test(value),
   {
     message:
       "The value must be a valid media type (e.g., image/, video/, audio/, application/, model/).",
-  },
+  }
 );
 
 /**
@@ -127,7 +122,7 @@ export const checkFiles = z.array(
     name: checkSize64.optional(),
     mediaType: checkMediaType,
     src: checkImageIsStringOrArray,
-  }),
+  })
 );
 
 /**
@@ -171,8 +166,8 @@ export const checkTraits = arrayUniqueTypeSchema.and(
       trait,
       traitObjectInArray,
       valueIsNotString, // Handling non string (as warnings)
-    ]),
-  ),
+    ])
+  )
 );
 
 export const media = checkSize64;
