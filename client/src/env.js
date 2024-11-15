@@ -8,6 +8,7 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
+    GA_TRACKING_ID: z.string()
   },
 
   /**
@@ -25,6 +26,7 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
+    GA_TRACKING_ID: process.env.GA_TRACKING_ID,
     NEXT_PUBLIC_USERBACK_ID: process.env.NEXT_PUBLIC_USERBACK_ID,
   },
   /**
