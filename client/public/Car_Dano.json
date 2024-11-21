@@ -1,0 +1,159 @@
+[
+  {
+    "assetName": "Car_Dano_0001",
+    "metadata": {
+      "name": "Car Dano #0001",
+      "image": "https://ik.imagekit.io/4hyjzwoup2x/car_MHCttd6-B.jpg",
+      "website": "https://ada-anvil.io",
+      "description": "Best Drag Game on Cardano",
+      "files": [
+        {
+          "mediaType": "image/png",
+          "src": "https://ik.imagekit.io/4hyjzwoup2x/car_MHCttd6-B.jpg"
+        }
+      ],
+      "level": 1,
+      "brand": "C-Honda",
+      "attributes": {
+        "Color": "Red",
+        "Mags": "Basic",
+        "Window Tint": "Pearl Red",
+        "Body": "Sedan",
+        "Hood": "None"
+      }
+    }
+  },
+  {
+    "assetName": "Car_Dano_0002",
+    "metadata": {
+      "name": "Car Dano #0002",
+      "image": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car7.jpg",
+      "website": "https://ada-anvil.io",
+      "description": "Best Drag Game on Cardano",
+      "files": [{ "mediaType": "image/png", "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car7.jpg" }],
+      "level": 1,
+      "brand": "C-Toyota",
+      "attributes": {
+        "Color": "Blue",
+        "Mags": "Basic",
+        "Window Tint": "None",
+        "Body": "Coupe",
+        "Hood": "Carbone"
+      }
+    }
+  },
+  {
+    "assetName": "Car_Dano_0003",
+    "metadata": {
+      "name": "Car Dano #0003",
+      "image": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car5.jpg",
+      "website": "https://ada-anvil.io",
+      "description": "Best Drag Game on Cardano",
+      "files": [{ "mediaType": "image/png", "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car5.jpg" }],
+      "level": 1,
+      "brand": "C-Chevrolet",
+      "attributes": {
+        "Color": "Gray",
+        "Mags": "Basic",
+        "Window Tint": "Pearl Blue",
+        "Body": "Sedan",
+        "Hood": "None"
+      }
+    }
+  },
+  {
+    "assetName": "Car_Dano_0004",
+    "metadata": {
+      "name": "Car Dano #0004",
+      "image": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car9.jpg",
+      "website": "https://ada-anvil.io",
+      "description": "Best Drag Game on Cardano",
+      "files": [{ "mediaType": "image/png", "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car9.jpg" }],
+      "level": 1,
+      "brand": "C-Hyundai",
+      "attributes": {
+        "Color": "Yellow",
+        "Mags": "Basic",
+        "Window Tint": "Pearl Ornage",
+        "Body": "None",
+        "Hood": "None"
+      }
+    }
+  },
+  {
+    "assetName": "Car_Dano_0005",
+    "metadata": {
+      "name": "Car Dano #0005",
+      "image": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car6.jpg",
+      "website": "https://ada-anvil.io",
+      "description": "Best Drag Game on Cardano",
+      "files": [{ "mediaType": "image/png", "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car6.jpg" }],
+      "level": 1,
+      "brand": "C-Kia",
+      "attributes": {
+        "Color": "Green",
+        "Mags": "Basic",
+        "Window Tint": "None",
+        "Body": "None",
+        "Hood": "None"
+      }
+    }
+  },
+  {
+    "assetName": "Car_Dano_0006",
+    "metadata": {
+      "name": "Car Dano #0006",
+      "image": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car1.jpg",
+      "website": "https://ada-anvil.io",
+      "description": "Best Drag Game on Cardano",
+      "files": [{ "mediaType": "image/png", "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car1.jpg" }],
+      "level": 1,
+      "brand": "C-Volvo",
+      "attributes": {
+        "Color": "Black",
+        "Mags": "Basic",
+        "Window Tint": "Pearl Black",
+        "Body": "None",
+        "Hood": "None"
+      }
+    }
+  },
+  {
+    "assetName": "Car_Dano_0007",
+    "metadata": {
+      "name": "Car Dano #0007",
+      "image": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car2.jpg",
+      "website": "https://ada-anvil.io",
+      "description": "Best Drag Game on Cardano",
+      "files": [{ "mediaType": "image/png", "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car2.jpg" }],
+      "level": 1,
+      "brand": "C-Toyota",
+      "attributes": {
+        "Color": "Red",
+        "Mags": "Basic",
+        "Window Tint": "Pearl Red",
+        "Body": "None",
+        "Hood": "None"
+      }
+    }
+  },
+  {
+    "assetName": "Car_Dano_0008",
+    "metadata": {
+      "name": "Car Dano #0008",
+      "image": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car3.jpg",
+      "website": "https://ada-anvil.io",
+      "description": "Best Drag Game on Cardano",
+      "files": [{ "mediaType": "image/png", "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car3.jpg" }],
+      "level": 1,
+      "brand": "C-Subaru",
+      "attributes": {
+        "Color": "Red",
+        "Mags": "Basic",
+        "Window Tint": "Pearl Red",
+        "Body": "None",
+        "Hood": "None"
+      }
+    }
+  }
+]
