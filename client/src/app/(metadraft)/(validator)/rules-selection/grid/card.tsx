@@ -10,6 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { useToast } from "~/hooks/use-toast";
 import InformationCircle from "~/icons/information-circle";
 import { camelCaseToTitleCase } from "~/lib/camel-case-to-title-case";
 import { RULES_DESCRIPTION, type Rule } from "~/lib/rules";
@@ -23,6 +24,7 @@ export default function Card({
   rule: Rule;
   rules: RulesCollection;
 }) {
+  const { toast } = useToast();
   const rulesCollection = useRxCollection<RulesCollection>("rules");
 
   const handleChange = async (checked: boolean, key: Rule) => {
@@ -30,8 +32,18 @@ export default function Card({
       const newRules = { ...rules };
       if (checked) {
         newRules.rules.push(key);
+        toast({
+          title: `Activated: ${key}`,
+          description: new Date().toDateString(),
+          className: "border-success",
+        });
       } else {
         newRules.rules = newRules.rules.filter((k) => k !== key);
+        toast({
+          title: `Removed: ${key}`,
+          description: new Date().toDateString(),
+          className: "border-destructive",
+        });
       }
       await rulesCollection?.upsert(newRules);
     } catch (e) {

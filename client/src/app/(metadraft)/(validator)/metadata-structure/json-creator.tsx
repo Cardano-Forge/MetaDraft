@@ -21,6 +21,7 @@ import type {
   MetadataSchemaCollection,
 } from "~/lib/types";
 import { MetadataCollectionSchemaV2 } from "~/lib/zod-schemas";
+import { useToast } from "~/hooks/use-toast";
 
 export default function JSONCreator({
   metadatas,
@@ -29,6 +30,8 @@ export default function JSONCreator({
   metadatas: MetadataCollection[];
   structure?: MetadataCollectionEditor;
 }) {
+  const { toast } = useToast();
+
   const [loading, setLoading] = React.useState<boolean>(false);
   const [metadataSchema, setMetadataSchema] =
     React.useState<MetadataCollectionEditor>(structure ?? DEFAULT_CIP25_SCHEMA);
@@ -98,7 +101,17 @@ export default function JSONCreator({
           ) as Partial<MetadataCollection>[]),
         })),
       );
+
+      toast({
+        title: "Saved new metadata structure",
+        description: new Date().toDateString(),
+      });
     } catch (e) {
+      toast({
+        title: "Could not save new structure",
+        description: new Date().toDateString(),
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
