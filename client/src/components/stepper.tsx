@@ -14,7 +14,6 @@ import {
   explainationSteps,
 } from "~/lib/joyride";
 
-
 export const Stepper = () => {
   const [run, setRun] = React.useState(!localStorage.getItem("guideOff"));
 
@@ -45,6 +44,12 @@ export const Stepper = () => {
           buttonSkip: joyrideSkipButton,
           buttonClose: joyrideCloseButton,
           spotlight: joyrideSpotlight,
+        }}
+        locale={{
+          last: "Finish Tour",
+          next: "Next Step",
+          back: "Previous",
+          close: "Close",
         }}
       />
       <nav className="container flex gap-3 py-5">

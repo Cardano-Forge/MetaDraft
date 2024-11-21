@@ -27,7 +27,7 @@ export default function DataValidation() {
           <Validator handleLoading={setLoading} />
           <Button asChild>
             <Link href={"/summary"}>
-              Validate this step
+              Next step
               <span className="sr-only">
                 Complete this step and navigaton to next one: Summary
               </span>

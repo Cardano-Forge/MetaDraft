@@ -51,7 +51,7 @@ export default function StructurePage() {
         <div className="flex flex-row items-center gap-4">
           <Button asChild>
             <Link title="Go to rules selection" href={"/rules-selection"}>
-              Validate this step
+              Next step
               <span className="sr-only">
                 Complete this step and navigaton to next one: rules selection
               </span>
