@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 
-
 import Content from "./content";
 import Footer from "./footer";
 import Header from "./header";
@@ -16,13 +15,13 @@ export default function RulesPage() {
         <div className="flex flex-col gap-4">
           <Typography as="h2">Rules Selection</Typography>
           <Typography as="p" className="text-sm text-white/50">
-          Read each rule carefully and select all that apply.
+            Read each rule carefully and select all that apply.
           </Typography>
         </div>
         <div className="flex flex-row items-center gap-4">
           <Button asChild>
             <Link title="Go to data validation" href={"/data-validation"}>
-              Validate this step
+              Next step
               <span className="sr-only">
                 Complete this step and navigaton to next one: data validation
               </span>
