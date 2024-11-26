@@ -70,7 +70,7 @@ export default function Card({
         </Typography>
         <div className="absolute right-2 top-2">
           <TooltipProvider>
-            <Tooltip>
+            <Tooltip delayDuration={200}>
               <TooltipTrigger asChild>
                 <Button size={"icon"} variant={"ghost"}>
                   <InformationCircle />
@@ -79,8 +79,8 @@ export default function Card({
                   </span>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent className="max-w-96 text-balance border-white/50 p-4">
-                <Typography>{RULES_DESCRIPTION[rule]}</Typography>
+              <TooltipContent className="max-w-80 text-balance text-center border-white/50 p-4">
+                <Typography>{RULES_DESCRIPTION[rule].short}</Typography>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
