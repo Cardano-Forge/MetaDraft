@@ -5,6 +5,7 @@ import { useRxCollection, useRxData } from "rxdb-hooks";
 import LoaderComponent from "~/components/loader-component";
 import { Typography } from "~/components/typography";
 import { Button } from "~/components/ui/button";
+import { useToast } from "~/hooks/use-toast";
 import { getStats } from "~/lib/get/get-stats";
 import {
   editRestrictionAdd,
@@ -37,6 +38,7 @@ export default function JSONEditor({
   hasUnsavedChanges: boolean;
   setHasUnsavedChanges: Dispatch<SetStateAction<boolean>>;
 }) {
+  const { toast } = useToast();
   const [meta, setMeta] = React.useState<MetadataCollectionEditor>({
     assetName: metadata.assetName,
     metadata: metadata.metadata,
@@ -105,10 +107,15 @@ export default function JSONEditor({
 
       // Add project information in RXDB
       await projectCollection?.upsert(newProject);
+      setHasUnsavedChanges(false);
     } catch (error) {
+      toast({
+        title: "Could not saved",
+        description: new Date().toDateString(),
+        variant: "destructive",
+      });
     } finally {
       handleValidation(false);
-      setHasUnsavedChanges(false);
     }
   };
 
@@ -135,10 +142,8 @@ export default function JSONEditor({
       // This string returned to and displayed in json-edit-react UI
       return errorMessage;
     }
-
-    if (zodResults.success) {
-      setMeta(zodResults.data);
-    }
+    // Success
+    setMeta(zodResults.data);
     setHasUnsavedChanges(true);
   };
 

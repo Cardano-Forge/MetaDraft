@@ -59,7 +59,7 @@ export default function StructurePage() {
     if (hasUnsavedChanges) {
       e.preventDefault();
       const confirmLeave = confirm(
-        "A - You have unsaved changes. Are you sure you want to leave this page?",
+        "You have unsaved changes. Are you sure you want to leave this page?",
       );
       if (confirmLeave) {
         setHasUnsavedChanges(false);

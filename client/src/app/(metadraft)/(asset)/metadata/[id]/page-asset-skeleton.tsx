@@ -18,11 +18,8 @@ export default function PageAssetSkeleton({
           metadata={metadata}
           isValidating={isValidating}
           hasUnsavedChanges={false}
-          setHasUnsavedChanges={
-            (() => {
-              console.log("cannot be empty");
-            }) as Dispatch<SetStateAction<boolean>>
-          }
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          setHasUnsavedChanges={(() => {}) as Dispatch<SetStateAction<boolean>>}
         />
       </div>
       <main className="border-t border-white/15 py-8">

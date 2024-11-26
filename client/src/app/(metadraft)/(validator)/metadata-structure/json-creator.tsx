@@ -83,10 +83,8 @@ export default function JSONCreator({
       return errorMessage;
     }
 
-    // Save in React state
-    if (zodResults.success) {
-      setMetadataSchema(zodResults.data);
-    }
+    // Success
+    setMetadataSchema(zodResults.data);
     setHasUnsavedChanges(true);
   };
 
@@ -114,6 +112,7 @@ export default function JSONCreator({
         title: "Saved new metadata structure",
         description: new Date().toDateString(),
       });
+      setHasUnsavedChanges(false);
     } catch (e) {
       toast({
         title: "Could not save new structure",
@@ -122,7 +121,6 @@ export default function JSONCreator({
       });
     } finally {
       setLoading(false);
-      setHasUnsavedChanges(false);
     }
   };
 
