@@ -89,10 +89,15 @@ const config = {
             height: "0",
           },
         },
+        pulseShadow: {
+          "0%, 100%": { boxShadow: "0px 0px 6px 1px #55ce7d" },
+          "50%": { boxShadow: "0px 0px 12px 2px #55ce7d" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        pulseShadow: "pulseShadow 2s ease-in-out infinite",
       },
     },
   },

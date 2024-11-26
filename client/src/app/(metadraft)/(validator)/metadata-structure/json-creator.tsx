@@ -1,5 +1,5 @@
 import { JsonEditor, type UpdateFunction } from "json-edit-react";
-import React from "react";
+import React, { Dispatch, SetStateAction, useRef } from "react";
 import { useRxCollection } from "rxdb-hooks";
 
 import HowToCreateMetadataSchema from "./how-to";
@@ -21,20 +21,72 @@ import type {
   MetadataSchemaCollection,
 } from "~/lib/types";
 import { MetadataCollectionSchemaV2 } from "~/lib/zod-schemas";
+import { cn } from "~/lib/utils";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function JSONCreator({
   metadatas,
   structure,
+  hasUnsavedChanges,
+  setHasUnsavedChanges,
 }: {
   metadatas: MetadataCollection[];
   structure?: MetadataCollectionEditor;
+  hasUnsavedChanges: boolean;
+  setHasUnsavedChanges: Dispatch<SetStateAction<boolean>>;
 }) {
+  const router = useRouter();
   const [loading, setLoading] = React.useState<boolean>(false);
+
+  const pathname = usePathname(); // Tracks the current path
+
+  const previousPathname = useRef<string | null>(null);
+
   const [metadataSchema, setMetadataSchema] =
     React.useState<MetadataCollectionEditor>(structure ?? DEFAULT_CIP25_SCHEMA);
   const metadataSchemaCollection =
     useRxCollection<MetadataSchemaCollection>("metadataSchema");
   const metadataCollection = useRxCollection<MetadataCollection>("metadata");
+
+  // todo this for next button from page -> need to move some logic upper
+  React.useEffect(() => {
+    const handleRouteChange = () => {
+      if (hasUnsavedChanges) {
+        const confirmLeave = confirm(
+          "You have unsaved changes. Are you sure you want to leave this page?",
+        );
+        if (!confirmLeave) {
+          // Reset the URL back to the original path
+          router.push(previousPathname.current ?? pathname);
+          return;
+        }
+        setHasUnsavedChanges(false); // Reset unsaved changes if navigation proceeds
+      }
+      previousPathname.current = pathname; // Update previous path after confirmation
+    };
+
+    // Trigger the handler when the pathname changes
+    if (previousPathname.current !== null) {
+      handleRouteChange();
+    } else {
+      previousPathname.current = pathname; // Initialize previous path
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, router]);
+
+  React.useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (hasUnsavedChanges) {
+        event.preventDefault();
+        event.returnValue = ""; // Standard dialog
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [hasUnsavedChanges]);
 
   const handleOnAdd: UpdateFunction = ({ newData, currentData, path }) => {
     const data = currentData as MetadataCollection;
@@ -59,6 +111,7 @@ export default function JSONCreator({
     }
 
     setMetadataSchema(newData as MetadataCollectionEditor);
+    setHasUnsavedChanges(true);
     return true;
   };
 
@@ -77,6 +130,7 @@ export default function JSONCreator({
     if (zodResults.success) {
       setMetadataSchema(zodResults.data);
     }
+    setHasUnsavedChanges(true);
   };
 
   const handleSaveSchema = async () => {
@@ -101,6 +155,7 @@ export default function JSONCreator({
     } catch (e) {
     } finally {
       setLoading(false);
+      setHasUnsavedChanges(false);
     }
   };
 
@@ -110,7 +165,13 @@ export default function JSONCreator({
     <div className="flex min-w-[60%] flex-col gap-4 rounded-xl bg-card p-4 px-8">
       <div className="flex flex-row items-center justify-between">
         <Typography as="h2">JSON Creator</Typography>
-        <Button onClick={handleSaveSchema}>Save Metadata Structure</Button>
+        <Button
+          variant={hasUnsavedChanges ? "ghost" : "default"}
+          className={cn(hasUnsavedChanges && "animate-pulseShadow")}
+          onClick={handleSaveSchema}
+        >
+          Save Metadata Structure
+        </Button>
       </div>
       <Typography as="code" className="text-white/70">
         {`All metadata should follow the same format. While exceptions like 1:1

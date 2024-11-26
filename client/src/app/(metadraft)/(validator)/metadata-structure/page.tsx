@@ -1,21 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import { useRxData } from "rxdb-hooks";
 
 import JSONCreator from "./json-creator";
 import LoaderComponent from "~/components/loader-component";
 import { Typography } from "~/components/typography";
 import { Button } from "~/components/ui/button";
-import type {
-  MetadataCollection,
-  MetadataSchemaCollection,
-} from "~/lib/types";
+import type { MetadataCollection, MetadataSchemaCollection } from "~/lib/types";
 import { useActiveProject } from "~/providers/active-project.provider";
+import { useState } from "react";
 
 export default function StructurePage() {
+  const router = useRouter();
   const activeProject = useActiveProject();
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(false);
+
   const { result, isFetching } = useRxData<MetadataCollection>(
     "metadata",
     (collection) => collection.find(),
@@ -36,8 +37,21 @@ export default function StructurePage() {
     schemaResult[0]?.toJSON() as MetadataSchemaCollection;
 
   if (!activeProject) return null; // Cannot return notFound when clearing project
-  
+
   if (!metadatas) return notFound();
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    if (hasUnsavedChanges) {
+      e.preventDefault(); // Stop the default navigation behavior
+      const confirmLeave = confirm(
+        "You have unsaved changes. Are you sure you want to leave this page?",
+      );
+      if (confirmLeave) {
+        setHasUnsavedChanges(false); // Reset unsaved changes
+        router.push("/rules-selection"); // Navigate manually
+      }
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -50,16 +64,25 @@ export default function StructurePage() {
         </div>
         <div className="flex flex-row items-center gap-4">
           <Button asChild>
-            <Link title="Go to rules selection" href={"/rules-selection"}>
+            <a
+              title="Go to rules selection"
+              href={"/rules-selection"}
+              onClick={handleClick}
+            >
               Next step
               <span className="sr-only">
                 Complete this step and navigaton to next one: rules selection
               </span>
-            </Link>
+            </a>
           </Button>
         </div>
       </div>
-      <JSONCreator structure={schema.schema} metadatas={metadatas} />
+      <JSONCreator
+        structure={schema.schema}
+        metadatas={metadatas}
+        hasUnsavedChanges={hasUnsavedChanges}
+        setHasUnsavedChanges={setHasUnsavedChanges}
+      />
     </div>
   );
 }
