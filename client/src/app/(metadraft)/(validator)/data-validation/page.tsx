@@ -29,7 +29,7 @@ export default function DataValidation() {
             <Link href={"/summary"}>
               Next step
               <span className="sr-only">
-                Complete this step and navigaton to next one: Summary
+                Complete this step and navigate to next one: Summary
               </span>
             </Link>
           </Button>

@@ -1,4 +1,5 @@
 import { useRxCollection } from "rxdb-hooks";
+import { Typography } from "~/components/typography";
 
 import { Label } from "~/components/ui/label";
 import { Switch } from "~/components/ui/switch";
@@ -59,6 +60,13 @@ export default function TableRules({
         </TableRow>
       </TableHeader>
       <TableBody className="[&_tr:last-child]:border-1 [&>*]:border-white/30">
+        {keys.length === 0 && (
+          <TableRow>
+            <TableCell colSpan={4}>
+              <Typography as="code">No results found</Typography>
+            </TableCell>
+          </TableRow>
+        )}
         {keys.map((key) => (
           <TableRow key={key}>
             <TableCell className="font-medium">

@@ -15,8 +15,7 @@ import { getCID } from "~/lib/get/get-cid";
 import { getImageSrc } from "~/lib/get/get-image-src";
 import { getPageFromParams } from "~/lib/get/get-page-from-param";
 import type { MetadataCollection } from "~/lib/types";
-
-
+import { Typography } from "~/components/typography";
 
 export default function TableView({
   metadatas,
@@ -41,6 +40,13 @@ export default function TableView({
         </TableRow>
       </TableHeader>
       <TableBody className="[&_tr:last-child]:border-1 [&>*]:border-white/30">
+        {metadatas?.length === 0 && (
+          <TableRow>
+            <TableCell colSpan={6}>
+              <Typography as="code">No results found</Typography>
+            </TableCell>
+          </TableRow>
+        )}
         {metadatas[page - 1]?.map((meta) => {
           return (
             <TableRow key={meta.id}>

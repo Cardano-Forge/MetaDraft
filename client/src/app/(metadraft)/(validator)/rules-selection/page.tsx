@@ -23,7 +23,7 @@ export default function RulesPage() {
             <Link title="Go to data validation" href={"/data-validation"}>
               Next step
               <span className="sr-only">
-                Complete this step and navigaton to next one: data validation
+                Complete this step and navigate to next one: data validation
               </span>
             </Link>
           </Button>

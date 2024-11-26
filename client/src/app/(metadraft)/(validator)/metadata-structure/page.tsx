@@ -86,7 +86,7 @@ export default function StructurePage() {
             >
               Next step
               <span className="sr-only">
-                Complete this step and navigaton to next one: rules selection
+                Complete this step and navigate to next one: rules selection
               </span>
             </a>
           </Button>
