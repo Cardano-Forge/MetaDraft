@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { type Dispatch, type SetStateAction } from "react";
 
 import HeaderActions from "./actions";
 import Status from "~/components/default-status";
@@ -25,13 +25,13 @@ export default function Header({
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (hasUnsavedChanges) {
-      e.preventDefault(); // Stop the default navigation behavior
+      e.preventDefault();
       const confirmLeave = confirm(
         "You have unsaved changes. Are you sure you want to leave this page?",
       );
       if (confirmLeave) {
-        setHasUnsavedChanges(false); // Reset unsaved changes
-        router.back();
+        setHasUnsavedChanges(false); 
+        router.push("/data-validation");
       }
     }
   };

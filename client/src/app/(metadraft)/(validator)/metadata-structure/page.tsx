@@ -20,7 +20,8 @@ export default function StructurePage() {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       if (hasUnsavedChanges) {
         event.preventDefault();
-        (event || window.event).returnValue = "Changes you made may not be saved.";
+        (event || window.event).returnValue =
+          "Changes you made may not be saved.";
         return "Changes you made may not be saved."; // Gecko + Webkit, Safari, Chrome etc.
       }
     };
@@ -56,18 +57,16 @@ export default function StructurePage() {
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (hasUnsavedChanges) {
-      e.preventDefault(); // Stop the default navigation behavior
+      e.preventDefault();
       const confirmLeave = confirm(
         "A - You have unsaved changes. Are you sure you want to leave this page?",
       );
       if (confirmLeave) {
-        setHasUnsavedChanges(false); // Reset unsaved changes
-        router.push("/rules-selection"); // Navigate manually
+        setHasUnsavedChanges(false);
+        router.push("/rules-selection");
       }
     }
   };
-
-
 
   return (
     <div className="flex flex-col gap-4">
