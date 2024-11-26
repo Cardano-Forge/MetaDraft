@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import HideImageIcon from "~/icons/hide-image.icon";
 import { cn } from "~/lib/utils";
 
 type ImageProps = React.ComponentPropsWithoutRef<typeof Avatar> & {
@@ -27,7 +28,9 @@ const ImageWithFallback = React.forwardRef<
         )}
         {...props}
       >
-        <AvatarFallback className={cn("rounded-xl", fallbackClassName)} />
+        <AvatarFallback className={cn("rounded-xl", fallbackClassName)}>
+          <HideImageIcon />
+        </AvatarFallback>
         <AvatarImage
           className={cn("z-[0] object-contain")}
           src={src}
