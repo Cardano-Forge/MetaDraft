@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
+import { useToast } from "~/hooks/use-toast";
 import { camelCaseToTitleCase } from "~/lib/camel-case-to-title-case";
 import { type Rule, RULES_DESCRIPTION } from "~/lib/rules";
 import type { RulesCollection } from "~/lib/types";
@@ -21,6 +22,7 @@ export default function TableRules({
   keys: Rule[];
   rules: RulesCollection;
 }) {
+  const { toast } = useToast();
   const rulesCollection = useRxCollection<RulesCollection>("rules");
 
   const handleChange = async (checked: boolean, key: Rule) => {
@@ -28,8 +30,18 @@ export default function TableRules({
       const newRules = { ...rules };
       if (checked) {
         newRules.rules.push(key);
+        toast({
+          title: `Activated: ${key}`,
+          description: new Date().toDateString(),
+          className: "border-success",
+        });
       } else {
         newRules.rules = newRules.rules.filter((k) => k !== key);
+        toast({
+          title: `Removed: ${key}`,
+          description: new Date().toDateString(),
+          className: "border-destructive",
+        });
       }
       await rulesCollection?.upsert(newRules);
     } catch (e) {
