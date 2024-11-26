@@ -64,7 +64,7 @@ export default function TableRules({
             <TableCell className="font-medium">
               <Label>{camelCaseToTitleCase(key)}</Label>
             </TableCell>
-            <TableCell>{RULES_DESCRIPTION[key]}</TableCell>
+            <TableCell>{RULES_DESCRIPTION[key].short}</TableCell>
             <TableCell>
               <Switch
                 checked={rules.rules.includes(key)}

@@ -85,7 +85,10 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
         return (
           <Section key={e.validatorId}>
             <Typography>
-              {RULES_DESCRIPTION[hyphenToCamelCase(e.validatorId) as Rule]}
+              {
+                RULES_DESCRIPTION[hyphenToCamelCase(e.validatorId) as Rule]
+                  .long
+              }
             </Typography>
             {e.validationErrors.map((error, i) => {
               return (
@@ -114,7 +117,7 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
         return (
           <Section key={w.validatorId}>
             <Typography>
-              {RULES_DESCRIPTION[hyphenToCamelCase(w.validatorId) as Rule]}
+              {RULES_DESCRIPTION[hyphenToCamelCase(w.validatorId) as Rule].long}
             </Typography>
             <MessageBox>
               <Typography>{w.validationErrors[0]?.message}</Typography>
