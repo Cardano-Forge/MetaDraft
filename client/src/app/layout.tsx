@@ -4,6 +4,7 @@ import { type Metadata } from "next";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import { env } from "~/env";
+import { Toaster } from "~/components/ui/toaster";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -13,7 +14,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Metadraft",
-  description: "A free-to-use metadata validation built for Cardano. Review your project's NFT metadata, visualize your assets, make updates, and more!",
+  description:
+    "A free-to-use metadata validation built for Cardano. Review your project's NFT metadata, visualize your assets, make updates, and more!",
 };
 
 export default function RootLayout({
@@ -40,6 +42,7 @@ export default function RootLayout({
           }}
         />
         {children}
+        <Toaster />
       </body>
     </html>
   );

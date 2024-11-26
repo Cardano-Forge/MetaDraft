@@ -22,6 +22,7 @@ import type {
 } from "~/lib/types";
 import { MetadataCollectionSchemaV2 } from "~/lib/zod-schemas";
 import { cn } from "~/lib/utils";
+import { useToast } from "~/hooks/use-toast";
 
 export default function JSONCreator({
   metadatas,
@@ -34,6 +35,8 @@ export default function JSONCreator({
   hasUnsavedChanges: boolean;
   setHasUnsavedChanges: Dispatch<SetStateAction<boolean>>;
 }) {
+  const { toast } = useToast();
+
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const [metadataSchema, setMetadataSchema] =
@@ -106,7 +109,17 @@ export default function JSONCreator({
           ) as Partial<MetadataCollection>[]),
         })),
       );
+
+      toast({
+        title: "Saved new metadata structure",
+        description: new Date().toDateString(),
+      });
     } catch (e) {
+      toast({
+        title: "Could not save new structure",
+        description: new Date().toDateString(),
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
       setHasUnsavedChanges(false);
