@@ -1,13 +1,13 @@
 import { JsonEditor, type UpdateFunction } from "json-edit-react";
-import React from "react";
+import React, { type Dispatch, type SetStateAction } from "react";
 import { useRxCollection, useRxData } from "rxdb-hooks";
 
 import LoaderComponent from "~/components/loader-component";
 import { Typography } from "~/components/typography";
 import { Button } from "~/components/ui/button";
+import { useToast } from "~/hooks/use-toast";
 import { getStats } from "~/lib/get/get-stats";
 import {
-  editOnAdd,
   editRestrictionAdd,
   editRestrictionDelete,
   editRestrictionEdit,
@@ -22,6 +22,7 @@ import type {
   RulesCollection,
   ValidationsCollection,
 } from "~/lib/types";
+import { cn } from "~/lib/utils";
 import { MetadataCollectionSchemaV2 } from "~/lib/zod-schemas";
 import { useActiveProject } from "~/providers/active-project.provider";
 import { validateMetadata } from "~/server/validations";
@@ -29,10 +30,15 @@ import { validateMetadata } from "~/server/validations";
 export default function JSONEditor({
   metadata,
   handleValidation,
+  hasUnsavedChanges,
+  setHasUnsavedChanges,
 }: {
   metadata: MetadataCollection;
-  handleValidation: React.Dispatch<React.SetStateAction<boolean>>;
+  handleValidation: Dispatch<SetStateAction<boolean>>;
+  hasUnsavedChanges: boolean;
+  setHasUnsavedChanges: Dispatch<SetStateAction<boolean>>;
 }) {
+  const { toast } = useToast();
   const [meta, setMeta] = React.useState<MetadataCollectionEditor>({
     assetName: metadata.assetName,
     metadata: metadata.metadata,
@@ -101,7 +107,13 @@ export default function JSONEditor({
 
       // Add project information in RXDB
       await projectCollection?.upsert(newProject);
+      setHasUnsavedChanges(false);
     } catch (error) {
+      toast({
+        title: "Could not saved",
+        description: new Date().toDateString(),
+        variant: "destructive",
+      });
     } finally {
       handleValidation(false);
     }
@@ -130,17 +142,44 @@ export default function JSONEditor({
       // This string returned to and displayed in json-edit-react UI
       return errorMessage;
     }
+    // Success
+    setMeta(zodResults.data);
+    setHasUnsavedChanges(true);
+  };
 
-    if (zodResults.success) {
-      setMeta(zodResults.data);
+  const editOnAdd: UpdateFunction = ({ currentData, path }) => {
+    setHasUnsavedChanges(true);
+    const data = currentData as MetadataCollectionEditor;
+    if (
+      path.length === 3 &&
+      path.includes("metadata") &&
+      path.includes("files")
+    ) {
+      return [
+        "value",
+        {
+          ...data,
+          metadata: {
+            ...data.metadata,
+            files: [...(data.metadata.files ?? []), { src: "", mediaType: "" }],
+          },
+        },
+      ];
     }
+    return true;
   };
 
   return (
     <div className="flex min-w-[60%] flex-col gap-4 rounded-xl bg-card p-4 px-8">
       <div className="flex flex-row items-center justify-between">
         <Typography as="h2">JSON Editor</Typography>
-        <Button onClick={handleSaveAndValidate}>Save and Validate</Button>
+        <Button
+          variant={hasUnsavedChanges ? "ghost" : "default"}
+          className={cn(hasUnsavedChanges && "animate-pulseShadow")}
+          onClick={handleSaveAndValidate}
+        >
+          Save and Validate
+        </Button>
       </div>
       <Typography className="italic text-white/50">
         To edit a key, double-click it. Press Enter to save, or Esc to cancel.

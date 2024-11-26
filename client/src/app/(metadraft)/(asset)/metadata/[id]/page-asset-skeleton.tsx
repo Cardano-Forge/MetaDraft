@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type Dispatch, type SetStateAction } from "react";
 
 import Header from "./header";
 import { Skeleton } from "~/components/ui/skeleton";
@@ -14,7 +14,13 @@ export default function PageAssetSkeleton({
   return (
     <div className="pt-5">
       <div className="container">
-        <Header metadata={metadata} isValidating={isValidating} />
+        <Header
+          metadata={metadata}
+          isValidating={isValidating}
+          hasUnsavedChanges={false}
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          setHasUnsavedChanges={(() => {}) as Dispatch<SetStateAction<boolean>>}
+        />
       </div>
       <main className="border-t border-white/15 py-8">
         <div className="container">

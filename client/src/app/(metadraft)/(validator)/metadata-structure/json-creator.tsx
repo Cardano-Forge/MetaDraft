@@ -1,5 +1,5 @@
 import { JsonEditor, type UpdateFunction } from "json-edit-react";
-import React from "react";
+import React, { type Dispatch, type SetStateAction } from "react";
 import { useRxCollection } from "rxdb-hooks";
 
 import HowToCreateMetadataSchema from "./how-to";
@@ -21,18 +21,24 @@ import type {
   MetadataSchemaCollection,
 } from "~/lib/types";
 import { MetadataCollectionSchemaV2 } from "~/lib/zod-schemas";
+import { cn } from "~/lib/utils";
 import { useToast } from "~/hooks/use-toast";
 
 export default function JSONCreator({
   metadatas,
   structure,
+  hasUnsavedChanges,
+  setHasUnsavedChanges,
 }: {
   metadatas: MetadataCollection[];
   structure?: MetadataCollectionEditor;
+  hasUnsavedChanges: boolean;
+  setHasUnsavedChanges: Dispatch<SetStateAction<boolean>>;
 }) {
   const { toast } = useToast();
 
   const [loading, setLoading] = React.useState<boolean>(false);
+
   const [metadataSchema, setMetadataSchema] =
     React.useState<MetadataCollectionEditor>(structure ?? DEFAULT_CIP25_SCHEMA);
   const metadataSchemaCollection =
@@ -62,6 +68,7 @@ export default function JSONCreator({
     }
 
     setMetadataSchema(newData as MetadataCollectionEditor);
+    setHasUnsavedChanges(true);
     return true;
   };
 
@@ -76,10 +83,9 @@ export default function JSONCreator({
       return errorMessage;
     }
 
-    // Save in React state
-    if (zodResults.success) {
-      setMetadataSchema(zodResults.data);
-    }
+    // Success
+    setMetadataSchema(zodResults.data);
+    setHasUnsavedChanges(true);
   };
 
   const handleSaveSchema = async () => {
@@ -106,6 +112,7 @@ export default function JSONCreator({
         title: "Saved new metadata structure",
         description: new Date().toDateString(),
       });
+      setHasUnsavedChanges(false);
     } catch (e) {
       toast({
         title: "Could not save new structure",
@@ -123,7 +130,13 @@ export default function JSONCreator({
     <div className="flex min-w-[60%] flex-col gap-4 rounded-xl bg-card p-4 px-8">
       <div className="flex flex-row items-center justify-between">
         <Typography as="h2">JSON Creator</Typography>
-        <Button onClick={handleSaveSchema}>Save Metadata Structure</Button>
+        <Button
+          variant={hasUnsavedChanges ? "ghost" : "default"}
+          className={cn(hasUnsavedChanges && "animate-pulseShadow")}
+          onClick={handleSaveSchema}
+        >
+          Save Metadata Structure
+        </Button>
       </div>
       <Typography as="code" className="text-white/70">
         {`All metadata should follow the same format. While exceptions like 1:1
