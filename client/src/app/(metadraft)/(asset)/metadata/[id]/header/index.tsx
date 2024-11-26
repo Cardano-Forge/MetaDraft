@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 import HeaderActions from "./actions";
 import Status from "~/components/default-status";
@@ -13,18 +13,35 @@ import type { MetadataCollection } from "~/lib/types";
 export default function Header({
   metadata,
   isValidating = false,
+  hasUnsavedChanges,
+  setHasUnsavedChanges,
 }: {
   metadata: MetadataCollection;
   isValidating?: boolean;
+  hasUnsavedChanges: boolean;
+  setHasUnsavedChanges: Dispatch<SetStateAction<boolean>>;
 }) {
   const router = useRouter();
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (hasUnsavedChanges) {
+      e.preventDefault(); // Stop the default navigation behavior
+      const confirmLeave = confirm(
+        "You have unsaved changes. Are you sure you want to leave this page?",
+      );
+      if (confirmLeave) {
+        setHasUnsavedChanges(false); // Reset unsaved changes
+        router.back();
+      }
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4 pb-8">
       <Button
         variant={"ghost"}
         className="gap-4 !px-4 text-white/50"
-        onClick={() => router.back()}
+        onClick={handleClick}
       >
         <BackIcon className="h-4 w-4 text-white" /> Back to the list
       </Button>

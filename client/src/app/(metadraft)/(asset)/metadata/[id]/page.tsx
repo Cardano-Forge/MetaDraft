@@ -1,7 +1,7 @@
 "use client";
 
 import { notFound } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRxData } from "rxdb-hooks";
 
 import Errors from "./content/errors";
@@ -16,11 +16,28 @@ export default function SingleAssetPage({
 }: {
   params: { id: string };
 }) {
-  const [isValidating, setValidating] = React.useState<boolean>(false);
+  const [isValidating, setValidating] = useState<boolean>(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(false);
   const { result, isFetching } = useRxData<MetadataCollection>(
     "metadata",
     (collection) => collection.findByIds([params.id]),
   );
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (hasUnsavedChanges) {
+        event.preventDefault();
+        (event || window.event).returnValue =
+          "Changes you made may not be saved.";
+        return "Changes you made may not be saved."; // Gecko + Webkit, Safari, Chrome etc.
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [hasUnsavedChanges]);
 
   if (isFetching) return <LoaderComponent />;
 
@@ -38,13 +55,22 @@ export default function SingleAssetPage({
   return (
     <div className="pt-5">
       <div className="container">
-        <Header metadata={metadata} />
+        <Header
+          metadata={metadata}
+          hasUnsavedChanges={hasUnsavedChanges}
+          setHasUnsavedChanges={setHasUnsavedChanges}
+        />
       </div>
       <main className="border-t border-white/15 py-8">
         <div className="container">
           <div className="flex flex-row gap-4">
             <Errors metadata={metadata} />
-            <JSONEditor metadata={metadata} handleValidation={setValidating} />
+            <JSONEditor
+              metadata={metadata}
+              handleValidation={setValidating}
+              hasUnsavedChanges={hasUnsavedChanges}
+              setHasUnsavedChanges={setHasUnsavedChanges}
+            />
           </div>
         </div>
       </main>
