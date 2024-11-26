@@ -1,5 +1,5 @@
 import { JsonEditor, type UpdateFunction } from "json-edit-react";
-import React, { Dispatch, SetStateAction, useRef } from "react";
+import React, { type Dispatch, type SetStateAction } from "react";
 import { useRxCollection } from "rxdb-hooks";
 
 import HowToCreateMetadataSchema from "./how-to";
@@ -22,7 +22,6 @@ import type {
 } from "~/lib/types";
 import { MetadataCollectionSchemaV2 } from "~/lib/zod-schemas";
 import { cn } from "~/lib/utils";
-import { usePathname, useRouter } from "next/navigation";
 
 export default function JSONCreator({
   metadatas,
@@ -35,58 +34,13 @@ export default function JSONCreator({
   hasUnsavedChanges: boolean;
   setHasUnsavedChanges: Dispatch<SetStateAction<boolean>>;
 }) {
-  const router = useRouter();
   const [loading, setLoading] = React.useState<boolean>(false);
-
-  const pathname = usePathname(); // Tracks the current path
-
-  const previousPathname = useRef<string | null>(null);
 
   const [metadataSchema, setMetadataSchema] =
     React.useState<MetadataCollectionEditor>(structure ?? DEFAULT_CIP25_SCHEMA);
   const metadataSchemaCollection =
     useRxCollection<MetadataSchemaCollection>("metadataSchema");
   const metadataCollection = useRxCollection<MetadataCollection>("metadata");
-
-  // todo this for next button from page -> need to move some logic upper
-  React.useEffect(() => {
-    const handleRouteChange = () => {
-      if (hasUnsavedChanges) {
-        const confirmLeave = confirm(
-          "You have unsaved changes. Are you sure you want to leave this page?",
-        );
-        if (!confirmLeave) {
-          // Reset the URL back to the original path
-          router.push(previousPathname.current ?? pathname);
-          return;
-        }
-        setHasUnsavedChanges(false); // Reset unsaved changes if navigation proceeds
-      }
-      previousPathname.current = pathname; // Update previous path after confirmation
-    };
-
-    // Trigger the handler when the pathname changes
-    if (previousPathname.current !== null) {
-      handleRouteChange();
-    } else {
-      previousPathname.current = pathname; // Initialize previous path
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, router]);
-
-  React.useEffect(() => {
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (hasUnsavedChanges) {
-        event.preventDefault();
-        event.returnValue = ""; // Standard dialog
-      }
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [hasUnsavedChanges]);
 
   const handleOnAdd: UpdateFunction = ({ newData, currentData, path }) => {
     const data = currentData as MetadataCollection;

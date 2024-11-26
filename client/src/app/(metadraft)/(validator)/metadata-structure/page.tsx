@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { notFound, useRouter } from "next/navigation";
 import { useRxData } from "rxdb-hooks";
 
@@ -10,12 +9,27 @@ import { Typography } from "~/components/typography";
 import { Button } from "~/components/ui/button";
 import type { MetadataCollection, MetadataSchemaCollection } from "~/lib/types";
 import { useActiveProject } from "~/providers/active-project.provider";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function StructurePage() {
   const router = useRouter();
   const activeProject = useActiveProject();
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (hasUnsavedChanges) {
+        event.preventDefault();
+        (event || window.event).returnValue = "Changes you made may not be saved.";
+        return "Changes you made may not be saved."; // Gecko + Webkit, Safari, Chrome etc.
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [hasUnsavedChanges]);
 
   const { result, isFetching } = useRxData<MetadataCollection>(
     "metadata",
@@ -44,7 +58,7 @@ export default function StructurePage() {
     if (hasUnsavedChanges) {
       e.preventDefault(); // Stop the default navigation behavior
       const confirmLeave = confirm(
-        "You have unsaved changes. Are you sure you want to leave this page?",
+        "A - You have unsaved changes. Are you sure you want to leave this page?",
       );
       if (confirmLeave) {
         setHasUnsavedChanges(false); // Reset unsaved changes
@@ -52,6 +66,8 @@ export default function StructurePage() {
       }
     }
   };
+
+
 
   return (
     <div className="flex flex-col gap-4">
