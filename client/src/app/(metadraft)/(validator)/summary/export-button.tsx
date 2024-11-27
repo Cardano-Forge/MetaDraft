@@ -53,9 +53,6 @@ export default function ExportButton() {
           Share your feature requests, user experience ideas, or any issues
           you’ve encountered!
         </Typography>
-        <Typography className="text-center">
-          Your suggestions help us make the tools even better for you.
-        </Typography>
         <Button className="w-full" onClick={handleExport}>
           Download
         </Button>
