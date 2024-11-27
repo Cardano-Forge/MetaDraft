@@ -13,7 +13,7 @@ import { Typography } from "./typography";
 export default function StatusDescription() {
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button
           size={"icon"}
           variant={"warningOutilne"}
