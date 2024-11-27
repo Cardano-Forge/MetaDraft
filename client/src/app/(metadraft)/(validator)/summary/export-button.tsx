@@ -44,12 +44,16 @@ export default function ExportButton() {
           </span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex flex-col justify-center">
+      <DialogContent className="flex min-w-96 flex-col justify-center">
         <Typography as="h2">Thank you for using Metadraft</Typography>
         <Typography className="text-center">
-          We’d love to hear your feedback on how we can improve our tools! Let
-          us know about any features you’d like to see, enhancements to the user
-          experience, or any challenges you’ve faced while using the platform.
+          We value your feedback to improve our tools!
+        </Typography>
+        <Typography className="text-center">
+          Share your feature requests, user experience ideas, or any issues
+          you’ve encountered!
+        </Typography>
+        <Typography className="text-center">
           Your suggestions help us make the tools even better for you.
         </Typography>
         <Button className="w-full" onClick={handleExport}>
