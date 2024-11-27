@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { useState } from "react";
 
-
 import Assets from "./assets";
 import PageSkeleton from "./page-skeleton";
 import Validator from "./validator";
 import { Typography } from "~/components/typography";
 import { Button } from "~/components/ui/button";
+import StatusDescription from "~/components/status-description";
 
 export default function DataValidation() {
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -24,6 +24,7 @@ export default function DataValidation() {
           </Typography>
         </div>
         <div className="flex flex-row items-center gap-4">
+          <StatusDescription />
           <Validator handleLoading={setLoading} />
           <Button asChild>
             <Link href={"/summary"}>
