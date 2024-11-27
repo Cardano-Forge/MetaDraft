@@ -13,6 +13,8 @@ import {
   joyrideStyleOptions,
   explainationSteps,
 } from "~/lib/joyride";
+import { Button } from "./ui/button";
+import NoteIcon from "~/icons/note.icon";
 
 export const Stepper = () => {
   const [run, setRun] = React.useState(!localStorage.getItem("guideOff"));
@@ -36,6 +38,7 @@ export const Stepper = () => {
         continuous
         showSkipButton
         showProgress
+        // disableScrolling
         callback={handleJoyrideCallback}
         styles={{
           options: joyrideStyleOptions,
@@ -65,6 +68,19 @@ export const Stepper = () => {
         <Step id={4} className="summary-step">
           Summary
         </Step>
+        {!run && (
+          <Button
+            variant={"successOutline"}
+            size={"sm"}
+            className="fixed -left-[33px] top-[50%] mt-[-18px] flex rotate-90 flex-row gap-2 rounded-sm"
+            onClick={() => {
+              localStorage.removeItem("guideOff");
+              setRun(true);
+            }}
+          >
+            <NoteIcon /> Tutorial
+          </Button>
+        )}
       </nav>
     </>
   );
