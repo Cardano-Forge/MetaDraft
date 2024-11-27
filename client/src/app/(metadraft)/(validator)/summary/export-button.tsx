@@ -1,7 +1,9 @@
 "use client";
 
+import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog";
 import { type RxDumpCollection } from "rxdb";
 import { useRxCollection } from "rxdb-hooks";
+import { Typography } from "~/components/typography";
 
 import { Button } from "~/components/ui/button";
 import CodeIcon from "~/icons/code.icon";
@@ -33,12 +35,28 @@ export default function ExportButton() {
   };
 
   return (
-    <Button className="flex flex-row gap-3" onClick={handleExport}>
-      <CodeIcon /> Export the project
-      <span className="sr-only">
-        Take the current metadata and export it as JSON format.
-      </span>
-    </Button>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button className="flex flex-row gap-3">
+          <CodeIcon /> Export the project
+          <span className="sr-only">
+            Take the current metadata and export it as JSON format.
+          </span>
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="flex flex-col justify-center">
+        <Typography as="h2">Thank you for using Metadraft</Typography>
+        <Typography className="text-center">
+          We’d love to hear your feedback on how we can improve our tools! Let
+          us know about any features you’d like to see, enhancements to the user
+          experience, or any challenges you’ve faced while using the platform.
+          Your suggestions help us make the tools even better for you.
+        </Typography>
+        <Button className="w-full" onClick={handleExport}>
+          Download
+        </Button>
+      </DialogContent>
+    </Dialog>
   );
 }
 
