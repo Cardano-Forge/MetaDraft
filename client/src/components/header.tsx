@@ -7,7 +7,7 @@ import Feedback from "./feedback";
 import Logo from "./logo";
 import { Button } from "./ui/button";
 import { useTutorial } from "~/providers/tutorial.provider";
-import HelpIcon from "~/icons/help.icon";
+import RadioCheckIcon from "~/icons/radio-check.icon";
 
 export default function Header() {
   const { active, handleActive } = useTutorial();
@@ -27,7 +27,7 @@ export default function Header() {
           }}
           disabled={active}
         >
-          <HelpIcon /> Open tutorial
+          <RadioCheckIcon className="text-success" /> Open tutorial
         </Button>
         <Feedback /> <ClearProjectButton className="w-[151px] md:w-fit" />
       </div>
