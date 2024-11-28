@@ -31,9 +31,11 @@ const titles: Record<"warning" | "error", JSX.Element> = {
 export default function MessageBox({
   variant = "warning",
   children,
+  hideClear = false,
 }: {
   children: React.ReactNode;
   variant?: keyof typeof variants;
+  hideClear?: boolean;
 }) {
   const [show, setShow] = useState<boolean>(true);
 
@@ -47,14 +49,16 @@ export default function MessageBox({
     >
       <div className="flex flex-row items-center justify-between">
         {titles[variant]}
-        <Button
-          onClick={handleClose}
-          variant={"ghost"}
-          size={"sm"}
-          className="text-xs font-normal tracking-wider text-white/40 hover:bg-transparent hover:text-white/70"
-        >
-          Clear
-        </Button>
+        {!hideClear && (
+          <Button
+            onClick={handleClose}
+            variant={"ghost"}
+            size={"sm"}
+            className="text-xs font-normal tracking-wider text-white/40 hover:bg-transparent hover:text-white/70"
+          >
+            Clear
+          </Button>
+        )}
       </div>
       <div>{children}</div>
     </div>

@@ -5,6 +5,12 @@ import { useRxData } from "rxdb-hooks";
 import LoaderComponent from "~/components/loader-component";
 import MessageBox from "~/components/message-box";
 import { Typography } from "~/components/typography";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "~/components/ui/accordion";
 import { hyphenToTitleCase } from "~/lib/hyphen-to-title-case";
 import { RULES_DESCRIPTION, type Rule } from "~/lib/rules";
 import type {
@@ -84,17 +90,12 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
       {validation.errors.map((e) => {
         return (
           <Section key={e.validatorId}>
-            <Typography>
-              {
-                RULES_DESCRIPTION[hyphenToCamelCase(e.validatorId) as Rule]
-                  .long
-              }
-            </Typography>
             {e.validationErrors.map((error, i) => {
               return (
                 <MessageBox
                   key={`${e.validatorId}-${error.path.join(".")}-${i}`}
                   variant="error"
+                  hideClear
                 >
                   <Typography>{error.message}</Typography>
                   {!!error.path.length && (
@@ -109,6 +110,24 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
                 </MessageBox>
               );
             })}
+
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value={e.validatorId}>
+                <AccordionTrigger className="rounded-lg px-4 hover:bg-secondary/40 hover:no-underline">
+                  <Typography as="code">Rules Description</Typography>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <hr className="my-2 opacity-50" />
+                  <Typography className="text-center">
+                    {
+                      RULES_DESCRIPTION[
+                        hyphenToCamelCase(e.validatorId) as Rule
+                      ].long
+                    }
+                  </Typography>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </Section>
         );
       })}
@@ -116,10 +135,7 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
       {validation.warnings.map((w) => {
         return (
           <Section key={w.validatorId}>
-            <Typography>
-              {RULES_DESCRIPTION[hyphenToCamelCase(w.validatorId) as Rule].long}
-            </Typography>
-            <MessageBox>
+            <MessageBox hideClear>
               <Typography>{w.validationErrors[0]?.message}</Typography>
               <div className="mt-2 rounded-xl border border-border/20 bg-background p-4">
                 <code>{`[`}</code>
@@ -133,6 +149,23 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
                 <code>{`]`}</code>
               </div>
             </MessageBox>
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value={w.validatorId}>
+                <AccordionTrigger className="rounded-lg px-4 hover:bg-secondary/40 hover:no-underline">
+                  <Typography as="code">Rules Description</Typography>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <hr className="my-2 opacity-50" />
+                  <Typography className="text-center">
+                    {
+                      RULES_DESCRIPTION[
+                        hyphenToCamelCase(w.validatorId) as Rule
+                      ].long
+                    }
+                  </Typography>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </Section>
         );
       })}
@@ -143,7 +176,6 @@ export default function Errors({ metadata }: { metadata: MetadataCollection }) {
 const Section = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex flex-col gap-4 rounded-xl bg-background p-4 pt-6">
-      <Typography className="text-sm text-white/50">Description</Typography>
       {children}
     </div>
   );
