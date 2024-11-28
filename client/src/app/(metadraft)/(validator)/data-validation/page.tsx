@@ -19,12 +19,14 @@ export default function DataValidation() {
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-col gap-4">
           <Typography as="h2">NFTs data validation</Typography>
-          <Typography as="p" className="text-sm text-white/50">
-            Ensure each NFT has the correct data.
-          </Typography>
+          <div className="flex gap-4 items-center">
+            <Typography as="p" className="text-sm text-white/50">
+              Ensure each NFT has the correct data.
+            </Typography>
+            <StatusDescription />
+          </div>
         </div>
         <div className="flex flex-row items-center gap-4">
-          <StatusDescription />
           <Validator handleLoading={setLoading} />
           <Button asChild>
             <Link href={"/summary"}>

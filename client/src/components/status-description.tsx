@@ -1,4 +1,3 @@
-import ExclamationIcon from "~/icons/exclamation.icon";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -9,6 +8,7 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import { Typography } from "./typography";
+import InformationCircle from "~/icons/information-circle";
 
 export default function StatusDescription() {
   return (
@@ -16,10 +16,10 @@ export default function StatusDescription() {
       <DialogTrigger asChild>
         <Button
           size={"icon"}
-          variant={"warningOutilne"}
+          variant={"ghost"}
           title="Open modal for status description"
         >
-          <ExclamationIcon />
+          <InformationCircle />
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -37,24 +37,29 @@ export default function StatusDescription() {
             Error Detected
           </Typography>
           <Typography as="code">
-            Errors detected are critical. This means your metadata for this
-            asset will not be valid on the blockchain, such as having a
-            duplicate asset name or missing required fields like the image or
-            name. These errors occur when the metadata does not comply with the
-            associated CIP standards.
+            Errors Detected: Critical issues in your metadata that make it
+            invalid on the blockchain.
+          </Typography>
+          <Typography as="code">
+            Examples:
+            <li>Duplicate asset name.</li>
+            <li>Missing required fields (e.g., image, name).</li>
+            <li>Non-compliance with CIP standards.</li>
           </Typography>
           <hr />
           <Typography as="h5" className="text-warning">
             Error Flagged
           </Typography>
           <Typography as="code">
-            Error flagged are more like warnings that indicate potential issues
-            with your metadata. For example, this may happen if your key-value
-            pairs have inconsistent text formats across your assets, or if there
-            are typos in the key-value pairs within the same asset. It can also
-            flag issues if an array contains mixed types. Additionally, it may
-            warn you if an asset has keys that differ from those of the other
-            assets.
+            Error Flagged: Warnings indicating potential issues in your
+            metadata.
+          </Typography>
+          <Typography as="code">
+            Examples:
+            <li>Inconsistent text formats across key-value pairs.</li>
+            <li>Typos in key-value pairs within the same asset.</li>
+            <li>Mixed types in the same array.</li>
+            <li>Keys in an asset that differ from other assets.</li>
           </Typography>
         </div>
       </DialogContent>
