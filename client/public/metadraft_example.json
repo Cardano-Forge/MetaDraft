@@ -1,11 +1,11 @@
 [
   {
-    "assetName": "Car_Dano_0001",
+    "assetName": "MetaDraft_0001",
     "metadata": {
-      "name": "Car Dano #0001",
+      "name": "MetaDraft #0001",
       "image": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car4.jpg",
       "website": "https://ada-anvil.io",
-      "description": "Best Drag Game on Cardano",
+      "description": "Best tools for analysing metadata",
       "files": [
         {
           "mediaType": "image/png",
@@ -24,13 +24,18 @@
     }
   },
   {
-    "assetName": "Car_Dano_0002",
+    "assetName": "MetaDraft_0002",
     "metadata": {
-      "name": "Car Dano #0002",
+      "name": "MetaDraft #0002",
       "image": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car7.jpg",
       "website": "https://ada-anvil.io",
-      "description": "Best Drag Game on Cardano",
-      "files": [{ "mediaType": "image/png", "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car7.jpg" }],
+      "description": "Best tools for analysing metadata",
+      "files": [
+        {
+          "mediaType": "image/png",
+          "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car7.jpg"
+        }
+      ],
       "level": 1,
       "brand": "C-Toyota",
       "attributes": {
@@ -43,13 +48,18 @@
     }
   },
   {
-    "assetName": "Car_Dano_0003",
+    "assetName": "MetaDraft_0003",
     "metadata": {
-      "name": "Car Dano #0003",
+      "name": "MetaDraft #0003",
       "image": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car5.jpg",
       "website": "https://ada-anvil.io",
-      "description": "Best Drag Game on Cardano",
-      "files": [{ "mediaType": "image/png", "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car5.jpg" }],
+      "description": "Best tools for analysing metadata",
+      "files": [
+        {
+          "mediaType": "image/png",
+          "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car5.jpg"
+        }
+      ],
       "level": 1,
       "brand": "C-Chevrolet",
       "attributes": {
@@ -62,13 +72,18 @@
     }
   },
   {
-    "assetName": "Car_Dano_0004",
+    "assetName": "MetaDraft_0004",
     "metadata": {
-      "name": "Car Dano #0004",
+      "name": "MetaDraft #0004",
       "image": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car9.jpg",
       "website": "https://ada-anvil.io",
-      "description": "Best Drag Game on Cardano",
-      "files": [{ "mediaType": "image/png", "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car9.jpg" }],
+      "description": "Best tools for analysing metadata",
+      "files": [
+        {
+          "mediaType": "image/png",
+          "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car9.jpg"
+        }
+      ],
       "level": 1,
       "brand": "C-Hyundai",
       "attributes": {
@@ -81,13 +96,18 @@
     }
   },
   {
-    "assetName": "Car_Dano_0005",
+    "assetName": "MetaDraft_0005",
     "metadata": {
-      "name": "Car Dano #0005",
+      "name": "MetaDraft #0005",
       "image": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car6.jpg",
       "website": "https://ada-anvil.io",
-      "description": "Best Drag Game on Cardano",
-      "files": [{ "mediaType": "image/png", "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car6.jpg" }],
+      "description": "Best tools for analysing metadata",
+      "files": [
+        {
+          "mediaType": "image/png",
+          "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car6.jpg"
+        }
+      ],
       "level": 1,
       "brand": "C-Kia",
       "attributes": {
@@ -100,13 +120,18 @@
     }
   },
   {
-    "assetName": "Car_Dano_0006",
+    "assetName": "MetaDraft_0006",
     "metadata": {
-      "name": "Car Dano #0006",
+      "name": "MetaDraft #0006",
       "image": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car1.jpg",
       "website": "https://ada-anvil.io",
-      "description": "Best Drag Game on Cardano",
-      "files": [{ "mediaType": "image/png", "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car1.jpg" }],
+      "description": "Best tools for analysing metadata",
+      "files": [
+        {
+          "mediaType": "image/png",
+          "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car1.jpg"
+        }
+      ],
       "level": 1,
       "brand": "C-Volvo",
       "attributes": {
@@ -119,13 +144,18 @@
     }
   },
   {
-    "assetName": "Car_Dano_0007",
+    "assetName": "MetaDraft_0007",
     "metadata": {
-      "name": "Car Dano #0007",
+      "name": "MetaDraft #0007",
       "image": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car2.jpg",
       "website": "https://ada-anvil.io",
-      "description": "Best Drag Game on Cardano",
-      "files": [{ "mediaType": "image/png", "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car2.jpg" }],
+      "description": "Best tools for analysing metadata",
+      "files": [
+        {
+          "mediaType": "image/png",
+          "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car2.jpg"
+        }
+      ],
       "level": 1,
       "brand": "C-Toyota",
       "attributes": {
@@ -138,13 +168,18 @@
     }
   },
   {
-    "assetName": "Car_Dano_0008",
+    "assetName": "MetaDraft_0008",
     "metadata": {
-      "name": "Car Dano #0008",
+      "name": "MetaDraft #0008",
       "image": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car3.jpg",
       "website": "https://ada-anvil.io",
-      "description": "Best Drag Game on Cardano",
-      "files": [{ "mediaType": "image/png", "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car3.jpg" }],
+      "description": "Best tools for analysing metadata",
+      "files": [
+        {
+          "mediaType": "image/png",
+          "src": "https://ik.imagekit.io/62cldt7vaa/Car%20Dano/car3.jpg"
+        }
+      ],
       "level": 1,
       "brand": "C-Subaru",
       "attributes": {
