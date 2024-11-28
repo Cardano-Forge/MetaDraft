@@ -32,7 +32,7 @@ const example = `
 export const MetadataTemplate = () => {
   const downloadExample = () => {
     const link = document.createElement("a");
-    link.href = "/Car_Dano.json";
+    link.href = "/metadraft_example.json";
     link.download = "metadraft_example.json";
     document.body.appendChild(link);
     link.click();

@@ -2,6 +2,7 @@ import Header from "~/components/header";
 import UserbackAnchor from "~/components/userback";
 import { ActiveProjectProvider } from "~/providers/active-project.provider";
 import { RxdbProvider } from "~/providers/rxdb.provider";
+import { TutorialProvider } from "~/providers/tutorial.provider";
 
 export default function RootLayout({
   children,
@@ -9,9 +10,11 @@ export default function RootLayout({
   return (
     <RxdbProvider>
       <ActiveProjectProvider>
-        <Header />
-        {children}
-        <UserbackAnchor />
+        <TutorialProvider>
+          <Header />
+          {children}
+          <UserbackAnchor />
+        </TutorialProvider>
       </ActiveProjectProvider>
     </RxdbProvider>
   );

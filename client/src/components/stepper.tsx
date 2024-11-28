@@ -13,25 +13,24 @@ import {
   joyrideStyleOptions,
   explainationSteps,
 } from "~/lib/joyride";
+import { useTutorial } from "~/providers/tutorial.provider";
 
 export const Stepper = () => {
-  const [run, setRun] = React.useState(!localStorage.getItem("guideOff"));
+  const { active, handleActive } = useTutorial();
 
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { action, status } = data;
 
     if (action === ACTIONS.SKIP || status === STATUS.FINISHED) {
-      const today = new Date();
-      today.setFullYear(today.getFullYear() + 1);
       localStorage.setItem("guideOff", "true");
-      setRun(false);
+      handleActive(false);
     }
   };
 
   return (
     <>
       <Joyride
-        run={run}
+        run={active}
         steps={explainationSteps}
         continuous
         showSkipButton
