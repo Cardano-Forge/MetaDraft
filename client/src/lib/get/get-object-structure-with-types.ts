@@ -37,7 +37,7 @@ export function getObjectStructureWithTypes(obj: unknown): Structure {
         if (value.length > 0 && typeof value[0] === "object") {
           structure[key] = [getObjectStructureWithTypes(value[0])];
         } else {
-          structure[key] = "array";
+          structure[key] = [];
         }
       } else if (typeof value === "object" && value !== null) {
         structure[key] = getObjectStructureWithTypes(value);
