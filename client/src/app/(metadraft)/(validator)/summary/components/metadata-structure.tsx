@@ -14,8 +14,12 @@ import ValuesIcon from "~/icons/values.icon";
 import { getAttributesDistributions } from "~/lib/get/get-attributes-distributions";
 import { jerTheme } from "~/lib/json-editor";
 import type { MetadataSchemaCollection, MetadataCollection } from "~/lib/types";
+import { Button } from "~/components/ui/button";
+import { Typography } from "~/components/typography";
+import { camelCaseToTitleCase } from "~/lib/camel-case-to-title-case";
 
 export default function MetadataStructure() {
+  const [sortBy, setSortBy] = React.useState<"alpha" | "size">("alpha");
   const { result, isFetching } = useRxData<MetadataCollection>(
     "metadata",
     (collection) => collection.find(),
@@ -38,7 +42,7 @@ export default function MetadataStructure() {
 
   if (!schema || !metadatas) return <div>No data found.</div>;
 
-  const distribution = getAttributesDistributions(metadatas, schema);
+  const distribution = getAttributesDistributions(metadatas, schema, sortBy);
 
   return (
     <StepComponent>
@@ -54,6 +58,26 @@ export default function MetadataStructure() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="rounded-xl bg-card p-1">
+            <div className="flex w-full items-center justify-between p-4">
+              <div className="flex flex-col">
+                <Typography>
+                  Value Distribution: Analyze metadata.attributes to calculate
+                  the distribution count for each trait.
+                </Typography>
+                <Typography>
+                  This helps identify potential typos or inconsistencies in your
+                  values.
+                </Typography>
+              </div>
+              <Button
+                variant={"outline"}
+                onClick={() =>
+                  setSortBy((prev) => (prev === "alpha" ? "size" : "alpha"))
+                }
+              >
+                Sort by: {camelCaseToTitleCase(sortBy)}
+              </Button>
+            </div>
             <JsonEditor
               data={distribution}
               theme={jerTheme}

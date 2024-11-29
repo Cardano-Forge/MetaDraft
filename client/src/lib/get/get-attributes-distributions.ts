@@ -7,6 +7,7 @@ const recordSchema = z.record(z.string());
 export const getAttributesDistributions = (
   metadata: MetadataCollection[],
   schema: MetadataSchemaCollection,
+  sortBy: "alpha" | "size",
 ) => {
   if (!schema.schema.metadata.attributes) return {};
 
@@ -31,5 +32,26 @@ export const getAttributesDistributions = (
     }
   });
 
-  return attributeCounts;
+  // Sort attributes[key] by alpha or size
+  const sortedAttributeCounts = Object.fromEntries(
+    Object.entries(attributeCounts).map(([key, counts]) => {
+      const sortedCounts = Object.entries(counts).sort(
+        ([valA, countA], [valB, countB]) => {
+          if (sortBy === "alpha") return valA.localeCompare(valB);
+          if (sortBy === "size") return countB - countA;
+          return 0;
+        },
+      );
+      return [key, Object.fromEntries(sortedCounts)];
+    }),
+  );
+
+  // Sort the top-level attributes alphabetically
+  const alphaSortedAttributeCounts = Object.fromEntries(
+    Object.entries(sortedAttributeCounts).sort(([keyA], [keyB]) =>
+      keyA.localeCompare(keyB),
+    ),
+  );
+
+  return alphaSortedAttributeCounts;
 };
