@@ -30,9 +30,11 @@ export default function Header({
         "You have unsaved changes. Are you sure you want to leave this page?",
       );
       if (confirmLeave) {
-        setHasUnsavedChanges(false); 
+        setHasUnsavedChanges(false);
         router.push("/data-validation");
       }
+    } else {
+      router.push("/data-validation");
     }
   };
 
