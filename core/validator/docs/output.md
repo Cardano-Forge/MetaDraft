@@ -10,7 +10,7 @@ Otherwise, it can be a `warning` or `success` using the same logic as the `error
 
 **State Output Type**:
 
-```
+```typescript
 {
   <asset_name>: {
     status: "success" | "warning" | "error" ,
@@ -32,7 +32,7 @@ Otherwise, it can be a `warning` or `success` using the same logic as the `error
 
 **State Output Example**:
 
-```
+```typescript
 {
   assetNameXYZ: {
     status: "warning",
